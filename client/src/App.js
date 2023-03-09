@@ -9,6 +9,8 @@ import FindPassWord from "./pages/FindPassWord";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import styled from "styled-components";
+import Pay from "./pages/Pay";
+import PayComplete from "./pages/PayComplete";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/sellerSignUp" element={<SellerSignUp />} />
           <Route path="/findId" element={<FindId />} />
           <Route path="/findPassWord" element={<FindPassWord />} />
+          <Route path="/pay" element={<Pay />} />
+          <Route path="/payComplete" element={<PayComplete />} />
         </Routes>
       </Wrapper>
 
