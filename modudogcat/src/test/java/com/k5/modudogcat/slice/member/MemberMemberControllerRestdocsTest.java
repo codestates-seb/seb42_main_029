@@ -7,7 +7,6 @@ import com.k5.modudogcat.member.controller.MemberController;
 import com.k5.modudogcat.member.dto.MemberDto;
 import com.k5.modudogcat.member.entity.Member;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,7 +24,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,9 +32,6 @@ import static com.k5.modudogcat.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
-import static org.mockito.BDDMockito.given;
-
-
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -55,18 +50,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MemberMemberControllerRestdocsTest {
     @Autowired
     private MockMvc mockMvc;
-    // @MockBean -> 필요시 Service 추가
-    @MockBean
-    private MemberMapper mapper;
+//    @MockBean 필요시 Service, Mapper 추가
+//    private MemberMapper mapper;
     @Autowired
     private Gson gson;
-    private MemberDto.Post post;
-    private ResultActions postResultActions;
 
     @Test
     public void postMemberTest() throws Exception {
         // given
-        this.post = new MemberDto.Post("홍길동",
+        MemberDto.Post post = new MemberDto.Post("홍길동",
                 "hong1234",
                 "hong123@google.com",
                 "서울특별시 구로구 구일로4길 57");
@@ -74,14 +66,14 @@ public class MemberMemberControllerRestdocsTest {
         URI uri = UriComponentsBuilder.newInstance().path("/members").build().toUri();
 
         // when
-        this.postResultActions = mockMvc.perform(
+        ResultActions actions = mockMvc.perform(
                 post(uri)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content)
         );
         // then
-        this.postResultActions
+        actions
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", is(startsWith("/members/"))))
                 .andDo(document("post-member",
@@ -102,7 +94,7 @@ public class MemberMemberControllerRestdocsTest {
     }
 
     @Test
-    public void patchMember() throws Exception{
+    public void patchMemberTest() throws Exception{
         // given
         long memberId = 1L;
         MemberDto.Patch patch =
@@ -125,11 +117,38 @@ public class MemberMemberControllerRestdocsTest {
                 .andExpect(jsonPath("$.data.password").value(patch.getPassword()))
                 .andExpect(jsonPath("$.data.email").value(patch.getEmail()))
                 .andExpect(jsonPath("$.data.address").value(patch.getAddress()))
-                .andExpect(jsonPath("$.data.memberStatus").value(patch.getMemberStatus().getStatus()));
+                .andExpect(jsonPath("$.data.memberStatus").value(patch.getMemberStatus().getStatus()))
+                .andDo(document("patch-member",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자").ignored(),
+                                        fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호").optional(),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("비밀번호").optional(),
+                                        fieldWithPath("address").type(JsonFieldType.STRING).description("비밀번호").optional(),
+                                        fieldWithPath("memberStatus").type(JsonFieldType.STRING).description("회원 상태: MEMBER_ACTIVE / MEMBER_SLEEP / MEMBER_QUIT").optional()
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.name").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("data.password").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("data.address").type(JsonFieldType.STRING).description("주소"),
+                                        fieldWithPath("data.memberStatus").type(JsonFieldType.STRING).description("회원 상태: 활동중 / 휴면 상태 / 탈퇴 상태")
+                                )
+                        )
+                ));
     }
 
     @Test
-    public void getMember() throws Exception{
+    public void getMemberTest() throws Exception{
         //given
         Long memberId = 1L;
 
@@ -144,7 +163,25 @@ public class MemberMemberControllerRestdocsTest {
         //then
         actions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.memberId").value(memberId));
+                .andExpect(jsonPath("$.data.memberId").value(memberId))
+                .andDo(document("get-member",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.name").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("data.password").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("data.address").type(JsonFieldType.STRING).description("주소"),
+                                        fieldWithPath("data.memberStatus").type(JsonFieldType.STRING).description("회원 상태: 활동중 / 휴면 상태 / 탈퇴 상태")
+                                )
+                        )
+                ));
+
     }
 
     @Test
@@ -172,14 +209,36 @@ public class MemberMemberControllerRestdocsTest {
         List list = JsonPath.parse(result.getResponse().getContentAsString()).read("$.data");
 
         assertThat(list.size(), is(2));
+
+        actions
+                .andDo(document("get-members",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                        fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data[].name").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("data[].password").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("data[].email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("data[].address").type(JsonFieldType.STRING).description("주소"),
+                                        fieldWithPath("data[].memberStatus").type(JsonFieldType.STRING).description("회원 상태: 활동중 / 휴면 상태 / 탈퇴 상태"),
+                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재페이지"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지당 회원수"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총회원수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("총페이지수")
+
+                                )
+                        )));
     }
 
-    //Todo: 삭제 테스트
     @Test
     public void deleteMember() throws Exception{
         //given
         Long memberId = 1L;
 
+        //when
         ResultActions actions =
             mockMvc.perform(
                     delete("/members/{member-id}",memberId)
@@ -187,7 +246,15 @@ public class MemberMemberControllerRestdocsTest {
                             .contentType(MediaType.APPLICATION_JSON)
             );
 
+        //then
         actions
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(document("delete-member",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        )
+                ));
     }
 }
