@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import dogLogo from "../../assets/svg/headerLogoDog.svg";
+import LogoutModal from "./LogoutModal";
 
 export default function Header() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const LogOutHandle = () => {
-    alert("로그아웃 하시겠습니까?");
+  // 모달창 노출
+  const showModal = () => {
+    setModalOpen(true);
+
   };
+
   return (
     <Wrapper>
       <LeftSide>
@@ -18,7 +23,7 @@ export default function Header() {
 
       <MiddleSide>
         <img src={dogLogo} alt="headerLogo" />
-        <p>Pet Shop</p>
+        <p>모두댕냥</p>
       </MiddleSide>
 
       {!isLogin ? (
@@ -30,7 +35,8 @@ export default function Header() {
         </RightSide>
       ) : (
         <RightSide>
-          <p onClick={LogOutHandle}>LogOut</p>
+          <p onClick={showModal}>LogOut</p>
+          {modalOpen && <LogoutModal setModalOpen={setModalOpen} />}
           <p>My Page</p>
           <p>Cart</p>
         </RightSide>
@@ -54,6 +60,10 @@ const LeftSide = styled.div`
   display: flex;
   justify-content: space-around;
   flex: 1;
+  p:hover {
+    cursor: pointer;
+    font-weight: 600;
+  }
 `;
 const MiddleSide = styled.div`
   display: flex;
@@ -78,4 +88,9 @@ const RightSide = styled.div`
   display: flex;
   justify-content: space-around;
   flex: 1;
+
+  p:hover {
+    cursor: pointer;
+    font-weight: 600;
+  }
 `;
