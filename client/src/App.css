@@ -41,3 +41,20 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+/* css 초기화 */
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+body,
+html {
+  height: 100%;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
