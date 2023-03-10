@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import LoginForm from "../components/login/LoginForm";
+import FindIdForm from "../components/find/FindIdForm";
 
-export default function Login() {
+export default function FindId() {
   return (
     <>
       <Wrapper>
-        <LoginForm />
+        <FindIdForm/>
       </Wrapper>
     </>
   );

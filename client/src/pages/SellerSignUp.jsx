@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import LoginForm from "../components/login/LoginForm";
+import SellerSignUpForm from "../components/signup/SellerSignUpForm";
 
-export default function Login() {
+export default function SellerSignUp() {
   return (
     <>
       <Wrapper>
-        <LoginForm />
+        <SellerSignUpForm />
       </Wrapper>
     </>
   );
