@@ -20,6 +20,7 @@ function Mypage() {
 
   return (
     <MypageBody>
+      <h1 className="page_title">🏠 판매자 마이페이지</h1>
       <ul className="tab">
         {tabArray.map((el) => (
           <li key={el.id} onClick={() => setFocus(el.id)} className={el.id === focus ? "focus" : ""}>
@@ -33,12 +34,7 @@ function Mypage() {
           <div className="bold">판매자 정보 변경</div>
           <div>상호명</div>
           <div className="cant-change">sellerInfo.name</div>
-          <div>
-            아이디
-            {/* <button className="submit-button" style={{ float: "right" }}>
-              중복검사
-            </button> */}
-          </div>
+          <div>아이디</div>
           <div className="cant-change">sellerInfo.id</div>
           <div>비밀번호</div>
           <input></input>
@@ -49,8 +45,8 @@ function Mypage() {
           <div>
             사업자 등록번호
             {/* <button className="submit-button" style={{ float: "right" }}>
-              중복검사
-            </button> */}
+                    중복검사
+                  </button> */}
           </div>
           <div className="cant-change">sellerInfo.registration_number</div>
           <div>계좌번호</div>
@@ -69,6 +65,12 @@ function Mypage() {
               회원탈퇴
             </button>
           </div>
+          <div className="sales">
+            <div className="bold"> 매출 현황 </div>
+            <div> 총 매출은 쉬움 전부 더하면 됨 </div>
+            <div> 월별매출은 어떤식으로 구현할 지 더 고민해봐야함</div>
+            <div> api에 따라 판매내역을 어떤 기준으로 한번에 얼마나 많은 양을 요청하느냐에 따라 다름 </div>
+          </div>
         </div>
       </div>
     </MypageBody>
@@ -81,8 +83,14 @@ const MypageBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  .page_title {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
   .bold {
-    font-size: x-large;
+    font-size: 20px;
     font-weight: bold;
   }
   .tab {
@@ -90,6 +98,8 @@ const MypageBody = styled.div`
     flex-direction: row;
     list-style: none;
     padding-left: 0;
+    margin-bottom: 20px;
+
     .focus {
       background-color: #dfaeae;
     }
@@ -109,7 +119,9 @@ const MypageBody = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
+    > div {
+      border-radius: 12px;
+    }
     .tab-content {
       background-color: #ffeade;
       width: 69%;
@@ -120,14 +132,23 @@ const MypageBody = styled.div`
       background-color: #ececec;
       width: 23%;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
+      /* display: flex; */
+      /* flex-direction: column; */
+      .sales {
+        margin-top: 100px;
+      }
+      .bold {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
       > div {
         margin: 2px 0;
       }
+
       > input {
         margin: 2px 0;
-        width: 98%;
+        width: 100%;
         border: none;
         padding: 4px;
       }
@@ -155,6 +176,7 @@ const MypageBody = styled.div`
       .cant-change {
         font-weight: 600;
         color: #9f480ede;
+        margin: 5px 0;
       }
     }
   }

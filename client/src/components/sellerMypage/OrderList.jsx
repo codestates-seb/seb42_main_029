@@ -297,7 +297,7 @@ function OrderList() {
             <div className="important">
               합계 금액: {el.price * el.count} {" 원"}
             </div>
-            <div>
+            <div style={{ marginBottom: "7px" }}>
               상태 :{" "}
               <span>
                 <SelectBox onChange={statusOptionHandleChange} options={statusOption} defaultValue={el.status}></SelectBox>
@@ -356,6 +356,7 @@ const OrderBody = styled.div`
       padding: 0;
       width: 60px;
     }
+
     .order-left {
       width: 55%;
     }

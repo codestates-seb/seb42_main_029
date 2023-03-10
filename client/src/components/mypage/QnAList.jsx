@@ -124,7 +124,7 @@ function QnAList() {
   ];
   return (
     <QnABody>
-      user_id기분으로 해당 유저 질문 전부get 하고 각 질문 id기준으로 각각 답변 get 해서 붙여서 깔아줌
+      {/* user_id기분으로 해당 유저 질문 전부get 하고 각 질문 id기준으로 각각 답변 get 해서 붙여서 깔아줌 */}
       <div className="bold">Q&A 목록 </div>
       {QnAExData.map((el) => (
         <div>

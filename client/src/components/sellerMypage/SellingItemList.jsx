@@ -92,7 +92,7 @@ function SellingItemList() {
             <br />
             <br />
 
-            <button className="cancle" style={{ float: "right" }}>
+            <button className="cancle button" style={{ float: "right" }}>
               상품 삭제
             </button>
           </div>
@@ -123,7 +123,7 @@ const SellingItemBody = styled.div`
     border-radius: 3px;
     border: 2px solid #4787ff;
     cursor: pointer;
-    margin: 15px 0;
+    /* margin: 15px 0; */
     float: right;
     text-align: center;
   }

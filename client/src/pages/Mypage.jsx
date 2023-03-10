@@ -22,6 +22,7 @@ function Mypage() {
 
   return (
     <MypageBody>
+      <h1 className="page_title">🏠 회원 마이페이지</h1>
       <ul className="tab">
         {tabArray.map((el) => (
           <li key={el.id} onClick={() => setFocus(el.id)} className={el.id === focus ? "focus" : ""}>
@@ -72,11 +73,16 @@ const MypageBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
-  max-width: 1200px;
   /* align-items: center; */
+  .page_title {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
 
   .bold {
-    font-size: x-large;
+    font-size: 20px;
     font-weight: bold;
   }
   .tab {
@@ -84,6 +90,7 @@ const MypageBody = styled.div`
     flex-direction: row;
     list-style: none;
     padding-left: 0;
+    margin-bottom: 20px;
     .focus {
       background-color: #dfaeae;
     }
@@ -103,7 +110,9 @@ const MypageBody = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
+    > div {
+      border-radius: 12px;
+    }
     .tab-content {
       background-color: #ffeade;
       width: 69%;

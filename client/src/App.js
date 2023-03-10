@@ -14,6 +14,8 @@ import PayComplete from "./pages/PayComplete";
 import Mypage from "./pages/Mypage";
 import SellerMypage from "./pages/SellerMypage";
 import AdminMypage from "./pages/AdminMypage";
+import ReviewForm from "./pages/ReviewForm";
+import NewItemRegistrationForm from "./pages/NewItemRegistrationForm";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
           <Route path="/mypage" element={<Mypage />}></Route>
           <Route path="/sellermypage" element={<SellerMypage />}></Route>
           <Route path="/adminmypage" element={<AdminMypage />}></Route>
+          <Route path="/reviewform" element={<ReviewForm />}></Route>
+          <Route path="/newitemform" element={<NewItemRegistrationForm />}></Route>
         </Routes>
       </Wrapper>
 
