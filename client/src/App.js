@@ -11,6 +11,8 @@ import Footer from "./components/footer/Footer";
 import styled from "styled-components";
 import Pay from "./pages/Pay";
 import PayComplete from "./pages/PayComplete";
+import QnAQuestion from "./pages/QnAQuestion";
+import QnAAnswer from "./pages/QnAAnswer";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path="/findPassWord" element={<FindPassWord />} />
           <Route path="/pay" element={<Pay />} />
           <Route path="/payComplete" element={<PayComplete />} />
+          <Route path="/qnaQuestion" element={<QnAQuestion />} />
+          <Route path="/qnaAnswer" element={<QnAAnswer />} />
         </Routes>
       </Wrapper>
 
