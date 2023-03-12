@@ -26,7 +26,6 @@ public class SellerDto {
 
         private String phone;
 
-        private Seller.SellerStatus SELLER_WAITING;
     }
 
     @Getter

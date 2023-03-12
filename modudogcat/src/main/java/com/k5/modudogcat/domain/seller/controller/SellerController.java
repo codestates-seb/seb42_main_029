@@ -5,7 +5,6 @@ import com.k5.modudogcat.dto.MultiResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +61,7 @@ public class SellerController {
     }
 
     //관리자의 판매자 회원가입 리스트 조회
-    @GetMapping
+    @GetMapping("/admin")
     public ResponseEntity getSellers(Pageable pageable) {
 
         List<SellerDto.Response> getSellers = List.of(
