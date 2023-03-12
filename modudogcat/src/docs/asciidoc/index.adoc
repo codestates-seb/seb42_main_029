@@ -1,0 +1,116 @@
+= 모두댕냥 Application
+:sectnums:
+:toc: left
+:toclevles: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+
+
+FE: 김동원, 김민혁, 김지현
+
+BE: 김규하, 김례화, 이경민
+
+
+== SellerController
+=== 판매자 회원가입
+.curl-request
+include::{snippets}/post-seller/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-seller/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-seller/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-seller/http-response.adoc[]
+
+.response-headers
+include::{snippets}/post-seller/response-headers.adoc[]
+
+=== 판매자 정보 수정 (판매자 페이지)
+.curl-request
+include::{snippets}/patch-seller/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-seller/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-seller/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-seller/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-seller/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-seller/response-fields.adoc[]
+
+=== 판매자 상태 변경 (관리자 권한, 관리자 페이지)
+.curl-request
+include::{snippets}/patch-seller/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-seller/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-seller/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-seller/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-seller/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-seller/response-fields.adoc[]
+
+=== 판매자 정보 조회 (판매자 페이지)
+.curl-request
+include::{snippets}/get-seller/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-seller/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-seller/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-seller/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-seller/response-fields.adoc[]
+
+=== 판매자 회원가입 리스트 조회
+.curl-request
+include::{snippets}/get-sellers-admin/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-sellers-admin/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-sellers-admin/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-sellers-admin/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-sellers-admin/response-fields.adoc[]
+
+.response-body
+include::{snippets}/get-sellers-admin/response-body.adoc[]
+
+=== 판매자 회원가입 정보 삭제 (관리자 권한, 관리자 페이지, 거절된 회원가입)
+.curl-request
+include::{snippets}/delete-seller-admin/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-seller-admin/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-seller-admin/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-seller-admin/http-response.adoc[]
