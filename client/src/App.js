@@ -1,4 +1,6 @@
 import React from "react";
+import Shop from "./pages/Shop";
+import ProductInfo from "./pages/ProductInfo";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/login";
@@ -24,6 +26,8 @@ function App() {
 
       <Wrapper>
         <Routes>
+          <Route path="/" element={<Shop/>} />
+          <Route path="ProductInfo" element={<ProductInfo />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/sellerSignUp" element={<SellerSignUp />} />
