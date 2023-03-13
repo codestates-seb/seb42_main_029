@@ -6,8 +6,6 @@ const Shop = () => {
     <div>
       <Category/>
       <Product/>
-
-
     </div>
   );
 };
