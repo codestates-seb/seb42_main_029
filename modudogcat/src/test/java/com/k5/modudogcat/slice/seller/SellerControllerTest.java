@@ -256,7 +256,7 @@ public class SellerControllerTest {
     @Test
     public void getSellersTest() throws Exception {
         //given
-        String page = "1";
+        String page = "0";
         String size = "12";
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("page", page);
