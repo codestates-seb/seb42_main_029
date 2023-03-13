@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 export default function FindIdForm() {
+  //! 아이디 찾기 GET 값
+  const [idvalue, setIdValue] = useState("아이디값 받아오기₩");
+
   const FindIdHandle = (e) => {
     e.preventDefault();
+
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    console.log(name)
+    console.log(email)
   };
   return (
     <>
@@ -19,7 +27,7 @@ export default function FindIdForm() {
         </form>
         <ReceiveId>
           <p>귀하의 아이디는</p>
-          <div />
+          <div>{idvalue}</div>
           <p>입니다.</p>
         </ReceiveId>
       </Wrapper>
@@ -47,13 +55,16 @@ const Wrapper = styled.div`
     label {
       font-size: 0.9rem;
       font-weight: bold;
-      margin-top: 3px;
+      margin: 3px 0;
     }
   }
 
   input {
     width: 250px;
-    height: 25px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 7px;
   }
 `;
 
@@ -82,8 +93,14 @@ const ReceiveId = styled.div`
   margin-top: 1rem;
 
   div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 250px;
     height: 30px;
     background-color: #ffd9c3;
+    border: none;
+    border-radius: 3px;
+    margin: 5px 0;
   }
 `;
