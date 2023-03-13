@@ -6,11 +6,14 @@ import { Link } from "react-router-dom";
 export default function LoginForm() {
   const LoginHandler = (e) => {
     e.preventDefault();
+
+    const id = e.target.id.value;
+    const password = e.target.password.value;
   };
 
   return (
     <Wrapper>
-    <Title>로그인</Title>
+      <Title>로그인</Title>
       <form onSubmit={LoginHandler}>
         <label>아이디</label>
         <input type="text" name="id" required />
@@ -64,6 +67,9 @@ const Wrapper = styled.div`
   input {
     width: 250px;
     height: 35px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 5px;
   }
 `;
 
@@ -72,7 +78,6 @@ const Title = styled.div`
   font-size: 1.4rem;
   font-weight: 600;
 `;
-
 
 const LoginBtn = styled.button`
   width: 250px;

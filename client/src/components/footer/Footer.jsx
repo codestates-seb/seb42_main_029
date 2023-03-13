@@ -8,7 +8,7 @@ export default function Footer() {
       <h2>ProjectName : 모두댕냥</h2>
       <p>FrontEnd : 김동원, 김지현, 김민혁</p>
       <p>BackEnd : 김례화, 김규하, 이경민</p>
-      <p>대략 차후수정~</p>
+      <p>Copyrightⓒ 2023 All rights reserved by 모두댕냥-Project.</p>
     </Wrapper>
   );
 }
