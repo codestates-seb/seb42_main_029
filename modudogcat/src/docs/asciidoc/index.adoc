@@ -114,3 +114,57 @@ include::{snippets}/delete-seller-admin/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/delete-seller-admin/http-response.adoc[]
+
+== AnswerController
+=== 답변 작성
+.curl-request
+include::{snippets}/post-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-answer/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-answer/http-response.adoc[]
+
+.response-headers
+include::{snippets}/post-answer/response-headers.adoc[]
+
+=== 답변 단일 조회 (상품 상세 페이지)
+.curl-request
+include::{snippets}/get-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-answer/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-answer/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-answer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-answer/response-fields.adoc[]
+
+=== 답변 작성 리스트 조회 (판매자 페이지)
+.curl-request
+include::{snippets}/get-answers/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-answers/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-answers/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-answers/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-answers/response-fields.adoc[]
+
+.response-body
+include::{snippets}/get-answers/response-body.adoc[]
+
+
