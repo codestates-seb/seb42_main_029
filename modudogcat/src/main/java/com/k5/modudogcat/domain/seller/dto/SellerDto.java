@@ -26,6 +26,10 @@ public class SellerDto {
 
         private String phone;
 
+        private String bankName;
+
+        private String accountNumber;
+
     }
 
     @Getter
@@ -72,9 +76,13 @@ public class SellerDto {
 
         private String phone;
 
+        private String bankName;
+
+        private String accountNumber;
+
         private Seller.SellerStatus sellerStatus;
 
-        public Response(Long sellerId, String id, String password, String name, String registrationNumber, String address, String phone) {
+        public Response(Long sellerId, String id, String password, String name, String registrationNumber, String address, String phone, String bankName, String accountNumber) {
             this.sellerId = sellerId;
             this.id = id;
             this.password = password;
@@ -82,6 +90,8 @@ public class SellerDto {
             this.registrationNumber = registrationNumber;
             this.address = address;
             this.phone = phone;
+            this.bankName = bankName;
+            this.accountNumber = accountNumber;
         }
     }
 

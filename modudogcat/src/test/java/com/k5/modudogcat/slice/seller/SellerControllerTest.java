@@ -58,7 +58,7 @@ public class SellerControllerTest {
 
         //given
         SellerDto.Post post = new SellerDto.Post
-                ("seller", "seller", "seller", "12345678901234", "서울시 어쩌구 저쩌구", "01012345678");
+                ("seller", "seller", "seller", "12345678901234", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234");
         String content = gson.toJson(post);
 
         //when
@@ -85,7 +85,9 @@ public class SellerControllerTest {
                                         fieldWithPath("name").type(JsonFieldType.STRING).description("상호명"),
                                         fieldWithPath("registrationNumber").type(JsonFieldType.STRING).description("사업자등록번호"),
                                         fieldWithPath("address").type(JsonFieldType.STRING).description("주소"),
-                                        fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호")
+                                        fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
+                                        fieldWithPath("bankName").type(JsonFieldType.STRING).description("은행명"),
+                                        fieldWithPath("accountNumber").type(JsonFieldType.STRING).description("계좌번호")
                                 )
                         ),
                         responseHeaders(
@@ -95,6 +97,7 @@ public class SellerControllerTest {
 
     }
 
+    //판매자 페이지 판매자 정보 변경
     @Test
     public void patchSellerTest() throws Exception {
 
@@ -104,7 +107,7 @@ public class SellerControllerTest {
                 (1L, "서울시 어쩌구2 저쩌구2", "01011112222");
 
         SellerDto.Response response = new SellerDto.Response
-                (patch.getSellerId(), "seller", "seller", "seller", "12345678901234", patch.getAddress(), patch.getPhone());
+                (patch.getSellerId(), "seller", "seller", "seller", "12345678901234", patch.getAddress(), patch.getPhone(), "신한", "12345678901234");
 
         String content = gson.toJson(patch);
 
@@ -126,6 +129,8 @@ public class SellerControllerTest {
                 .andExpect(jsonPath("$.registrationNumber").value(response.getRegistrationNumber()))
                 .andExpect(jsonPath("$.address").value(response.getAddress()))
                 .andExpect(jsonPath("$.phone").value(response.getPhone()))
+                .andExpect(jsonPath("$.bankName").value(response.getBankName()))
+                .andExpect(jsonPath("$.accountNumber").value(response.getAccountNumber()))
                 .andDo(document(
                         "patch-seller",
                         getRequestPreProcessor(),
@@ -149,6 +154,8 @@ public class SellerControllerTest {
                                         fieldWithPath("registrationNumber").type(JsonFieldType.STRING).description("사업자등록번호"),
                                         fieldWithPath("address").type(JsonFieldType.STRING).description("주소"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
+                                        fieldWithPath("bankName").type(JsonFieldType.STRING).description("은행명"),
+                                        fieldWithPath("accountNumber").type(JsonFieldType.STRING).description("계좌번호"),
                                         fieldWithPath("sellerStatus").type(JsonFieldType.NULL).description("판매자 상태")
                                 )
                         )
@@ -162,7 +169,7 @@ public class SellerControllerTest {
         SellerDto.Patch patchStatus = new SellerDto.Patch(sellerId, SELLER_APPROVE);
 
         SellerDto.Response response = new SellerDto.Response
-                (patchStatus.getSellerId(),"seller", "seller", "seller", "12345678901234","서울시 어쩌구2 저쩌구2", "01011112222", patchStatus.getSellerStatus());
+                (patchStatus.getSellerId(),"seller", "seller", "seller", "12345678901234","서울시 어쩌구2 저쩌구2", "01011112222", "신한", "12345678901234",patchStatus.getSellerStatus());
 
         String content = gson.toJson(patchStatus);
 
@@ -184,6 +191,10 @@ public class SellerControllerTest {
                 .andExpect(jsonPath("$.registrationNumber").value(response.getRegistrationNumber()))
                 .andExpect(jsonPath("$.address").value(response.getAddress()))
                 .andExpect(jsonPath("$.phone").value(response.getPhone()))
+                .andExpect(jsonPath("$.bankName").value(response.getBankName()))
+                .andExpect(jsonPath("$.accountNumber").value(response.getAccountNumber()))
+                //.andExpect(jsonPath("$.sellerStatus").value(response.getSellerStatus())) -> 왜 안되는거지..?
+
                 .andDo(document(
                         "patch-seller-admin",
                         getRequestPreProcessor(),
@@ -206,6 +217,8 @@ public class SellerControllerTest {
                                         fieldWithPath("registrationNumber").type(JsonFieldType.STRING).description("사업자등록번호"),
                                         fieldWithPath("address").type(JsonFieldType.STRING).description("주소"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
+                                        fieldWithPath("bankName").type(JsonFieldType.STRING).description("은행명"),
+                                        fieldWithPath("accountNumber").type(JsonFieldType.STRING).description("계좌번호"),
                                         fieldWithPath("sellerStatus").type(JsonFieldType.STRING).description("판매자 상태")
                                 )
                         )
@@ -218,7 +231,7 @@ public class SellerControllerTest {
         //given
         Long sellerId = 1L;
         SellerDto.Response response = new SellerDto.Response
-                (sellerId, "seller", "seller", "seller", "12345678901234", "서울시 어쩌구 저쩌구", "01012345678");
+                (sellerId, "seller", "seller", "seller", "12345678901234", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234");
         String content = gson.toJson(response);
 
         //when
@@ -247,6 +260,8 @@ public class SellerControllerTest {
                                         fieldWithPath("registrationNumber").type(JsonFieldType.STRING).description("사업자등록번호"),
                                         fieldWithPath("address").type(JsonFieldType.STRING).description("주소"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
+                                        fieldWithPath("bankName").type(JsonFieldType.STRING).description("은행명"),
+                                        fieldWithPath("accountNumber").type(JsonFieldType.STRING).description("계좌번호"),
                                         fieldWithPath("sellerStatus").type(JsonFieldType.NULL).description("판매자 상태")
                                 )
                         )
@@ -300,6 +315,8 @@ public class SellerControllerTest {
                                 fieldWithPath("data[].registrationNumber").type(JsonFieldType.STRING).description("사업자등록번호"),
                                 fieldWithPath("data[].address").type(JsonFieldType.STRING).description("주소"),
                                 fieldWithPath("data[].phone").type(JsonFieldType.STRING).description("전화번호"),
+                                fieldWithPath("data[].bankName").type(JsonFieldType.STRING).description("은행명"),
+                                fieldWithPath("data[].accountNumber").type(JsonFieldType.STRING).description("계좌번호"),
                                 fieldWithPath("data[].sellerStatus").type(JsonFieldType.STRING).description("판매자 상태"),
 
                                 fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),

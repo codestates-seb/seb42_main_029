@@ -50,22 +50,22 @@ include::{snippets}/patch-seller/response-fields.adoc[]
 
 === 판매자 상태 변경 (관리자 권한, 관리자 페이지)
 .curl-request
-include::{snippets}/patch-seller/curl-request.adoc[]
+include::{snippets}/patch-seller-admin/curl-request.adoc[]
 
 .http-request
-include::{snippets}/patch-seller/http-request.adoc[]
+include::{snippets}/patch-seller-admin/http-request.adoc[]
 
 .path-parameters
-include::{snippets}/patch-seller/path-parameters.adoc[]
+include::{snippets}/patch-seller-admin/path-parameters.adoc[]
 
 .request-fields
-include::{snippets}/patch-seller/request-fields.adoc[]
+include::{snippets}/patch-seller-admin/request-fields.adoc[]
 
 .http-response
-include::{snippets}/patch-seller/http-response.adoc[]
+include::{snippets}/patch-seller-admin/http-response.adoc[]
 
 .response-fields
-include::{snippets}/patch-seller/response-fields.adoc[]
+include::{snippets}/patch-seller-admin/response-fields.adoc[]
 
 === 판매자 정보 조회 (판매자 페이지)
 .curl-request

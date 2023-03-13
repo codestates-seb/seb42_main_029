@@ -493,7 +493,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   "name" : "seller",
   "registrationNumber" : "12345678901234",
   "address" : "서울시 어쩌구 저쩌구",
-  "phone" : "01012345678"
+  "phone" : "01012345678",
+  "bankName" : "신한",
+  "accountNumber" : "12345678901234"
 }'</code></pre>
 </div>
 </div>
@@ -503,7 +505,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="prettyprint highlight nowrap"><code data-lang="http">POST /sellers HTTP/1.1
 Content-Type: application/json
 Accept: application/json
-Content-Length: 184
+Content-Length: 247
 Host: localhost:8080
 
 {
@@ -512,7 +514,9 @@ Host: localhost:8080
   "name" : "seller",
   "registrationNumber" : "12345678901234",
   "address" : "서울시 어쩌구 저쩌구",
-  "phone" : "01012345678"
+  "phone" : "01012345678",
+  "bankName" : "신한",
+  "accountNumber" : "12345678901234"
 }</code></pre>
 </div>
 </div>
@@ -560,6 +564,16 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>phone</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">전화번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bankName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">은행명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계좌번호</p></td>
 </tr>
 </tbody>
 </table>
@@ -672,7 +686,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 229
+Content-Length: 292
 
 {
   "sellerId" : 1,
@@ -682,6 +696,8 @@ Content-Length: 229
   "registrationNumber" : "12345678901234",
   "address" : "서울시 어쩌구2 저쩌구2",
   "phone" : "01011112222",
+  "bankName" : "신한",
+  "accountNumber" : "12345678901234",
   "sellerStatus" : null
 }</code></pre>
 </div>
@@ -737,6 +753,16 @@ Content-Length: 229
 <td class="tableblock halign-left valign-top"><p class="tableblock">전화번호</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bankName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">은행명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계좌번호</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sellerStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">판매자 상태</p></td>
@@ -749,34 +775,32 @@ Content-Length: 229
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/sellers/1' -i -X PATCH \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/sellers/admin/1' -i -X PATCH \
     -H 'Content-Type: application/json' \
     -H 'Accept: application/json' \
     -d '{
   "sellerId" : 1,
-  "address" : "서울시 어쩌구2 저쩌구2",
-  "phone" : "01011112222"
+  "sellerStatus" : "SELLER_APPROVE"
 }'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /sellers/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /sellers/admin/1 HTTP/1.1
 Content-Type: application/json
 Accept: application/json
-Content-Length: 96
+Content-Length: 57
 Host: localhost:8080
 
 {
   "sellerId" : 1,
-  "address" : "서울시 어쩌구2 저쩌구2",
-  "phone" : "01011112222"
+  "sellerStatus" : "SELLER_APPROVE"
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /sellers/{seller-id}</caption>
+<caption class="title">Table 6. /sellers/admin/{seller-id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -810,14 +834,9 @@ Host: localhost:8080
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sellerStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">주소</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phone</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">전화번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">판매자 상태</p></td>
 </tr>
 </tbody>
 </table>
@@ -826,7 +845,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 229
+Content-Length: 304
 
 {
   "sellerId" : 1,
@@ -836,7 +855,9 @@ Content-Length: 229
   "registrationNumber" : "12345678901234",
   "address" : "서울시 어쩌구2 저쩌구2",
   "phone" : "01011112222",
-  "sellerStatus" : null
+  "bankName" : "신한",
+  "accountNumber" : "12345678901234",
+  "sellerStatus" : "SELLER_APPROVE"
 }</code></pre>
 </div>
 </div>
@@ -891,8 +912,18 @@ Content-Length: 229
 <td class="tableblock halign-left valign-top"><p class="tableblock">전화번호</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bankName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">은행명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계좌번호</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sellerStatus</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">판매자 상태</p></td>
 </tr>
 </tbody>
@@ -939,7 +970,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 227
+Content-Length: 290
 
 {
   "sellerId" : 1,
@@ -949,6 +980,8 @@ Content-Length: 227
   "registrationNumber" : "12345678901234",
   "address" : "서울시 어쩌구 저쩌구",
   "phone" : "01012345678",
+  "bankName" : "신한",
+  "accountNumber" : "12345678901234",
   "sellerStatus" : null
 }</code></pre>
 </div>
@@ -1004,6 +1037,16 @@ Content-Length: 227
 <td class="tableblock halign-left valign-top"><p class="tableblock">전화번호</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bankName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">은행명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계좌번호</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sellerStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">판매자 상태</p></td>
@@ -1056,7 +1099,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 902
+Content-Length: 1103
 
 {
   "data" : [ {
@@ -1067,6 +1110,8 @@ Content-Length: 902
     "registrationNumber" : "11111111111111",
     "address" : "서울시 어쩌구 저쩌구",
     "phone" : "01012345678",
+    "bankName" : "신한",
+    "accountNumber" : "12345678901234",
     "sellerStatus" : "SELLER_WAITING"
   }, {
     "sellerId" : 2,
@@ -1076,6 +1121,8 @@ Content-Length: 902
     "registrationNumber" : "22222222222222",
     "address" : "경기도 어쩌구 저쩌구",
     "phone" : "01011112222",
+    "bankName" : "우리",
+    "accountNumber" : "12345678901111",
     "sellerStatus" : "SELLER_APPROVE"
   }, {
     "sellerId" : 3,
@@ -1085,6 +1132,8 @@ Content-Length: 902
     "registrationNumber" : "33333333333333",
     "address" : "인천시 어쩌구 저쩌구",
     "phone" : "01033334444",
+    "bankName" : "기업",
+    "accountNumber" : "12345678902222",
     "sellerStatus" : "SELLER_REJECTED"
   } ],
   "pageInfo" : {
@@ -1152,6 +1201,16 @@ Content-Length: 902
 <td class="tableblock halign-left valign-top"><p class="tableblock">전화번호</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].bankName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">은행명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].accountNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계좌번호</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].sellerStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">판매자 상태</p></td>
@@ -1195,6 +1254,8 @@ Content-Length: 902
     "registrationNumber" : "11111111111111",
     "address" : "서울시 어쩌구 저쩌구",
     "phone" : "01012345678",
+    "bankName" : "신한",
+    "accountNumber" : "12345678901234",
     "sellerStatus" : "SELLER_WAITING"
   }, {
     "sellerId" : 2,
@@ -1204,6 +1265,8 @@ Content-Length: 902
     "registrationNumber" : "22222222222222",
     "address" : "경기도 어쩌구 저쩌구",
     "phone" : "01011112222",
+    "bankName" : "우리",
+    "accountNumber" : "12345678901111",
     "sellerStatus" : "SELLER_APPROVE"
   }, {
     "sellerId" : 3,
@@ -1213,6 +1276,8 @@ Content-Length: 902
     "registrationNumber" : "33333333333333",
     "address" : "인천시 어쩌구 저쩌구",
     "phone" : "01033334444",
+    "bankName" : "기업",
+    "accountNumber" : "12345678902222",
     "sellerStatus" : "SELLER_REJECTED"
   } ],
   "pageInfo" : {
@@ -1578,7 +1643,7 @@ Content-Length: 307
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-03-13 18:27:45 +0900
+Last updated 2023-03-13 19:02:46 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

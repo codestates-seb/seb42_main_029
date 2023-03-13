@@ -34,7 +34,7 @@ public class SellerController {
         SellerDto.Patch patch = new SellerDto.Patch(sellerId, "서울시 어쩌구2 저쩌구2", "01011112222");
 
         SellerDto.Response response = new SellerDto.Response
-                (patch.getSellerId(), "seller", "seller", "seller", "12345678901234", patch.getAddress(), patch.getPhone());
+                (patch.getSellerId(), "seller", "seller", "seller", "12345678901234", patch.getAddress(), patch.getPhone(), "신한", "12345678901234");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -46,7 +46,7 @@ public class SellerController {
         SellerDto.Patch patchStatus = new SellerDto.Patch(sellerId, SELLER_APPROVE);
 
         SellerDto.Response responseStatus = new SellerDto.Response
-                (patchStatus.getSellerId(),"seller", "seller", "seller", "12345678901234","서울시 어쩌구2 저쩌구2", "01011112222", patchStatus.getSellerStatus());
+                (patchStatus.getSellerId(),"seller", "seller", "seller", "12345678901234","서울시 어쩌구2 저쩌구2", "01011112222", "신한", "12345678901234",patchStatus.getSellerStatus());
 
         return new ResponseEntity<>(responseStatus, HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class SellerController {
     public ResponseEntity<SellerDto.Response> getSeller(@PathVariable("seller-id") @Positive Long sellerId) {
 
         SellerDto.Response response = new SellerDto.Response
-                (sellerId, "seller", "seller", "seller", "12345678901234", "서울시 어쩌구 저쩌구", "01012345678");
+                (sellerId, "seller", "seller", "seller", "12345678901234", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -66,11 +66,11 @@ public class SellerController {
 
         List<SellerDto.Response> getSellers = List.of(
                 new SellerDto.Response
-                        (1L, "seller", "seller", "seller", "11111111111111", "서울시 어쩌구 저쩌구", "01012345678", SELLER_WAITING),
+                        (1L, "seller", "seller", "seller", "11111111111111", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234",SELLER_WAITING),
                 new SellerDto.Response
-                        (2L, "seller2", "seller2", "seller2", "22222222222222", "경기도 어쩌구 저쩌구", "01011112222", SELLER_APPROVE),
+                        (2L, "seller2", "seller2", "seller2", "22222222222222", "경기도 어쩌구 저쩌구", "01011112222", "우리", "12345678901111", SELLER_APPROVE),
                 new SellerDto.Response
-                        (3L, "seller3", "seller3", "seller3", "33333333333333", "인천시 어쩌구 저쩌구", "01033334444", SELLER_REJECTED)
+                        (3L, "seller3", "seller3", "seller3", "33333333333333", "인천시 어쩌구 저쩌구", "01033334444", "기업", "12345678902222", SELLER_REJECTED)
         );
 
         Page<SellerDto.Response> pageSellers = new PageImpl<>(getSellers, pageable,3);
