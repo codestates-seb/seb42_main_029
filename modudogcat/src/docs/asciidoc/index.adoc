@@ -13,70 +13,70 @@ v1.0.0, 2023.03.09
 == MemberController
 === 회원 등록
 .curl-request
-include::{snippets}/post-member/curl-request.adoc[]
+include::{snippets}/post-user/curl-request.adoc[]
 
 .http-request
-include::{snippets}/post-member/http-request.adoc[]
+include::{snippets}/post-user/http-request.adoc[]
 
 .request-fields
-include::{snippets}/post-member/request-fields.adoc[]
+include::{snippets}/post-user/request-fields.adoc[]
 
 .http-response
-include::{snippets}/post-member/http-response.adoc[]
+include::{snippets}/post-user/http-response.adoc[]
 
 .response-headers
-include::{snippets}/post-member/response-headers.adoc[]
+include::{snippets}/post-user/response-headers.adoc[]
 
 
 === 회원 정보 수정
 .path-parameters
-include::{snippets}/patch-member/path-parameters.adoc[]
+include::{snippets}/patch-user/path-parameters.adoc[]
 
 .curl-request
-include::{snippets}/patch-member/curl-request.adoc[]
+include::{snippets}/patch-user/curl-request.adoc[]
 
 .http-request
-include::{snippets}/patch-member/http-request.adoc[]
+include::{snippets}/patch-user/http-request.adoc[]
 
 .request-fields
-include::{snippets}/patch-member/request-fields.adoc[]
+include::{snippets}/patch-user/request-fields.adoc[]
 
 .http-response
-include::{snippets}/patch-member/http-response.adoc[]
+include::{snippets}/patch-user/http-response.adoc[]
 
 .response-fields
-include::{snippets}/patch-member/response-fields.adoc[]
+include::{snippets}/patch-user/response-fields.adoc[]
 
 === 회원 정보 조회
 .path-parameters
-include::{snippets}/get-member/path-parameters.adoc[]
+include::{snippets}/get-user/path-parameters.adoc[]
 
 .http-request
-include::{snippets}/get-member/http-request.adoc[]
+include::{snippets}/get-user/http-request.adoc[]
 
 .http-response
-include::{snippets}/get-member/http-response.adoc[]
+include::{snippets}/get-user/http-response.adoc[]
 
 .response-fields
-include::{snippets}/get-member/response-fields.adoc[]
+include::{snippets}/get-user/response-fields.adoc[]
 
 === 페이지당 회원들 조회
 .http-request
-include::{snippets}/get-members/http-request.adoc[]
+include::{snippets}/get-users/http-request.adoc[]
 
 .http-response
-include::{snippets}/get-members/http-response.adoc[]
+include::{snippets}/get-users/http-response.adoc[]
 
 .response-fields
-include::{snippets}/get-members/response-fields.adoc[]
+include::{snippets}/get-users/response-fields.adoc[]
 
 === 회원 삭제
 .path-parameters
-include::{snippets}/delete-member/path-parameters.adoc[]
+include::{snippets}/delete-user/path-parameters.adoc[]
 
 .http-request
-include::{snippets}/delete-member/http-request.adoc[]
+include::{snippets}/delete-user/http-request.adoc[]
 
 .http-response
-include::{snippets}/delete-member/http-response.adoc[]
+include::{snippets}/delete-user/http-response.adoc[]
 

@@ -2,10 +2,9 @@ package com.k5.modudogcat.slice.member;
 
 import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
-import com.k5.modudogcat.member.Mapper.MemberMapper;
-import com.k5.modudogcat.member.controller.MemberController;
-import com.k5.modudogcat.member.dto.MemberDto;
-import com.k5.modudogcat.member.entity.Member;
+import com.k5.modudogcat.user.controller.UserController;
+import com.k5.modudogcat.user.dto.UserDto;
+import com.k5.modudogcat.user.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -43,11 +42,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(MemberController.class)
+@WebMvcTest(UserController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 //@Transactional
-public class MemberMemberControllerRestdocsTest {
+public class UserUserControllerRestdocsTest {
     @Autowired
     private MockMvc mockMvc;
 //    @MockBean 필요시 Service, Mapper 추가
@@ -58,7 +57,7 @@ public class MemberMemberControllerRestdocsTest {
     @Test
     public void postMemberTest() throws Exception {
         // given
-        MemberDto.Post post = new MemberDto.Post("홍길동",
+        UserDto.Post post = new UserDto.Post("홍길동",
                 "hong1234",
                 "hong123@google.com",
                 "서울특별시 구로구 구일로4길 57");
@@ -97,8 +96,8 @@ public class MemberMemberControllerRestdocsTest {
     public void patchMemberTest() throws Exception{
         // given
         long memberId = 1L;
-        MemberDto.Patch patch =
-                new MemberDto.Patch(memberId,"changePW", "abc@naver.com","바뀐주소", Member.MemberStatus.MEMBER_SLEEP);
+        UserDto.Patch patch =
+                new UserDto.Patch(memberId,"changePW", "abc@naver.com","바뀐주소", User.UserStatus.USER_SLEEP);
         String content = gson.toJson(patch);
 
         // when
@@ -113,11 +112,11 @@ public class MemberMemberControllerRestdocsTest {
         // then
         actions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.memberId").value(patch.getMemberId()))
+                .andExpect(jsonPath("$.data.memberId").value(patch.getUserId()))
                 .andExpect(jsonPath("$.data.password").value(patch.getPassword()))
                 .andExpect(jsonPath("$.data.email").value(patch.getEmail()))
                 .andExpect(jsonPath("$.data.address").value(patch.getAddress()))
-                .andExpect(jsonPath("$.data.memberStatus").value(patch.getMemberStatus().getStatus()))
+                .andExpect(jsonPath("$.data.memberStatus").value(patch.getUserStatus().getStatus()))
                 .andDo(document("patch-member",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),

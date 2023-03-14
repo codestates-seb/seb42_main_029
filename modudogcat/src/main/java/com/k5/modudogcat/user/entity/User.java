@@ -1,4 +1,4 @@
-package com.k5.modudogcat.member.entity;
+package com.k5.modudogcat.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,15 +7,17 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-//@Entity
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class Member {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId = 0L;
+    private Long userId = 0L;
+    @Column(length = 20, nullable = false)
+    private String loginId;
     @Column(length = 20, nullable = false)
     private String name;
     @Column(length = 20, nullable = false)
@@ -25,16 +27,16 @@ public class Member {
     @Column(nullable = false)
     private String address;
     @Enumerated(value = EnumType.STRING)
-    private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
+    private UserStatus userStatus = User.UserStatus.USER_ACTIVE;
     // Todo: Audit 추가
 
-    public enum MemberStatus {
-        MEMBER_ACTIVE("활동중"),
-        MEMBER_SLEEP("휴면계정"),
-        MEMBER_DELETE("회원 삭제");
+    public enum UserStatus {
+        USER_ACTIVE("활동중"),
+        USER_SLEEP("휴면계정"),
+        USER_DELETE("회원 삭제");
         @Getter
         private final String status;
-        MemberStatus(String status){
+        UserStatus(String status){
             this.status = status;
         }
     }
