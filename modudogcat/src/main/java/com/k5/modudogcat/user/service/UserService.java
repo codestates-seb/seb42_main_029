@@ -5,8 +5,13 @@ import com.k5.modudogcat.exception.ExceptionCode;
 import com.k5.modudogcat.user.entity.User;
 import com.k5.modudogcat.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +37,19 @@ public class UserService {
         return userRepository.save(findUser);
     }
 
+    public User findVerifiedUserById(Long userId){
+        return userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+                });
+    }
+    public Page<User> findUsers(Pageable pageable){
+        PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
+                pageable.getPageSize(),
+                pageable.getSort());
+
+        return userRepository.findAll(of);
+    }
     private void verifiedByEmail(User user) {
         // 로그인 ID가 존재하는지 검증하는 메서드
         String email = user.getEmail();
@@ -48,10 +66,6 @@ public class UserService {
             throw new BusinessLogicException(ExceptionCode.USER_LOGIN_ID_EXISTS);
         });
     }
-    private User findVerifiedUserById(Long userId){
-        return userRepository.findById(userId)
-                .orElseThrow(() -> {
-                        throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
-                });
-    }
+
+
 }

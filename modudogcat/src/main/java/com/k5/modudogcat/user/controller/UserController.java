@@ -50,48 +50,23 @@ public class UserController {
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-//    @GetMapping("/{user-id}")
-//    public ResponseEntity getUser(@PathVariable("user-id") Long userId){
-//
-//        UserDto.Response response =
-//                new UserDto.Response(userId,
-//                        "honghong",
-//                        "홍길동",
-//                        "hong1234",
-//                        "hong123@google.com",
-//                        "서울특별시 구로구 구일로4길 57",
-//                        User.UserStatus.USER_ACTIVE);
-//
-//        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity getUsers(Pageable pageable){
-//        List<User> users = new ArrayList<>();
-//        UserDto.Response response1 =
-//                new UserDto.Response(1L,
-//                        "honghong",
-//                        "홍길동",
-//                        "hong1234",
-//                        "hong123@google.com",
-//                        "서울특별시 구로구 구일로4길 57",
-//                        User.UserStatus.USER_ACTIVE);
-//        UserDto.Response response2 =
-//                new UserDto.Response(2L,
-//                        "honghong",
-//                        "김규하",
-//                        "kim1234",
-//                        "kimm123@google.com",
-//                        "서울특별시 구로구 새말로9길",
-//                        User.UserStatus.USER_ACTIVE);
-//
-//        Page<UserDto.Response> pageUsers =
-//                new PageImpl<>(List.of(response1, response2),
-//                       pageable,2);
-//
-//        return new ResponseEntity(new MultiResponseDto<>(
-//                List.of(response1, response2), pageUsers), HttpStatus.OK);
-//    }
+    @GetMapping("/{user-id}")
+    public ResponseEntity getUser(@PathVariable("user-id") Long userId){
+        User findUser = userService.findVerifiedUserById(userId);
+        UserDto.Response response = mapper.userToUserResponse(findUser);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity getUsers(Pageable pageable){
+        Page<User> pageUsers = userService.findUsers(pageable);
+        List<User> users = pageUsers.getContent();
+        List<UserDto.Response> responses = mapper.usersToUsersResponse(users);
+
+        return new ResponseEntity(new MultiResponseDto<>(
+               responses, pageUsers), HttpStatus.OK);
+    }
 //
 //    @DeleteMapping("/{user-id}")
 //    public ResponseEntity deleteUser(@PathVariable("user-id") Long userId){
