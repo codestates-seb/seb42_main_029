@@ -48,25 +48,6 @@ include::{snippets}/patch-seller/http-response.adoc[]
 .response-fields
 include::{snippets}/patch-seller/response-fields.adoc[]
 
-=== 판매자 상태 변경 (관리자 권한, 관리자 페이지)
-.curl-request
-include::{snippets}/patch-seller-admin/curl-request.adoc[]
-
-.http-request
-include::{snippets}/patch-seller-admin/http-request.adoc[]
-
-.path-parameters
-include::{snippets}/patch-seller-admin/path-parameters.adoc[]
-
-.request-fields
-include::{snippets}/patch-seller-admin/request-fields.adoc[]
-
-.http-response
-include::{snippets}/patch-seller-admin/http-response.adoc[]
-
-.response-fields
-include::{snippets}/patch-seller-admin/response-fields.adoc[]
-
 === 판매자 정보 조회 (판매자 페이지)
 .curl-request
 include::{snippets}/get-seller/curl-request.adoc[]
@@ -83,40 +64,8 @@ include::{snippets}/get-seller/http-response.adoc[]
 .response-fields
 include::{snippets}/get-seller/response-fields.adoc[]
 
-=== 판매자 회원가입 리스트 조회
-.curl-request
-include::{snippets}/get-sellers-admin/curl-request.adoc[]
-
-.http-request
-include::{snippets}/get-sellers-admin/http-request.adoc[]
-
-.request-parameters
-include::{snippets}/get-sellers-admin/request-parameters.adoc[]
-
-.http-response
-include::{snippets}/get-sellers-admin/http-response.adoc[]
-
-.response-fields
-include::{snippets}/get-sellers-admin/response-fields.adoc[]
-
-.response-body
-include::{snippets}/get-sellers-admin/response-body.adoc[]
-
-=== 판매자 회원가입 정보 삭제 (관리자 권한, 관리자 페이지, 거절된 회원가입)
-.curl-request
-include::{snippets}/delete-seller-admin/curl-request.adoc[]
-
-.http-request
-include::{snippets}/delete-seller-admin/http-request.adoc[]
-
-.path-parameters
-include::{snippets}/delete-seller-admin/path-parameters.adoc[]
-
-.http-response
-include::{snippets}/delete-seller-admin/http-response.adoc[]
-
 == AnswerController
-=== 답변 작성
+=== 답변 작성 (상품 상세 페이지)
 .curl-request
 include::{snippets}/post-answer/curl-request.adoc[]
 
@@ -166,5 +115,59 @@ include::{snippets}/get-answers/response-fields.adoc[]
 
 .response-body
 include::{snippets}/get-answers/response-body.adoc[]
+
+<<<<<<< Updated upstream
+=======
+== AdminController (관리자 권한, 관리자 페이지)
+=== 판매자 상태 변경
+.curl-request
+include::{snippets}/admin-patch-seller/curl-request.adoc[]
+
+.http-request
+include::{snippets}/admin-patch-seller/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/admin-patch-seller/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/admin-patch-seller/request-fields.adoc[]
+
+.http-response
+include::{snippets}/admin-patch-seller/http-response.adoc[]
+
+.response-fields
+include::{snippets}/admin-patch-seller/response-fields.adoc[]
+
+=== 판매자 회원가입 리스트 조회
+.curl-request
+include::{snippets}/admin-get-sellers/curl-request.adoc[]
+
+.http-request
+include::{snippets}/admin-get-sellers/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/admin-get-sellers/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/admin-get-sellers/http-response.adoc[]
+
+.response-fields
+include::{snippets}/admin-get-sellers/response-fields.adoc[]
+
+.response-body
+include::{snippets}/admin-get-sellers/response-body.adoc[]
+
+=== 판매자 회원가입 정보 삭제 (거절된 회원가입)
+.curl-request
+include::{snippets}/admin-delete-seller/curl-request.adoc[]
+
+.http-request
+include::{snippets}/admin-delete-seller/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/admin-delete-seller/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/admin-delete-seller/http-response.adoc[]
 
 

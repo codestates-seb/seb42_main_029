@@ -3,6 +3,7 @@ package com.k5.modudogcat.slice.seller;
 
 import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
+import com.k5.modudogcat.domain.admin.dto.AdminDto;
 import com.k5.modudogcat.domain.seller.controller.SellerController;
 import com.k5.modudogcat.domain.seller.dto.SellerDto;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ public class SellerControllerTest {
     @Autowired
     private Gson gson;
 
-
+    //판매자 회원가입
     @Test
     public void postSellerTest() throws Exception {
 
@@ -162,70 +163,7 @@ public class SellerControllerTest {
                 ));
     }
 
-    @Test
-    public void patchSellerStatusTest() throws Exception{
-        //given
-        Long sellerId = 1L;
-        SellerDto.Patch patchStatus = new SellerDto.Patch(sellerId, SELLER_APPROVE);
-
-        SellerDto.Response response = new SellerDto.Response
-                (patchStatus.getSellerId(),"seller", "seller", "seller", "12345678901234","서울시 어쩌구2 저쩌구2", "01011112222", "신한", "12345678901234",patchStatus.getSellerStatus());
-
-        String content = gson.toJson(patchStatus);
-
-        //when
-        ResultActions actions =
-                mockMvc.perform(
-                        patch("/sellers/admin/{seller-id}", sellerId)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(content)
-                );
-
-        //then
-        actions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.sellerId").value(response.getSellerId()))
-                .andExpect(jsonPath("$.id").value(response.getId()))
-                .andExpect(jsonPath("$.password").value(response.getPassword()))
-                .andExpect(jsonPath("$.name").value(response.getName()))
-                .andExpect(jsonPath("$.registrationNumber").value(response.getRegistrationNumber()))
-                .andExpect(jsonPath("$.address").value(response.getAddress()))
-                .andExpect(jsonPath("$.phone").value(response.getPhone()))
-                .andExpect(jsonPath("$.bankName").value(response.getBankName()))
-                .andExpect(jsonPath("$.accountNumber").value(response.getAccountNumber()))
-                //.andExpect(jsonPath("$.sellerStatus").value(response.getSellerStatus())) -> 왜 안되는거지..?
-
-                .andDo(document(
-                        "patch-seller-admin",
-                        getRequestPreProcessor(),
-                        getResponsePreProcessor(),
-                        pathParameters(
-                                parameterWithName("seller-id").description("판매자 식별자")
-                        ),
-                        requestFields(
-                                List.of(
-                                        fieldWithPath("sellerId").type(JsonFieldType.NUMBER).description("판매자 식별자").ignored(),
-                                        fieldWithPath("sellerStatus").type(JsonFieldType.STRING).description("판매자 상태")
-                                )
-                        ),
-                        responseFields(
-                                List.of(
-                                        fieldWithPath("sellerId").type(JsonFieldType.NUMBER).description("판매자 식별자"),
-                                        fieldWithPath("id").type(JsonFieldType.STRING).description("아이디"),
-                                        fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
-                                        fieldWithPath("name").type(JsonFieldType.STRING).description("상호명"),
-                                        fieldWithPath("registrationNumber").type(JsonFieldType.STRING).description("사업자등록번호"),
-                                        fieldWithPath("address").type(JsonFieldType.STRING).description("주소"),
-                                        fieldWithPath("phone").type(JsonFieldType.STRING).description("전화번호"),
-                                        fieldWithPath("bankName").type(JsonFieldType.STRING).description("은행명"),
-                                        fieldWithPath("accountNumber").type(JsonFieldType.STRING).description("계좌번호"),
-                                        fieldWithPath("sellerStatus").type(JsonFieldType.STRING).description("판매자 상태")
-                                )
-                        )
-                ));
-
-    }
-
+    //판매자 페이지 판매자 정보 조회
     @Test
     public void getSellerTest() throws Exception{
         //given
@@ -267,90 +205,4 @@ public class SellerControllerTest {
                         )
                 ));
     }
-
-    @Test
-    public void getSellersTest() throws Exception {
-        //given
-        String page = "0";
-        String size = "12";
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("page", page);
-        queryParams.add("size", size);
-
-        //when
-        ResultActions actions =
-                mockMvc.perform(
-                        get("/sellers/admin")
-                                .params(queryParams)
-                                .accept(MediaType.APPLICATION_JSON)
-                );
-
-        //then
-        MvcResult result = actions
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andReturn();
-
-        List list = JsonPath.parse(result.getResponse().getContentAsString()).read("$.data");
-
-        assertThat(list.size(), is(3));
-
-        actions.andDo(document(
-                "get-sellers-admin",
-                getRequestPreProcessor(),
-                getResponsePreProcessor(),
-                requestParameters(
-                        List.of(
-                                parameterWithName("page").description("페이지"),
-                                parameterWithName("size").description("사이즈")
-                        )
-                ),
-                responseFields(
-                        List.of(
-                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("판매자 회원가입 리스트"),
-                                fieldWithPath("data[].sellerId").type(JsonFieldType.NUMBER).description("판매자 식별자"),
-                                fieldWithPath("data[].id").type(JsonFieldType.STRING).description("아이디"),
-                                fieldWithPath("data[].password").type(JsonFieldType.STRING).description("비밀번호"),
-                                fieldWithPath("data[].name").type(JsonFieldType.STRING).description("상호명"),
-                                fieldWithPath("data[].registrationNumber").type(JsonFieldType.STRING).description("사업자등록번호"),
-                                fieldWithPath("data[].address").type(JsonFieldType.STRING).description("주소"),
-                                fieldWithPath("data[].phone").type(JsonFieldType.STRING).description("전화번호"),
-                                fieldWithPath("data[].bankName").type(JsonFieldType.STRING).description("은행명"),
-                                fieldWithPath("data[].accountNumber").type(JsonFieldType.STRING).description("계좌번호"),
-                                fieldWithPath("data[].sellerStatus").type(JsonFieldType.STRING).description("판매자 상태"),
-
-                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
-                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 수"),
-                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 사이즈"),
-                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 요소"),
-                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("총 페이지")
-                        )
-                )
-        ));
-    }
-
-    @Test
-    public void deleteSellerTest() throws Exception {
-        //given
-        Long sellerId = 1L;
-
-        //when
-        ResultActions actions =
-                mockMvc.perform(
-                        delete("/sellers/admin/{seller-id}", sellerId)
-                );
-
-        //then
-        actions
-                .andExpect(status().isNoContent())
-                .andDo(document(
-                        "delete-seller-admin",
-                        getRequestPreProcessor(),
-                        getResponsePreProcessor(),
-                        pathParameters(
-                                parameterWithName("seller-id").description("판매자 식별자")
-                        )
-                ));
-    }
-
 }

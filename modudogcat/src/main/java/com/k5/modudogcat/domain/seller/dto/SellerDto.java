@@ -51,10 +51,6 @@ public class SellerDto {
             this.phone = phone;
         }
 
-        public Patch(Long sellerId, Seller.SellerStatus sellerStatus) {
-            this.sellerId = sellerId;
-            this.sellerStatus = sellerStatus;
-        }
     }
 
     @Getter
