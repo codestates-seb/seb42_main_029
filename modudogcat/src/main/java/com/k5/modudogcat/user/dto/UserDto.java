@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 public class UserDto {
     @Getter
     @AllArgsConstructor
@@ -22,11 +24,8 @@ public class UserDto {
     @AllArgsConstructor
     public static class Patch{
         private Long userId;
-        private String loginId;
         private String password;
-        private String email;
         private String address;
-        private User.UserStatus userStatus;
     }
 
     @Setter
@@ -40,6 +39,8 @@ public class UserDto {
         private String email;
         private String address;
         private User.UserStatus userStatus;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
 
         public String getUserStatus() {
             return userStatus.getStatus();

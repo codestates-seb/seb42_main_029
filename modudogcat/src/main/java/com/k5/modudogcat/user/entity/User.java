@@ -1,5 +1,6 @@
 package com.k5.modudogcat.user.entity;
 
+import com.k5.modudogcat.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @Getter
-public class User {
+public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -28,7 +29,6 @@ public class User {
     private String address;
     @Enumerated(value = EnumType.STRING)
     private UserStatus userStatus = User.UserStatus.USER_ACTIVE;
-    // Todo: Audit 추가
 
     public enum UserStatus {
         USER_ACTIVE("활동중"),
