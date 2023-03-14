@@ -9,6 +9,7 @@ public class UserDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
+        private String loginId;
         private String name;
         private String password;
         private String email;
@@ -21,6 +22,7 @@ public class UserDto {
     @AllArgsConstructor
     public static class Patch{
         private Long userId;
+        private String loginId;
         private String password;
         private String email;
         private String address;
@@ -32,6 +34,7 @@ public class UserDto {
     @AllArgsConstructor
     public static class Response {
         private Long userId;
+        private String loginId;
         private String name;
         private String password;
         private String email;

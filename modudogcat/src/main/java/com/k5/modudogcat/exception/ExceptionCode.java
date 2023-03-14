@@ -5,14 +5,8 @@ import lombok.Getter;
 
 @Getter
 public enum ExceptionCode {
-    MEMBER_EXISTS(409, "Member already exists"),
-    LIKE_EXISTS(409, "Like already exists"),
-    MEMBER_NOT_FOUND(404, "Member not found"),
-    ADMIN_ONLY(403, "Admin only"),
-    MEMBER_ONLY(403, "Member only"),
-    ASKED_MEMBER_ONLY(403, "Asked member only"),
-    QUESTION_NOT_FOUND(404, "Question not found"),
-    ANSWER_NOT_FOUND(404, "Answer not found");
+    USER_LOGIN_ID_EXISTS(409, "이미 존재하는 로그인 ID 입니다"),
+    USER_EMAIL_EXISTS(409, "이미 존재하는 이메일입니다.");
 
     private int status;
 

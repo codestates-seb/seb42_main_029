@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "user_table")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId = 0L;
+    private Long userId;
     @Column(length = 20, nullable = false)
     private String loginId;
     @Column(length = 20, nullable = false)

@@ -5,6 +5,7 @@ import com.k5.modudogcat.dto.SingleResponseDto;
 import com.k5.modudogcat.user.Mapper.UserMapper;
 import com.k5.modudogcat.user.dto.UserDto;
 import com.k5.modudogcat.user.entity.User;
+
 import com.k5.modudogcat.user.service.UserService;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +31,10 @@ public class UserController {
     @PostMapping
     public ResponseEntity postUser(@RequestBody UserDto.Post postDto){
         User user = mapper.userPostToUser(postDto);
-//        userService.createUser(user);
+        User findUser = userService.createUser(user);
 
-        Long userId = user.getUserId();
-        URI location = UriCreator.createUri(USER_DEFAULT_URL, ++userId);
+        Long userId = findUser.getUserId();
+        URI location = UriCreator.createUri(USER_DEFAULT_URL, userId);
 
         return ResponseEntity.created(location).build();
     }
@@ -43,6 +44,7 @@ public class UserController {
                                     @RequestBody UserDto.Patch patchDto){
         UserDto.Response response =
                 new UserDto.Response(userId,
+                        "honghong",
                         "홍길동",
                         "changePW",
                         "abc@naver.com",
@@ -57,6 +59,7 @@ public class UserController {
 
         UserDto.Response response =
                 new UserDto.Response(userId,
+                        "honghong",
                         "홍길동",
                         "hong1234",
                         "hong123@google.com",
@@ -71,6 +74,7 @@ public class UserController {
         List<User> users = new ArrayList<>();
         UserDto.Response response1 =
                 new UserDto.Response(1L,
+                        "honghong",
                         "홍길동",
                         "hong1234",
                         "hong123@google.com",
@@ -78,6 +82,7 @@ public class UserController {
                         User.UserStatus.USER_ACTIVE);
         UserDto.Response response2 =
                 new UserDto.Response(2L,
+                        "honghong",
                         "김규하",
                         "kim1234",
                         "kimm123@google.com",
