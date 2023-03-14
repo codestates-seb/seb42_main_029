@@ -6,10 +6,12 @@ import com.k5.modudogcat.user.entity.User;
 import com.k5.modudogcat.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,8 +59,11 @@ public class UserService {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
-        // Todo: 페이징 되면서, Active한 User만 가져오는 쿼리
-        return userRepository.findAll(of);
+        // Active한 User들만 가져온 후, 페이징 객체로 생성
+        List<User> findUsers = userRepository.findAllByUserStatus(User.UserStatus.USER_ACTIVE);
+        Page<User> pageUsers = new PageImpl<>(findUsers, of, findUsers.size());
+
+        return pageUsers;
     }
 
     public void removeUser(Long userId){
