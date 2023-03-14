@@ -17,13 +17,13 @@ public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false, unique = true)
     private String loginId;
     @Column(length = 20, nullable = false)
     private String name;
     @Column(length = 20, nullable = false)
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String address;
@@ -33,7 +33,7 @@ public class User extends Auditable {
     public enum UserStatus {
         USER_ACTIVE("활동중"),
         USER_SLEEP("휴면계정"),
-        USER_DELETE("회원 삭제");
+        USER_DELETE("삭제된계정");
         @Getter
         private final String status;
         UserStatus(String status){

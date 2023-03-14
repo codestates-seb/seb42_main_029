@@ -67,10 +67,11 @@ public class UserController {
         return new ResponseEntity(new MultiResponseDto<>(
                responses, pageUsers), HttpStatus.OK);
     }
-//
-//    @DeleteMapping("/{user-id}")
-//    public ResponseEntity deleteUser(@PathVariable("user-id") Long userId){
-//
-//        return new ResponseEntity(HttpStatus.NO_CONTENT);
-//    }
+
+    @DeleteMapping("/{user-id}")
+    public ResponseEntity deleteUser(@PathVariable("user-id") Long userId){
+        userService.removeUser(userId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }
