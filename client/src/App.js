@@ -20,37 +20,41 @@ import SellerMypage from "./pages/SellerMypage";
 import AdminMypage from "./pages/AdminMypage";
 import ReviewForm from "./pages/ReviewForm";
 import NewItemRegistrationForm from "./pages/NewItemRegistrationForm";
-
+import { CookiesProvider } from "react-cookie";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header />
+    <CookiesProvider>
+      <BrowserRouter>
+        <Header />
 
-      <Wrapper>
-        <Routes>
-          <Route path="/" element={<Shop/>} />
-          <Route path="ProductInfo" element={<ProductInfo />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/sellerSignUp" element={<SellerSignUp />} />
-          <Route path="/findId" element={<FindId />} />
-          <Route path="/findPassWord" element={<FindPassWord />} />
-          <Route path="/pay" element={<Pay />} />
-          <Route path="/payComplete" element={<PayComplete />} />
-          <Route path="/qnaQuestion" element={<QnAQuestion />} />
-          <Route path="/qnaAnswer" element={<QnAAnswer />} />
-          <Route path="/mypage" element={<Mypage />}></Route>
-          <Route path="/sellermypage" element={<SellerMypage />}></Route>
-          <Route path="/adminmypage" element={<AdminMypage />}></Route>
-          <Route path="/reviewform" element={<ReviewForm />}></Route>
-          <Route path="/newitemform" element={<NewItemRegistrationForm />}></Route>
+        <Wrapper>
+          <Routes>
+            <Route path="/" element={<Shop />} />
+            <Route path="ProductInfo" element={<ProductInfo />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/sellerSignUp" element={<SellerSignUp />} />
+            <Route path="/findId" element={<FindId />} />
+            <Route path="/findPassWord" element={<FindPassWord />} />
+            <Route path="/pay" element={<Pay />} />
+            <Route path="/payComplete" element={<PayComplete />} />
+            <Route path="/qnaQuestion" element={<QnAQuestion />} />
+            <Route path="/qnaAnswer" element={<QnAAnswer />} />
+            <Route path="/mypage" element={<Mypage />}></Route>
+            <Route path="/sellermypage" element={<SellerMypage />}></Route>
+            <Route path="/adminmypage" element={<AdminMypage />}></Route>
+            <Route path="/reviewform" element={<ReviewForm />}></Route>
+            <Route
+              path="/newitemform"
+              element={<NewItemRegistrationForm />}
+            ></Route>
+          </Routes>
+        </Wrapper>
 
-        </Routes>
-      </Wrapper>
-
-      <Footer />
-    </BrowserRouter>
+        <Footer />
+      </BrowserRouter>
+    </CookiesProvider>
   );
 }
 

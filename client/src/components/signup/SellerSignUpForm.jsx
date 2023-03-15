@@ -14,6 +14,8 @@ export default function SellerSignUpForm() {
     const address = e.target.address.value;
     const registrationNumber = e.target.registrationNumber.value
     const phone = e.target.phone.value;
+    const bankName = e.target.bankName.value;
+    const accountNumber = e.target.accountNumber.value;
 
         //! email 정규식
         const emailRegex =
@@ -79,6 +81,10 @@ export default function SellerSignUpForm() {
         <input type="text" name="registrationNumber" required />
         <label>전화번호</label>
         <input type="text" name="phone" required />
+        <label>은행명</label>
+        <input type="text" name="bankName" required />
+        <label>계좌번호</label>
+        <input type="text" name="accountNumber" required />
 
         <SignUpBtn>확인</SignUpBtn>
       </form>
@@ -92,7 +98,7 @@ const Wrapper = styled.div`
   align-items: center;
   background-color: #feeade;
   width: 370px;
-  height: 700px;
+  height: 800px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px gray;
   margin-top: 3rem;
