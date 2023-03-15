@@ -3,12 +3,14 @@ package com.k5.modudogcat.user.dto;
 import com.k5.modudogcat.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 public class UserDto {
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
         private String loginId;
@@ -21,6 +23,7 @@ public class UserDto {
 
     @Setter
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Patch{
         private Long userId;
@@ -30,6 +33,7 @@ public class UserDto {
 
     @Setter
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
         private Long userId;
