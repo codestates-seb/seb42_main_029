@@ -20,7 +20,7 @@ import SellerMypage from "./pages/SellerMypage";
 import AdminMypage from "./pages/AdminMypage";
 import ReviewForm from "./pages/ReviewForm";
 import NewItemRegistrationForm from "./pages/NewItemRegistrationForm";
-
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -45,7 +45,7 @@ function App() {
           <Route path="/adminmypage" element={<AdminMypage />}></Route>
           <Route path="/reviewform" element={<ReviewForm />}></Route>
           <Route path="/newitemform" element={<NewItemRegistrationForm />}></Route>
-
+          <Route path="/cart" element={<Cart />}></Route>
         </Routes>
       </Wrapper>
 
