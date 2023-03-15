@@ -203,6 +203,11 @@ const AdminReview = () => {
       name: "name",
     },
   ];
+
+  //! 후기 삭제버튼 컨트롤 각 상품 세부페이지에서 하기로 함
+
+  //! 후기 리스트 get은 api 명세서 나오면 작성
+
   function stars(num) {
     let star = "";
     for (let i = 0; i < num; i++) {
