@@ -2,17 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-function AnswerList(question_id) {
-  //axios로 quesiton_id 보내서 fetch 함
+function AnswerList(questionId) {
+  //axios로 quesitonId 보내서 fetch 함
   //데이터 있으면 각각 깔아주고 없으면 빈값 반환하도록 해야함
 
   const answerExData = {
-    answer_id: "answer_id",
-    seller_id: "seller_id",
+    answerId: "answerId",
+    sellerId: "sellerId",
     name: "판매자 이름",
-    question_id: "question_id",
+    questionId: "questionId",
     content: "contentcontentcontent contentcontent contentcontent contentcontent contentcontentcontent contentcontentcontent contentcontent",
-    created_at: "created_at",
+    createdAt: "createdAt",
   };
 
   return (
@@ -22,14 +22,14 @@ function AnswerList(question_id) {
           <div className="Answer-left">
             <div className="minititle"> 🏠 판매자 답변 </div>
 
-            <div className="important">답변 번호: {answerExData.answer_id}</div>
+            <div className="important">답변 번호: {answerExData.answerId}</div>
             <div className="important">
-              판매자 명: {answerExData.name} {answerExData.seller_id}
+              판매자 명: {answerExData.name} {answerExData.sellerId}
             </div>
             <div className="content">{answerExData.content}</div>
           </div>
           <div className="Answer-right">
-            <div> 게시일:{answerExData.created_at}</div>
+            <div> 게시일:{answerExData.createdAt}</div>
             <br />
             <br />
             <br />

@@ -1,153 +1,200 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import AnswerList from "./AnswerList";
+import axios from "axios";
 function QnAList() {
   const QnAExData = [
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      question_id: "question_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      questionId: "questionId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitle titletitle",
       content: "contentcontent contentcontent content contentcontent contentcontent contentcontent content contentcontent contentcontent contentcontent",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
   ];
+
+  // 해당회원 userId로 회원이 쓴 질문 전부 가져오기
+  const [questionData, setQuestionData] = useState({}); //판매자 데이터 담아서 나중에 questionData.map()
+
+  function questionDataAxios(userId) {
+    return axios
+      .get(`http://localhost:8080/questions/${userId}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+        setQuestionData(res.data);
+      })
+      .catch((err) => {
+        console.log("questionData GET error");
+      });
+  }
+
+  //! 페이지 로딩과 동시에 질문 데이터 get
+  // useEffect(()=>{questionDataAxios(reduxUserId)},[])
+
+  //! question 삭제함수
+  const deleteQuestion = (questionId) => {
+    // e.preventDefault();
+    alert("정말 문의글을 삭제 하시겠습니까?");
+    return axios
+      .delete(`http://localhost:8080/questions/${questionId}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("문의글 삭제 에러");
+        console.log(questionId);
+      });
+  };
+
   return (
     <QnABody>
-      {/* user_id기분으로 해당 유저 질문 전부get 하고 각 질문 id기준으로 각각 답변 get 해서 붙여서 깔아줌 */}
+      {/* userId기분으로 해당 유저 질문 전부get 하고 각 질문 id기준으로 각각 답변 get 해서 붙여서 깔아줌 */}
       <div className="bold">Q&A 목록 </div>
       {QnAExData.map((el) => (
         <div>
           <div className="Qna">
             <div className="Qna-left">
-              <div className="important">주문 번호: {el.question_id}</div>
+              <div className="important">주문 번호: {el.questionId}</div>
               <div className="important">
-                상품 이름: {el.name} {el.product_id}
+                상품 이름: {el.name} {el.productId}
               </div>
               <div>문의 제목: {el.title}</div>
               <div className="content">{el.content}</div>
             </div>
             <div className="Qna-right">
-              <div> 게시일:{el.created_at}</div>
+              <div> 게시일:{el.createdAt}</div>
               <br />
               <br />
               <br />
-              <button className="button" style={{ float: "right" }}>
+              <button
+                className="button"
+                style={{ float: "right" }}
+                onClick={() => {
+                  deleteQuestion(el.questionId);
+                }}
+              >
                 <Link className="link">삭제</Link>
               </button>
             </div>
           </div>
-          <AnswerList question_id={el.question_id} />
+          <AnswerList questionId={el.questionId} />
         </div>
       ))}
     </QnABody>
