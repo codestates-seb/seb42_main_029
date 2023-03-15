@@ -15,33 +15,35 @@ export default function Header() {
   return (
     <Wrapper>
       <LeftSide>
-        <Link to="/">Home</Link>
+        <Link to="/" style={{ textDecorationLine: "none" }}>
+          <p>Home</p>
+        </Link>
         <p>Shop</p>
         <p>About</p>
       </LeftSide>
 
       <MiddleSide>
         <img src={dogLogo} alt="headerLogo" />
-        <Link to="/">
+        <Link to="/" style={{ textDecorationLine: "none" }}>
           <p>모두댕냥</p>
         </Link>
       </MiddleSide>
 
       {!isLogin ? (
         <RightSide>
-          <Link to="/login">
+          <Link to="/login" style={{ textDecorationLine: "none" }}>
             <p>Login</p>
           </Link>
 
-          <Link to="/signUp">
+          <Link to="/signUp" style={{ textDecorationLine: "none" }}>
             <p>SignUp</p>
           </Link>
 
-          <Link to="/sellerSignUp">
+          <Link to="/sellerSignUp" style={{ textDecorationLine: "none" }}>
             <p>Seller SignUp</p>
           </Link>
 
-          <Link to="/cart">
+          <Link to="/cart" style={{ textDecorationLine: "none" }}>
             <p>Cart</p>
           </Link>
         </RightSide>
@@ -74,8 +76,9 @@ const LeftSide = styled.div`
   display: flex;
   justify-content: space-around;
   flex: 1;
+
   p {
-    text-decoration: none;
+    color: black;
   }
   p:hover {
     cursor: pointer;
@@ -99,6 +102,7 @@ const MiddleSide = styled.div`
   p {
     position: relative;
     right: 1rem;
+    color: black;
   }
 `;
 
@@ -107,6 +111,9 @@ const RightSide = styled.div`
   justify-content: space-around;
   flex: 1;
 
+  p {
+    color: black;
+  }
   p:hover {
     cursor: pointer;
     font-weight: 600;
