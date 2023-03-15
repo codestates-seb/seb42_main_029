@@ -1,7 +1,9 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SelectBox from "./statusSelectBox";
+
+import OrderBox from "./OrderBox";
 function OrderList() {
   const OrderExData = [
     {
@@ -261,56 +263,28 @@ function OrderList() {
     },
   ];
 
-  const statusOption = [
-    //배송상태 선택지
-    { value: "status", name: "status" },
-    { value: "결제 전", name: "결제 전" },
-    { value: "결제 완료", name: "결제 완료" },
-    { value: "배송 준비중", name: "배송 준비중" },
-    { value: "배송 중", name: "배송 중" },
-    { value: "배송 완료", name: "배송 완료" },
-  ];
+  //! 주문목록 상태, 운송장번호 입력해서 통신하는 함수 필요
 
-  const statusOptionHandleChange = (e) => {
-    // event handler ->나중에 setStatus 들어갈 예정
-    console.log(e.target.value);
-  };
+  // const statusOption = [
+  //   //배송상태 선택지
+  //   { value: "status", name: "status" },
+  //   { value: "결제 전", name: "결제 전" },
+  //   { value: "결제 완료", name: "결제 완료" },
+  //   { value: "배송 준비중", name: "배송 준비중" },
+  //   { value: "배송 중", name: "배송 중" },
+  //   { value: "배송 완료", name: "배송 완료" },
+  // ];
+
+  // const statusOptionHandleChange = (e) => {
+  //   // event handler ->나중에 setStatus 들어갈 예정
+  //   console.log(e.target.value);
+  // };
 
   return (
     <OrderBody>
       <div className="bold">주문 목록 </div>
       {OrderExData.map((el) => (
-        <div className="order">
-          <div className="order-left">
-            <div className="important">주문 번호: {el.order_id}</div>
-            <div className="important">상품 이름: {el.name}</div>
-            <div className="important">
-              <span>{`가격 :${el.price} 원 ,`}</span> <span>{`수량 :${el.count}`}</span>
-            </div>
-
-            <div>받는 사람 : {el.receiver}</div>
-            <div>연락처 : {el.phone}</div>
-            <div>주소 :{el.address}</div>
-          </div>
-          <div className="order-right">
-            <div>주문일:{el.created_at}</div>
-            <div className="important">
-              합계 금액: {el.price * el.count} {" 원"}
-            </div>
-            <div style={{ marginBottom: "7px" }}>
-              상태 :{" "}
-              <span>
-                <SelectBox onChange={statusOptionHandleChange} options={statusOption} defaultValue={el.status}></SelectBox>
-              </span>
-            </div>
-
-            <div>운송장 번호 : {el.pardel_number !== "" ? el.pardel_number : <input title="운송장번호"></input>}</div>
-
-            <button className="button" style={{ float: "right" }}>
-              변경사항 저장
-            </button>
-          </div>
-        </div>
+        <OrderBox el={el} />
       ))}
     </OrderBody>
   );

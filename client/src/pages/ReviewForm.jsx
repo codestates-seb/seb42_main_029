@@ -1,8 +1,10 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import { useDispatch, useSelector } from "react-redux";
 function ReviewForm() {
+  const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  const dispatch = useDispatch(); // dispatch 쉽게하는 hook
   return (
     <ReviewFormBody>
       <div className="center">
@@ -20,6 +22,13 @@ function ReviewForm() {
           <SubmitBtn>등록취소</SubmitBtn>
           <SubmitBtn>후기등록</SubmitBtn>
         </div>
+        <div>
+          <SubmitBtn onClick={() => dispatch({ type: "USER_LOGIN", payload: { userId: "리덕스", id: "성공", name: "!!!" } })}>로그인</SubmitBtn>
+          <SubmitBtn onClick={() => dispatch({ type: "USER_LOGOUT" })}>로그아웃</SubmitBtn>
+        </div>
+        <div> {state.user.userId}</div>
+        <div> {state.user.id}</div>
+        <div> {state.user.name}</div>
       </div>
     </ReviewFormBody>
   );

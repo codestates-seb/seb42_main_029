@@ -5,11 +5,94 @@ import OrderList from "../components/mypage/OrderList";
 import QnAList from "../components/mypage/QnAList";
 import ReviewList from "../components/mypage/ReviewList";
 import Button from "react-bootstrap/Button";
-
+import axios from "axios";
 function Mypage() {
-  //회원정보 axios userInfo
+  const data = {
+    userId: "userId",
+    name: "name",
+    id: "id",
+    password: "password",
+    email: "email",
+    address: "address",
+    createdAt: "createdAt",
+    modifiedAt: "modifiedAt",
+    userStatus: "userStatus",
+  };
 
-  //주문목록, qna , 후기는 컴포넌트화 해서 연결
+  //! 회원정보 axios userInfo
+  const [userData, setUserData] = useState({}); //판매자 데이터 담아서 나중에 userData.map()
+
+  function userInfoAxios(userId) {
+    return axios
+      .get(`http://localhost:8080/users/${userId}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log("userData GET error");
+      });
+  }
+  //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
+  // useEffect(()=>{userInfoAxios(reduxUserId)},[])
+
+  //! 변경사항 서버에 patch하기 위한 함수
+
+  function patchUserData(e, id) {
+    e.preventDefault();
+    console.log(password, password2, email, address);
+    const patchdata = {};
+    if (password !== "" && password2 !== "" && password === password2) {
+      patchdata.password = password;
+    }
+    if ((password !== "" || password2 !== "") && password !== password2) {
+      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+    }
+    if (email) {
+      patchdata.email = email;
+    }
+    if (address) {
+      patchdata.address = address;
+    }
+    return axios
+      .patch(`http://localhost:8080/users/${id}`, patchdata, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("구매자 유저정보 변경 patch 에러");
+        console.log(patchdata);
+      });
+  }
+
+  //! 판매자 회원 탈퇴요청 함수 추가하고, 탈퇴버튼 온클릭에 연결
+  const deleteUser = (id) => {
+    // e.preventDefault();
+    alert("정말 회원탈퇴 하시겠습니까?");
+    return axios
+      .delete(`http://localhost:8080/users/${id}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("회원탈퇴 에러");
+        console.log(id);
+      });
+  };
+
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
 
   //탭 제작
   const tabArray = [
@@ -38,27 +121,29 @@ function Mypage() {
         <div className="user-information">
           <div className="bold">회원정보 변경</div>
           <div>이름</div>
-          <div className="cant-change">userInfo.name</div>
+          <div className="cant-change">{data.name}</div>
           <div>
             아이디
             {/* <button className="submit-button" style={{ float: "right" }}>
               중복검사
             </button> */}
           </div>
-          <div className="cant-change">userInfo.id</div>
+          <div className="cant-change">{data.id}</div>
           <div>비밀번호</div>
-          <input></input>
+          <input onChange={(e) => setPassword(e.target.value)} defaultValue={data.password}></input>
           <div>비밀번호 확인</div>
-          <input></input>
+          <input onChange={(e) => setPassword2(e.target.value)} defaultValue={data.password}></input>
           <div>이메일</div>
-          <input></input>
+          <input onChange={(e) => setEmail(e.target.value)} defaultValue={data.email}></input>
           <div>주소</div>
-          <input></input>
+          <input onChange={(e) => setAddress(e.target.value)} defaultValue={data.address}></input>
           <div>
-            <button className="submit-button center">저장</button>
+            <button onClick={() => patchUserData(data.userId)} className="submit-button center">
+              저장
+            </button>
           </div>
           <div>
-            <button className="submit-button quit" style={{ float: "right" }}>
+            <button onClick={() => deleteUser(data.userId)} className="submit-button quit" style={{ float: "right" }}>
               회원탈퇴
             </button>
           </div>

@@ -260,7 +260,7 @@ function OrderList() {
       price: 15000,
     },
   ];
-
+  //! 온클릭 및 여러가지 나중에 함 api 명세서 나왔을 때
   return (
     <OrderBody>
       <div className="bold">주문 목록 </div>
