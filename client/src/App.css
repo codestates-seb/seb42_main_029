@@ -119,6 +119,7 @@ q:after {
   content: none;
 }
 table {
+
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -139,4 +140,6 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   line-height: 1.5;
+
 } */
+

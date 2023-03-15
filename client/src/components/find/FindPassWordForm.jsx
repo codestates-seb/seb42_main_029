@@ -1,9 +1,12 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 export default function FindPassWordForm() {
   const FindIdHandle = (e) => {
     e.preventDefault();
+
+    const name = e.target.name.value;
+    const email = e.target.email.value;
   };
   return (
     <>
@@ -43,13 +46,16 @@ const Wrapper = styled.div`
     label {
       font-size: 0.9rem;
       font-weight: bold;
-      margin-top: 3px;
+      margin: 3px 0;
     }
   }
 
   input {
     width: 250px;
-    height: 25px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 7px;
   }
 `;
 
@@ -73,4 +79,3 @@ const OkBtn = styled.button`
   margin-top: 3rem;
   cursor: pointer;
 `;
-

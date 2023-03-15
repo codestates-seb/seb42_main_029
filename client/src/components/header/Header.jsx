@@ -62,7 +62,8 @@ const LeftSide = styled.div`
   flex: 1;
   p:hover {
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 600; 
+    color: #ffffff;
   }
 `;
 const MiddleSide = styled.div`
@@ -92,5 +93,6 @@ const RightSide = styled.div`
   p:hover {
     cursor: pointer;
     font-weight: 600;
+    color: #ffffff;
   }
 `;

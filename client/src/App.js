@@ -1,4 +1,6 @@
 import React from "react";
+import Shop from "./pages/Shop";
+import ProductInfo from "./pages/ProductInfo";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/login";
@@ -11,11 +13,14 @@ import Footer from "./components/footer/Footer";
 import styled from "styled-components";
 import Pay from "./pages/Pay";
 import PayComplete from "./pages/PayComplete";
+import QnAQuestion from "./pages/QnAQuestion";
+import QnAAnswer from "./pages/QnAAnswer";
 import Mypage from "./pages/Mypage";
 import SellerMypage from "./pages/SellerMypage";
 import AdminMypage from "./pages/AdminMypage";
 import ReviewForm from "./pages/ReviewForm";
 import NewItemRegistrationForm from "./pages/NewItemRegistrationForm";
+
 
 function App() {
   return (
@@ -24,6 +29,8 @@ function App() {
 
       <Wrapper>
         <Routes>
+          <Route path="/" element={<Shop/>} />
+          <Route path="ProductInfo" element={<ProductInfo />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/sellerSignUp" element={<SellerSignUp />} />
@@ -31,11 +38,14 @@ function App() {
           <Route path="/findPassWord" element={<FindPassWord />} />
           <Route path="/pay" element={<Pay />} />
           <Route path="/payComplete" element={<PayComplete />} />
+          <Route path="/qnaQuestion" element={<QnAQuestion />} />
+          <Route path="/qnaAnswer" element={<QnAAnswer />} />
           <Route path="/mypage" element={<Mypage />}></Route>
           <Route path="/sellermypage" element={<SellerMypage />}></Route>
           <Route path="/adminmypage" element={<AdminMypage />}></Route>
           <Route path="/reviewform" element={<ReviewForm />}></Route>
           <Route path="/newitemform" element={<NewItemRegistrationForm />}></Route>
+
         </Routes>
       </Wrapper>
 
