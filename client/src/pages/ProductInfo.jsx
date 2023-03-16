@@ -8,7 +8,7 @@ import dummy from '../assets/dummy/dummy.json';
 const Container = styled.div`
   display:flex;
   flex-direction: column;
-  justify-contents: center;
+  justify-content: center;
   align-items:center;
   width:100%;
 `
@@ -24,7 +24,7 @@ const TextArea = styled.div`
   font-size:32px;     
   margin-left: 100px;  
   display:flex;
-  justify-contents: center;  
+  justify-content: center;  
   flex-direction:column;
 `
 const TextContainer = styled.div`
@@ -50,7 +50,7 @@ const ButtonStyle = styled.button`
 const Information = styled.div`
   display:flex;
   flex-direction:column;
-  justify-contents:center;
+  justify-content:center;
   align-items:center;
 `
 
@@ -88,7 +88,7 @@ const QnaQuestionbtn = styled.button`
   background-color:#FBB3B3;
   font-size:24px;
     &:hover{
-      background-color:#FCB3B;
+      background-color:#FCB3BF;
       color:yellow;
     }
   margin-bottom:40px;
