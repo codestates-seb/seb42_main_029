@@ -9,11 +9,7 @@ group = 'com.k5'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
+
 
 repositories {
 	mavenCentral()
@@ -25,6 +21,10 @@ ext {
 
 configurations {
 	asciidoctorExtensions
+
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 dependencies {
@@ -68,7 +68,6 @@ build {
 
 bootJar {
 	dependsOn copyDocument
-	from("${asciidoctor.outputDir}") {
-		into 'static/docs'
-	}
-}
+
+
+
