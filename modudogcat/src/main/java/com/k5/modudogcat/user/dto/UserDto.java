@@ -39,7 +39,6 @@ public class UserDto {
         private Long userId;
         private String loginId;
         private String name;
-        private String password;
         private String email;
         private String address;
         private User.UserStatus userStatus;
