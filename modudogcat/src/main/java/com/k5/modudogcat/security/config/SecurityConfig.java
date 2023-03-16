@@ -1,9 +1,11 @@
 package com.k5.modudogcat.security.config;
 
 import com.k5.modudogcat.security.filter.JwtAuthenticationFilter;
+import com.k5.modudogcat.security.filter.JwtVerificationFilter;
 import com.k5.modudogcat.security.handler.UserAuthenticationFailureHandler;
 import com.k5.modudogcat.security.handler.UserAuthenticationSuccessHandler;
 import com.k5.modudogcat.security.jwt.JwtTokenizer;
+import com.k5.modudogcat.security.util.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +32,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenizer jwtTokenizer;
+    private final CustomAuthorityUtils customAuthorityUtils;
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         return (web) -> web.ignoring()
@@ -109,12 +112,12 @@ public class SecurityConfig {
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
-//            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, customAuthorityUtils);
 
 
             builder
-                    .addFilter(jwtAuthenticationFilter);
-//                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilter(jwtAuthenticationFilter)
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
     }
 }
