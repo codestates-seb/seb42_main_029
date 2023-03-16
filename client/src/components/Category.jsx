@@ -21,7 +21,7 @@ li {
 }
 
 a {  
-  color: #black;
+  color: black;
   display: flex;
   font: bold 24px sans-serif;
   padding: 10px 25px;

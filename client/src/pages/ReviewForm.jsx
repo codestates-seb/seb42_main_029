@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 function ReviewForm() {
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
+  // console.log(state)
   return (
     <ReviewFormBody>
       <div className="center">

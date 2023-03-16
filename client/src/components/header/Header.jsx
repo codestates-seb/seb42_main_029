@@ -3,9 +3,15 @@ import styled from "styled-components";
 import dogLogo from "../../assets/svg/headerLogoDog.svg";
 import LogoutModal from "./LogoutModal";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function Header() {
-  const [isLogin, setIsLogin] = useState(false);
+
   const [modalOpen, setModalOpen] = useState(false);
+  const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  const dispatch = useDispatch(); // dispatch 쉽게하는 hook
+
+  
 
   // 모달창 노출
   const showModal = () => {
@@ -29,7 +35,7 @@ export default function Header() {
         </Link>
       </MiddleSide>
 
-      {!isLogin ? (
+      {!state.user.isLogin ? (
         <RightSide>
           <Link to="/login" style={{ textDecorationLine: "none" }}>
             <p>Login</p>

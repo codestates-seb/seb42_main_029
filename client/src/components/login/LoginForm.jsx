@@ -6,12 +6,16 @@ import { googleLogout } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function LoginForm() {
+  const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  const dispatch = useDispatch(); // dispatch 쉽게하는 hook
+
   const navigate = useNavigate();
 
   //! 리액트 쿠키
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
 
   // login 인풋 값 >> json-server-auth 는 id 말고 email 로 변경해야함
   const [email, setId] = useState("");
@@ -57,7 +61,13 @@ export default function LoginForm() {
         })
         .then((res) => {
           // console.log(res.data.accessToken);
+
+          //? { path: "/" } 전역에 쿠키 사용
           setCookie("accessToken", res.data.accessToken, { path: "/" });
+          
+          // redux isLogin 상태
+          // 나중에 get 받은걸 payload 에 넣는다
+          dispatch({ type: "USER_ISLOGIN" })
           navigate("/");
         })
         .catch((error) => {
