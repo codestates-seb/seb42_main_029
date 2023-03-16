@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "user_table")
 @AllArgsConstructor
@@ -21,15 +23,16 @@ public class User extends Auditable {
     private String loginId;
     @Column(length = 20, nullable = false)
     private String name;
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     private String password;
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String address;
     @Enumerated(value = EnumType.STRING)
-    private UserStatus userStatus = User.UserStatus.USER_ACTIVE;
-
+    private UserStatus userStatus = UserStatus.USER_ACTIVE;
+    @ElementCollection
+    private List<String> roles = new ArrayList<>();
     public enum UserStatus {
         USER_ACTIVE("활동중"),
         USER_SLEEP("휴면계정"),

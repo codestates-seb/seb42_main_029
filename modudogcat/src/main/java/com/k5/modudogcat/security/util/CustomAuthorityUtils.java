@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class CustomAuthorityUtils {
+    //todo: 어떤식으로 관리자 권한을 줄것인지 설정
     @Value("admin@google.com")
     private String adminMailAddress;
     private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN", "USER");

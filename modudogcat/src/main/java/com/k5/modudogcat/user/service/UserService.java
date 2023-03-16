@@ -2,6 +2,7 @@ package com.k5.modudogcat.user.service;
 
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
+import com.k5.modudogcat.security.util.CustomAuthorityUtils;
 import com.k5.modudogcat.user.entity.User;
 import com.k5.modudogcat.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +20,26 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils customAuthorityUtils;
 
     public User createUser(User user){
         verifiedByLoginId(user);
         verifiedByEmail(user);
+        setEncodedPassword(user);
+        setDefaultRole(user);
+
         return userRepository.save(user);
+    }
+
+    private void setDefaultRole(User user) {
+        List<String> roles = customAuthorityUtils.createRoles(user.getEmail());
+        user.setRoles(roles);
+//        user.getRoles().add("USER");
+    }
+
+    private void setEncodedPassword(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
     public User updateUser(User user){
