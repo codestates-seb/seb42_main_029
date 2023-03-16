@@ -12,6 +12,77 @@ FE: 김동원, 김민혁, 김지현
 BE: 김규하, 김례화, 이경민
 
 
+== MemberController
+=== 회원 등록
+.curl-request
+include::{snippets}/post-user/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-user/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-user/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-user/http-response.adoc[]
+
+.response-headers
+include::{snippets}/post-user/response-headers.adoc[]
+
+
+=== 회원 정보 수정
+.path-parameters
+include::{snippets}/patch-user/path-parameters.adoc[]
+
+.curl-request
+include::{snippets}/patch-user/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-user/http-request.adoc[]
+
+.request-fields
+include::{snippets}/patch-user/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-user/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-user/response-fields.adoc[]
+
+=== 회원 정보 조회
+.path-parameters
+include::{snippets}/get-user/path-parameters.adoc[]
+
+.http-request
+include::{snippets}/get-user/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-user/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-user/response-fields.adoc[]
+
+=== 페이지당 회원들 조회
+.http-request
+include::{snippets}/get-users/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-users/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-users/response-fields.adoc[]
+
+=== 회원 삭제
+.path-parameters
+include::{snippets}/delete-user/path-parameters.adoc[]
+
+.http-request
+include::{snippets}/delete-user/http-request.adoc[]
+
+.http-response
+include::{snippets}/delete-user/http-response.adoc[]
+
+========
 == SellerController
 === 판매자 회원가입
 .curl-request
@@ -116,7 +187,7 @@ include::{snippets}/get-answers/response-fields.adoc[]
 .response-body
 include::{snippets}/get-answers/response-body.adoc[]
 
-<<<<<<< Updated upstream
+
 =======
 == AdminController (관리자 권한, 관리자 페이지)
 === 판매자 상태 변경
@@ -169,5 +240,3 @@ include::{snippets}/admin-delete-seller/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/admin-delete-seller/http-response.adoc[]
-
-
