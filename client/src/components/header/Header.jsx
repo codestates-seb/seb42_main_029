@@ -6,12 +6,9 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Header() {
-
   const [modalOpen, setModalOpen] = useState(false);
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
-
-  
 
   // 모달창 노출
   const showModal = () => {
@@ -57,8 +54,12 @@ export default function Header() {
         <RightSide>
           <p onClick={showModal}>LogOut</p>
           {modalOpen && <LogoutModal setModalOpen={setModalOpen} />}
-          <p>My Page</p>
-          <Link to="/cart">
+
+          <Link to="/mypage" style={{ textDecorationLine: "none" }}>
+            <p>My Page</p>
+          </Link>
+
+          <Link to="/cart" style={{ textDecorationLine: "none" }}>
             <p>Cart</p>
           </Link>
         </RightSide>

@@ -21,13 +21,14 @@ export default function LogoutModal({ setModalOpen }) {
     //   path: "/",
     //   domain: "http://localhost:3000/",
     // });
-    
+
     setCookie("accessToken", "tokenXX", { path: "/" });
     // 헤드바 로그인 상태변경
     dispatch({ type: "USER_ISLOGOUT" });
 
     alert("성공적으로 로그아웃 했습니다.");
     navigate("/login");
+    // 리로드시 기존 토큰 값에서 tokenXX 값 변경
     window.location.reload();
   };
   return (
