@@ -31,7 +31,7 @@ public class User extends Auditable {
     private String address;
     @Enumerated(value = EnumType.STRING)
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
     public enum UserStatus {
         USER_ACTIVE("활동중"),
