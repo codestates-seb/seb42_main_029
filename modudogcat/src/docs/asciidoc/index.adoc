@@ -29,7 +29,6 @@ include::{snippets}/post-user/http-response.adoc[]
 .response-headers
 include::{snippets}/post-user/response-headers.adoc[]
 
-
 === 회원 정보 수정
 .path-parameters
 include::{snippets}/patch-user/path-parameters.adoc[]
@@ -135,6 +134,7 @@ include::{snippets}/get-seller/http-response.adoc[]
 .response-fields
 include::{snippets}/get-seller/response-fields.adoc[]
 
+
 == AnswerController
 === 답변 작성 (상품 상세 페이지)
 .curl-request
@@ -239,5 +239,4 @@ include::{snippets}/admin-delete-seller/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/admin-delete-seller/http-response.adoc[]
-
 
