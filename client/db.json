@@ -48,6 +48,28 @@
       "id": "12345",
       "name": "e3333",
       "address": "qwerqwer"
+    },
+    {
+      "email": "d@c.com",
+      "password": "$2a$10$zgZSyxJQiRKQfq/nPxe.g.eJ.ICxqDKythYYzbsaOgxA5UNIXTDfm",
+      "id": "1234@naver.com",
+      "name": "d",
+      "registration_number": "d",
+      "address": "d",
+      "phone": "d",
+      "bank_name": "d",
+      "account_number": "d"
+    },
+    {
+      "email": "asd@d.com",
+      "password": "$2a$10$eXyUbx2k6UM9k9QtjCrijORA4sQqvNbbLuf/rXqyPw3e6zEhdl8Su",
+      "id": "dasdf",
+      "name": "asd",
+      "registration_number": "asd",
+      "address": "asd",
+      "phone": "asd",
+      "bank_name": "asd",
+      "account_number": "123412341234"
     }
   ]
 }

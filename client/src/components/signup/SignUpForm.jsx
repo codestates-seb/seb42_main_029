@@ -8,7 +8,7 @@ export default function SignUpForm() {
   const navigate = useNavigate();
 
   //! 리액트 쿠키 
-  const [cookies, setCookie, removeCookie] = useCookies()
+  // const [cookies, setCookie, removeCookie] = useCookies()
 
   // input onChange value
   const [id, setId] = useState("");
@@ -24,7 +24,7 @@ export default function SignUpForm() {
   const [passwordCheckError, setPasswordCheckError] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [addressError, setAddressError] = useState("");
+  const [addressError, setAddressError] = useState(false);
 
   const onChangeId = (e) => {
     const userIdRegex = /^[A-Za-z0-9+]{5,}$/;
@@ -61,9 +61,13 @@ export default function SignUpForm() {
     setEmail(e.target.value);
   };
   const onChangeAddress = (e) => {
-    setAddressError(false)
-    setAddress(e.target.value)
-  }
+    if (!e.target.value) {
+      setAddressError(true);
+    } else {
+      setAddressError(false);
+      setAddress(e.target.value);
+    }
+  };
 
   const validation = () => {
     // 각 값이 있을 때 Error 상태 true 변경
@@ -90,6 +94,7 @@ export default function SignUpForm() {
         // console.log(res.data.accessToken);
         // setCookie('accessToken', res.data.accessToken, { path: '/' })
         navigate("/login");
+        alert("회원가입 성공..!");
       })
       .catch((error) => {
         console.log(error);
@@ -158,7 +163,7 @@ const Wrapper = styled.div`
   align-items: center;
   background-color: #feeade;
   width: 350px;
-  height: 570px;
+  height: auto;
   border-radius: 5px;
   box-shadow: 1px 1px 3px gray;
   margin-top: 4rem;
@@ -203,7 +208,7 @@ const SignUpBtn = styled.button`
   color: #ffffff;
   border-radius: 5px;
   border: none;
-  margin-top: 1.6rem;
+  margin: 1.6rem 0 ;
   cursor: pointer;
 `;
 
