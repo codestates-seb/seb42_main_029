@@ -29,7 +29,6 @@ include::{snippets}/post-user/http-response.adoc[]
 .response-headers
 include::{snippets}/post-user/response-headers.adoc[]
 
-
 === 회원 정보 수정
 .path-parameters
 include::{snippets}/patch-user/path-parameters.adoc[]
@@ -81,6 +80,7 @@ include::{snippets}/delete-user/http-request.adoc[]
 
 .http-response
 include::{snippets}/delete-user/http-response.adoc[]
+
 
 ========
 == SellerController
@@ -135,6 +135,7 @@ include::{snippets}/get-seller/http-response.adoc[]
 .response-fields
 include::{snippets}/get-seller/response-fields.adoc[]
 
+=======
 == AnswerController
 === 답변 작성 (상품 상세 페이지)
 .curl-request
@@ -186,7 +187,6 @@ include::{snippets}/get-answers/response-fields.adoc[]
 
 .response-body
 include::{snippets}/get-answers/response-body.adoc[]
-
 
 =======
 == AdminController (관리자 권한, 관리자 페이지)
@@ -240,3 +240,4 @@ include::{snippets}/admin-delete-seller/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/admin-delete-seller/http-response.adoc[]
+

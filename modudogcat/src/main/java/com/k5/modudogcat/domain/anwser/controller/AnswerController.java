@@ -19,12 +19,14 @@ import java.util.List;
 @AllArgsConstructor
 public class AnswerController {
 
+    //QnA 답변 작성
     @PostMapping
     public ResponseEntity postAnswer (@RequestBody AnswerDto.Post post) {
 
         return ResponseEntity.created(URI.create("/sellers/answers/1")).build();
     }
 
+    //QnA 답변 조회
     @GetMapping("/{answer-id}")
     public ResponseEntity<AnswerDto.Response> getAnswer (@PathVariable("answer-id") @Positive Long answerId) {
 
@@ -34,6 +36,7 @@ public class AnswerController {
 
     }
 
+    //QnA 판매자의 답변 목록
     @GetMapping
     public ResponseEntity getAnswers(Pageable pageable) {
 

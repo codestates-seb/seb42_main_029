@@ -21,9 +21,10 @@ ext {
 
 configurations {
 	asciidoctorExtensions
-//	compileOnly {
-//		extendsFrom annotationProcessor
-//	}
+
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 dependencies {
