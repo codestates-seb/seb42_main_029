@@ -21,9 +21,10 @@ ext {
 
 configurations {
 	asciidoctorExtensions
-//	compileOnly {
-//		extendsFrom annotationProcessor
-//	}
+
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 dependencies {
@@ -67,7 +68,6 @@ build {
 
 bootJar {
 	dependsOn copyDocument
-	from ("${asciidoctor.outputDir}") {
-		into 'static/docs'
-	}
-}
+
+
+
