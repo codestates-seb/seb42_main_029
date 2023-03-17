@@ -6,9 +6,11 @@
 :source-highlighter: prettify
 
 
+
 FE: 김동원, 김민혁, 김지현
 
 BE: 김규하, 김례화, 이경민
+
 
 == MemberController
 === 회원 등록
@@ -80,7 +82,6 @@ include::{snippets}/delete-user/http-request.adoc[]
 include::{snippets}/delete-user/http-response.adoc[]
 
 
-=======
 == SellerController
 === 판매자 회원가입
 .curl-request
@@ -187,7 +188,6 @@ include::{snippets}/get-answers/response-fields.adoc[]
 include::{snippets}/get-answers/response-body.adoc[]
 
 
-=======
 == AdminController (관리자 권한, 관리자 페이지)
 === 판매자 상태 변경
 .curl-request
