@@ -26,7 +26,6 @@ public class AnswerController {
         return ResponseEntity.created(URI.create("/sellers/answers/1")).build();
     }
 
-
     //QnA 답변 조회
     @GetMapping("/{answer-id}")
     public ResponseEntity<AnswerDto.Response> getAnswer (@PathVariable("answer-id") @Positive Long answerId) {
