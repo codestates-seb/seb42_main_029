@@ -50,7 +50,7 @@ export default function MobileMenu({
       ) : (
         <WrapperOut>
           <Wrapper>
-            <MenuList>
+            <MenuList style={{marginBottom: "5.3rem", marginRight : "2.1rem"}}>
               <p onClick={showModal} style={{ cursor: "pointer" }}>
                 LogOut
               </p>
@@ -67,7 +67,7 @@ export default function MobileMenu({
                 src={close}
                 alt="closeBtnImg"
                 onClick={closeModal}
-                style={{ position: "absolute", top: "12.2rem", left: "7rem" }}
+                style={{ position: "absolute", top: "11.8rem", left: "6.7rem" }}
               />
             </MenuList>
           </Wrapper>
@@ -121,9 +121,9 @@ const Wrapper = styled.div`
 const MenuList = styled.div`
   display: flex;
   flex-direction: column;
-
+  margin-top: 0.2rem;
   p {
-    padding: 0.7rem;
+    padding: 0.8rem;
     color: #363636;
     font-size: 1.2rem;
 
@@ -136,7 +136,7 @@ const MenuList = styled.div`
 
   img {
     position: relative;
-    top: 1rem;
+    top: 0.7rem;
     left: 5.8rem;
     padding: 0.7rem;
   }
