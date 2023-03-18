@@ -24,6 +24,7 @@ export default function userReducer(state = initialState, action) {
         id: "",
         name: "",
       };
+      //! 로그인 상태
       else if (action.type === "USER_ISLOGIN")
       return {
         ...state,

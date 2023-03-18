@@ -85,6 +85,8 @@ const LeftWrapperWhole = styled.div`
     right: 0.6rem;
     margin-bottom: 5px;
   }
+
+
 `;
 
 const LeftWrapper = styled.div`
@@ -95,6 +97,16 @@ const LeftWrapper = styled.div`
   img {
     width: 100px;
     height: 100px;
+  }
+
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+    margin-bottom: 2rem;
+
+    img {
+      margin-right: 3rem;
+      margin-top : 0.5rem;
+    }
   }
 `;
 
@@ -119,6 +131,9 @@ const RightWrapper = styled.div`
   p {
     font-size: 0.7rem;
     margin-top: 0.8rem;
+  }
+  @media screen and (max-width: 500px) {
+    margin-left: 1rem;
   }
 `;
 

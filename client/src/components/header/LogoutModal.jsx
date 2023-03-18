@@ -73,6 +73,12 @@ const Wrapper = styled.div`
   top: 20rem;
   left: 40%;
 
+  @media screen and (max-width: 500px) {
+    position: absolute;
+    top: 20rem;
+    left: 15%;
+  }
+
   h2 {
     font-size: 1.2rem;
   }
