@@ -133,7 +133,7 @@ const Wrapper = styled.div`
   height: 460px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px gray;
-  margin-top: 6rem;
+  margin-top: 4rem;
 
   form {
     display: flex;

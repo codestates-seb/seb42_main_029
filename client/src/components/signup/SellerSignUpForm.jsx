@@ -54,13 +54,11 @@ export default function SellerSignUpForm() {
     setPasswordCheck(e.target.value);
   };
   const onChangeName = (e) => {
-    if(!e.target.value) setNameError(true)
+    if (!e.target.value) setNameError(true);
     else {
-      setNameError(false)
+      setNameError(false);
       setName(e.target.value);
     }
-
-
   };
   const onChangeEmail = (e) => {
     const emailRegex =
@@ -226,7 +224,9 @@ export default function SellerSignUpForm() {
           onChange={onChangeRegistration_number}
           required
         />
-        {registration_numberError && <ValidP>사업자 등록번호를 입력하세요.</ValidP>}
+        {registration_numberError && (
+          <ValidP>사업자 등록번호를 입력하세요.</ValidP>
+        )}
 
         <label>사업자 주소</label>
         <input type="text" name="address" onChange={onChangeAddress} required />
@@ -265,11 +265,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #feeade;
-  width: 370px;
+  width: 350px;
   height: auto;
   border-radius: 5px;
   box-shadow: 1px 1px 3px gray;
-  margin-top: 3rem;
+  margin-top: 4rem;
 
   form {
     display: flex;
@@ -295,7 +295,7 @@ const Wrapper = styled.div`
 `;
 
 const TopRef = styled.div`
-  margin-top: 1rem;
+  margin-top: 2.5rem;
 
   h2 {
     font-size: 1.2rem;

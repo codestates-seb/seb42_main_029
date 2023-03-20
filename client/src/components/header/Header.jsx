@@ -38,7 +38,10 @@ export default function Header() {
       </LeftSide>
 
       <MiddleSide>
-        <img src={dogLogo} alt="headerLogo" />
+        <Link to="/" style={{ textDecorationLine: "none" }}>
+          <img src={dogLogo} alt="headerLogo" />
+        </Link>
+
         <Link to="/" style={{ textDecorationLine: "none" }}>
           <p>모두댕냥</p>
         </Link>
@@ -134,7 +137,7 @@ const LeftSide = styled.div`
     color: #ffffff;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
@@ -160,7 +163,7 @@ const MiddleSide = styled.div`
   }
 
   // 모바일 로고 && 타이틀
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     justify-content: flex-start;
 
     img {
@@ -189,7 +192,7 @@ const RightSide = styled.div`
     color: #ffffff;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
@@ -207,7 +210,8 @@ const MenuLogo = styled.div`
       height: 22px;
     }
   }
-  @media screen and (min-width: 500px) {
+  // ipad mini width === 768 >= min-width;
+  @media screen and (min-width: 769px) {
     display: none;
   }
 `;
