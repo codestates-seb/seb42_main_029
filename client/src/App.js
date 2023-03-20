@@ -20,6 +20,7 @@ import SellerMypage from "./pages/SellerMypage";
 import AdminMypage from "./pages/AdminMypage";
 import ReviewForm from "./pages/ReviewForm";
 import NewItemRegistrationForm from "./pages/NewItemRegistrationForm";
+import Cart from './pages/Cart';
 import { CookiesProvider } from "react-cookie";
 import About from "./pages/About";
 
@@ -46,6 +47,7 @@ function App() {
             <Route path="/sellerMypage" element={<SellerMypage />}></Route>
             <Route path="/adminMypage" element={<AdminMypage />}></Route>
             <Route path="/reviewForm" element={<ReviewForm />}></Route>
+            <Route path="/cart" element={<Cart />}></Route>
             <Route
               path="/newItemForm"
               element={<NewItemRegistrationForm />}
