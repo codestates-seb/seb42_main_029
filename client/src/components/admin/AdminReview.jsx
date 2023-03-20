@@ -260,6 +260,10 @@ const AdiminReviewBody = styled.div`
     width: 100px;
     background-color: #f9a9a9;
     margin-right: 5px;
+    @media screen and (max-width: 768px) {
+      height: 70px;
+      width: 70px;
+    }
   }
   .review {
     margin-top: 13px;
@@ -268,6 +272,9 @@ const AdiminReviewBody = styled.div`
     background-color: #fef4f4;
     padding: 13px;
     justify-content: space-between;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     .important {
       font-weight: bold;
       margin: 3px 0px;
@@ -302,9 +309,15 @@ const AdiminReviewBody = styled.div`
       width: 65%;
       padding-right: 10px;
       padding-left: 5px;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .review-right {
       width: 33%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;

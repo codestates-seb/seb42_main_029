@@ -171,6 +171,10 @@ const MypageBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
   /* align-items: center; */
   .page_title {
     font-size: 25px;
@@ -186,7 +190,7 @@ const MypageBody = styled.div`
   .tab {
     position: sticky;
     top: 8%;
-
+    z-index: 100;
     display: flex;
     flex-direction: row;
     list-style: none;
@@ -197,7 +201,7 @@ const MypageBody = styled.div`
     }
     > li {
       @media screen and (max-width: 768px) {
-        font-size: smaller;
+        font-size: 0.9rem;
       }
       cursor: pointer;
       font-size: large;
@@ -211,7 +215,7 @@ const MypageBody = styled.div`
   }
 
   .content {
-    @media screen and (dth: 768px) {
+    @media screen and (max-width: 768px) {
       flex-direction: column-reverse;
     }
     display: flex;

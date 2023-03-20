@@ -200,6 +200,10 @@ const MypageBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
   .page_title {
     font-size: 25px;
     font-weight: 700;
@@ -223,6 +227,9 @@ const MypageBody = styled.div`
       background-color: #dfaeae;
     }
     > li {
+      @media screen and (max-width: 768px) {
+        font-size: 0.9rem;
+      }
       cursor: pointer;
       font-size: large;
       font-weight: 600;
@@ -235,6 +242,9 @@ const MypageBody = styled.div`
   }
 
   .content {
+    @media screen and (max-width: 768px) {
+      flex-direction: column-reverse;
+    }
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -242,12 +252,18 @@ const MypageBody = styled.div`
       border-radius: 12px;
     }
     .tab-content {
+      @media screen and (max-width: 768px) {
+        width: 90%;
+      }
       background-color: #ffeade;
       width: 69%;
       padding: 20px;
       margin-right: 10px; //간격확보
     }
     .user-information {
+      @media screen and (max-width: 768px) {
+        width: 90%;
+      }
       background-color: #ececec;
       width: 23%;
       padding: 20px;

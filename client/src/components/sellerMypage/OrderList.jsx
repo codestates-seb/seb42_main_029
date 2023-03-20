@@ -296,6 +296,9 @@ const OrderBody = styled.div`
   flex-direction: column;
 
   .order {
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     margin-top: 13px;
     display: flex;
     flex-direction: row;
@@ -333,9 +336,15 @@ const OrderBody = styled.div`
 
     .order-left {
       width: 55%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .order-right {
       width: 40%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;
