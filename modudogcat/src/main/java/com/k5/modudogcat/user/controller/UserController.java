@@ -29,7 +29,7 @@ public class UserController {
     private final UserMapper mapper;
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/sign-up")
     public ResponseEntity postUser(@RequestBody UserDto.Post postDto){
         User user = mapper.userPostToUser(postDto);
         User findUser = userService.createUser(user);
@@ -71,12 +71,9 @@ public class UserController {
                responses, pageUsers), HttpStatus.OK);
     }
 
-    @DeleteMapping()
-    public ResponseEntity deleteUser(){
-        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        long userId = Long.parseLong(principal);
+    @DeleteMapping("/{user-id}")
+    public ResponseEntity deleteUser(@PathVariable("user-id") long userId){
         userService.removeUser(userId);
-
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
