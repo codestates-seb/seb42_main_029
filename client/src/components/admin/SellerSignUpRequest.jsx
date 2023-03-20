@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import Modal from "../modal";
 
 const SellerSignUpReqeust = () => {
   const SellerSignupExData = [
@@ -174,6 +175,11 @@ const SellerSignUpReqeust = () => {
       bankName: "bankName",
     },
   ];
+  //! 모달
+  const [modalOpen, setModalOpen] = useState(false);
+  const showModal = () => {
+    setModalOpen(true);
+  };
 
   //! 판매자 회원가입 요청 get
   const [sellerRequestData, setSellerRequestData] = useState({}); //판매자 데이터 담아서 나중에 sellerRequestData.map()
@@ -199,7 +205,7 @@ const SellerSignUpReqeust = () => {
   //! 판매자 신청 거절 함수
   const deleteSellerRequest = (sellerId) => {
     // e.preventDefault();
-    alert("정말 판매자 신청을 거절 하시겠습니까?");
+    // alert("정말 판매자 신청을 거절 하시겠습니까?");
     return axios
       .delete(`http://localhost:8080/admin/sellers/${sellerId}`, {
         "Content-Type": "application/json",
@@ -259,9 +265,13 @@ const SellerSignUpReqeust = () => {
               <Link className="link">판매자 승인</Link>
             </button>
 
-            <button className="button deny" style={{ float: "right" }} onClick={() => deleteSellerRequest(el.sellerId)}>
+            {/* <button className="button deny" style={{ float: "right" }} onClick={() => deleteSellerRequest(el.sellerId)}>
+              <Link className="link">판매자 거절</Link>
+            </button> */}
+            <button className="button deny" style={{ float: "right" }} onClick={showModal}>
               <Link className="link">판매자 거절</Link>
             </button>
+            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteSellerRequest} data={el.sellerId} keyword="판매자 거절" />}
           </div>
         </div>
       ))}

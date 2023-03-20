@@ -1,7 +1,8 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import Modal from "../modal";
 function SellingItemList() {
   const SellingItemExData = [
     {
@@ -60,11 +61,15 @@ function SellingItemList() {
       modifiedAt: "modifiedAt",
     },
   ];
+  //! 모달
+  const [modalOpen, setModalOpen] = useState(false);
+  const showModal = () => {
+    setModalOpen(true);
+  };
 
   //상품 삭제 요청 함수
   const deleteItem = (id) => {
     // e.preventDefault();
-    alert("정말 상품을 삭제 하시겠습니까?");
     return axios
       .delete(`http://localhost:8080/orders/${id}`, {
         "Content-Type": "application/json",
@@ -113,9 +118,13 @@ function SellingItemList() {
             <br />
             <br />
 
-            <button className="cancle button" style={{ float: "right" }} onClick={() => deleteItem(el.productId)}>
+            {/* <button className="cancle button" style={{ float: "right" }} onClick={() => deleteItem(el.productId)}>
+              상품 삭제
+            </button> */}
+            <button className="cancle button" style={{ float: "right" }} onClick={showModal}>
               상품 삭제
             </button>
+            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteItem} data={el.productId} keyword="상품삭제" />}
           </div>
         </div>
       ))}

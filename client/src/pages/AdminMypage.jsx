@@ -52,6 +52,8 @@ const AdminBody = styled.div`
     list-style: none;
     padding-left: 0;
     margin-bottom: 20px;
+    position: sticky;
+    top: 8%;
 
     .focus {
       background-color: #dfaeae;

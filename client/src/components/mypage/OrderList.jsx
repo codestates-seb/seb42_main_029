@@ -312,6 +312,9 @@ const OrderBody = styled.div`
     margin-bottom: 10px;
   } */
   .order {
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     margin-top: 13px;
     display: flex;
     flex-direction: row;
@@ -347,9 +350,15 @@ const OrderBody = styled.div`
     }
     .order-left {
       width: 65%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .order-right {
       width: 33%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;

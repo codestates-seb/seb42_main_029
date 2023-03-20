@@ -1,27 +1,66 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-function ReviewForm() {
+import axios from "axios";
+import Rating from "../components/ReviewScore";
+
+function ReviewForm(props) {
+  // const navigate = useNavigate();
+  const [score, setScore] = useState();
+  const [review, setReview] = useState("");
+  const [reviewPhoto, setReviewPhoth] = useState();
+
+  const itemId = props.itemId;
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
-  // console.log(state)
+
+
+  const [itemData, setItemData] = useState({});
+  //! itemId로 item 정보 가져오는 요청
+  function getItemInfo(itemId) {
+    return axios
+      .get(`http://localhost:8080/products/${itemId}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+        setItemData(res.data);
+      })
+      .catch((err) => {
+        console.log("itemData GET error");
+      });
+  }
+  //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
+  // useEffect(()=>{getItemInfo(itemId)},[])
+
+  //! 리뷰 등록요청
+  function postReview() {
+    console.log(score, review, reviewPhoto);
+  }
+
   return (
     <ReviewFormBody>
       <div className="center">
         <div className="form">
           <div className="bold title">후기 작성</div>
-          <div>상품명 </div>
-          <input></input>
+          <div className="item-information">
+            <img className="img" src={"images/img_dummy1.png"}></img>
+            <div>
+              <div className="item-name"> 상품명 : itemData.name</div>
+            </div>
+          </div>
+          <Rating setScore={setScore} />
           <div>리뷰 사진 등록</div>
-          <input type="file"></input>
+          <input type="file" onChange={(e) => setReviewPhoth(e.target.value)}></input>
           <div>상세 후기 작성</div>
-          <input className="detail"></input>
+          <input className="detail" onChange={(e) => setReview(e.target.value)}></input>
         </div>
 
         <div className="buttons">
           <SubmitBtn>등록취소</SubmitBtn>
-          <SubmitBtn>후기등록</SubmitBtn>
+          <SubmitBtn onClick={() => postReview()}>후기등록</SubmitBtn>
         </div>
         <div>
           <SubmitBtn onClick={() => dispatch({ type: "USER_LOGIN", payload: { userId: "리덕스", id: "성공", name: "!!!" } })}>로그인</SubmitBtn>
@@ -42,19 +81,24 @@ const ReviewFormBody = styled.div`
   /* flex-direction: column; */
   justify-content: center;
   /* align-items: center */
-
+  .item-name {
+    margin-top: 10px;
+    font-size: x-large;
+    font-weight: 400;
+  }
   .center {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #feeade;
     width: 50%;
-    height: 550px;
+    height: 700px;
     border-radius: 5px;
     box-shadow: 1px 1px 3px gray;
     margin-top: 4rem;
     .title {
       margin-top: 2rem;
+      margin-left: 5px;
       font-size: 1.4rem;
       font-weight: 600;
     }
@@ -68,6 +112,17 @@ const ReviewFormBody = styled.div`
       }
       .detail {
         height: 250px;
+      }
+      .img {
+        width: 120px;
+        height: 120px;
+        margin-right: 20px;
+      }
+      .item-information {
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+        margin-bottom: 15px;
       }
     }
 
