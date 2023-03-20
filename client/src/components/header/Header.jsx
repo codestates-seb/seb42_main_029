@@ -10,7 +10,6 @@ export default function Header() {
   // 모달창 노출
   const showModal = () => {
     setModalOpen(true);
-
   };
 
   return (

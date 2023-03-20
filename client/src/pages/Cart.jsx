@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
+import dummy from '../assets/dummy/dummy.json';
 
 const Container = styled.div`
   display:flex;
   flex-direction: column;
   margin-top:20px;
-  
   align-items:center;
   justify-content:center;
 `
@@ -87,12 +87,23 @@ const PayBox = styled.div`
   font-weight:bold;
 `
 const DeleteBtn = styled.button`
-  width:100px;
+  width:70px;
   height:50px;
   border-radius:10px;
+  background-color:red;
+  color:white;
 `
 const PayBtn = styled.button`
-
+ width:50%;
+ height:100%;
+ font-size:24px;
+ font-weight:bold;
+`
+const ItemsImage = styled.img`
+  display : flex;
+  flex-direction : row;
+  width: 100;
+  height: 50px;  
 `
 // 추후에 상품의 정보를 배열값으로 설정하기
 const data = [
@@ -126,6 +137,8 @@ const handleSingleCheck = (checked, id) => {
       setCheckItems([]);
     }
   }
+  
+  
   return (
     <Container>
       <CartTitle>장바구니</CartTitle>
@@ -153,7 +166,11 @@ const handleSingleCheck = (checked, id) => {
               checked={checkItems.includes(data.id) ? true : false} />
             ))}
           </TitleCategory05>
-          <TitleCategory05 grow="0.5">이미지</TitleCategory05>
+              {dummy.sample.map((data, key)=>(
+                <TitleCategory05 grow="0.5"><ItemsImage src={data.image} alt="못찾겠따"/></TitleCategory05>
+                
+              ))}
+          
           <TitleCategory05 grow="0.1">상품정보</TitleCategory05>
           <TitleCategory05 grow="0.5">판매가</TitleCategory05>
           <TitleCategory05 grow="0.1">수량</TitleCategory05>
@@ -161,15 +178,16 @@ const handleSingleCheck = (checked, id) => {
           <DeleteBtn>삭제하기</DeleteBtn>  
         </ProductBox>
       </ProductContainer>
-      <PayBox color="#96CAFF">
-        <PayBtn>선택한 상품 결제하기</PayBtn>
-        <PayBtn>전체 상품 결제하기</PayBtn>
-      </PayBox>
+
       <PayBox color="#f5f5f0">
         결제할 금액
       </PayBox>
       <PayBox color="#96CAFF">
         0원
+      </PayBox>
+      <PayBox color="#f5f5f0">
+        <PayBtn>선택한 상품 결제하기</PayBtn>
+        <PayBtn>전체 상품 결제하기</PayBtn>
       </PayBox>
     </Container>
   );
