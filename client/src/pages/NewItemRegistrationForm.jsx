@@ -1,8 +1,12 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function NewItemRegistrationForm() {
+  const navigate = useNavigate();
+
+  //! 상품등록시 post 요청하는 함수 필요
+
   return (
     <NewItemRegistrationFormBody>
       <div className="center">
@@ -23,7 +27,7 @@ function NewItemRegistrationForm() {
         </div>
 
         <div className="buttons">
-          <SubmitBtn>등록취소</SubmitBtn>
+          <SubmitBtn onClick={() => navigate(-1)}>등록취소</SubmitBtn>
           <SubmitBtn>상품등록</SubmitBtn>
         </div>
       </div>

@@ -1,72 +1,93 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import axios from "axios";
 function SellingItemList() {
   const SellingItemExData = [
     {
-      product_id: "product_id",
-      seller_id: "seller_id",
+      productId: "productId",
+      sellerId: "sellerId",
       name: "name",
       image: "imageimage",
       price: "price",
       stock: "stock",
       content: "content",
-      created_at: "created_at",
-      modified_at: "modified_at",
+      createdAt: "createdAt",
+      modifiedAt: "modifiedAt",
     },
     {
-      product_id: "product_id",
-      seller_id: "seller_id",
+      productId: "productId",
+      sellerId: "sellerId",
       name: "name",
       image: "imageimage",
       price: "price",
       stock: "stock",
       content: "content",
-      created_at: "created_at",
-      modified_at: "modified_at",
+      createdAt: "createdAt",
+      modifiedAt: "modifiedAt",
     },
     {
-      product_id: "product_id",
-      seller_id: "seller_id",
+      productId: "productId",
+      sellerId: "sellerId",
       name: "name",
       image: "imageimage",
       price: "price",
       stock: "stock",
       content: "content",
-      created_at: "created_at",
-      modified_at: "modified_at",
+      createdAt: "createdAt",
+      modifiedAt: "modifiedAt",
     },
     {
-      product_id: "product_id",
-      seller_id: "seller_id",
+      productId: "productId",
+      sellerId: "sellerId",
       name: "name",
       image: "imageimage",
       price: "price",
       stock: "stock",
       content: "content",
-      created_at: "created_at",
-      modified_at: "modified_at",
+      createdAt: "createdAt",
+      modifiedAt: "modifiedAt",
     },
     {
-      product_id: "product_id",
-      seller_id: "seller_id",
+      productId: "productId",
+      sellerId: "sellerId",
       name: "name",
       image: "imageimage",
       price: "price",
       stock: "stock",
       content: "content",
-      created_at: "created_at",
-      modified_at: "modified_at",
+      createdAt: "createdAt",
+      modifiedAt: "modifiedAt",
     },
   ];
+
+  //상품 삭제 요청 함수
+  const deleteItem = (id) => {
+    // e.preventDefault();
+    alert("정말 상품을 삭제 하시겠습니까?");
+    return axios
+      .delete(`http://localhost:8080/orders/${id}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("상품삭제요청 에러");
+        console.log(id);
+      });
+  };
+
   return (
     <SellingItemBody>
       <div className="page_top">
         <div className="bold">판매 상품 목록 </div>
         <div className="new_item">
           {/* <button > */}
-          <Link className="link">신상품 등록</Link>
+          <Link to="/newitemform" className="link">
+            신상품 등록
+          </Link>
           {/* </button> */}
         </div>
       </div>
@@ -78,7 +99,7 @@ function SellingItemList() {
             <div>{el.image}</div>{" "}
           </div>
           <div className="item-left">
-            <div>상품 번호: {el.product_id}</div>
+            <div>상품 번호: {el.productId}</div>
             <div className="important">
               상품 이름: {el.name} {el.name}
             </div>
@@ -87,12 +108,12 @@ function SellingItemList() {
             {/* <div className="content">{el.content}</div> */}
           </div>
           <div className="item-right">
-            <div> 게시일:{el.created_at}</div>
-            <div> 수정일:{el.modified_at}</div>
+            <div> 게시일:{el.createdAt}</div>
+            <div> 수정일:{el.modifiedAt}</div>
             <br />
             <br />
 
-            <button className="cancle button" style={{ float: "right" }}>
+            <button className="cancle button" style={{ float: "right" }} onClick={() => deleteItem(el.productId)}>
               상품 삭제
             </button>
           </div>

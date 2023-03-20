@@ -1,154 +1,156 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 function ReviewList() {
   const ReviewExData = [
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
     {
-      review_id: "review_id",
-      user_id: "user_id",
-      product_id: "product_id",
+      reviewId: "reviewId",
+      userId: "userId",
+      productId: "productId",
       title: "titletitletitletitletitle",
       content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
-      created_at: "created_at",
+      createdAt: "createdAt",
       name: "name",
     },
   ];
 
+  // 별점만큼 하트 찍는 함수
   function stars(num) {
     let star = "";
     for (let i = 0; i < num; i++) {
@@ -156,6 +158,45 @@ function ReviewList() {
     }
     return star;
   }
+
+  // 해당회원 userId로 회원이 쓴 리뷰 가져오기
+  const [reviewData, setReviewData] = useState({}); //판매자 데이터 담아서 나중에 reviewData.map()
+
+  function reviewDataAxios(userId) {
+    return axios
+      .get(`http://localhost:8080/reviews/${userId}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+        setReviewData(res.data);
+      })
+      .catch((err) => {
+        console.log("reviewData GET error");
+      });
+  }
+
+  //! 페이지 로딩과 동시에 질문 데이터 get
+  // useEffect(()=>{reviewDataAxios(reduxUserId)},[])
+
+  //! question 삭제함수
+  const deleteReview = (reviewId) => {
+    // e.preventDefault();
+    alert("정말 리뷰를 삭제 하시겠습니까?");
+    return axios
+      .delete(`http://localhost:8080/reviews/${reviewId}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("리뷰삭제 에러");
+        console.log(reviewId);
+      });
+  };
 
   return (
     <ReviewBody>
@@ -167,20 +208,20 @@ function ReviewList() {
             <div>{el.image}</div>{" "}
           </div>
           <div className="review-left">
-            <div className="important">주문 번호: {el.review_id}</div>
+            <div className="important">주문 번호: {el.reviewId}</div>
             <div className="important">
-              상품 이름: {el.name} {el.product_id}
+              상품 이름: {el.name} {el.productId}
             </div>
             <div>제목: {el.title}</div>
             <div className="content">{el.content}</div>
           </div>
           <div className="review-right">
-            <div> 게시일:{el.created_at}</div>
+            <div> 게시일:{el.createdAt}</div>
             <br />
             <div> 평점 : {stars(el.score)}</div>
             <br />
             <br />
-            <button className="button" style={{ float: "right" }}>
+            <button className="button" style={{ float: "right" }} onClick={() => deleteReview(el.reviewId)}>
               <Link className="link">삭제</Link>
             </button>
           </div>

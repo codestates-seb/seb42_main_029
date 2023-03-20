@@ -182,6 +182,9 @@ const AdminItemList = () => {
     },
   ];
   // axios 해오는 방법은 seller mypage와 같음 근데 admin에서는 모든 아이템 리스트를 다 받아오는 것이 차이임 그 외에 깔아주는 거는 똑같음
+  //! 삭제버튼 컨트롤 각 상품 세부페이지에서 하기로 함
+
+  //! 상품 리스트 get은 api 명세서 나오면 작성
 
   return (
     <AdminItemBody>
