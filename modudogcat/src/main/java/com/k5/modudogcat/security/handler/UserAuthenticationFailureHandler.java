@@ -23,9 +23,9 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
 
     private void sendErrorResponse(HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
-        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED);
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.NOT_FOUND);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(HttpStatus.NOT_FOUND.value());
         response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
     }
 }

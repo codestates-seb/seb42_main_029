@@ -2,6 +2,8 @@ package com.k5.modudogcat.security.config;
 
 import com.k5.modudogcat.security.filter.JwtAuthenticationFilter;
 import com.k5.modudogcat.security.filter.JwtVerificationFilter;
+import com.k5.modudogcat.security.filter.UserAccessDeniedHandler;
+import com.k5.modudogcat.security.filter.UserAuthenticationEntryPoint;
 import com.k5.modudogcat.security.handler.UserAuthenticationFailureHandler;
 import com.k5.modudogcat.security.handler.UserAuthenticationSuccessHandler;
 import com.k5.modudogcat.security.jwt.JwtTokenizer;
@@ -36,7 +38,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         return (web) -> web.ignoring()
-                .antMatchers(HttpMethod.POST, "/users");
+                .antMatchers(HttpMethod.POST, "/users/sign-up");
     }
 
     @Bean
@@ -45,7 +47,8 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorize -> authorize
                         //Todo: 인증, 인가가 필요한 요청들 넣어두기
-                        .antMatchers(HttpMethod.GET,"/users/**").hasRole("USER")
+                        .antMatchers("/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .httpBasic()
@@ -63,21 +66,25 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                     .disable()
+
                 //CORS 요청시, 수정 필요할 수도 있음
-                .headers().frameOptions().sameOrigin()
+                .headers()
+                    .frameOptions().sameOrigin()
 
                 .and()
                 .apply(new CustomFilterConfigurer())
 
                 .and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(new UserAuthenticationEntryPoint())
+                    .accessDeniedHandler(new UserAccessDeniedHandler())
+
+                .and()
                 .logout()
-                .logoutUrl("/logout");
+                    .logoutUrl("/logout");
 //                .logoutSuccessHandler(new CustomLogoutHandler());
 //        http
-//                .apply(new CustomFilterConfigurer());
-//        http
 //                .oauth2Login().successHandler(new OAuth2SuccessHandler(userService));
-//        http
 
         return http.build();
     }
