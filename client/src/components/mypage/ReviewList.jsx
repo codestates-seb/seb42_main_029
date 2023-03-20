@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
+import Modal from "../modal";
+
 function ReviewList() {
   const ReviewExData = [
     {
@@ -150,6 +152,12 @@ function ReviewList() {
     },
   ];
 
+  //! 모달
+  const [modalOpen, setModalOpen] = useState(false);
+  const showModal = () => {
+    setModalOpen(true);
+  };
+
   // 별점만큼 하트 찍는 함수
   function stars(num) {
     let star = "";
@@ -183,7 +191,6 @@ function ReviewList() {
   //! question 삭제함수
   const deleteReview = (reviewId) => {
     // e.preventDefault();
-    alert("정말 리뷰를 삭제 하시겠습니까?");
     return axios
       .delete(`http://localhost:8080/reviews/${reviewId}`, {
         "Content-Type": "application/json",
@@ -221,9 +228,13 @@ function ReviewList() {
             <div> 평점 : {stars(el.score)}</div>
             <br />
             <br />
-            <button className="button" style={{ float: "right" }} onClick={() => deleteReview(el.reviewId)}>
+            {/* <button className="button" style={{ float: "right" }} onClick={() => deleteReview(el.reviewId)}>
+              <Link className="link">삭제</Link>
+            </button> */}
+            <button className="button" style={{ float: "right" }} onClick={showModal}>
               <Link className="link">삭제</Link>
             </button>
+            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteReview} data={el.reviewId} keyword="후기삭제" />}
           </div>
         </div>
       ))}
@@ -241,6 +252,10 @@ const ReviewBody = styled.div`
     width: 100px;
     background-color: #f9a9a9;
     margin-right: 5px;
+    @media screen and (max-width: 768px) {
+      height: 60px;
+      width: 60px;
+    }
   }
   .review {
     margin-top: 13px;
@@ -249,6 +264,9 @@ const ReviewBody = styled.div`
     background-color: #fef4f4;
     padding: 13px;
     justify-content: space-between;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     .important {
       font-weight: bold;
       margin: 3px 0px;
@@ -283,9 +301,15 @@ const ReviewBody = styled.div`
       width: 65%;
       padding-right: 10px;
       padding-left: 5px;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .review-right {
       width: 33%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;

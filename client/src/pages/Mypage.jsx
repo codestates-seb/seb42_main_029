@@ -1,11 +1,12 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import OrderList from "../components/mypage/OrderList";
 import QnAList from "../components/mypage/QnAList";
 import ReviewList from "../components/mypage/ReviewList";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 import axios from "axios";
+import Modal from "../components/modal";
 function Mypage() {
   const data = {
     userId: "userId",
@@ -17,6 +18,13 @@ function Mypage() {
     createdAt: "createdAt",
     modifiedAt: "modifiedAt",
     userStatus: "userStatus",
+  };
+  const navigate = useNavigate();
+
+  //! 모달
+  const [modalOpen, setModalOpen] = useState(false);
+  const showModal = () => {
+    setModalOpen(true);
   };
 
   //! 회원정보 axios userInfo
@@ -41,8 +49,7 @@ function Mypage() {
 
   //! 변경사항 서버에 patch하기 위한 함수
 
-  function patchUserData(e, id) {
-    e.preventDefault();
+  function patchUserData(id) {
     console.log(password, password2, email, address);
     const patchdata = {};
     if (password !== "" && password2 !== "" && password === password2) {
@@ -64,17 +71,18 @@ function Mypage() {
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
+        navigate("/mypage");
       })
       .catch((err) => {
         console.log("구매자 유저정보 변경 patch 에러");
         console.log(patchdata);
+        navigate("/mypage");
       });
   }
 
-  //! 판매자 회원 탈퇴요청 함수 추가하고, 탈퇴버튼 온클릭에 연결
+  //! 회원 탈퇴요청 함수 추가하고, 탈퇴버튼 온클릭에 연결
   const deleteUser = (id) => {
     // e.preventDefault();
-    alert("정말 회원탈퇴 하시겠습니까?");
     return axios
       .delete(`http://localhost:8080/users/${id}`, {
         "Content-Type": "application/json",
@@ -141,11 +149,16 @@ function Mypage() {
             <button onClick={() => patchUserData(data.userId)} className="submit-button center">
               저장
             </button>
+            {/* <button onClick={showModal} className="submit-button center">
+              저장
+            </button> */}
+            {/* {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={patchUserData} data={data.userId} keyword="회원정보 변경" />} */}
           </div>
           <div>
-            <button onClick={() => deleteUser(data.userId)} className="submit-button quit" style={{ float: "right" }}>
+            <button onClick={showModal} className="submit-button quit" style={{ float: "right" }}>
               회원탈퇴
             </button>
+            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteUser} data={data.userId} keyword="회원탈퇴" />}
           </div>
         </div>
       </div>
@@ -171,6 +184,9 @@ const MypageBody = styled.div`
     font-weight: bold;
   }
   .tab {
+    position: sticky;
+    top: 8%;
+
     display: flex;
     flex-direction: row;
     list-style: none;
@@ -180,6 +196,9 @@ const MypageBody = styled.div`
       background-color: #dfaeae;
     }
     > li {
+      @media screen and (max-width: 768px) {
+        font-size: smaller;
+      }
       cursor: pointer;
       font-size: large;
       font-weight: 600;
@@ -192,6 +211,9 @@ const MypageBody = styled.div`
   }
 
   .content {
+    @media screen and (dth: 768px) {
+      flex-direction: column-reverse;
+    }
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -199,12 +221,18 @@ const MypageBody = styled.div`
       border-radius: 12px;
     }
     .tab-content {
+      @media screen and (max-width: 768px) {
+        width: 90%;
+      }
       background-color: #ffeade;
       width: 69%;
       padding: 20px;
       margin-right: 10px; //간격확보
     }
     .user-information {
+      @media screen and (max-width: 768px) {
+        width: 90%;
+      }
       background-color: #ececec;
       width: 23%;
       padding: 20px;

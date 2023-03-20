@@ -179,10 +179,6 @@ function QnAList() {
               <div className="content">{el.content}</div>
             </div>
             <div className="Qna-right">
-              <div> 게시일:{el.createdAt}</div>
-              <br />
-              <br />
-              <br />
               <button
                 className="button"
                 style={{ float: "right" }}
@@ -192,6 +188,7 @@ function QnAList() {
               >
                 <Link className="link">삭제</Link>
               </button>
+              <div style={{ marginTop: "15px" }}> 게시일:{el.createdAt}</div>
             </div>
           </div>
           <AnswerList questionId={el.questionId} />
@@ -223,6 +220,9 @@ const QnABody = styled.div`
     background-color: #fef4f4;
     padding: 13px;
     justify-content: space-between;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     .important {
       font-weight: bold;
       margin: 3px 0px;
@@ -257,9 +257,15 @@ const QnABody = styled.div`
       width: 65%;
       padding-right: 10px;
       padding-left: 5px;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .Qna-right {
       width: 33%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;

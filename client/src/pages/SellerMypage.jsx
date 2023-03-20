@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import OrderList from "../components/sellerMypage/OrderList";
 import SellingItemList from "../components/sellerMypage/SellingItemList";
-// import Button from "react-bootstrap/Button";
 import axios from "axios";
+import Modal from "../components/modal";
 
 function Mypage() {
   const data = {
+    sellerId: "sellerId",
+    userId: "userId",
     name: "name",
     id: "id",
     password: "password",
@@ -17,6 +19,11 @@ function Mypage() {
     address: "address",
     registrationNumber: "registrationNumber",
     phone: "phone",
+  };
+  //! 모달
+  const [modalOpen, setModalOpen] = useState(false);
+  const showModal = () => {
+    setModalOpen(true);
   };
 
   //! 판매자 정보  axios sellerInfo
@@ -43,8 +50,8 @@ function Mypage() {
 
   //! 변경사항 서버에 patch하기 위한 함수
 
-  function patchSellerData(e, id) {
-    e.preventDefault();
+  function patchSellerData(id) {
+    // e.preventDefault();
     console.log(password, password2, email, account, bank, address, phone);
     const patchdata = {};
     if (password !== "" && password2 !== "" && password === password2) {
@@ -68,8 +75,30 @@ function Mypage() {
     if (phone) {
       patchdata.phone = phone;
     }
+    if (patchdata === {}) {
+      //! 변경사항 없을때 어떻게 처리해야 할지 모르겠음
+      alert("변경사항이 없습니다.");
+    } else if (patchdata) {
+      return axios
+        .patch(`http://localhost:8080/sellers/${id}`, patchdata, {
+          "Content-Type": "application/json",
+        })
+        .then((res) => {
+          console.log(`res.data:`);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log("판매자정보 변경 patch 에러");
+          console.log(patchdata);
+        });
+    }
+  }
+
+  //! 판매자 회원 탈퇴요청 함수 추가하고, 탈퇴버튼 온클릭에 연결
+  const deleteSeller = (id) => {
+    // e.preventDefault();
     return axios
-      .patch(`http://localhost:8080/sellers/${id}`, patchdata, {
+      .delete(`http://localhost:8080/sellers/${id}`, {
         "Content-Type": "application/json",
       })
       .then((res) => {
@@ -77,12 +106,10 @@ function Mypage() {
         console.log(res.data);
       })
       .catch((err) => {
-        console.log("판매자정보 변경 patch 에러");
-        console.log(patchdata);
+        console.log("판매자 탈퇴 에러");
+        console.log(id);
       });
-  }
-
-  //! 판매자 회원 탈퇴요청 함수 추가하고, 탈퇴버튼 온클릭에 연결
+  };
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -142,14 +169,18 @@ function Mypage() {
           <div>전화번호</div>
           <input onChange={(e) => setPhone(e.target.value)} defaultValue={data.phone}></input>
           <div>
-            <button className="submit-button center" onClick={patchSellerData}>
+            <button className="submit-button center" onClick={() => patchSellerData(data.sellerId)}>
               저장
             </button>
           </div>
           <div>
-            <button className="submit-button quit" style={{ float: "right" }}>
+            {/* <button className="submit-button quit" style={{ float: "right" }}>
+              회원탈퇴
+            </button> */}
+            <button className="submit-button quit" style={{ float: "right" }} onClick={showModal}>
               회원탈퇴
             </button>
+            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteSeller} data={data.sellerId} keyword="판매자 탈퇴" />}
           </div>
           <div className="sales">
             <div className="bold"> 매출 현황 </div>
@@ -185,6 +216,8 @@ const MypageBody = styled.div`
     list-style: none;
     padding-left: 0;
     margin-bottom: 20px;
+    position: sticky;
+    top: 8%;
 
     .focus {
       background-color: #dfaeae;

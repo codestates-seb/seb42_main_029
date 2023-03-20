@@ -29,10 +29,8 @@ function AnswerList(questionId) {
             <div className="content">{answerExData.content}</div>
           </div>
           <div className="Answer-right">
-            <div> 게시일:{answerExData.createdAt}</div>
-            <br />
-            <br />
-            <br />
+            <div style={{ marginTop: "15px" }}> 게시일:{answerExData.createdAt}</div>
+
             {/* <button className="button" style={{ float: "right" }}>
               <Link className="link">삭제</Link>
             </button> */}
@@ -56,6 +54,9 @@ const AnswerBody = styled.div`
   }
 
   .Answer {
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     margin-top: 13px;
     display: flex;
     flex-direction: row;
@@ -96,9 +97,15 @@ const AnswerBody = styled.div`
       width: 65%;
       padding-right: 10px;
       padding-left: 5px;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .Answer-right {
       width: 33%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;
