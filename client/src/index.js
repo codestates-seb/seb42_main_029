@@ -3,16 +3,36 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { legacy_createStore as createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import userReducer from "./Redux/userReducer";
+// import userReducer from "./Redux/userReducer";
+import rootReducer from "./Redux/index.js";
+import { configureStore } from '@reduxjs/toolkit';
+
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import storage from "redux-persist/lib/storage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const rootReducer = combineReducers({
-  user: userReducer,
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// const store = createStore(persisted);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  devTools: process.env.NODE_ENV !== 'production',
 });
-const store = createStore(rootReducer);
+
+const persistor = persistStore(store); // redux store 생성
 
 root.render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>
 );

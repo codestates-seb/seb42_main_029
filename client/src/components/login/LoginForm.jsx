@@ -1,29 +1,115 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import googleLogo from "../../assets/svg/googleLogo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import GoogleLoginForm from "./GoogleLoginForm";
+import { googleLogout } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function LoginForm() {
-  const LoginHandler = (e) => {
+  const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  const dispatch = useDispatch(); // dispatch 쉽게하는 hook
+
+  const navigate = useNavigate();
+
+  //! 리액트 쿠키
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+
+  // login 인풋 값 >> json-server-auth 는 id 말고 email 로 변경해야함
+  const [email, setId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [idError, setIdError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  // login 유효성 체크 아이디,비밀번호
+  const onChangeId = (e) => {
+    const userIdRegex = /^[A-Za-z0-9+]{5,}$/;
+    if (!e.target.value || userIdRegex.test(e.target.value)) setIdError(false);
+    else setIdError(true);
+    setId(e.target.value);
+  };
+  const onChangePassword = (e) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!e.target.value || passwordRegex.test(e.target.value))
+      setPasswordError(false);
+    else setPasswordError(true);
+    setPassword(e.target.value);
+  };
+
+  const validation = () => {
+    // 각 값이 있을 때 Error 상태 true 변경
+    if (!email) setIdError(true);
+    if (!password) setPasswordError(true);
+
+    if (email && password) return true;
+    else return false;
+  };
+
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    const id = e.target.id.value;
-    const password = e.target.password.value;
+    if (validation()) 
+
+      //! 로그인 POST
+      return await axios
+        .post("http://localhost:8080/login", {
+          email,
+          password,
+        })
+        .then((res) => {
+          // console.log(res.data.accessToken);
+
+          //? { path: "/" } 전역에 쿠키 사용
+          setCookie("accessToken", res.data.accessToken, { path: "/" });
+          
+          // redux isLogin 상태
+          // 나중에 get 받은걸 payload 에 넣는다
+          dispatch({ type: "USER_ISLOGIN" })
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("로그인 실패..!");
+        });
+
   };
+
+  //! 나중 구글 oath2 할 때,, 쓸려면 쓰고 아님 지울 거
+  // const LoginHandler = (e) => {
+  //   e.preventDefault();
+
+  //   const userObject = jwt_decode(e.credential);
+  //   console.log(userObject);
+  // };
 
   return (
     <Wrapper>
       <Title>로그인</Title>
-      <form onSubmit={LoginHandler}>
+      <form onSubmit={onSubmit}>
         <label>아이디</label>
-        <input type="text" name="id" required />
+        <input type="text" name="id" onChange={onChangeId} required />
+        {idError && (
+          <ValidP>
+            영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
+          </ValidP>
+        )}
         <label>비밀번호</label>
-        <input type="password" name="password" required />
+        <input
+          type="password"
+          name="password"
+          onChange={onChangePassword}
+          required
+        />
+        {passwordError && (
+          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
+        )}
         <LoginBtn>로그인</LoginBtn>
-        <GoogleLogin>
-          <img src={googleLogo} alt="logo_google" />
-          Log in with Google
-        </GoogleLogin>
+
+        {/* <GoogleLoginForm />
+        <button onClick={() => googleLogout()}>logout</button> */}
 
         <Link to="/signUp">
           <SignUpBtn>회원가입</SignUpBtn>
@@ -47,7 +133,7 @@ const Wrapper = styled.div`
   height: 460px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px gray;
-  margin-top: 6rem;
+  margin-top: 4rem;
 
   form {
     display: flex;
@@ -162,4 +248,10 @@ const Find = styled.div`
       margin-left: 5px;
     }
   }
+`;
+
+const ValidP = styled.p`
+  font-size: 0.7rem;
+  color: red;
+  margin-bottom: 0.5rem;
 `;

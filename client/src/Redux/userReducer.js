@@ -1,31 +1,26 @@
 const initialState = {
-  isLogin: true,
-  userId: "초기값 userId",
-  id: "초기값 id",
-  name: "초기값 name",
+  isLogin: false,
 };
 
 export default function userReducer(state = initialState, action) {
-  // eslint-disable-next-line no-lone-blocks
+  // 
   {
-    if (action.type === "USER_LOGIN")
+    //! 로그인 상태
+    if (action.type === "USER_ISLOGIN")
+      // 로그인
       return {
         ...state,
         isLogin: true,
-        userId: action.payload.userId,
-        id: action.payload.id,
-        name: action.payload.name,
       };
-    else if (action.type === "USER_LOGOUT")
+    else if (action.type === "USER_ISLOGOUT")
+      // 로그아웃
       return {
         ...state,
         isLogin: false,
-        userId: "",
-        id: "",
-        name: "",
       };
     else {
+      //해당없으면 그냥 반환
       return state;
-    } //해당없으면 그냥 반환
+    }
   }
 }

@@ -8,12 +8,12 @@ export default function PayComplete() {
   const navigate = useNavigate()
 
   const shoppingBtnHandle = () => {
-    navigate('/')
+    navigate('/mypage')
   }
   return (
     <Wrapper>
       <PayCompleteForm />
-      <button onClick={shoppingBtnHandle}>쇼핑계속하기</button>
+      <button onClick={shoppingBtnHandle}>주문내역 확인하기</button>
     </Wrapper>
   );
 }
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   align-items: center;
 
   button {
-    width: 200px;
+    width: 220px;
     height: 70px;
     border: none;
     cursor: pointer;
