@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +51,10 @@ public class UserController {
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{user-id}")
-    public ResponseEntity getUser(@PathVariable("user-id") Long userId){
+    @GetMapping("/my-page")
+    public ResponseEntity getUser(){
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = Long.parseLong(principal);
         User findUser = userService.findVerifiedUserById(userId);
         UserDto.Response response = mapper.userToUserResponse(findUser);
 
