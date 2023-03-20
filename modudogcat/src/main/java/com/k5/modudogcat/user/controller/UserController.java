@@ -71,8 +71,10 @@ public class UserController {
                responses, pageUsers), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{user-id}")
-    public ResponseEntity deleteUser(@PathVariable("user-id") Long userId){
+    @DeleteMapping()
+    public ResponseEntity deleteUser(){
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = Long.parseLong(principal);
         userService.removeUser(userId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
