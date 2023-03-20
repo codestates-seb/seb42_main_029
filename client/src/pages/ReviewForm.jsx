@@ -15,6 +15,7 @@ function ReviewForm(props) {
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
 
+
   const [itemData, setItemData] = useState({});
   //! itemId로 item 정보 가져오는 요청
   function getItemInfo(itemId) {
@@ -38,6 +39,7 @@ function ReviewForm(props) {
   function postReview() {
     console.log(score, review, reviewPhoto);
   }
+
   return (
     <ReviewFormBody>
       <div className="center">
