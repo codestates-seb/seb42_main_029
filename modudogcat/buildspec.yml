@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  build:
+    commands:
+      - echo Build Starting on `date`
+      - cd modudogcat
+      - chmod +x ./gradlew
+      - ./gradlew build
+  post_build:
+    commands:
+      - echo $(basename ./modudogcat/build/libs/*.jar)
+artifacts:
+  files:
+    - modudogcat/build/libs/*.jar
+    - modudogcat/scripts/**
+    - modudogcat/appspec.yml
+  discard-paths: yes
