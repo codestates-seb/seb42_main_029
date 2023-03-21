@@ -47,7 +47,7 @@ public class UserService {
         User findUser = findVerifiedUserById(userId);
 
         Optional.ofNullable(user.getPassword())
-                .ifPresent(newPassword -> findUser.setPassword(newPassword));
+                .ifPresent(newPassword -> findUser.setPassword(passwordEncoder.encode(newPassword)));
         Optional.ofNullable(user.getAddress())
                 .ifPresent(newAddress -> findUser.setAddress(newAddress));
         Optional.ofNullable(user.getEmail())
