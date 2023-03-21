@@ -2,10 +2,7 @@ package com.k5.modudogcat.security.config;
 
 import com.k5.modudogcat.security.filter.JwtAuthenticationFilter;
 import com.k5.modudogcat.security.filter.JwtVerificationFilter;
-import com.k5.modudogcat.security.filter.UserAccessDeniedHandler;
-import com.k5.modudogcat.security.filter.UserAuthenticationEntryPoint;
-import com.k5.modudogcat.security.handler.UserAuthenticationFailureHandler;
-import com.k5.modudogcat.security.handler.UserAuthenticationSuccessHandler;
+import com.k5.modudogcat.security.handler.*;
 import com.k5.modudogcat.security.jwt.JwtTokenizer;
 import com.k5.modudogcat.security.util.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
@@ -81,8 +78,9 @@ public class SecurityConfig {
 
                 .and()
                 .logout()
-                    .logoutUrl("/logout");
-//                .logoutSuccessHandler(new CustomLogoutHandler());
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .logoutSuccessHandler(new CustomLogoutHandler());
 //        http
 //                .oauth2Login().successHandler(new OAuth2SuccessHandler(userService));
 

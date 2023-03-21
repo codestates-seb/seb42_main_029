@@ -1,4 +1,4 @@
-package com.k5.modudogcat.security.filter;
+package com.k5.modudogcat.security.handler;
 
 import com.k5.modudogcat.security.util.ErrorResponder;
 import lombok.extern.slf4j.Slf4j;
