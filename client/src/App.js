@@ -20,9 +20,10 @@ import SellerMypage from "./pages/SellerMypage";
 import AdminMypage from "./pages/AdminMypage";
 import ReviewForm from "./pages/ReviewForm";
 import NewItemRegistrationForm from "./pages/NewItemRegistrationForm";
-import Cart from './pages/Cart';
-import { CookiesProvider } from "react-cookie";
+import Cart from "./pages/Cart";
 import About from "./pages/About";
+import Main from "./pages/Main";
+import { CookiesProvider } from "react-cookie";
 
 function App() {
   return (
@@ -31,7 +32,8 @@ function App() {
         <Header />
         <Wrapper>
           <Routes>
-            <Route path="/" element={<Shop />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="/about" element={<About />} />
             <Route path="/productInfo" element={<ProductInfo />} />
             <Route path="/login" element={<Login />} />
