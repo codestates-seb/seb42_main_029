@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 public class UserDto {
@@ -17,6 +14,7 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
+        @Min(value = 5)
         @NotBlank(message = "로그인ID는 필수 입력 값입니다.")
         private String loginId;
         @NotBlank(message = "이름은 필수 입력 값입니다.")
