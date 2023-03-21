@@ -1,12 +1,12 @@
-package com.k5.modudogcat.user.controller;
+package com.k5.modudogcat.domain.user.controller;
 
+import com.k5.modudogcat.domain.user.dto.UserDto;
+import com.k5.modudogcat.domain.user.entity.User;
+import com.k5.modudogcat.domain.user.service.UserService;
 import com.k5.modudogcat.dto.MultiResponseDto;
 import com.k5.modudogcat.dto.SingleResponseDto;
-import com.k5.modudogcat.user.Mapper.UserMapper;
-import com.k5.modudogcat.user.dto.UserDto;
-import com.k5.modudogcat.user.entity.User;
+import com.k5.modudogcat.domain.user.Mapper.UserMapper;
 
-import com.k5.modudogcat.user.service.UserService;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -17,7 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

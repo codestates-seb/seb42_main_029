@@ -1,10 +1,10 @@
-package com.k5.modudogcat.user.service;
+package com.k5.modudogcat.domain.user.service;
 
+import com.k5.modudogcat.domain.user.repository.UserRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import com.k5.modudogcat.security.util.CustomAuthorityUtils;
-import com.k5.modudogcat.user.entity.User;
-import com.k5.modudogcat.user.repository.UserRepository;
+import com.k5.modudogcat.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

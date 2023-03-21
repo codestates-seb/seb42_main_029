@@ -1,7 +1,7 @@
-package com.k5.modudogcat.user.Mapper;
+package com.k5.modudogcat.domain.user.Mapper;
 
-import com.k5.modudogcat.user.dto.UserDto;
-import com.k5.modudogcat.user.entity.User;
+import com.k5.modudogcat.domain.user.dto.UserDto;
+import com.k5.modudogcat.domain.user.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;

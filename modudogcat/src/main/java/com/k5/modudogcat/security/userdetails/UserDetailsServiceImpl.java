@@ -1,11 +1,8 @@
 package com.k5.modudogcat.security.userdetails;
 
-import com.k5.modudogcat.exception.BusinessLogicException;
-import com.k5.modudogcat.exception.ExceptionCode;
 import com.k5.modudogcat.security.util.CustomAuthorityUtils;
-import com.k5.modudogcat.user.entity.User;
-import com.k5.modudogcat.user.repository.UserRepository;
-import com.k5.modudogcat.user.service.UserService;
+import com.k5.modudogcat.domain.user.entity.User;
+import com.k5.modudogcat.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component

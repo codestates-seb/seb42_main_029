@@ -1,4 +1,4 @@
-package com.k5.modudogcat.user.entity;
+package com.k5.modudogcat.domain.user.entity;
 
 import com.k5.modudogcat.audit.Auditable;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
-package com.k5.modudogcat.user.dto;
+package com.k5.modudogcat.domain.user.dto;
 
-import com.k5.modudogcat.user.entity.User;
+import com.k5.modudogcat.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

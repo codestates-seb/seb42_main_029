@@ -3,7 +3,7 @@ package com.k5.modudogcat.security.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.k5.modudogcat.security.dto.LoginDto;
 import com.k5.modudogcat.security.jwt.JwtTokenizer;
-import com.k5.modudogcat.user.entity.User;
+import com.k5.modudogcat.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;

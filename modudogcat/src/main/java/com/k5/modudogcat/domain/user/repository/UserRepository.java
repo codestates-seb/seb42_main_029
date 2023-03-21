@@ -1,7 +1,6 @@
-package com.k5.modudogcat.user.repository;
+package com.k5.modudogcat.domain.user.repository;
 
-import com.k5.modudogcat.user.entity.User;
-import org.springframework.data.domain.Page;
+import com.k5.modudogcat.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
