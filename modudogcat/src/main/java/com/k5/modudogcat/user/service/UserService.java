@@ -50,6 +50,8 @@ public class UserService {
                 .ifPresent(newPassword -> findUser.setPassword(newPassword));
         Optional.ofNullable(user.getAddress())
                 .ifPresent(newAddress -> findUser.setAddress(newAddress));
+        Optional.ofNullable(user.getEmail())
+                .ifPresent(newEmail -> findUser.setEmail(newEmail));
 
         return userRepository.save(findUser);
     }
