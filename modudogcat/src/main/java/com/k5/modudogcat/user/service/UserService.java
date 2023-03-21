@@ -64,6 +64,16 @@ public class UserService {
         return findUser;
     }
 
+    public User findVerifiedUserByLoginId(String loginId){
+        User findUser = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> {
+                    throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+                });
+
+        verifiedActiveUser(findUser);
+        return findUser;
+    }
+
     private static void verifiedActiveUser(User findUser) {
         if(findUser.getUserStatus().getStatus().equals("삭제된계정")){
             throw new BusinessLogicException(ExceptionCode.REMOVED_USER);

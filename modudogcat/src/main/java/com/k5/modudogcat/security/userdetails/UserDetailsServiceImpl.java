@@ -5,6 +5,7 @@ import com.k5.modudogcat.exception.ExceptionCode;
 import com.k5.modudogcat.security.util.CustomAuthorityUtils;
 import com.k5.modudogcat.user.entity.User;
 import com.k5.modudogcat.user.repository.UserRepository;
+import com.k5.modudogcat.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,16 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final CustomAuthorityUtils customAuthorityUtils;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findByLoginId(username);
-        User verifiedUser = optionalUser
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        User verifiedUserByLoginId = userService.findVerifiedUserByLoginId(username);
 
-
-        return new UserDetailsImpl(verifiedUser);
+        return new UserDetailsImpl(verifiedUserByLoginId);
     }
 
     private final class UserDetailsImpl extends User implements UserDetails {
