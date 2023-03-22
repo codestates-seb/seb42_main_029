@@ -29,7 +29,9 @@ public class Review extends Auditable {
     private ReviewStatus reviewStatus = ReviewStatus.REVIEW_ACTIVE;
     @OneToMany(mappedBy = "review",cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
-    // todo: User, 상품과 연관관계 매핑
+    // todo: User와 연관관계 매핑
+    // todo: 상품과 연관관계 매핑
+
 
     public enum ReviewStatus{
         REVIEW_ACTIVE("활성중"),

@@ -26,6 +26,7 @@ public interface ReviewMapper {
                 })
                 .collect(Collectors.toList());
 
+        response.setReviewId( review.getReviewId() );
         response.setTitle( review.getTitle() );
         response.setContent( review.getContent() );
         response.setScore( review.getScore() );

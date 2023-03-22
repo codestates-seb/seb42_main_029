@@ -42,7 +42,7 @@ public class ReviewService {
             throw new BusinessLogicException(ExceptionCode.REVIEW_NOT_FOUND);
         });
 
-        verifiedActiveUser(verifiedReview);
+        verifiedActiveReview(verifiedReview);
         return verifiedReview;
     }
 
@@ -56,7 +56,14 @@ public class ReviewService {
         return reviewPages;
     }
 
-    private void verifiedActiveUser(Review verifiedReview){
+    public void removeReview(Long reviewId){
+        Review findReview = findReview(reviewId);
+        verifiedActiveReview(findReview);
+        findReview.setReviewStatus(Review.ReviewStatus.REVIEW_DELETE);
+        reviewRepository.save(findReview);
+    }
+
+    private void verifiedActiveReview(Review verifiedReview){
         if(verifiedReview.getReviewStatus().getStatus().equals("삭제된리뷰")) {
             throw new BusinessLogicException(ExceptionCode.REMOVED_REVIEW);
         }

@@ -28,11 +28,9 @@ public class ReviewDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response{
-        @NotBlank
+        private Long reviewId;
         private String title;
-        @NotBlank
         private String content;
-        @NotBlank
         private int score;
         private LocalDateTime createdAt;
         private Review.ReviewStatus reviewStatus;

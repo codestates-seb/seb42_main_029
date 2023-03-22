@@ -59,11 +59,12 @@ public class ReviewController {
         return new ResponseEntity(responses, HttpStatus.OK);
     }
 
-//    @DeleteMapping("/users/{user-id}/reviews/{review-id}")
-//    public ResponseEntity deleteReview(@PathVariable("user-id") Long userId,
-//                                       @PathVariable("review-id") Long reviewId){
-//
-//    }
+    @DeleteMapping("/users/{user-id}/reviews/{review-id}")
+    public ResponseEntity deleteReview(@PathVariable("user-id") Long userId,
+                                       @PathVariable("review-id") Long reviewId){
+        reviewService.removeReview(reviewId);
 
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
 }
