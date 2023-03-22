@@ -123,6 +123,7 @@ const Wrapper = styled.div`
   position: sticky;
   top: 0;
   color: #363636;
+  z-index: 900;
 `;
 
 const LeftSide = styled.div`

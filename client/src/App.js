@@ -24,6 +24,7 @@ import Cart from "./pages/Cart";
 import About from "./pages/About";
 import Main from "./pages/Main";
 import { CookiesProvider } from "react-cookie";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
@@ -45,15 +46,13 @@ function App() {
             <Route path="/payComplete" element={<PayComplete />} />
             <Route path="/qnaQuestion" element={<QnAQuestion />} />
             <Route path="/qnaAnswer" element={<QnAAnswer />} />
-            <Route path="/myPage" element={<Mypage />}></Route>
-            <Route path="/sellerMypage" element={<SellerMypage />}></Route>
-            <Route path="/adminMypage" element={<AdminMypage />}></Route>
-            <Route path="/reviewForm" element={<ReviewForm />}></Route>
-            <Route path="/cart" element={<Cart />}></Route>
-            <Route
-              path="/newItemForm"
-              element={<NewItemRegistrationForm />}
-            ></Route>
+            <Route path="/myPage" element={<Mypage />} />
+            <Route path="/sellerMypage" element={<SellerMypage />} />
+            <Route path="/adminMypage" element={<AdminMypage />} />
+            <Route path="/reviewForm" element={<ReviewForm />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/newItemForm" element={<NewItemRegistrationForm />} />
+            <Route path="/*" element={<ErrorPage />}/>
           </Routes>
         </Wrapper>
 

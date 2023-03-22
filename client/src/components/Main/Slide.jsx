@@ -38,6 +38,7 @@ export default Slide;
 
 const Wrapper = styled.div`
   margin-top: 3rem;
+  z-index: 500;
 
   img {
     width: 100%;
