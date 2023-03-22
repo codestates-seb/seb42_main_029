@@ -1,22 +1,22 @@
-package com.k5.modudogcat.user.controller;
+package com.k5.modudogcat.domain.user.controller;
 
+import com.k5.modudogcat.domain.user.dto.UserDto;
+import com.k5.modudogcat.domain.user.entity.User;
+import com.k5.modudogcat.domain.user.service.UserService;
 import com.k5.modudogcat.dto.MultiResponseDto;
 import com.k5.modudogcat.dto.SingleResponseDto;
-import com.k5.modudogcat.user.Mapper.UserMapper;
-import com.k5.modudogcat.user.dto.UserDto;
-import com.k5.modudogcat.user.entity.User;
+import com.k5.modudogcat.domain.user.Mapper.UserMapper;
 
-import com.k5.modudogcat.user.service.UserService;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,7 +28,7 @@ public class UserController {
     private final UserMapper mapper;
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/sign-up")
     public ResponseEntity postUser(@RequestBody UserDto.Post postDto){
         User user = mapper.userPostToUser(postDto);
         User findUser = userService.createUser(user);
@@ -50,8 +50,10 @@ public class UserController {
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{user-id}")
-    public ResponseEntity getUser(@PathVariable("user-id") Long userId){
+    @GetMapping("/my-page")
+    public ResponseEntity getUser(){
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = Long.parseLong(principal);
         User findUser = userService.findVerifiedUserById(userId);
         UserDto.Response response = mapper.userToUserResponse(findUser);
 
@@ -69,9 +71,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{user-id}")
-    public ResponseEntity deleteUser(@PathVariable("user-id") Long userId){
+    public ResponseEntity deleteUser(@PathVariable("user-id") long userId){
         userService.removeUser(userId);
-
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

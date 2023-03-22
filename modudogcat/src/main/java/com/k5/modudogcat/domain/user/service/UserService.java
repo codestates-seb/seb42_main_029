@@ -1,14 +1,16 @@
-package com.k5.modudogcat.user.service;
+package com.k5.modudogcat.domain.user.service;
 
+import com.k5.modudogcat.domain.user.repository.UserRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
-import com.k5.modudogcat.user.entity.User;
-import com.k5.modudogcat.user.repository.UserRepository;
+import com.k5.modudogcat.security.util.CustomAuthorityUtils;
+import com.k5.modudogcat.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +20,26 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils customAuthorityUtils;
 
     public User createUser(User user){
         verifiedByLoginId(user);
         verifiedByEmail(user);
+        setEncodedPassword(user);
+        setDefaultRole(user);
+
         return userRepository.save(user);
+    }
+
+    private void setDefaultRole(User user) {
+        List<String> roles = customAuthorityUtils.createRoles(user.getEmail());
+        user.setRoles(roles);
+//        user.getRoles().add("USER");
+    }
+
+    private void setEncodedPassword(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
     public User updateUser(User user){
@@ -30,15 +47,27 @@ public class UserService {
         User findUser = findVerifiedUserById(userId);
 
         Optional.ofNullable(user.getPassword())
-                .ifPresent(newPassword -> findUser.setPassword(newPassword));
+                .ifPresent(newPassword -> findUser.setPassword(passwordEncoder.encode(newPassword)));
         Optional.ofNullable(user.getAddress())
                 .ifPresent(newAddress -> findUser.setAddress(newAddress));
+        Optional.ofNullable(user.getEmail())
+                .ifPresent(newEmail -> findUser.setEmail(newEmail));
 
         return userRepository.save(findUser);
     }
 
     public User findVerifiedUserById(Long userId){
         User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+                });
+
+        verifiedActiveUser(findUser);
+        return findUser;
+    }
+
+    public User findVerifiedUserByLoginId(String loginId){
+        User findUser = userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> {
                     throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
                 });
