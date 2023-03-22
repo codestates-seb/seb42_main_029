@@ -263,6 +263,7 @@ const MypageBody = styled.div`
     .user-information {
       @media screen and (max-width: 768px) {
         width: 90%;
+        margin-bottom: 15px;
       }
       background-color: #ececec;
       width: 23%;

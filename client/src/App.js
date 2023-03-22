@@ -20,9 +20,10 @@ import SellerMypage from "./pages/SellerMypage";
 import AdminMypage from "./pages/AdminMypage";
 import ReviewForm from "./pages/ReviewForm";
 import NewItemRegistrationForm from "./pages/NewItemRegistrationForm";
-import Cart from './pages/Cart';
+import Cart from "./pages/Cart";
 import { CookiesProvider } from "react-cookie";
 import About from "./pages/About";
+import TopButton from "./components/topbutton";
 
 function App() {
   return (
@@ -48,13 +49,10 @@ function App() {
             <Route path="/adminMypage" element={<AdminMypage />}></Route>
             <Route path="/reviewForm" element={<ReviewForm />}></Route>
             <Route path="/cart" element={<Cart />}></Route>
-            <Route
-              path="/newItemForm"
-              element={<NewItemRegistrationForm />}
-            ></Route>
+            <Route path="/newItemForm" element={<NewItemRegistrationForm />}></Route>
           </Routes>
         </Wrapper>
-
+        <TopButton />
         <Footer />
       </BrowserRouter>
     </CookiesProvider>

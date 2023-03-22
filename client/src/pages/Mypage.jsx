@@ -7,6 +7,7 @@ import ReviewList from "../components/mypage/ReviewList";
 // import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Modal from "../components/modal";
+
 function Mypage() {
   const data = {
     userId: "userId",
@@ -211,6 +212,7 @@ const MypageBody = styled.div`
       padding: 4px 25px;
       margin-right: 1vw;
       border: 2px solid black;
+      z-index: 100;
     }
   }
 
@@ -236,6 +238,7 @@ const MypageBody = styled.div`
     .user-information {
       @media screen and (max-width: 768px) {
         width: 90%;
+        margin-bottom: 15px;
       }
       background-color: #ececec;
       width: 23%;

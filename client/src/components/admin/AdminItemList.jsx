@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Paging from "../pagination/pagination";
 
 const AdminItemList = () => {
   const AdminItemExData = [
@@ -186,6 +187,9 @@ const AdminItemList = () => {
 
   //! 상품 리스트 get은 api 명세서 나오면 작성
 
+  //!pagination
+  const [page, setPage] = useState(1);
+
   return (
     <AdminItemBody>
       <div className="page_top">
@@ -217,6 +221,7 @@ const AdminItemList = () => {
           </div>
         </div>
       ))}
+      <Paging page={page} setPage={setPage} />
     </AdminItemBody>
   );
 };

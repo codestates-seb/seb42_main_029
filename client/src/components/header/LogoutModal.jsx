@@ -51,6 +51,7 @@ const WrapperOut = styled.div`
   bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.8);
+  z-index: 999;
 `;
 
 const Wrapper = styled.div`

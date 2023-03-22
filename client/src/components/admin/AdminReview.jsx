@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Paging from "../pagination/pagination";
 
 const AdminReview = () => {
   const AdminReviewExData = [
@@ -208,6 +209,9 @@ const AdminReview = () => {
 
   //! 후기 리스트 get은 api 명세서 나오면 작성
 
+  //!pagination
+  const [page, setPage] = useState(1);
+
   function stars(num) {
     let star = "";
     for (let i = 0; i < num; i++) {
@@ -245,6 +249,7 @@ const AdminReview = () => {
           </div>
         </div>
       ))}
+      <Paging page={page} setPage={setPage} />
     </AdiminReviewBody>
   );
 };

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import Modal from "../modal";
+import Paging from "../pagination/pagination";
 
 const SellerSignUpReqeust = () => {
   const SellerSignupExData = [
@@ -241,6 +242,10 @@ const SellerSignUpReqeust = () => {
         console.log(sellerId);
       });
   };
+
+  //!pagination
+  const [page, setPage] = useState(1);
+
   return (
     <AdminSellerSignUpRequestBody>
       <div className="bold">판매자 회원가입 신청 </div>
@@ -275,6 +280,7 @@ const SellerSignUpReqeust = () => {
           </div>
         </div>
       ))}
+      <Paging page={page} setPage={setPage} />
     </AdminSellerSignUpRequestBody>
   );
 };
