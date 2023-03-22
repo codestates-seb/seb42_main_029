@@ -1,13 +1,16 @@
 package com.k5.modudogcat.domain.review.service;
 
-import com.k5.modudogcat.domain.review.entity.Image;
+import com.k5.modudogcat.domain.review.image.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import com.k5.modudogcat.domain.review.repository.ReviewRepository;
+import com.k5.modudogcat.exception.BusinessLogicException;
+import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +30,6 @@ public class ReviewService {
     @Transactional
     public Review createReview(Review review, List<Image> images){
         Review saveReviewed = reviewRepository.save(review);
-        //Todo: 콘솔창을 꽉채우는데.. 이게 뭘까요?
         List<Image> collect = images.stream()
                 .map(image -> {
                     saveReviewed.addImage(image);
@@ -36,4 +38,13 @@ public class ReviewService {
         return saveReviewed;
     }
 
+    public Review findReview(Long reviewId){
+        // todo: verification 메서드 생성
+        Optional<Review> optionalReview = reviewRepository.findById(reviewId);
+        Review findreview = optionalReview.orElseThrow(() -> {
+            throw new BusinessLogicException(ExceptionCode.REVIEW_NOT_FOUND);
+        });
+
+        return findreview;
+    }
 }

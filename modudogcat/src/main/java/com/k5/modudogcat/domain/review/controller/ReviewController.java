@@ -1,7 +1,7 @@
 package com.k5.modudogcat.domain.review.controller;
 
 import com.k5.modudogcat.domain.review.dto.ReviewDto;
-import com.k5.modudogcat.domain.review.entity.Image;
+import com.k5.modudogcat.domain.review.image.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import com.k5.modudogcat.domain.review.mapper.ReviewMapper;
 import com.k5.modudogcat.domain.review.service.ReviewService;
@@ -22,11 +22,12 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewMapper reviewMapper;
+
     @PostMapping(path = "/users/{user-id}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity postReview(@PathVariable("user-id") Long userId,
                                      @RequestPart(name = "post") ReviewDto.Post postDto,
                                      @RequestPart List<MultipartFile> images
-                                     ) throws IOException {
+    ) throws IOException {
         Review review = reviewMapper.reviewPostToReview(postDto);
         List<Image> imageList = reviewMapper.multipartFilesToImages(images);
         Review findReview = reviewService.createReview(review, imageList);
@@ -36,10 +37,18 @@ public class ReviewController {
                 .body("Image uploaded successfully");
     }
 
-//    @GetMapping("/images")
-//    public ResponseEntity getImages(@RequestPart ){
-//
-//      ReviewDto.Response response = reviewMapper.reviewToResponse(findReview);
-//        // todo: 응답에서 오류발생
-////    }
+//    @GetMapping("/users/{user-id}/reviews/{review-id}")
+//    public ResponseEntity getReview(@PathVariable("user-id") Long userId,
+//                                    @PathVariable("review-id") Long reviewId) {
+//        Review findReview = reviewService.findReview(reviewId);
+//        ReviewDto.Response response = reviewMapper.reviewToResponse(findReview);
+        // 이미지를 조회하는 endpoint 링크를 보내주어, 다시 html에서 다시 요청하도록 해주자.
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.IMAGE_JPEG);
+
+//        return new ResponseEntity(response, HttpStatus.OK);
+//    }
+
+
 }

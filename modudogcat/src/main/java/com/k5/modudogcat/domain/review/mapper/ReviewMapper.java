@@ -1,13 +1,12 @@
 package com.k5.modudogcat.domain.review.mapper;
 
 import com.k5.modudogcat.domain.review.dto.ReviewDto;
-import com.k5.modudogcat.domain.review.entity.Image;
+import com.k5.modudogcat.domain.review.image.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import org.mapstruct.Mapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

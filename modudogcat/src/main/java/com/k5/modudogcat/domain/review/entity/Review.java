@@ -1,7 +1,7 @@
 package com.k5.modudogcat.domain.review.entity;
 
 import com.k5.modudogcat.audit.Auditable;
-import com.k5.modudogcat.domain.review.file.UploadFile;
+import com.k5.modudogcat.domain.review.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,6 @@
-package com.k5.modudogcat.domain.review.entity;
+package com.k5.modudogcat.domain.review.image;
 
+import com.k5.modudogcat.domain.review.entity.Review;
 import lombok.Getter;
 import lombok.Setter;
 
