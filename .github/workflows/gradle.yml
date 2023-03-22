@@ -39,6 +39,21 @@ jobs:
       with:
         gradle-version: 7.6.1
         arguments: build
+
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+          path: node_modules
+          key: ${{ runner.OS }}-master-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+    - name: Install Dependencies
+      run: yarn
+
+    - name: Build
+      run: yarn build
         
     - name: Make zip file
       run: zip -r ./modudogcat.zip .
