@@ -15,6 +15,9 @@ on:
 
 permissions:
   contents: read
+  
+env:
+  S3_BUCKET_NAME: modudogcat
 
 jobs:
   build:
@@ -36,3 +39,17 @@ jobs:
       with:
         gradle-version: 7.6.1
         arguments: build
+        
+    - name: Make zip file
+      run: zip -r ./modudogcat.zip .
+      shell: bash
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }} 
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+        
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./modudogcat.zip s3://$S3_BUCKET_NAME/modudogcat.zip
