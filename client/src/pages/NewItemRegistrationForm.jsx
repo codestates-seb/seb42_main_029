@@ -99,6 +99,9 @@ const NewItemRegistrationFormBody = styled.div`
     border-radius: 5px;
     box-shadow: 1px 1px 3px gray;
     margin-top: 4rem;
+    @media screen and (max-width: 768px) {
+      width: 80%;
+    }
     .title {
       margin-top: 2rem;
       font-size: 1.4rem;

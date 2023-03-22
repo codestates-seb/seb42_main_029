@@ -36,6 +36,10 @@ const AdminBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
   .page_title {
     font-size: 25px;
     font-weight: 700;
@@ -59,6 +63,9 @@ const AdminBody = styled.div`
       background-color: #dfaeae;
     }
     > li {
+      @media screen and (max-width: 768px) {
+        font-size: 0.9rem;
+      }
       cursor: pointer;
       font-size: large;
       font-weight: 600;

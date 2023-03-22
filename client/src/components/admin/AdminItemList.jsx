@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Paging from "../pagination/pagination";
 
 const AdminItemList = () => {
   const AdminItemExData = [
@@ -186,6 +187,9 @@ const AdminItemList = () => {
 
   //! 상품 리스트 get은 api 명세서 나오면 작성
 
+  //!pagination
+  const [page, setPage] = useState(1);
+
   return (
     <AdminItemBody>
       <div className="page_top">
@@ -210,8 +214,6 @@ const AdminItemList = () => {
           <div className="item-right">
             <div> 게시일:{el.created_at}</div>
             <div> 수정일:{el.modified_at}</div>
-            <br />
-            <br />
 
             <button className="button cancle" style={{ float: "right" }}>
               상품 삭제
@@ -219,6 +221,7 @@ const AdminItemList = () => {
           </div>
         </div>
       ))}
+      <Paging page={page} setPage={setPage} />
     </AdminItemBody>
   );
 };
@@ -254,6 +257,10 @@ const AdminItemBody = styled.div`
     width: 100px;
     background-color: #f9a9a9;
     margin-right: 5px;
+    @media screen and (max-width: 768px) {
+      height: 70px;
+      width: 70px;
+    }
   }
   .item {
     margin-top: 13px;
@@ -262,6 +269,9 @@ const AdminItemBody = styled.div`
     background-color: #fef4f4;
     padding: 13px;
     justify-content: space-between;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     .important {
       font-weight: bold;
       margin: 3px 0px;
@@ -292,9 +302,15 @@ const AdminItemBody = styled.div`
     }
     .item-left {
       width: 55%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .item-right {
       width: 40%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;

@@ -1,6 +1,7 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Paging from "../pagination/pagination";
 
 function OrderList() {
   const OrderExData = [
@@ -261,6 +262,10 @@ function OrderList() {
     },
   ];
   //! 온클릭 및 여러가지 나중에 함 api 명세서 나왔을 때
+
+  //!pagination
+  const [page, setPage] = useState(1);
+
   return (
     <OrderBody>
       <div className="bold">주문 목록 </div>
@@ -298,6 +303,8 @@ function OrderList() {
           </div>
         </div>
       ))}
+
+      <Paging page={page} setPage={setPage} />
     </OrderBody>
   );
 }

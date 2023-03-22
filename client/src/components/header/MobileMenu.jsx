@@ -5,11 +5,7 @@ import styled from "styled-components";
 import close from "../../assets/img/close.png";
 import LogoutModal from "./LogoutModal";
 
-export default function MobileMenu({
-  setMobileModalOpen,
-  modalOpen,
-  setModalOpen,
-}) {
+export default function MobileMenu({ setMobileModalOpen, modalOpen, setModalOpen }) {
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
 
   // 모바일 메뉴 닫기
@@ -51,12 +47,7 @@ export default function MobileMenu({
               <Link to="/cart" style={{ textDecorationLine: "none" }}>
                 <p>Cart</p>
               </Link>
-              <img
-                src={close}
-                alt="closeBtnImg"
-                onClick={closeModal}
-                style={{ position: "absolute", top: "18rem", left: "7rem" }}
-              />
+              <img src={close} alt="closeBtnImg" onClick={closeModal} style={{ position: "absolute", top: "18rem", left: "7rem" }} />
             </MenuList>
           </Wrapper>
         </WrapperOut>
@@ -72,8 +63,8 @@ export default function MobileMenu({
                 <p>About</p>
               </Link>
 
-              <Link to="/mypage" style={{ textDecorationLine: "none" }}>
-                <p>My Page</p>
+              <Link to="/about" style={{ textDecorationLine: "none" }}>
+                <p>About</p>
               </Link>
 
               <Link to="/cart" style={{ textDecorationLine: "none" }}>
@@ -84,12 +75,7 @@ export default function MobileMenu({
                 LogOut
               </p>
               {modalOpen && <LogoutModal setModalOpen={setModalOpen} />}
-              <img
-                src={close}
-                alt="closeBtnImg"
-                onClick={closeModal}
-                style={{ position: "absolute", top: "17.7rem", left: "6.9rem" }}
-              />
+              <img src={close} alt="closeBtnImg" onClick={closeModal} style={{ position: "absolute", top: "17.7rem", left: "6.9rem" }} />
             </MenuList>
           </Wrapper>
         </WrapperOut>

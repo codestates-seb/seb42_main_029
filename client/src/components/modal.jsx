@@ -25,6 +25,8 @@ export default function Modal(props) {
 }
 
 const WrapperOut = styled.div`
+  z-index: 200;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -44,6 +46,10 @@ const Wrapper = styled.div`
   /* border: 1px solid gray; */
   box-shadow: 1px 2px 3px gray;
   border-radius: 7px;
+  @media screen and (max-width: 768px) {
+    width: 70%;
+    height: 25%;
+  }
 
   /* 최상단 */
   z-index: 999;
@@ -52,9 +58,17 @@ const Wrapper = styled.div`
   position: absolute;
   top: 20rem;
   left: 40%;
+  @media screen and (max-width: 768px) {
+    position: absolute;
+    top: 30%;
+    left: 15%;
+  }
 
   h2 {
     font-size: 1.2rem;
+    @media screen and (max-width: 768px) {
+      font-size: 0.9rem;
+    }
   }
 
   button {

@@ -25,6 +25,7 @@ import About from "./pages/About";
 import Main from "./pages/Main";
 import { CookiesProvider } from "react-cookie";
 import ErrorPage from "./pages/ErrorPage";
+import TopButton from "./components/topbutton";
 
 function App() {
   return (
@@ -52,10 +53,10 @@ function App() {
             <Route path="/reviewForm" element={<ReviewForm />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/newItemForm" element={<NewItemRegistrationForm />} />
-            <Route path="/*" element={<ErrorPage />}/>
+            <Route path="/*" element={<ErrorPage />} />
           </Routes>
         </Wrapper>
-
+        <TopButton />
         <Footer />
       </BrowserRouter>
     </CookiesProvider>
