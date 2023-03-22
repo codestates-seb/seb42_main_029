@@ -36,7 +36,9 @@ export default function Header() {
         <Link to="/shop" style={{ textDecorationLine: "none" }}>
           <p>Shop</p>
         </Link>
-        <p>About</p>
+        <Link to="/about" style={{ textDecorationLine: "none" }}>
+          <p>About</p>
+        </Link>
       </LeftSide>
 
       <MiddleSide>
