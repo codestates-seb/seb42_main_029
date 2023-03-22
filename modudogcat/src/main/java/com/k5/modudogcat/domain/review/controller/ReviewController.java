@@ -7,6 +7,8 @@ import com.k5.modudogcat.domain.review.mapper.ReviewMapper;
 import com.k5.modudogcat.domain.review.service.ReviewService;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,10 +49,15 @@ public class ReviewController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-//    @GetMapping("/users/{user-id}/reviews")
-//    public ResponseEntity getReviews(){
-//        reviewService.findReviews();
-//    }
+    @GetMapping("/users/{user-id}/reviews")
+    public ResponseEntity getReviews(@PathVariable("user-id") Long userId,
+                                     Pageable pageable){
+        Page<Review> reviewPages = reviewService.findReviews(pageable);
+        List<Review> reviews = reviewPages.getContent();
+        List<ReviewDto.Response> responses = reviewMapper.reviewsToResponses(reviews);
+
+        return new ResponseEntity(responses, HttpStatus.OK);
+    }
 
 //    @DeleteMapping("/users/{user-id}/reviews/{review-id}")
 //    public ResponseEntity deleteReview(@PathVariable("user-id") Long userId,

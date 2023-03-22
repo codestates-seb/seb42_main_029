@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
     Review reviewPostToReview(ReviewDto.Post postDto);
+    List<ReviewDto.Response> reviewsToResponses(List<Review> reviews);
     default ReviewDto.Response reviewToResponse(Review review){
         if ( review == null ) {
                return null;
