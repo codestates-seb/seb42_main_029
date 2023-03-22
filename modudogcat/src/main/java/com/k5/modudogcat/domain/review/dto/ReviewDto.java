@@ -1,12 +1,15 @@
 package com.k5.modudogcat.domain.review.dto;
 
+import com.k5.modudogcat.domain.review.entity.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewDto {
 
@@ -21,7 +24,6 @@ public class ReviewDto {
         @NotBlank
         private int score;
     }
-
     @Setter
     @Getter
     @NoArgsConstructor
@@ -34,5 +36,6 @@ public class ReviewDto {
         @NotBlank
         private int score;
         private LocalDateTime createdAt;
+        private List<Image> images;
     }
 }
