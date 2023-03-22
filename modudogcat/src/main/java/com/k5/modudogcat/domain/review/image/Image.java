@@ -15,6 +15,7 @@ public class Image {
     private Long imageId;
     @Lob
     private byte[] image;
+    private String type;
     @ManyToOne
     @JoinColumn(name= "review_id")
     private Review review;

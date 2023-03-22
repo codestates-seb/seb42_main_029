@@ -19,7 +19,8 @@ public class ImageController {
         Image image = imageService.findImage(imageId);
         byte[] imageByteArray = image.getImage();
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
+        // 각 이미지 타입(jpg, png)에 알맞도록, header에 ContentType입력
+        headers.setContentType(MediaType.valueOf(image.getType()));
 
         return new ResponseEntity<byte[]>(imageByteArray,headers, HttpStatus.OK);
     }
