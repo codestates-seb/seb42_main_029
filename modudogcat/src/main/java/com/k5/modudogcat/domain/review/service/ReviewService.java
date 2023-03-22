@@ -30,11 +30,13 @@ public class ReviewService {
     @Transactional
     public Review createReview(Review review, List<Image> images){
         Review saveReviewed = reviewRepository.save(review);
-        List<Image> collect = images.stream()
-                .map(image -> {
-                    saveReviewed.addImage(image);
-                    return image;
-                }).collect(Collectors.toList());
+        if(images != null){
+            List<Image> collect = images.stream()
+                    .map(image -> {
+                        saveReviewed.addImage(image);
+                        return image;
+                    }).collect(Collectors.toList());
+        }
         return saveReviewed;
     }
 

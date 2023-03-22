@@ -13,22 +13,43 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
     Review reviewPostToReview(ReviewDto.Post postDto);
-    ReviewDto.Response reviewToResponse(Review review);
+    default ReviewDto.Response reviewToResponse(Review review){
+        if ( review == null ) {
+               return null;
+        }
+        ReviewDto.Response response = new ReviewDto.Response();
+        List<String> links = review.getImages().stream()
+                .map(image -> {
+                    String link = "http://localhost:8080/images/" + image.getImageId();
+                    return link;
+                })
+                .collect(Collectors.toList());
+
+        response.setTitle( review.getTitle() );
+        response.setContent( review.getContent() );
+        response.setScore( review.getScore() );
+        response.setCreatedAt( review.getCreatedAt() );
+        response.setImagesUrls(links);
+
+        return response;
+    }
     default List<Image> multipartFilesToImages(List<MultipartFile> multiDto) throws IOException {
+        if(multiDto == null){
+            return null;
+        }
         //given
         List<Image> images = multiDto.stream()
                 .map(multipartFile -> {
                     Image image = new Image();
                     try {
                         image.setImage(multipartFile.getBytes());
+                        image.setType(multipartFile.getContentType());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                     return image;
                 })
                 .collect(Collectors.toList());
-
-
 
         return images;
     }
