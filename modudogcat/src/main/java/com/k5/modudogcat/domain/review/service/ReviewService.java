@@ -18,17 +18,9 @@ import java.util.stream.Collectors;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
 
-//    review.setImages(images);
-//    Review saveReviewed = reviewRepository.save(review);
-//    List<Image> collect = images.stream()
-//            .map(image -> {
-//                Review tmpReview = new Review();
-//                tmpReview.setReviewId(saveReviewed.getReviewId());
-//                image.setReview(tmpReview);
-//                return image;
-//            }).collect(Collectors.toList());
     @Transactional
     public Review createReview(Review review, List<Image> images){
+        //todo: 해당 유저의 상품, 리뷰가 존재할 시, 리뷰가 이미 존재하고 있음을 알리자.
         Review saveReviewed = reviewRepository.save(review);
         if(images != null){
             List<Image> collect = images.stream()
@@ -41,12 +33,22 @@ public class ReviewService {
     }
 
     public Review findReview(Long reviewId){
-        // todo: verification 메서드 생성
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
-        Review findreview = optionalReview.orElseThrow(() -> {
+        Review verifiedReview = optionalReview.orElseThrow(() -> {
             throw new BusinessLogicException(ExceptionCode.REVIEW_NOT_FOUND);
         });
 
-        return findreview;
+        verifiedActiveUser(verifiedReview);
+        return verifiedReview;
+    }
+
+//    public List<Review> findReviews(){
+//        List<Review> reviews = reviewRepository.findAll();
+//    }
+
+    private void verifiedActiveUser(Review verifiedReview){
+        if(verifiedReview.getReviewStatus().getStatus().equals("삭제된리뷰")) {
+            throw new BusinessLogicException(ExceptionCode.REMOVED_REVIEW);
+        }
     }
 }

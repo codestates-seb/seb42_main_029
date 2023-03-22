@@ -29,6 +29,7 @@ public interface ReviewMapper {
         response.setContent( review.getContent() );
         response.setScore( review.getScore() );
         response.setCreatedAt( review.getCreatedAt() );
+        response.setReviewStatus( review.getReviewStatus());
         response.setImagesUrls(links);
 
         return response;

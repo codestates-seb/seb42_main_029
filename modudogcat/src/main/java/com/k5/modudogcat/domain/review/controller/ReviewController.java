@@ -43,10 +43,20 @@ public class ReviewController {
                                     @PathVariable("review-id") Long reviewId) {
         Review findReview = reviewService.findReview(reviewId);
         ReviewDto.Response response = reviewMapper.reviewToResponse(findReview);
-        //이미지를 조회하는 endpoint 링크를 보내주어, 다시 html에서 다시 요청하도록 해주자.
 
         return new ResponseEntity(response, HttpStatus.OK);
     }
+
+//    @GetMapping("/users/{user-id}/reviews")
+//    public ResponseEntity getReviews(){
+//        reviewService.findReviews();
+//    }
+
+//    @DeleteMapping("/users/{user-id}/reviews/{review-id}")
+//    public ResponseEntity deleteReview(@PathVariable("user-id") Long userId,
+//                                       @PathVariable("review-id") Long reviewId){
+//
+//    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.k5.modudogcat.domain.review.dto;
 
+import com.k5.modudogcat.domain.review.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,12 @@ public class ReviewDto {
         @NotBlank
         private int score;
         private LocalDateTime createdAt;
+        private Review.ReviewStatus reviewStatus;
         private List<String> imagesUrls;
+
+        // HttpMessageConverter 에서 동작
+        public String getReviewStatus(){
+            return reviewStatus.getStatus();
+        }
     }
 }

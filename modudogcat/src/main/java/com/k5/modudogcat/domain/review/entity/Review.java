@@ -25,10 +25,21 @@ public class Review extends Auditable {
     private String content;
     @Column(nullable = false, length = 1)
     private int score;
+    @Enumerated(value = EnumType.STRING)
+    private ReviewStatus reviewStatus = ReviewStatus.REVIEW_ACTIVE;
     @OneToMany(mappedBy = "review",cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
-    // Image를 어떻게 할것인가?
     // todo: User, 상품과 연관관계 매핑
+
+    public enum ReviewStatus{
+        REVIEW_ACTIVE("활성중"),
+        REVIEW_DELETE("삭제된리뷰");
+        @Getter
+        private String status;
+        ReviewStatus(String status){
+            this.status = status;
+        }
+    }
 
     public void addImage(Image image){
         this.images.add(image);
