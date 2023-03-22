@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "email": "test1@test.com",
+      "password": "$2a$10$qOPjOUR.8SGmxYNQx9atp.EKWCE8oP.kDZc9I2o3seyc5ZH/u/gdW",
+      "name": "test1",
+      "id": "test1",
+      "address": "주소입니다"
+    },
+    {
+      "email": "qwerty@test.com",
+      "password": "$2a$10$8YgYY9cBmqknNe3zAQn4o.3VqRN4PZwjL5ZUFEzheEKKZBSMP8NmO",
+      "id": "qwerty",
+      "name": "qwerty",
+      "address": "e"
+    },
+    {
+      "email": "qwert1y@test.com",
+      "password": "$2a$10$Nig/bqRa9ldfkLWDvctq0O1b9ewvuTlngwI2H6qWOf61v6roZNBra",
+      "id": "qwerty1",
+      "name": "qwerty1",
+      "address": "1e"
+    },
+    {
+      "email": "qwer@rr.com",
+      "password": "$2a$10$yBm1sJlJUsu3Fgn6ulzJ3udEXCm3BhmOzuk.EYjhWcyOO1Uk2tNCO",
+      "id": "qwerty12",
+      "name": "qwerty33",
+      "address": "qwert1"
+    },
+    {
+      "email": "test2@naver.com",
+      "password": "$2a$10$UXWk0tk5VsiM.ypAHB5o0uQVC3R1pF4PYtkKpJa7W9vGhXhfrOev6",
+      "id": "test2",
+      "name": "test",
+      "address": "123"
+    },
+    {
+      "email": "1234@naver.com",
+      "password": "$2a$10$kePltZ/aBZN0e7ac/uhORuUDVhz.rUoTpgEnLHKGCuyRm7KoMSiVS",
+      "id": "test11",
+      "name": "test1",
+      "address": "1"
+    },
+    {
+      "email": "qwer@n.com",
+      "password": "$2a$10$wyqCxY.aFkG2EI8D9iZzsu4/91BBFVfcD5rOEkYU7XaBFEAOE2hge",
+      "id": "12345",
+      "name": "e3333",
+      "address": "qwerqwer"
+    },
+    {
+      "email": "d@c.com",
+      "password": "$2a$10$zgZSyxJQiRKQfq/nPxe.g.eJ.ICxqDKythYYzbsaOgxA5UNIXTDfm",
+      "id": "1234@naver.com",
+      "name": "d",
+      "registration_number": "d",
+      "address": "d",
+      "phone": "d",
+      "bank_name": "d",
+      "account_number": "d"
+    },
+    {
+      "email": "asd@d.com",
+      "password": "$2a$10$eXyUbx2k6UM9k9QtjCrijORA4sQqvNbbLuf/rXqyPw3e6zEhdl8Su",
+      "id": "dasdf",
+      "name": "asd",
+      "registration_number": "asd",
+      "address": "asd",
+      "phone": "asd",
+      "bank_name": "asd",
+      "account_number": "123412341234"
+    }
+  ]
+}
