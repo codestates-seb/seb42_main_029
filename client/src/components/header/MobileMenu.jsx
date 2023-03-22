@@ -36,10 +36,18 @@ export default function MobileMenu({ setMobileModalOpen, modalOpen, setModalOpen
                 <p>Seller SignUp</p>
               </Link>
 
+              <Link to="/" style={{ textDecorationLine: "none" }}>
+                <p>Home</p>
+              </Link>
+
+              <Link to="/about" style={{ textDecorationLine: "none" }}>
+                <p>About</p>
+              </Link>
+
               <Link to="/cart" style={{ textDecorationLine: "none" }}>
                 <p>Cart</p>
               </Link>
-              <img src={close} alt="closeBtnImg" onClick={closeModal} />
+              <img src={close} alt="closeBtnImg" onClick={closeModal} style={{ position: "absolute", top: "18rem", left: "7rem" }} />
             </MenuList>
           </Wrapper>
         </WrapperOut>
@@ -47,19 +55,27 @@ export default function MobileMenu({ setMobileModalOpen, modalOpen, setModalOpen
         <WrapperOut>
           <Wrapper>
             <MenuList style={{ marginBottom: "5.3rem", marginRight: "2.1rem" }}>
-              <p onClick={showModal} style={{ cursor: "pointer" }}>
-                LogOut
-              </p>
-              {modalOpen && <LogoutModal setModalOpen={setModalOpen} />}
+              <Link to="/" style={{ textDecorationLine: "none" }}>
+                <p>Home</p>
+              </Link>
 
-              <Link to="/mypage" style={{ textDecorationLine: "none" }}>
-                <p>My Page</p>
+              <Link to="/about" style={{ textDecorationLine: "none" }}>
+                <p>About</p>
+              </Link>
+
+              <Link to="/about" style={{ textDecorationLine: "none" }}>
+                <p>About</p>
               </Link>
 
               <Link to="/cart" style={{ textDecorationLine: "none" }}>
                 <p>Cart</p>
               </Link>
-              <img src={close} alt="closeBtnImg" onClick={closeModal} style={{ position: "absolute", top: "11.8rem", left: "6.7rem" }} />
+
+              <p onClick={showModal} style={{ cursor: "pointer" }}>
+                LogOut
+              </p>
+              {modalOpen && <LogoutModal setModalOpen={setModalOpen} />}
+              <img src={close} alt="closeBtnImg" onClick={closeModal} style={{ position: "absolute", top: "17.7rem", left: "6.9rem" }} />
             </MenuList>
           </Wrapper>
         </WrapperOut>
@@ -81,7 +97,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 160px;
-  height: 240px;
+  height: 330px;
   background-color: #fbd8d8;
   /* border: 1px solid gray; */
   box-shadow: 1px 1px 1px 1px gray;

@@ -7,7 +7,7 @@ import ReviewList from "../components/mypage/ReviewList";
 // import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Modal from "../components/modal";
-
+import { useCookies } from "react-cookie";
 function Mypage() {
   const data = {
     userId: "userId",
@@ -21,6 +21,10 @@ function Mypage() {
     userStatus: "userStatus",
   };
   const navigate = useNavigate();
+
+  //! 리액트 쿠키
+  const [cookies] = useCookies(["accessToken"]);
+  console.log(cookies.accessToken);
 
   //! 모달
   const [modalOpen, setModalOpen] = useState(false);
