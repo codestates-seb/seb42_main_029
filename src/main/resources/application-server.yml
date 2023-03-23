@@ -9,4 +9,4 @@ spring:
     username: admin
     password: qwer1234
 config:
-  domain: http://modudogcat.s3-website.ap-northeast-2.amazonaws.com
+  domain: http://http://modudogcat-front.s3-website.ap-northeast-2.amazonaws.com
