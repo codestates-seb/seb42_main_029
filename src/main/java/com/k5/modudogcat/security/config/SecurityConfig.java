@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .formLogin()
                     .permitAll()
 //                    .disable()
-                    .loginPage("/login")
+//                    .loginPage("/login")
 //                    .loginProcessingUrl("/auth/login")
                 .and()
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
@@ -97,7 +97,7 @@ public class SecurityConfig {
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS","PATCH","DELETE","PUT"));
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh","Access-Control-Allow-Origin"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
