@@ -18,7 +18,7 @@ export default function LoginForm() {
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
   // login 인풋 값 >> json-server-auth 는 id 말고 email 로 변경해야함
-  const [email, setId] = useState("");
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
   const [idError, setIdError] = useState(false);
@@ -41,10 +41,10 @@ export default function LoginForm() {
 
   const validation = () => {
     // 각 값이 있을 때 Error 상태 true 변경
-    if (!email) setIdError(true);
+    if (!id) setIdError(true);
     if (!password) setPasswordError(true);
 
-    if (email && password) return true;
+    if (id && password) return true;
     else return false;
   };
 
@@ -55,7 +55,7 @@ export default function LoginForm() {
       //! 로그인 POST
       return await axios
         .post("auth/login", {
-          email,
+          id,
           password,
         })
         .then((res) => {
