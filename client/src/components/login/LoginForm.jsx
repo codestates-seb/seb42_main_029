@@ -17,8 +17,8 @@ export default function LoginForm() {
   //! 리액트 쿠키
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
-  // login 인풋 값 >> json-server-auth 는 id 말고 email 로 변경해야함
-  const [id, setId] = useState("");
+  // login 인풋 값 >> json-server-auth 는 username 말고 email 로 변경해야함
+  const [username, setId] = useState("");
   const [password, setPassword] = useState("");
 
   const [idError, setIdError] = useState(false);
@@ -41,23 +41,33 @@ export default function LoginForm() {
 
   const validation = () => {
     // 각 값이 있을 때 Error 상태 true 변경
-    if (!id) setIdError(true);
+    if (!username) setIdError(true);
     if (!password) setPasswordError(true);
 
-    if (id && password) return true;
+    if (username && password) return true;
     else return false;
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const header = {
+      headers: {
+        withCredentials: true,
+      },
+    };
+
     if (validation())
       //! 로그인 POST
       return await axios
-        .post("/auth/login", {
-          id,
-          password,
-        })
+        .post(
+          "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/auth/login",
+          {
+            username,
+            password,
+          },
+          { header }
+        )
         .then((res) => {
           // console.log(res.data.accessToken);
 
@@ -88,7 +98,7 @@ export default function LoginForm() {
       <Title>로그인</Title>
       <form onSubmit={onSubmit}>
         <label>아이디</label>
-        <input type="text" name="id" onChange={onChangeId} required />
+        <input type="text" name="username" onChange={onChangeId} required />
         {idError && (
           <ValidP>
             영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.

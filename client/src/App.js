@@ -26,6 +26,10 @@ import Main from "./pages/Main";
 import { CookiesProvider } from "react-cookie";
 import ErrorPage from "./pages/ErrorPage";
 import TopButton from "./components/topbutton";
+import axios from "axios";
+
+// 모든 요청에 withCredentials가 true로 설정됩니다.
+axios.defaults.withCredentials = true;
 
 function App() {
   return (

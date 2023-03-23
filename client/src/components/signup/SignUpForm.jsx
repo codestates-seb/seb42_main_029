@@ -84,13 +84,19 @@ export default function SignUpForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const header = {
+      headers: {
+        withCredentials: true,
+      },
+    };
+
     if (validation())
       //! 회원가입 POST
       await axios
         .post(
           "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/sign-up",
           { loginId, password, name, email, address },
-          { withCredentials: true }
+          { header }
         )
         .then((res) => {
           // console.log(res.data.accessToken);
