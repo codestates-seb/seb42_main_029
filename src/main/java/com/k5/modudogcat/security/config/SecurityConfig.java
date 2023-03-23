@@ -92,10 +92,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://modudogcat-front.s3-website.ap-northeast-2.amazonaws.com"));
-        configuration.setAllowedOriginPatterns(Arrays.asList("http://modudogcat-front.s3-website.ap-northeast-2.amazonaws.com"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS","PATCH","DELETE","PUT"));
-//        configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
