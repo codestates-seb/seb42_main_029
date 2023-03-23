@@ -87,7 +87,11 @@ export default function SignUpForm() {
     if (validation())
       //! 회원가입 POST
       await axios
-        .post("/users/sign-up", { loginId, password, name, email, address })
+        .post(
+          "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/sign-up",
+          { loginId, password, name, email, address },
+          { withCredentials: true }
+        )
         .then((res) => {
           // console.log(res.data.accessToken);
           // setCookie('accessToken', res.data.accessToken, { path: '/' })
