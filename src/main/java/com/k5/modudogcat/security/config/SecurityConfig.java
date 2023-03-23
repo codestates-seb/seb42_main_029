@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .formLogin()
                     .permitAll()
 //                    .disable()
-//                    .loginPage()
+                    .loginPage("/login")
 //                    .loginProcessingUrl("/auth/login")
                 .and()
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
