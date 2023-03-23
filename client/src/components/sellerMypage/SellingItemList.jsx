@@ -162,8 +162,16 @@ const SellingItemBody = styled.div`
     width: 100px;
     background-color: #f9a9a9;
     margin-right: 5px;
+    @media screen and (max-width: 768px) {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 5px;
+    }
   }
   .item {
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     margin-top: 13px;
     display: flex;
     flex-direction: row;
@@ -200,9 +208,15 @@ const SellingItemBody = styled.div`
     }
     .item-left {
       width: 55%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .item-right {
       width: 40%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;

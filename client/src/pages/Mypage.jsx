@@ -7,6 +7,7 @@ import ReviewList from "../components/mypage/ReviewList";
 // import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Modal from "../components/modal";
+import { useCookies } from "react-cookie";
 function Mypage() {
   const data = {
     userId: "userId",
@@ -20,6 +21,10 @@ function Mypage() {
     userStatus: "userStatus",
   };
   const navigate = useNavigate();
+
+  //! 리액트 쿠키
+  const [cookies] = useCookies(["accessToken"]);
+  console.log(cookies.accessToken);
 
   //! 모달
   const [modalOpen, setModalOpen] = useState(false);
@@ -171,6 +176,10 @@ const MypageBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
   /* align-items: center; */
   .page_title {
     font-size: 25px;
@@ -186,7 +195,7 @@ const MypageBody = styled.div`
   .tab {
     position: sticky;
     top: 8%;
-
+    z-index: 100;
     display: flex;
     flex-direction: row;
     list-style: none;
@@ -197,7 +206,7 @@ const MypageBody = styled.div`
     }
     > li {
       @media screen and (max-width: 768px) {
-        font-size: smaller;
+        font-size: 0.9rem;
       }
       cursor: pointer;
       font-size: large;
@@ -207,11 +216,12 @@ const MypageBody = styled.div`
       padding: 4px 25px;
       margin-right: 1vw;
       border: 2px solid black;
+      z-index: 100;
     }
   }
 
   .content {
-    @media screen and (dth: 768px) {
+    @media screen and (max-width: 768px) {
       flex-direction: column-reverse;
     }
     display: flex;
@@ -232,6 +242,7 @@ const MypageBody = styled.div`
     .user-information {
       @media screen and (max-width: 768px) {
         width: 90%;
+        margin-bottom: 15px;
       }
       background-color: #ececec;
       width: 23%;

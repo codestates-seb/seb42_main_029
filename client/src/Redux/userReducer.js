@@ -3,7 +3,7 @@ const initialState = {
 };
 
 export default function userReducer(state = initialState, action) {
-  // 
+  // eslint-disable-next-line
   {
     //! 로그인 상태
     if (action.type === "USER_ISLOGIN")

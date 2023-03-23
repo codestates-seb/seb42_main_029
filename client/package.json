@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/is-prop-valid": "^1.2.0",
+    "@mui/material": "^5.11.13",
+    "@mui/styled-engine-sc": "^5.11.11",
     "@react-oauth/google": "^0.8.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
@@ -15,15 +18,17 @@
     "json-server-auth": "^2.1.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.2",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
+    "react-js-pagination": "^3.0.3",
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
+    "react-slick": "^0.29.0",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.8",
     "web-vitals": "^2.1.4"
   },
@@ -51,5 +56,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy" : "ec2-3-38-182-207.ap-northeast-2.compute.amazonaws.com/"
 }

@@ -20,9 +20,12 @@ import SellerMypage from "./pages/SellerMypage";
 import AdminMypage from "./pages/AdminMypage";
 import ReviewForm from "./pages/ReviewForm";
 import NewItemRegistrationForm from "./pages/NewItemRegistrationForm";
-import Cart from './pages/Cart';
-import { CookiesProvider } from "react-cookie";
+import Cart from "./pages/Cart";
 import About from "./pages/About";
+import Main from "./pages/Main";
+import { CookiesProvider } from "react-cookie";
+import ErrorPage from "./pages/ErrorPage";
+import TopButton from "./components/topbutton";
 
 function App() {
   return (
@@ -31,7 +34,8 @@ function App() {
         <Header />
         <Wrapper>
           <Routes>
-            <Route path="/" element={<Shop />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="/about" element={<About />} />
             <Route path="/productInfo" element={<ProductInfo />} />
             <Route path="/login" element={<Login />} />
@@ -43,18 +47,16 @@ function App() {
             <Route path="/payComplete" element={<PayComplete />} />
             <Route path="/qnaQuestion" element={<QnAQuestion />} />
             <Route path="/qnaAnswer" element={<QnAAnswer />} />
-            <Route path="/myPage" element={<Mypage />}></Route>
-            <Route path="/sellerMypage" element={<SellerMypage />}></Route>
-            <Route path="/adminMypage" element={<AdminMypage />}></Route>
-            <Route path="/reviewForm" element={<ReviewForm />}></Route>
-            <Route path="/cart" element={<Cart />}></Route>
-            <Route
-              path="/newItemForm"
-              element={<NewItemRegistrationForm />}
-            ></Route>
+            <Route path="/myPage" element={<Mypage />} />
+            <Route path="/sellerMypage" element={<SellerMypage />} />
+            <Route path="/adminMypage" element={<AdminMypage />} />
+            <Route path="/reviewForm" element={<ReviewForm />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/newItemForm" element={<NewItemRegistrationForm />} />
+            <Route path="/*" element={<ErrorPage />} />
           </Routes>
         </Wrapper>
-
+        <TopButton />
         <Footer />
       </BrowserRouter>
     </CookiesProvider>

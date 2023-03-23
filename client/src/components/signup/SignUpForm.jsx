@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 export default function SignUpForm() {
   const navigate = useNavigate();
 
-  //! 리액트 쿠키 
+  //! 리액트 쿠키
   // const [cookies, setCookie, removeCookie] = useCookies()
 
   // input onChange value
@@ -34,12 +34,10 @@ export default function SignUpForm() {
   };
   const onChangePassword = (e) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!e.target.value || passwordRegex.test(e.target.value))
-      setPasswordError(false);
+    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
     else setPasswordError(true);
 
-    if (!passwordCheck || e.target.value === passwordCheck)
-      setPasswordCheckError(false);
+    if (!passwordCheck || e.target.value === passwordCheck) setPasswordCheckError(false);
     else setPasswordCheckError(true);
     setPassword(e.target.value);
   };
@@ -53,10 +51,8 @@ export default function SignUpForm() {
     setName(e.target.value);
   };
   const onChangeEmail = (e) => {
-    const emailRegex =
-      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (!e.target.value || emailRegex.test(e.target.value))
-      setEmailError(false);
+    const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    if (!e.target.value || emailRegex.test(e.target.value)) setEmailError(false);
     else setEmailError(true);
     setEmail(e.target.value);
   };
@@ -85,57 +81,39 @@ export default function SignUpForm() {
     e.preventDefault();
 
     if (validation())
-
-    //! 회원가입 POST
-    await axios
-      .post("http://localhost:8080/register", {id, password, name, email, address })
-      .then((res) => {
-
-        // console.log(res.data.accessToken);
-        // setCookie('accessToken', res.data.accessToken, { path: '/' })
-        navigate("/login");
-        alert("회원가입 성공..!");
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("회원가입 실패..!");
-      });
+      //! 회원가입 POST
+      await axios
+        .post("users/sign-up", { id, password, name, email, address })
+        .then((res) => {
+          // console.log(res.data.accessToken);
+          // setCookie('accessToken', res.data.accessToken, { path: '/' })
+          navigate("/login");
+          alert("회원가입 성공..!");
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("회원가입 실패..!");
+        });
   };
 
   return (
     <Wrapper>
       <Title>일반 회원가입</Title>
-      <form onSubmit={onSubmit} >
+      <form onSubmit={onSubmit}>
         <label>이름</label>
         <input type="text" name="name" onChange={onChangeName} required />
         {nameError && <ValidP>이름을 입력하세요.</ValidP>}
 
         <label>아이디</label>
         <input type="text" name="id" onChange={onChangeId} required />
-        {idError && (
-          <ValidP>
-            영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
-          </ValidP>
-        )}
+        {idError && <ValidP>영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.</ValidP>}
 
         <label>비밀번호</label>
-        <input
-          type="password"
-          name="password"
-          onChange={onChangePassword}
-          required
-        />
-        {passwordError && (
-          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
-        )}
+        <input type="password" name="password" onChange={onChangePassword} required />
+        {passwordError && <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>}
 
         <label>비밀번호 확인</label>
-        <input
-          type="password"
-          name="passwordCheck"
-          onChange={onChangePasswordCheck}
-          required
-        />
+        <input type="password" name="passwordCheck" onChange={onChangePasswordCheck} required />
         {passwordCheckError && <ValidP>비밀번호가 일치하지 않습니다.</ValidP>}
 
         <label>이메일</label>
@@ -143,15 +121,9 @@ export default function SignUpForm() {
         {emailError && <ValidP>유효한 이메일 형식을 입력하세요.</ValidP>}
 
         <label>주소</label>
-        <input
-          type="text"
-          name="address"
-          placeholder="배송지를 위한 주소입니다."
-          onChange={onChangeAddress}
-          required
-        />
+        <input type="text" name="address" placeholder="배송지를 위한 주소입니다." onChange={onChangeAddress} required />
         {addressError && <ValidP>주소를 입력하세요.</ValidP>}
-        <SignUpBtn >확인</SignUpBtn>
+        <SignUpBtn>확인</SignUpBtn>
       </form>
     </Wrapper>
   );
@@ -208,7 +180,7 @@ const SignUpBtn = styled.button`
   color: #ffffff;
   border-radius: 5px;
   border: none;
-  margin: 1.6rem 0 ;
+  margin: 1.6rem 0;
   cursor: pointer;
 `;
 
