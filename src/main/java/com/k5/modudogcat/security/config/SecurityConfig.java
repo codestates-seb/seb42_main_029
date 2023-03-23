@@ -33,12 +33,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils customAuthorityUtils;
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring()
-                .antMatchers(HttpMethod.POST, "/users/sign-up")
-                .antMatchers(HttpMethod.GET, "/login");
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer(){
+//        return (web) -> web.ignoring()
+//                .antMatchers(HttpMethod.POST, "/users/sign-up")
+//                .antMatchers(HttpMethod.GET, "/login");
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -46,7 +46,9 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorize -> authorize
                         //Todo: 인증, 인가가 필요한 요청들 넣어두기
-                        .antMatchers("/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH,"/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET,"/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
