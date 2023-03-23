@@ -35,26 +35,8 @@ jobs:
       uses: gradle/gradle-build-action@v2
     - run: gradle init
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        gradle-version: 7.6.1
-        arguments: build
+      run: ./gradlew build
 
-    - name: Cache node modules
-      uses: actions/cache@v1
-      with:
-          path: node_modules
-          key: ${{ runner.OS }}-master-build-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
-
-    - name: Install Dependencies
-      run: yarn
-
-    - name: Build
-      run: yarn build
-        
     - name: Make zip file
       run: zip -r ./modudogcat.zip .
       shell: bash
