@@ -54,7 +54,7 @@ export default function LoginForm() {
     if (validation())
       //! 로그인 POST
       return await axios
-        .post("/api/auth/login", {
+        .post("/auth/login", {
           id,
           password,
         })
