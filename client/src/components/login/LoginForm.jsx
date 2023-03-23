@@ -15,7 +15,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   //! 리액트 쿠키
-  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
   // login 인풋 값 >> json-server-auth 는 id 말고 email 로 변경해야함
   const [email, setId] = useState("");
@@ -51,11 +51,10 @@ export default function LoginForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (validation()) 
-
+    if (validation())
       //! 로그인 POST
       return await axios
-        .post("http://localhost:8080/login", {
+        .post("auth/login", {
           email,
           password,
         })
@@ -64,17 +63,16 @@ export default function LoginForm() {
 
           //? { path: "/" } 전역에 쿠키 사용
           setCookie("accessToken", res.data.accessToken, { path: "/" });
-          
+          alert("로그인 성공..!");
           // redux isLogin 상태
           // 나중에 get 받은걸 payload 에 넣는다
-          dispatch({ type: "USER_ISLOGIN" })
+          dispatch({ type: "USER_ISLOGIN" });
           navigate("/");
         })
         .catch((error) => {
           console.log(error);
           alert("로그인 실패..!");
         });
-
   };
 
   //! 나중 구글 oath2 할 때,, 쓸려면 쓰고 아님 지울 거
@@ -84,7 +82,6 @@ export default function LoginForm() {
   //   const userObject = jwt_decode(e.credential);
   //   console.log(userObject);
   // };
-
 
   return (
     <Wrapper>

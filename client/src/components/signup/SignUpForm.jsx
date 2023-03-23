@@ -83,7 +83,7 @@ export default function SignUpForm() {
     if (validation())
       //! 회원가입 POST
       await axios
-        .post("http://localhost:8080/register", { id, password, name, email, address })
+        .post("users/sign-up", { id, password, name, email, address })
         .then((res) => {
           // console.log(res.data.accessToken);
           // setCookie('accessToken', res.data.accessToken, { path: '/' })
