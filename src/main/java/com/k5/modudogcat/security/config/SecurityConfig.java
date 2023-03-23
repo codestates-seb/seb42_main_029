@@ -56,7 +56,7 @@ public class SecurityConfig {
 //                    .loginProcessingUrl("/auth/login")
 //                .and()
                 // cors 에러 뜰수도 있음. 그럴시 corsConfigurationSource()로 직접 연결
-                .cors(httpSecurityCorsConfigurer -> withDefaults()) 
+                .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
