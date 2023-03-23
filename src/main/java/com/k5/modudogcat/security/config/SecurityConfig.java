@@ -58,6 +58,7 @@ public class SecurityConfig {
                     .permitAll()
                     .loginPage("/login")
                     .loginProcessingUrl("/auth/login")
+                    .successForwardUrl("/")
                 .and()
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
 
