@@ -11,7 +11,7 @@ export default function SignUpForm() {
   // const [cookies, setCookie, removeCookie] = useCookies()
 
   // input onChange value
-  const [id, setId] = useState("");
+  const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [name, setName] = useState("");
@@ -30,14 +30,16 @@ export default function SignUpForm() {
     const userIdRegex = /^[A-Za-z0-9+]{5,}$/;
     if (!e.target.value || userIdRegex.test(e.target.value)) setIdError(false);
     else setIdError(true);
-    setId(e.target.value);
+    setLoginId(e.target.value);
   };
   const onChangePassword = (e) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
+    if (!e.target.value || passwordRegex.test(e.target.value))
+      setPasswordError(false);
     else setPasswordError(true);
 
-    if (!passwordCheck || e.target.value === passwordCheck) setPasswordCheckError(false);
+    if (!passwordCheck || e.target.value === passwordCheck)
+      setPasswordCheckError(false);
     else setPasswordCheckError(true);
     setPassword(e.target.value);
   };
@@ -51,8 +53,10 @@ export default function SignUpForm() {
     setName(e.target.value);
   };
   const onChangeEmail = (e) => {
-    const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (!e.target.value || emailRegex.test(e.target.value)) setEmailError(false);
+    const emailRegex =
+      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    if (!e.target.value || emailRegex.test(e.target.value))
+      setEmailError(false);
     else setEmailError(true);
     setEmail(e.target.value);
   };
@@ -67,13 +71,13 @@ export default function SignUpForm() {
 
   const validation = () => {
     // 각 값이 있을 때 Error 상태 true 변경
-    if (!id) setIdError(true);
+    if (!loginId) setIdError(true);
     if (!password) setPasswordError(true);
     if (!passwordCheck) setPasswordCheckError(true);
     if (!name) setNameError(true);
     if (!email) setEmailError(true);
 
-    if (id && password && passwordCheck && name && email) return true;
+    if (loginId && password && passwordCheck && name && email) return true;
     else return false;
   };
 
@@ -83,7 +87,7 @@ export default function SignUpForm() {
     if (validation())
       //! 회원가입 POST
       await axios
-        .post("users/sign-up", { id, password, name, email, address })
+        .post("/api/users/sign-up", { loginId, password, name, email, address })
         .then((res) => {
           // console.log(res.data.accessToken);
           // setCookie('accessToken', res.data.accessToken, { path: '/' })
@@ -105,15 +109,31 @@ export default function SignUpForm() {
         {nameError && <ValidP>이름을 입력하세요.</ValidP>}
 
         <label>아이디</label>
-        <input type="text" name="id" onChange={onChangeId} required />
-        {idError && <ValidP>영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.</ValidP>}
+        <input type="text" name="loginId" onChange={onChangeId} required />
+        {idError && (
+          <ValidP>
+            영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
+          </ValidP>
+        )}
 
         <label>비밀번호</label>
-        <input type="password" name="password" onChange={onChangePassword} required />
-        {passwordError && <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>}
+        <input
+          type="password"
+          name="password"
+          onChange={onChangePassword}
+          required
+        />
+        {passwordError && (
+          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
+        )}
 
         <label>비밀번호 확인</label>
-        <input type="password" name="passwordCheck" onChange={onChangePasswordCheck} required />
+        <input
+          type="password"
+          name="passwordCheck"
+          onChange={onChangePasswordCheck}
+          required
+        />
         {passwordCheckError && <ValidP>비밀번호가 일치하지 않습니다.</ValidP>}
 
         <label>이메일</label>
@@ -121,7 +141,13 @@ export default function SignUpForm() {
         {emailError && <ValidP>유효한 이메일 형식을 입력하세요.</ValidP>}
 
         <label>주소</label>
-        <input type="text" name="address" placeholder="배송지를 위한 주소입니다." onChange={onChangeAddress} required />
+        <input
+          type="text"
+          name="address"
+          placeholder="배송지를 위한 주소입니다."
+          onChange={onChangeAddress}
+          required
+        />
         {addressError && <ValidP>주소를 입력하세요.</ValidP>}
         <SignUpBtn>확인</SignUpBtn>
       </form>
