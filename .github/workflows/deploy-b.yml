@@ -31,14 +31,16 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: init with Gradle
-      uses: modudogcat/gradle/gradle-build-action@v2
-    - run: gradle init
+    - name: Add permission
+      run: chmod +x gradlew
+      with:
+        path: modudogcat
     - name: Build with Gradle
-      uses: modudogcat/gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      run: ./gradlew build
       with:
         gradle-version: 7.6.1
         arguments: build
+        path: modudogcat
 
     - name: Make zip file
       run: zip -r ./modudogcat-back.zip .
