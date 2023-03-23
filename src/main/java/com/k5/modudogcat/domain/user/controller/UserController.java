@@ -27,7 +27,7 @@ public class UserController {
     private final static String USER_DEFAULT_URL = "/users/";
     private final UserMapper mapper;
     private final UserService userService;
-
+    @CrossOrigin
     @PostMapping("/sign-up")
     public ResponseEntity postUser(@RequestBody UserDto.Post postDto){
         User user = mapper.userPostToUser(postDto);
