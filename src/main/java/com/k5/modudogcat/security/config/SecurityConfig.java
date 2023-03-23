@@ -22,6 +22,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -56,7 +57,8 @@ public class SecurityConfig {
 //                    .loginProcessingUrl("/auth/login")
 //                .and()
                 // cors 에러 뜰수도 있음. 그럴시 corsConfigurationSource()로 직접 연결
-                .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
@@ -91,9 +93,9 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS","PATCH","DELETE","PUT"));
 //        configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh"));
         configuration.setAllowCredentials(true);
 
