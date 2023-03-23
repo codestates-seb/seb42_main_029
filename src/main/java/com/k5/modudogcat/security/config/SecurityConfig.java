@@ -37,6 +37,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer(){
         return (web) -> web.ignoring()
                 .antMatchers(HttpMethod.POST, "/users/sign-up");
+//                .antMatchers(HttpMethod.POST, "/auth/login");
     }
 
     @Bean
@@ -52,10 +53,11 @@ public class SecurityConfig {
                 .httpBasic()
                     .disable()
                 .formLogin()
-                    .disable()
+                    .permitAll()
+//                    .disable()
 //                    .loginPage()
 //                    .loginProcessingUrl("/auth/login")
-//                .and()
+                .and()
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
 
                 .sessionManagement()
