@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "dev/be" ]
+    branches: [ "feat/be/deploy" ]
   pull_request:
-    branches: [ "dev/be" ]
+    branches: [ "feat/be/deploy" ]
 
 permissions:
   contents: read
@@ -33,14 +33,11 @@ jobs:
         distribution: 'temurin'
     - name: Add permission
       run: chmod +x gradlew
-      with:
-        path: modudogcat
     - name: Build with Gradle
       run: ./gradlew build
       with:
         gradle-version: 7.6.1
         arguments: build
-        path: modudogcat
 
     - name: Make zip file
       run: zip -r ./modudogcat-back.zip .
