@@ -1,8 +1,9 @@
 #!/bin/bash
 # 빌드 파일의 이름이 콘텐츠와 다르다면 다음 줄의 .jar 파일 이름을 수정하시기 바랍니다.
-BUILD_JAR=$(ls /home/ubuntu/deploy-b/modudogcat-0.0.1-SNAPSHOT.jar)
+BUILD_JAR=$(ls /home/ubuntu/deploy-b/build/libs/modudogcat-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
+# shellcheck disable=SC2129
 echo "> 현재 시간: $(date)" >> /home/ubuntu/deploy-b/deploy.log
 
 echo "> build 파일명: $JAR_NAME" >> /home/ubuntu/deploy-b/deploy.log

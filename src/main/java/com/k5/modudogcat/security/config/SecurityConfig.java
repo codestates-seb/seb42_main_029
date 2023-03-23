@@ -66,7 +66,7 @@ public class SecurityConfig {
 
                 //CORS 요청시, 수정 필요할 수도 있음
                 .headers()
-                    .frameOptions().sameOrigin()
+                    .frameOptions().disable()
 
                 .and()
                 .apply(new CustomFilterConfigurer())
