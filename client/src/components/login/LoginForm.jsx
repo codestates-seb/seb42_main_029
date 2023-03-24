@@ -33,8 +33,7 @@ export default function LoginForm() {
   };
   const onChangePassword = (e) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!e.target.value || passwordRegex.test(e.target.value))
-      setPasswordError(false);
+    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
     else setPasswordError(true);
     setPassword(e.target.value);
   };
@@ -72,7 +71,7 @@ export default function LoginForm() {
           // console.log(res.data.accessToken);
 
           //? { path: "/" } 전역에 쿠키 사용
-          setCookie("accessToken", res.data.accessToken, { path: "/" });
+          setCookie("accessToken", res.headers.authorization, { path: "/" });
           alert("로그인 성공..!");
           // redux isLogin 상태
           // 나중에 get 받은걸 payload 에 넣는다
@@ -99,21 +98,10 @@ export default function LoginForm() {
       <form onSubmit={onSubmit}>
         <label>아이디</label>
         <input type="text" name="username" onChange={onChangeId} required />
-        {idError && (
-          <ValidP>
-            영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
-          </ValidP>
-        )}
+        {idError && <ValidP>영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.</ValidP>}
         <label>비밀번호</label>
-        <input
-          type="password"
-          name="password"
-          onChange={onChangePassword}
-          required
-        />
-        {passwordError && (
-          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
-        )}
+        <input type="password" name="password" onChange={onChangePassword} required />
+        {passwordError && <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>}
         <LoginBtn>로그인</LoginBtn>
 
         {/* <GoogleLoginForm />
