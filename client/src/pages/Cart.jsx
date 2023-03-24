@@ -63,7 +63,7 @@ const handleSingleCheck = (checked, id) => {
                 <ItemStyle>
                   <ItemsImage src={data.image} alt="못찾겠따"/>
                 </ItemStyle>
-                <ItemStyle>{data.name}</ItemStyle>
+                <ItemStyle maxwid="200">{data.name}</ItemStyle>
                 <ItemStyle color="#ff5c00">{data.price}</ItemStyle>
                 <ItemStyle>
 
@@ -97,7 +97,7 @@ const Container = styled.div`
   flex-direction: column;
   margin-top:20px;
   align-items:center;
-  justify-content:center;
+  // justify-content:center;
 `
 
 const CartTitle = styled.div`
@@ -125,9 +125,11 @@ const Title = styled.span`
   display:flex;
 `
 const ProductBox = styled.div`
-  display:flex;
+  display:grid;
+  grid-template-columns:0.5fr 1fr 3fr 1fr 1fr 1fr 1fr;
+  grid-auto-rows:minmax(150px, auto)
+  height:150px;
   align-items:center;
-  height:100px;
   border: 1px solid gray;
   background-color:white;
 `
@@ -164,14 +166,8 @@ const PayBtn = styled.button`
  }
 `
 
-// 추후에 상품의 정보를 배열값으로 설정하기
-
-
 const ItemStyle = styled.div`
-  display:grid;
-  align-items: center;
-  grid-template-rows: 30px 1fr 11fr 1fr 0.5fr 0.5fr 1fr;
   color: ${props => props.color || 'black'};
-  width:15%;
 `
+
 export default Cart;
