@@ -6,144 +6,6 @@ import dummy from '../assets/dummy/dummy.json';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../Redux/action'
 
-const Container = styled.div`
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items:center;
-  width:100%;
-`
-const ContainerTop = styled.div`
-  display:flex;
-  align-items:center;
-`
-const ItemsImage = styled.img`  
-  width: 580px;
-  height: 543px;  
-`
-const TextArea = styled.div`
-  font-size:32px;     
-  margin-left: 100px;  
-  display:flex;
-  justify-content: center;  
-  flex-direction:column;
-`
-const TextContainer = styled.div`
-  margin-top:30px;  
-`
-const TextPosition = styled.span`
-  margin-left:50px;
-`
-const TextOrange = styled.span`
-  color: #FF5C00;
-  margin-left:30px;
-`
-
-const ButtonStyle = styled.button`
-  font-size:24px;
-  width:190px;
-  height:100px;  
-  margin-left:50px;
-  margin-top:60px; 
-  border-radius: 10px;
-  &:hover{
-    font-size:26px;
-  }
-`
-
-const Information = styled.div`
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-`
-
-const InformationText = styled.div`
-  margin-top: 30px;
-  margin-bottom: 30px;
-  font-size:36px;
-  font-weight:bold;
-`
-const CommonContainer = styled.div`
-  display:flex;    
-  flex-direction:column;
-  margin-top:30px;
-  background-color: #D9D9D9;
-  width:100%;
-  height:463px;
-`
-const CommonTitle = styled.div`
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding-left:20px;
-  padding-right:20px;
-  margin-bottom:20px;
-  margin-top:20px;
-`
-const QnaInfo = styled.div`
-  font-size:24px;  
-  margin-top:-25px;
-`
-const QnaQuestionbtn = styled.button`
-  width:248px;
-  height:73px;
-  border-radius:10px;
-  background-color:#FBB3B3;
-  font-size:24px;
-    &:hover{
-      background-color:#FCB3BF;
-      color:yellow;
-    }
-  margin-bottom:40px;
-`
-const Contents = styled.div`
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-`
-const CommonNo = styled.div`
-  height:100px;
-  background-color:#FBD8D8;
-  width:5%;
-`
-const CommonSubject = styled.div`
-height:100px;
-background-color:#FFC2C2;
-width:50%;
-`
-const CommonWriter = styled.div`
-height:100px;
-background-color:#A48686;
-width:10%;
-`
-const CommonDate = styled.div`
-height:100px;
-background-color:#DDA9A9;
-width:10%;
-`
-const CommonCategory = styled.div`
-height:100px;
-background-color:#CDA9A9;
-width:10%;
-`
-const Star = styled.div`
-height:100px;
-background-color:#DDA9A9;
-width:10%;
-`
-const Category = styled.div`
-  width:100px;
-  height:70px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:20px;
-  background-color: gray;
-  font-size:24px;  
-`
-
 const ProductInfo = () => {
   // const product6_name = dummy.sample.map(val => (val.name))
   const product6_img = dummy.sample[5].image;
@@ -152,7 +14,7 @@ const ProductInfo = () => {
   const product6_proid = dummy.sample[5].product_id;
 
 
-  //Redux
+  //Redux 장바구니에 추가하기
   const cartItems = useSelector((state) => state.cartItems);
   const dispatch = useDispatch();
 
@@ -254,4 +116,148 @@ const ProductInfo = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  width:100%;
+`
+const ContainerTop = styled.div`
+  display:flex;
+  align-items:center;
+`
+const ItemsImage = styled.img`  
+  width: 580px;
+  height: 543px;  
+`
+const TextArea = styled.div`
+  font-size:32px;     
+  margin-left: 100px;  
+  display:flex;
+  justify-content: center;  
+  flex-direction:column;
+`
+const TextContainer = styled.div`
+  margin-top:30px;  
+`
+const TextPosition = styled.span`
+  margin-left:50px;
+`
+const TextOrange = styled.span`
+  color: #FF5C00;
+  margin-left:30px;
+`
+
+const ButtonStyle = styled.button`
+  font-size:24px;
+  width:190px;
+  height:100px;  
+  margin-left:50px;
+  margin-top:60px; 
+  border-radius: 10px;
+  &:hover{
+    font-size:26px;
+   }
+   &:active{
+    background-color:gray;
+   }
+`
+
+const Information = styled.div`
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+`
+
+const InformationText = styled.div`
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size:36px;
+  font-weight:bold;
+`
+const CommonContainer = styled.div`
+  display:flex;    
+  flex-direction:column;
+  margin-top:30px;
+  background-color: #D9D9D9;
+  width:100%;
+  height:463px;
+`
+const CommonTitle = styled.div`
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-left:20px;
+  padding-right:20px;
+  margin-bottom:20px;
+  margin-top:20px;
+`
+const QnaInfo = styled.div`
+  font-size:24px;  
+  margin-top:-25px;
+`
+const QnaQuestionbtn = styled.button`
+  width:248px;
+  height:73px;
+  border-radius:10px;
+  background-color:#FBB3B3;
+  font-size:24px;
+  &:hover{
+    font-size:26px;
+   }
+   &:active{
+    background-color:gray;
+   }
+  margin-bottom:40px;
+`
+const Contents = styled.div`
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+`
+const CommonNo = styled.div`
+  height:100px;
+  background-color:#FBD8D8;
+  width:5%;
+`
+const CommonSubject = styled.div`
+height:100px;
+background-color:#FFC2C2;
+width:50%;
+`
+const CommonWriter = styled.div`
+height:100px;
+background-color:#A48686;
+width:10%;
+`
+const CommonDate = styled.div`
+height:100px;
+background-color:#DDA9A9;
+width:10%;
+`
+const CommonCategory = styled.div`
+height:100px;
+background-color:#CDA9A9;
+width:10%;
+`
+const Star = styled.div`
+height:100px;
+background-color:#DDA9A9;
+width:10%;
+`
+const Category = styled.div`
+  width:100px;
+  height:70px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:20px;
+  background-color: gray;
+  font-size:24px;  
+`
+
 export default ProductInfo;
