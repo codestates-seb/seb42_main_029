@@ -31,19 +31,19 @@ jobs:
 
     - name: zip create
         # zip 파일을 만듭니다(파일명은 자유, 대신 아래 workflow에 적을 파일명과 동일하게 맞춰주세요).
-      run: zip -qq -r ./build-fe.zip .
+      run: zip -qq -r ./modudogcat-fe.zip .
       shell: bash
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_1 }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_1 }}
         aws-region: ap-northeast-2
 
     - name: Upload to S3 # Upload build file to S3
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_1 }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_1 }}
       run: |
         aws s3 cp --region ap-northeast-2 ./modudogcat-fe.zip s3://$S3_BUCKET_NAME/modudogcat-fe.zip
