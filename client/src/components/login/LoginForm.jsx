@@ -69,10 +69,11 @@ export default function LoginForm() {
           { header }
         )
         .then((res) => {
-          // console.log(res.data.accessToken);
+          console.log(res);
+          console.log(res.headers.authorization);
 
           //? { path: "/" } 전역에 쿠키 사용
-          setCookie("accessToken", res.data.accessToken, { path: "/" });
+          setCookie("accessToken", res.headers.authorization, { path: "/" });
           alert("로그인 성공..!");
           // redux isLogin 상태
           // 나중에 get 받은걸 payload 에 넣는다
