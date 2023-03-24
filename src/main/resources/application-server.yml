@@ -5,8 +5,9 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://database-1.ckzdqlg4gwg9.ap-northeast-2.rds.amazonaws.com:3306/database-1
+    url: jdbc:mysql://database-1.ckzdqlg4gwg9.ap-northeast-2.rds.amazonaws.com:3306/modudogcat?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: admin
     password: qwer1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
 config:
-  domain: http://http://modudogcat-front.s3-website.ap-northeast-2.amazonaws.com
+  domain: http://modudogcat-front.s3-website.ap-northeast-2.amazonaws.com
