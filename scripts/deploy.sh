@@ -15,7 +15,7 @@ cp $BUILD_JAR $DEPLOY_PATH
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ubuntu/deploy-b/deploy.log
 CURRENT_PID=$(pgrep -f $JAR_NAME)
 
-echo "> 현재 실행 중인 애플리케이션 pid : $CURRENT_PID" >> /home/ubuntu/deploy-b/deploy.log
+echo "> 현재 실행중인 애플리케이션 pid: $CURRENT_PID" >> /home/ubuntu/deploy-b/deploy.log
 
 if [ -z $CURRENT_PID ]
 then
@@ -33,4 +33,5 @@ DEPLOY_JAR=$JAR_NAME
 
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy-b/deploy.log
 cd $DEPLOY_PATH
-sudo nohup java -jar -Dspring.profiles.active=server $DEPLOY_JAR >> /home/ubuntu/deploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
+# shellcheck disable=SC2024
+sudo -E nohup java -jar -Dspring.profiles.active=server $DEPLOY_JAR >> /home/ubuntu/deploy.log 2> /home/ubuntu/deploy-b/deploy_err.log &
