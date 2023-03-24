@@ -31,4 +31,4 @@ DEPLOY_JAR=$JAR_NAME
 
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy-b/deploy.log
 cd $DEPLOY_PATH
-sudo nohup java -jar -Dspring.profiles.active=server $DEPLOY_JAR >> /home/ubuntu/deploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
+sudo nohup java -jar -Dspring.profiles.active=server $DEPLOY_JAR.jar >> /home/ubuntu/deploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
