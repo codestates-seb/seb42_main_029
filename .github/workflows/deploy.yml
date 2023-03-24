@@ -29,11 +29,6 @@ jobs:
       env:
         CI: ""
 
-    - name: zip create
-        # zip 파일을 만듭니다(파일명은 자유, 대신 아래 workflow에 적을 파일명과 동일하게 맞춰주세요).
-      run: zip -qq -r ./modudogcat-fe.zip .
-      shell: bash
-
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -42,4 +37,4 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: Upload to S3 # Upload build file to S3
-      run: aws s3 cp --region ap-northeast-2 ./modudogcat-fe.zip s3://$S3_BUCKET_NAME/modudogcat-fe.zip
+      run: aws s3 cp --region ap-northeast-2 ./ s3://$S3_BUCKET_NAME/
