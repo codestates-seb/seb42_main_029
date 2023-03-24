@@ -55,11 +55,8 @@ public class SecurityConfig {
                 .httpBasic()
                     .disable()
                 .formLogin()
-                    .permitAll()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/auth/login")
-                    .successForwardUrl("/")
-                .and()
+                    .disable()
+
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
 
                 .sessionManagement()
