@@ -15,10 +15,10 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   //! 리액트 쿠키
-  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
   // login 인풋 값 >> json-server-auth 는 id 말고 email 로 변경해야함
-  const [email, setId] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [idError, setIdError] = useState(false);
@@ -29,7 +29,7 @@ export default function LoginForm() {
     const userIdRegex = /^[A-Za-z0-9+]{5,}$/;
     if (!e.target.value || userIdRegex.test(e.target.value)) setIdError(false);
     else setIdError(true);
-    setId(e.target.value);
+    setUsername(e.target.value);
   };
   const onChangePassword = (e) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -41,40 +41,48 @@ export default function LoginForm() {
 
   const validation = () => {
     // 각 값이 있을 때 Error 상태 true 변경
-    if (!email) setIdError(true);
+    if (!username) setIdError(true);
     if (!password) setPasswordError(true);
 
-    if (email && password) return true;
+    if (username && password) return true;
     else return false;
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (validation()) 
+    const header = {
+      headers: {
+        withCredentials: true,
+      },
+    };
 
+    if (validation())
       //! 로그인 POST
       return await axios
-        .post("http://localhost:8080/login", {
-          email,
-          password,
-        })
+        .post(
+          "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/auth/login",
+          {
+            username,
+            password,
+          },
+          { header }
+        )
         .then((res) => {
           // console.log(res.data.accessToken);
 
           //? { path: "/" } 전역에 쿠키 사용
           setCookie("accessToken", res.data.accessToken, { path: "/" });
-          
+
           // redux isLogin 상태
           // 나중에 get 받은걸 payload 에 넣는다
-          dispatch({ type: "USER_ISLOGIN" })
+          dispatch({ type: "USER_ISLOGIN" });
           navigate("/");
         })
         .catch((error) => {
           console.log(error);
           alert("로그인 실패..!");
         });
-
   };
 
   //! 나중 구글 oath2 할 때,, 쓸려면 쓰고 아님 지울 거
@@ -84,7 +92,6 @@ export default function LoginForm() {
   //   const userObject = jwt_decode(e.credential);
   //   console.log(userObject);
   // };
-
 
   return (
     <Wrapper>
