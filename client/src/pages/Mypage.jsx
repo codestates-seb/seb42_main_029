@@ -40,29 +40,25 @@ function Mypage() {
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
   console.log(cookies.accessToken);
 
-  const header = {
+  const options = {
     headers: {
-      Authorization: cookies,
+      Authorization: cookies.accessToken,
     },
+    withCredentials: true,
   };
 
   function userInfoAxios() {
     return axios
-      .get(
-        `http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/my-page`,
-        {
-          "Content-Type": "application/json",
-        },
-        { header }
-      )
+      .get(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/my-page`, options)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
         setUserData(res.data);
-        // dispatch({ type: "USER_LOGIN", payload: res.data });
+        // dispatch({ type: "USER_INFORMATION", payload: res.data });
       })
       .catch((err) => {
         console.log("userData GET error");
+        console.log(options);
       });
   }
   //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
