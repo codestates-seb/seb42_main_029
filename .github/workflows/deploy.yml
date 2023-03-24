@@ -42,8 +42,4 @@ jobs:
         aws-region: ap-northeast-2
 
     - name: Upload to S3 # Upload build file to S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_1 }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_1 }}
-      run: |
-        aws s3 cp --region ap-northeast-2 ./modudogcat-fe.zip s3://$S3_BUCKET_NAME/modudogcat-fe.zip
+      run: aws s3 cp --region ap-northeast-2 ./modudogcat-fe.zip s3://$S3_BUCKET_NAME/modudogcat-fe.zip
