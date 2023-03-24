@@ -36,5 +36,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_1 }}
         aws-region: ap-northeast-2
 
-    - name: Upload to S3 # Upload build file to S3
-      run: aws s3 cp --region ap-northeast-2 ./ s3://$S3_BUCKET_NAME/
+    - name: Upload to S3
+      run: |
+        aws s3 cp --recursive --region ap-northeast-2 build s3://$S3_BUCKET_NAME
