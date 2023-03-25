@@ -48,22 +48,36 @@ function Mypage() {
   };
 
   function userInfoAxios() {
-    return axios
-      .get(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/my-page`, options)
-      .then((res) => {
-        console.log(`res.data:`);
-        console.log(res.data);
-        setUserData(res.data);
-        // dispatch({ type: "USER_INFORMATION", payload: res.data });
-      })
-      .catch((err) => {
-        console.log("userData GET error");
-        console.log(options);
-      });
+    return (
+      axios
+        .get(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, options)
+        .then((res) => {
+          console.log(`res.data:`);
+          console.log(res.data);
+          setUserData(res.data.data);
+
+          console.log(res.data.data);
+          dispatch({ type: "USER_INFORMATION", payload: res.data.data });
+          // 디스패치는 되다가 안되다가 함 아직 보완 필요
+        })
+        // .then(() => {
+        //   console.log(userData);
+        // dispatch({ type: "USER_INFORMATION", payload: userData });
+        //   console.log(state.user);
+        // })
+        .catch((err) => {
+          console.log("userData GET error");
+          console.log(options);
+        })
+    );
   }
   //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
   useEffect(() => {
+    console.log(state);
+
     userInfoAxios();
+    // dispatch({ type: "USER_INFORMATION", payload: userData });
+    console.log(state);
   }, []);
 
   //! 변경사항 서버에 patch하기 위한 함수
@@ -155,7 +169,7 @@ function Mypage() {
               중복검사
             </button> */}
           </div>
-          <div className="cant-change">{userData.id}</div>
+          <div className="cant-change">{userData.loginId}</div>
           <div>비밀번호</div>
           <input onChange={(e) => setPassword(e.target.value)} defaultValue={userData.password}></input>
           <div>비밀번호 확인</div>

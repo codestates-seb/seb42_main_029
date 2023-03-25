@@ -17,13 +17,19 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         isLogin: false,
+        userId: undefined,
+        name: undefined,
+        sellerId: undefined,
+        adminId: undefined,
+        role: undefined,
       };
     else if (action.type === "USER_INFORMATION")
       // 유저정보 저장
       return {
         ...state,
         userId: action.payload.userId,
-        role: action.payload.role,
+        name: action.payload.name,
+        // role: action.payload.role,
       };
     else if (action.type === "SELLER_INFORMATION")
       // 유저정보 저장
