@@ -30,12 +30,9 @@ DEPLOYBUILD_PATH=/home/ubuntu/deploy-b/build/libs/
 
 cd $DEPLOY_PATH
 
-echo "> $JAR_NAME 실행 권한 추가" >> /home/ubuntu/deploy-b/deploy.log
-chmod +x $JAR_NAME
-
 echo "> 현재 디렉토리: $(pwd)" >> /home/ubuntu/deploy-b/deploy.log
 
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy-b/deploy.log
-sudo nohup java -jar -Dspring.profiles.active=server $JAR_NAME >> /home/ubuntu/deploy-b/resultDeploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
+nohup java -jar -Dspring.profiles.active=server $JAR_NAME >> /home/ubuntu/deploy-b/resultDeploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
 
 echo "> ---------------------------------------------------" >> /home/ubuntu/deploy-b/deploy.log
