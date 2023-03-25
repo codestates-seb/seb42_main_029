@@ -38,6 +38,6 @@ echo "> ------------------------------------------------------------------------
 
 echo "> 현재 시간: $(date)" >> /home/ubuntu/deploy-b/resultDeploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
 
-nohup java -jar -Dspring.profiles.active=server $JAR_NAME >> /home/ubuntu/deploy-b/resultDeploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
+java -jar -Dspring.profiles.active=server $JAR_NAME >> /home/ubuntu/deploy-b/resultDeploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
 
 echo "> --------------------------------------------------" >> /home/ubuntu/deploy-b/deploy.log
