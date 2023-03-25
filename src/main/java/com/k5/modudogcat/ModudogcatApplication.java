@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 @EnableJpaAuditing
 @SpringBootApplication
 public class ModudogcatApplication {
-
-	@Value("${jwt.key}")
-	private static String jwt;
 	public static void main(String[] args) {
-		System.out.println(jwt);
-		SpringApplication.run(ModudogcatApplication.class, args);
-	}
 
+		SpringApplication.run(ModudogcatApplication.class, args);
+
+	}
 }
