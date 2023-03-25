@@ -35,7 +35,7 @@ jobs:
     - name: Plus Yaml
       uses: microsoft/variable-substitution@v1
       with:
-        files: ../src/main/resources/application-sever.yml
+        files: modudogcat/src/main/resources/application-sever.yml
       env:
         jwt.key: ${{ secrets.JWT_SECRET_KEY }}
 
