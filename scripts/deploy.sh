@@ -37,4 +37,6 @@ echo "> 현재 디렉토리: $(pwd)" >> /home/ubuntu/deploy-b/deploy.log
 
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy-b/deploy.log
 # shellcheck disable=SC2024
-sudo nohup java -jar -Dspring.profiles.active=server $DEPLOYBUILD_PATH$JAR_NAME >> /home/ubuntu/deploy.log 2> /home/ubuntu/deploy-b/deploy_err.log &
+su - ubuntu -c nohup java -jar -Dspring.profiles.active=server $DEPLOYBUILD_PATH$JAR_NAME >> /home/ubuntu/deploy.log 2> /home/ubuntu/deploy-b/deploy_err.log &
+
+echo "> ---------------------------------------------------"
