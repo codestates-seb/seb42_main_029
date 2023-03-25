@@ -36,7 +36,7 @@ cd $DEPLOY_PATH
 echo "> 현재 디렉토리: $(pwd)" >> /home/ubuntu/deploy-b/deploy.log
 
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy-b/deploy.log
-# shellcheck disable=SC2024
-nohup java -jar -Dspring.profiles.active=server $DEPLOYBUILD_PATH$JAR_NAME &
+
+nohup java -jar -Dspring.profiles.active=server $DEPLOYBUILD_PATH$JAR_NAME >/home/ubuntu/deploy-b/result-deploy.log &
 
 echo "> ---------------------------------------------------" >> /home/ubuntu/deploy-b/deploy.log
