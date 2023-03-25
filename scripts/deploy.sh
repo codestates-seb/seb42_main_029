@@ -27,11 +27,9 @@ else
 fi
 
 echo "> $JAR_NAME 실행 권한 추가" >> /home/ubuntu/deploy-b/deploy.log
-chmod +x $JAR_NAME
 
-DEPLOY_JAR=$JAR_NAME
+DEPLOYBUILD_PATH=/home/ubuntu/deploy-b/build/libs/
 
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy-b/deploy.log
-cd $DEPLOY_PATH
 # shellcheck disable=SC2024
-sudo -E nohup java -jar -Dspring.profiles.active=server $DEPLOY_JAR >> /home/ubuntu/deploy.log 2> /home/ubuntu/deploy-b/deploy_err.log &
+sudo -E nohup java -jar -Dspring.profiles.active=server $DEPLOYBUILD_PATH$JAR_NAME >> /home/ubuntu/deploy.log 2> /home/ubuntu/deploy-b/deploy_err.log &
