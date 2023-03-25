@@ -32,6 +32,13 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
+    - name: Plus Yaml
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: ../src/main/resources/application-sever.yml
+      env:
+        jwt.key: ${{ secrets.JWT_SECRET_KEY }}
+
     - name: Clean with Gradle
       run: ./gradlew clean
     - name: Build with Gradle
