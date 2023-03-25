@@ -3,12 +3,6 @@
 BUILD_JAR=$(ls /home/ubuntu/deploy-b/build/libs/modudogcat-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
-#ubuntu sudo 권한 부여
-USER_NAME="ubuntu"
-
-#vi /etc/sudoers
-echo ${USER_NAME}"    ALL=(ALL) ALL" >> /etc/sudoers
-
 # shellcheck disable=SC2129
 echo "> 현재 시간: $(date)" >> /home/ubuntu/deploy-b/deploy.log
 
@@ -45,4 +39,4 @@ echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy-b/deploy.log
 # shellcheck disable=SC2024
 sudo nohup java -jar -Dspring.profiles.active=server $DEPLOYBUILD_PATH$JAR_NAME >> /home/ubuntu/deploy.log 2> /home/ubuntu/deploy-b/deploy_err.log &
 
-echo "> ---------------------------------------------------"
+echo "> ---------------------------------------------------" >> /home/ubuntu/deploy-b/deploy.log
