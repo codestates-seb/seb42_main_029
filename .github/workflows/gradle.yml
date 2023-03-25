@@ -52,6 +52,8 @@ jobs:
       run: aws s3 cp --region ap-northeast-2 ./modudogcat.zip s3://$S3_BUCKET_NAME/modudogcat.zip
 
     - name: Code Deploy
+      env:
+        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       run: >
           aws deploy create-deployment --application-name modudogcat
           --deployment-config-name CodeDeployDefault.AllAtOnce
