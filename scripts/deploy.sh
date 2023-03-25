@@ -26,12 +26,12 @@ else
   sleep 5
 fi
 
+cd $DEPLOYBUILD_PATH
+
 echo "> $JAR_NAME 실행 권한 추가" >> /home/ubuntu/deploy-b/deploy.log
+chmod +x $JAR_NAME
 
 DEPLOYBUILD_PATH=/home/ubuntu/deploy-b/build/libs/
-
-# shellcheck disable=SC2164
-cd $DEPLOYBUILD_PATH
 
 echo "> 현재 디렉토리: $(pwd)" >> /home/ubuntu/deploy-b/deploy.log
 
