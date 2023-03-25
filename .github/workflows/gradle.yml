@@ -31,9 +31,6 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: init with Gradle
-      uses: gradle/gradle-build-action@v2
-    - run: gradle init
     - name: Build with Gradle
       run: ./gradlew build
 
