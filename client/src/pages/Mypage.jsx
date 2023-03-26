@@ -98,7 +98,7 @@ function Mypage() {
       patchdata.address = address;
     }
     return axios
-      .patch(`http://localhost:8080/users/${id}`, patchdata, {
+      .patch(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, patchdata, {
         "Content-Type": "application/json",
       })
       .then((res) => {
@@ -117,7 +117,7 @@ function Mypage() {
   const deleteUser = (id) => {
     // e.preventDefault();
     return axios
-      .delete(`http://localhost:8080/users/${id}`, {
+      .delete(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, {
         "Content-Type": "application/json",
       })
       .then((res) => {
