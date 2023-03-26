@@ -1,12 +1,12 @@
 import React, { useReducer } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { legacy_createStore as createStore, combineReducers } from "redux";
+// import { legacy_createStore as createStore, combineReducers } from "redux";
+
+// redux-persist import
 import { Provider } from "react-redux";
-// import userReducer from "./Redux/userReducer";
 import rootReducer from "./Redux/index.js";
 import { configureStore } from '@reduxjs/toolkit';
-
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import storage from "redux-persist/lib/storage";
