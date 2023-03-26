@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.user.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.review.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
