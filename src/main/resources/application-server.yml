@@ -1,0 +1,37 @@
+spring:
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        highlight_sql: true
+        format_sql: true
+        show_sql: true
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url: jdbc:mysql://database-1.ckzdqlg4gwg9.ap-northeast-2.rds.amazonaws.com:3306/modudogcat?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: qwer1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 환경변수 처리로 해주세요.
+#config:
+#  domain: http//modudogcat-front.s3-website.ap-northeast-2.amazonaws.com
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 40
+  refresh-token-expiration-minutes: 420
