@@ -4,8 +4,6 @@ import img6 from '../assets/productImage/img_dummy6.png';
 import background_img from '../assets/productImage/img_dummy1_more.jpeg'
 import dummy from '../assets/dummy/dummy.json';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../Redux/action'
-
 const ProductInfo = () => {
   // const product6_name = dummy.sample.map(val => (val.name))
   const product6_img = dummy.sample[5].image;
@@ -19,245 +17,327 @@ const ProductInfo = () => {
   const dispatch = useDispatch();
 
   function handleAddToCart(item) {
-    dispatch(addToCart(item));
-    // dispatch('ADD_TO_CART'(item))
+    // dispatch(addToCart(item));
+    dispatch('ADD_TO_CART'(item))
   }
 
-  return (  
+  return (
+    
     <Container>
       {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
       <ContainerTop>
-        <ItemsImage src={img6} />
+        <ItemsImage src={img6} loading="lazy" />
         <TextArea>
-          <TextContainer><b>상품명</b> <TextPosition>{product6_name}</TextPosition></TextContainer>
-          <TextContainer><b>가격</b> <TextPosition><TextOrange>{product6_price}</TextOrange></TextPosition></TextContainer>
-          <TextContainer><b>배송비</b> <TextPosition>3,000원</TextPosition></TextContainer>                    
-          <div>            
+          <TextContainer>
+            <b>상품명</b> <TextPosition>{product6_name}</TextPosition>
+          </TextContainer>
+          <TextContainer>
+            <b>가격</b>
+            <TextPosition>
+              <TextOrange>{product6_price}</TextOrange>
+            </TextPosition>
+          </TextContainer>
+          <TextContainer>
+            <b>배송비</b> <TextPosition>3,000원</TextPosition>
+          </TextContainer>
+          <ButtonWrapper>
             <ButtonStyle>구매하기</ButtonStyle>
             <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}>
-            
               장바구니에 담기
-              </ButtonStyle>
-          </div>
-        </TextArea>                
+            </ButtonStyle>
+            <ButtonStyle>장바구니에 담기</ButtonStyle>
+          </ButtonWrapper>
+        </TextArea>
       </ContainerTop>
 
       {/* 상단 버튼 구매하기, 장바구니에 담기  */}
 
-      
       {/* 상품설명/사진 */}
       <Information>
-      <InformationText>상품설명</InformationText>
-        <img src={background_img} />
+        <InformationText>제품 상세 설명</InformationText>
+        <img src={background_img} alt="상품설명img" loading="lazy" />
       </Information>
-      
+
       {/* QnA */}
-      <CommonContainer>  
+      <CommonContainer>
         <CommonTitle>
           <Category>QnA</Category>
-          <QnaQuestionbtn>QnA 작성하기</QnaQuestionbtn>          
+          <QnaQuestionbtn>QnA 작성하기</QnaQuestionbtn>
         </CommonTitle>
 
         <Contents>
           <CommonNo>
             <QnaInfo>No</QnaInfo>
-              내용
           </CommonNo>
           <CommonSubject>
             <QnaInfo>Subject</QnaInfo>
-            내용
           </CommonSubject>
           <CommonWriter>
             <QnaInfo>Writer</QnaInfo>
-            내용
           </CommonWriter>
           <CommonDate>
             <QnaInfo>Date</QnaInfo>
-            내용
           </CommonDate>
-        </Contents>        
+        </Contents>
+
+        {/* get data map ㄱㄱ */}
+        {/* <Contents>
+          <CommonNo>
+            <QnaInfo>11</QnaInfo>
+          </CommonNo>
+          <CommonSubject>
+            <QnaInfo>제목</QnaInfo>
+          </CommonSubject>
+          <CommonWriter>
+            <QnaInfo>작성자</QnaInfo>
+          </CommonWriter>
+          <CommonDate>
+            <QnaInfo>날짜?</QnaInfo>
+          </CommonDate>
+        </Contents> */}
       </CommonContainer>
 
       {/* 사용후기 */}
       <CommonContainer>
         <CommonTitle>
           <Category>사용후기</Category>
-          
         </CommonTitle>
 
         <Contents>
           <CommonNo>
             <QnaInfo>No</QnaInfo>
-              내용
           </CommonNo>
           <Star>
             <QnaInfo>Star</QnaInfo>
-            내용
           </Star>
           <CommonCategory>
             <QnaInfo>Category</QnaInfo>
-            내용
           </CommonCategory>
           <CommonSubject>
             <QnaInfo>Subject</QnaInfo>
-            내용
           </CommonSubject>
           <CommonWriter>
             <QnaInfo>Writer</QnaInfo>
-            내용
           </CommonWriter>
           <CommonDate>
             <QnaInfo>Date</QnaInfo>
-            내용
           </CommonDate>
         </Contents>
-
       </CommonContainer>
     </Container>
+    
   );
-};
-
 const Container = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items:center;
-  width:100%;
-`
+  align-items: center;
+  width: 100%;
+  margin: 3rem 0 0 0;
+`;
 const ContainerTop = styled.div`
-  display:flex;
-  align-items:center;
-`
-const ItemsImage = styled.img`  
-  width: 580px;
-  height: 543px;  
-`
+  display: flex;
+  align-items: center;
+  width: 70%;
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+  }
+`;
+const ItemsImage = styled.img`
+  width: 400px;
+  height: 350px;
+  flex: 1;
+
+  @media screen and (max-width: 1024px) {
+    width: 450px;
+  }
+
+  @media screen and (max-width: 767px) {
+    width: 300px;
+  }
+`;
 const TextArea = styled.div`
-  font-size:32px;     
-  margin-left: 100px;  
-  display:flex;
-  justify-content: center;  
-  flex-direction:column;
-`
+  flex: 3;
+  font-size: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 3rem;
+  flex-direction: column;
+
+  @media screen and (max-width: 767px) {
+    margin: 0;
+  }
+`;
 const TextContainer = styled.div`
-  margin-top:30px;  
-`
+  margin-top: 2rem;
+  font-size: 1.2rem;
+
+  @media screen and (max-width: 767px) {
+    font-size: 0.8rem;
+    margin-left: 1.2rem;
+  }
+`;
 const TextPosition = styled.span`
-  margin-left:50px;
-`
+  margin-left: 50px;
+`;
 const TextOrange = styled.span`
-  color: #FF5C00;
-  margin-left:30px;
-`
+  color: #ff5c00;
+  margin-left: 1rem;
+
+  @media screen and (max-width: 767px) {
+    margin-left: 0.7rem;
+  }
+`;
+
+// top button
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 150px;
+`;
 
 const ButtonStyle = styled.button`
-  font-size:24px;
-  width:190px;
-  height:100px;  
-  margin-left:50px;
-  margin-top:60px; 
+  font-size: 1.6rem;
+  width: 150px;
+  height: 60px;
+  margin: 1rem 2rem 0 0;
   border-radius: 10px;
-  &:hover{
-    font-size:26px;
-   }
-   &:active{
-    background-color:gray;
-   }
-`
+  border: none;
+  font-size: 1rem;
+  background-color: #FCB3BF; 
 
+  @media screen and (max-width: 767px) {
+    font-size: 0.8rem;
+    width: 100px;
+    height: 50px;
+  }
+`;
+
+// 상품설명 img
 const Information = styled.div`
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 3rem;
+
+  @media screen and (max-width: 1024px) {
+    img {
+      width: 500px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    img {
+      width: 300px;
+    }
+  }
+`;
 
 const InformationText = styled.div`
-  margin-top: 30px;
-  margin-bottom: 30px;
-  font-size:36px;
-  font-weight:bold;
-`
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  font-size: 1.7rem;
+  font-weight: bold;
+`;
 const CommonContainer = styled.div`
-  display:flex;    
-  flex-direction:column;
-  margin-top:30px;
-  background-color: #D9D9D9;
-  width:100%;
-  height:463px;
-`
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  background-color: #f9e8e8;
+  border-radius: 15px;
+  width: 80%;
+  height: auto;
+`;
 const CommonTitle = styled.div`
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding-left:20px;
-  padding-right:20px;
-  margin-bottom:20px;
-  margin-top:20px;
-`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* margin-bottom: 20px;
+  margin-top: 20px; */
+`;
 const QnaInfo = styled.div`
-  font-size:24px;  
-  margin-top:-25px;
-`
-const QnaQuestionbtn = styled.button`
-  width:248px;
-  height:73px;
-  border-radius:10px;
-  background-color:#FBB3B3;
-  font-size:24px;
-  &:hover{
-    font-size:26px;
-   }
-   &:active{
-    background-color:gray;
-   }
-  margin-bottom:40px;
-`
-const Contents = styled.div`
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-`
-const CommonNo = styled.div`
-  height:100px;
-  background-color:#FBD8D8;
-  width:5%;
-`
-const CommonSubject = styled.div`
-height:100px;
-background-color:#FFC2C2;
-width:50%;
-`
-const CommonWriter = styled.div`
-height:100px;
-background-color:#A48686;
-width:10%;
-`
-const CommonDate = styled.div`
-height:100px;
-background-color:#DDA9A9;
-width:10%;
-`
-const CommonCategory = styled.div`
-height:100px;
-background-color:#CDA9A9;
-width:10%;
-`
-const Star = styled.div`
-height:100px;
-background-color:#DDA9A9;
-width:10%;
-`
-const Category = styled.div`
-  width:100px;
-  height:70px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:20px;
-  background-color: gray;
-  font-size:24px;  
-`
 
+  @media screen and (max-width: 767px) {
+    font-size: 0.7rem;
+  }
+`;
+const QnaQuestionbtn = styled.button`
+  width: 150px;
+  height: 60px;
+  border-radius: 10px;
+  border: none;
+  background-color: #fbb3b3;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  &:hover {
+    background-color: #fcb3bf;
+    color: #ffffff;
+  }
+
+  @media screen and (max-width: 767px) {
+    width: 90px;
+    height: 35px;
+    font-size: 0.7rem;
+  }
+`;
+const Contents = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+const CommonNo = styled.div`
+  height: 1rem;
+  background-color: #fbd8d8;
+  width: 5%;
+  margin-right: 1rem;
+`;
+const CommonSubject = styled.div`
+  height: 1rem;
+  background-color: #ffc2c2;
+  width: 50%;
+  margin-right: 1rem;
+`;
+const CommonWriter = styled.div`
+  height: 1rem;
+  background-color: #a48686;
+  width: 10%;
+  margin-right: 1rem;
+`;
+const CommonDate = styled.div`
+  height: 1rem;
+  background-color: #dda9a9;
+  width: 10%;
+`;
+const CommonCategory = styled.div`
+  height: 1rem;
+  background-color: #cda9a9;
+  width: 10%;
+`;
+const Star = styled.div`
+  height: 1rem;
+  background-color: #dda9a9;
+  width: 7%;
+`;
+const Category = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 90px;
+  height: 70px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+`;
+
+};
 export default ProductInfo;

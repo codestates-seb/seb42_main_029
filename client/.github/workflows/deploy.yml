@@ -1,0 +1,41 @@
+name: React Deploy
+
+on:
+  push:
+    branches: [ "feat/fe/deploy" ]
+
+permissions:
+  contents: read
+
+env:
+  S3_BUCKET_NAME: modudogcat-front
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code. # Repo checkout
+      uses: actions/checkout@v2
+
+    - name: Check Node v # Node v 확인
+      run: node -v
+
+    - name: Install Dependencies # 의존 파일 설치
+      run: npm install
+
+    - name: Build # React Build
+      run: npm run build
+      env:
+        CI: ""
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_1 }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_1 }}
+        aws-region: ap-northeast-2
+
+    - name: Upload to S3
+      run: |
+        aws s3 cp --recursive --region ap-northeast-2 build s3://$S3_BUCKET_NAME

@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SelectBox from "./statusSelectBox";
+import Paging from "../pagination/pagination";
 
 import OrderBox from "./OrderBox";
 function OrderList() {
@@ -280,12 +281,16 @@ function OrderList() {
   //   console.log(e.target.value);
   // };
 
+  //!pagination
+  const [page, setPage] = useState(1);
+
   return (
     <OrderBody>
       <div className="bold">주문 목록 </div>
       {OrderExData.map((el) => (
         <OrderBox el={el} />
       ))}
+      <Paging page={page} setPage={setPage} />
     </OrderBody>
   );
 }
@@ -296,6 +301,9 @@ const OrderBody = styled.div`
   flex-direction: column;
 
   .order {
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     margin-top: 13px;
     display: flex;
     flex-direction: row;
@@ -333,9 +341,15 @@ const OrderBody = styled.div`
 
     .order-left {
       width: 55%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .order-right {
       width: 40%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 `;

@@ -15,10 +15,10 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   //! 리액트 쿠키
-  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
-  // login 인풋 값 >> json-server-auth 는 id 말고 email 로 변경해야함
-  const [email, setId] = useState("");
+  // login 인풋 값 >> json-server-auth 는 username 말고 email 로 변경해야함
+  const [username, setId] = useState("");
   const [password, setPassword] = useState("");
 
   const [idError, setIdError] = useState(false);
@@ -33,48 +33,56 @@ export default function LoginForm() {
   };
   const onChangePassword = (e) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!e.target.value || passwordRegex.test(e.target.value))
-      setPasswordError(false);
+    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
     else setPasswordError(true);
     setPassword(e.target.value);
   };
 
   const validation = () => {
     // 각 값이 있을 때 Error 상태 true 변경
-    if (!email) setIdError(true);
+    if (!username) setIdError(true);
     if (!password) setPasswordError(true);
 
-    if (email && password) return true;
+    if (username && password) return true;
     else return false;
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (validation()) 
+    const header = {
+      headers: {
+        withCredentials: true,
+      },
+    };
 
+    if (validation())
       //! 로그인 POST
       return await axios
-        .post("http://localhost:8080/login", {
-          email,
-          password,
-        })
+        .post(
+          "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/auth/login",
+          {
+            username,
+            password,
+          },
+          { header }
+        )
         .then((res) => {
-          // console.log(res.data.accessToken);
+          console.log(res);
+          console.log(res.headers.authorization);
 
           //? { path: "/" } 전역에 쿠키 사용
-          setCookie("accessToken", res.data.accessToken, { path: "/" });
-          
+          setCookie("accessToken", res.headers.authorization, { path: "/" });
+          alert("로그인 성공..!");
           // redux isLogin 상태
           // 나중에 get 받은걸 payload 에 넣는다
-          dispatch({ type: "USER_ISLOGIN" })
+          dispatch({ type: "USER_ISLOGIN" });
           navigate("/");
         })
         .catch((error) => {
           console.log(error);
           alert("로그인 실패..!");
         });
-
   };
 
   //! 나중 구글 oath2 할 때,, 쓸려면 쓰고 아님 지울 거
@@ -90,22 +98,11 @@ export default function LoginForm() {
       <Title>로그인</Title>
       <form onSubmit={onSubmit}>
         <label>아이디</label>
-        <input type="text" name="id" onChange={onChangeId} required />
-        {idError && (
-          <ValidP>
-            영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
-          </ValidP>
-        )}
+        <input type="text" name="username" onChange={onChangeId} required />
+        {idError && <ValidP>영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.</ValidP>}
         <label>비밀번호</label>
-        <input
-          type="password"
-          name="password"
-          onChange={onChangePassword}
-          required
-        />
-        {passwordError && (
-          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
-        )}
+        <input type="password" name="password" onChange={onChangePassword} required />
+        {passwordError && <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>}
         <LoginBtn>로그인</LoginBtn>
 
         {/* <GoogleLoginForm />

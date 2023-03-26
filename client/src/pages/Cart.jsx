@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
 import dummy from '../assets/dummy/dummy.json';
-
 const val = [
   {id: 0, title: '선택 1'}
 ];
@@ -66,8 +65,7 @@ const handleSingleCheck = (checked, id) => {
                 <ItemStyle maxwid="200">{data.name}</ItemStyle>
                 <ItemStyle color="#ff5c00">{data.price}</ItemStyle>
                 <ItemStyle>
-
-                  수량
+                
                 </ItemStyle>
                 <ItemStyle>합계</ItemStyle>
                 {/* 수량: 리덕스로 counter */}

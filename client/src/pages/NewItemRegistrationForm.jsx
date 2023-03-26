@@ -56,7 +56,7 @@ function NewItemRegistrationForm() {
   return (
     <NewItemRegistrationFormBody>
       <div className="center">
-        <div className="form">
+        {/* <div className="form">
           <div className="bold title">상품 등록 </div>
           <div>상품명 </div>
           <input onChange={(e) => setName(e.target.value)}></input>
@@ -68,9 +68,21 @@ function NewItemRegistrationForm() {
           <input onChange={(e) => setPrice(e.target.value)}></input>
           <div>재고 수 (숫자)</div>
           <input onChange={(e) => setStoke(e.target.value)}></input>
-          {/* <div>카테고리 -향후 셀렉트박스 형식으로도 가능 </div>
-          <input></input> */}
-        </div>
+        </div> */}
+
+        <form className="form" encType="multipart/form-data" method="post">
+          <div className="bold title">상품 등록 </div>
+          <div>상품명 </div>
+          <input onChange={(e) => setName(e.target.value)}></input>
+          <div>메인사진 (정방형 사진 권장)</div>
+          <input onChange={(e) => setImage(e.target.value)} type="file"></input>
+          <div>상세설명 (jpg 파일 형식)</div>
+          <input onChange={(e) => setContent(e.target.value)} type="file"></input>
+          <div>상품가격 (원)</div>
+          <input onChange={(e) => setPrice(e.target.value)}></input>
+          <div>재고 수 (숫자)</div>
+          <input onChange={(e) => setStoke(e.target.value)}></input>
+        </form>
 
         <div className="buttons">
           <SubmitBtn onClick={() => navigate(-1)}>등록취소</SubmitBtn>
@@ -99,6 +111,9 @@ const NewItemRegistrationFormBody = styled.div`
     border-radius: 5px;
     box-shadow: 1px 1px 3px gray;
     margin-top: 4rem;
+    @media screen and (max-width: 768px) {
+      width: 80%;
+    }
     .title {
       margin-top: 2rem;
       font-size: 1.4rem;

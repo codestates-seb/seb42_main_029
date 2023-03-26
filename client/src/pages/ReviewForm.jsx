@@ -10,11 +10,12 @@ function ReviewForm(props) {
   const [score, setScore] = useState();
   const [review, setReview] = useState("");
   const [reviewPhoto, setReviewPhoth] = useState();
+  const [title, setTitle] = useState();
 
   const itemId = props.itemId;
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  console.log(state);
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
-
 
   const [itemData, setItemData] = useState({});
   //! itemId로 item 정보 가져오는 요청
@@ -36,14 +37,27 @@ function ReviewForm(props) {
   // useEffect(()=>{getItemInfo(itemId)},[])
 
   //! 리뷰 등록요청
+  const formData = new FormData();
+  formData.images = reviewPhoto;
+
+  const value = {
+    content: review,
+    score: score,
+    title: title,
+  };
+
+  // const blob = new Blob([JSON.stringify(value)], { type: "application/json" });
+
+  // formData.post = blob;
+  formData.post = JSON.stringify(value);
   function postReview() {
-    console.log(score, review, reviewPhoto);
+    console.log(formData);
   }
 
   return (
     <ReviewFormBody>
       <div className="center">
-        <div className="form">
+        {/* <div className="form">
           <div className="bold title">후기 작성</div>
           <div className="item-information">
             <img className="img" src={"images/img_dummy1.png"}></img>
@@ -55,8 +69,25 @@ function ReviewForm(props) {
           <div>리뷰 사진 등록</div>
           <input type="file" onChange={(e) => setReviewPhoth(e.target.value)}></input>
           <div>상세 후기 작성</div>
-          <input className="detail" onChange={(e) => setReview(e.target.value)}></input>
-        </div>
+          <textarea className="detail" onChange={(e) => setReview(e.target.value)}></textarea>
+        </div> */}
+
+        <form className="form" encType="multipart/form-data" method="post">
+          <div className="bold title">후기 작성</div>
+          <div className="item-information">
+            <img className="img" src={"images/img_dummy1.png"}></img>
+            <div>
+              <div className="item-name"> 상품명 : itemData.name</div>
+            </div>
+          </div>
+          <Rating setScore={setScore} />
+          <div>리뷰 사진 등록</div>
+          <input type="file" accept="image/jpg, image/jpeg, image/png, image/gif" onChange={(e) => setReviewPhoth(e.target.value)}></input>
+          <div>리뷰 제목 작성</div>
+          <input onChange={(e) => setTitle(e.target.value)}></input>
+          <div>상세 후기 작성</div>
+          <textarea className="detail" onChange={(e) => setReview(e.target.value)}></textarea>
+        </form>
 
         <div className="buttons">
           <SubmitBtn>등록취소</SubmitBtn>
@@ -92,7 +123,7 @@ const ReviewFormBody = styled.div`
     align-items: center;
     background-color: #feeade;
     width: 50%;
-    height: 700px;
+    height: 750px;
     border-radius: 5px;
     box-shadow: 1px 1px 3px gray;
     margin-top: 4rem;
@@ -112,6 +143,7 @@ const ReviewFormBody = styled.div`
       }
       .detail {
         height: 250px;
+        width: 100%;
       }
       .img {
         width: 120px;

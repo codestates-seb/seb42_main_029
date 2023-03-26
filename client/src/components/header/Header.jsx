@@ -33,8 +33,12 @@ export default function Header() {
         <Link to="/" style={{ textDecorationLine: "none" }}>
           <p>Home</p>
         </Link>
-        <p>Shop</p>
-        <p>About</p>
+        <Link to="/shop" style={{ textDecorationLine: "none" }}>
+          <p>Shop</p>
+        </Link>
+        <Link to="/about" style={{ textDecorationLine: "none" }}>
+          <p>About</p>
+        </Link>
       </LeftSide>
 
       <MiddleSide>
@@ -67,14 +71,8 @@ export default function Header() {
             </Link>
           </RightSide>
           <MenuLogo>
-            <img
-              src={hamburgerLogo}
-              alt="MobileMenu"
-              onClick={showMobileMenuModal}
-            />
-            {mobileModalOpen && (
-              <MobileMenu setMobileModalOpen={setMobileModalOpen} />
-            )}
+            <img src={hamburgerLogo} alt="MobileMenu" onClick={showMobileMenuModal} />
+            {mobileModalOpen && <MobileMenu setMobileModalOpen={setMobileModalOpen} />}
           </MenuLogo>
         </>
       ) : (
@@ -92,18 +90,8 @@ export default function Header() {
             </Link>
           </RightSide>
           <MenuLogo>
-            <img
-              src={hamburgerLogo}
-              alt="MobileMenu"
-              onClick={showMobileMenuModal}
-            />
-            {mobileModalOpen && (
-              <MobileMenu
-                setMobileModalOpen={setMobileModalOpen}
-                modalOpen={modalOpen}
-                setModalOpen={setModalOpen}
-              />
-            )}
+            <img src={hamburgerLogo} alt="MobileMenu" onClick={showMobileMenuModal} />
+            {mobileModalOpen && <MobileMenu setMobileModalOpen={setMobileModalOpen} modalOpen={modalOpen} setModalOpen={setModalOpen} />}
           </MenuLogo>
         </>
       )}
@@ -121,6 +109,7 @@ const Wrapper = styled.div`
   position: sticky;
   top: 0;
   color: #363636;
+  z-index: 900;
 `;
 
 const LeftSide = styled.div`

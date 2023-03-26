@@ -7,11 +7,11 @@ import { useCookies } from "react-cookie";
 export default function SignUpForm() {
   const navigate = useNavigate();
 
-  //! 리액트 쿠키 
+  //! 리액트 쿠키
   // const [cookies, setCookie, removeCookie] = useCookies()
 
   // input onChange value
-  const [id, setId] = useState("");
+  const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [name, setName] = useState("");
@@ -30,7 +30,7 @@ export default function SignUpForm() {
     const userIdRegex = /^[A-Za-z0-9+]{5,}$/;
     if (!e.target.value || userIdRegex.test(e.target.value)) setIdError(false);
     else setIdError(true);
-    setId(e.target.value);
+    setLoginId(e.target.value);
   };
   const onChangePassword = (e) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -71,47 +71,55 @@ export default function SignUpForm() {
 
   const validation = () => {
     // 각 값이 있을 때 Error 상태 true 변경
-    if (!id) setIdError(true);
+    if (!loginId) setIdError(true);
     if (!password) setPasswordError(true);
     if (!passwordCheck) setPasswordCheckError(true);
     if (!name) setNameError(true);
     if (!email) setEmailError(true);
 
-    if (id && password && passwordCheck && name && email) return true;
+    if (loginId && password && passwordCheck && name && email) return true;
     else return false;
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const header = {
+      headers: {
+        withCredentials: true,
+      },
+    };
+
     if (validation())
-
-    //! 회원가입 POST
-    await axios
-      .post("http://localhost:8080/register", {id, password, name, email, address })
-      .then((res) => {
-
-        // console.log(res.data.accessToken);
-        // setCookie('accessToken', res.data.accessToken, { path: '/' })
-        navigate("/login");
-        alert("회원가입 성공..!");
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("회원가입 실패..!");
-      });
+      //! 회원가입 POST
+      await axios
+        .post(
+          "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/sign-up",
+          { loginId, password, name, email, address },
+          { header }
+        )
+        .then((res) => {
+          // console.log(res.data.accessToken);
+          // setCookie('accessToken', res.data.accessToken, { path: '/' })
+          navigate("/login");
+          alert("회원가입 성공..!");
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("회원가입 실패..!");
+        });
   };
 
   return (
     <Wrapper>
       <Title>일반 회원가입</Title>
-      <form onSubmit={onSubmit} >
+      <form onSubmit={onSubmit}>
         <label>이름</label>
         <input type="text" name="name" onChange={onChangeName} required />
         {nameError && <ValidP>이름을 입력하세요.</ValidP>}
 
         <label>아이디</label>
-        <input type="text" name="id" onChange={onChangeId} required />
+        <input type="text" name="loginId" onChange={onChangeId} required />
         {idError && (
           <ValidP>
             영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
@@ -151,7 +159,7 @@ export default function SignUpForm() {
           required
         />
         {addressError && <ValidP>주소를 입력하세요.</ValidP>}
-        <SignUpBtn >확인</SignUpBtn>
+        <SignUpBtn>확인</SignUpBtn>
       </form>
     </Wrapper>
   );
@@ -208,7 +216,7 @@ const SignUpBtn = styled.button`
   color: #ffffff;
   border-radius: 5px;
   border: none;
-  margin: 1.6rem 0 ;
+  margin: 1.6rem 0;
   cursor: pointer;
 `;
 
