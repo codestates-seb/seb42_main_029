@@ -1,16 +1,30 @@
-import React from "react";
-import styled from "styled-components";
-
-import img6 from "../assets/productImage/img_dummy6.png";
-import background_img from "../assets/productImage/img_dummy1_more.jpeg";
-import dummy from "../assets/dummy/dummy.json";
+import React from 'react';
+import styled from 'styled-components';
+import img6 from '../assets/productImage/img_dummy6.png';
+import background_img from '../assets/productImage/img_dummy1_more.jpeg'
+import dummy from '../assets/dummy/dummy.json';
+import { useSelector, useDispatch } from 'react-redux';
 
 const ProductInfo = () => {
   // const product6_name = dummy.sample.map(val => (val.name))
+  const product6_img = dummy.sample[5].image;
   const product6_name = dummy.sample[5].name;
   const product6_price = dummy.sample[5].price;
+  const product6_proid = dummy.sample[5].product_id;
+
+
+  //Redux 장바구니에 추가하기
+  const cartItems = useSelector((state) => state.cartItems);
+  const dispatch = useDispatch();
+
+  function handleAddToCart(item) {
+    // dispatch(addToCart(item));
+    dispatch('ADD_TO_CART'(item))
+    // dispatch('ADD_TO_CART'(item))
+  }
 
   return (
+    
     <Container>
       {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
       <ContainerTop>
@@ -28,9 +42,11 @@ const ProductInfo = () => {
           <TextContainer>
             <b>배송비</b> <TextPosition>3,000원</TextPosition>
           </TextContainer>
-
           <ButtonWrapper>
             <ButtonStyle>구매하기</ButtonStyle>
+            <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}>
+              장바구니에 담기
+            </ButtonStyle>
             <ButtonStyle>장바구니에 담기</ButtonStyle>
           </ButtonWrapper>
         </TextArea>
@@ -111,10 +127,8 @@ const ProductInfo = () => {
         </Contents>
       </CommonContainer>
     </Container>
+    
   );
-};
-export default ProductInfo;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -326,3 +340,6 @@ const Category = styled.div`
   font-weight: 500;
   margin-bottom: 20px;
 `;
+
+};
+export default ProductInfo;
