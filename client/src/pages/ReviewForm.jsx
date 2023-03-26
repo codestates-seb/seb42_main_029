@@ -14,6 +14,7 @@ function ReviewForm(props) {
 
   const itemId = props.itemId;
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  console.log(state);
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
 
   const [itemData, setItemData] = useState({});

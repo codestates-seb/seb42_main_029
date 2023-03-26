@@ -8,6 +8,7 @@ import ReviewList from "../components/mypage/ReviewList";
 import axios from "axios";
 import Modal from "../components/modal";
 import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
 function Mypage() {
   const data = {
     userId: "userId",
@@ -21,36 +22,63 @@ function Mypage() {
     userStatus: "userStatus",
   };
   const navigate = useNavigate();
-
-  //! 리액트 쿠키
-  const [cookies] = useCookies(["accessToken"]);
-  console.log(cookies.accessToken);
-
+  const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  const dispatch = useDispatch(); // dispatch 쉽게하는 hook
   //! 모달
   const [modalOpen, setModalOpen] = useState(false);
   const showModal = () => {
     setModalOpen(true);
   };
 
+  //! 모든 요청에 withCredentials가 true로 설정됩니다.
+  axios.defaults.withCredentials = true;
+
   //! 회원정보 axios userInfo
   const [userData, setUserData] = useState({}); //판매자 데이터 담아서 나중에 userData.map()
 
-  function userInfoAxios(userId) {
-    return axios
-      .get(`http://localhost:8080/users/${userId}`, {
-        "Content-Type": "application/json",
-      })
-      .then((res) => {
-        console.log(`res.data:`);
-        console.log(res.data);
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log("userData GET error");
-      });
+  //! 리액트 쿠키
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  console.log(cookies.accessToken);
+
+  const options = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
+  function userInfoAxios() {
+    return (
+      axios
+        .get(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, options)
+        .then((res) => {
+          console.log(`res.data:`);
+          console.log(res.data);
+          setUserData(res.data.data);
+
+          console.log(res.data.data);
+          dispatch({ type: "USER_INFORMATION", payload: res.data.data });
+          // 디스패치는 되다가 안되다가 함 아직 보완 필요
+        })
+        // .then(() => {
+        //   console.log(userData);
+        // dispatch({ type: "USER_INFORMATION", payload: userData });
+        //   console.log(state.user);
+        // })
+        .catch((err) => {
+          console.log("userData GET error");
+          console.log(options);
+        })
+    );
   }
   //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
-  // useEffect(()=>{userInfoAxios(reduxUserId)},[])
+  useEffect(() => {
+    console.log(state);
+
+    userInfoAxios();
+    // dispatch({ type: "USER_INFORMATION", payload: userData });
+    console.log(state);
+  }, []);
 
   //! 변경사항 서버에 patch하기 위한 함수
 
@@ -70,7 +98,7 @@ function Mypage() {
       patchdata.address = address;
     }
     return axios
-      .patch(`http://localhost:8080/users/${id}`, patchdata, {
+      .patch(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, patchdata, {
         "Content-Type": "application/json",
       })
       .then((res) => {
@@ -89,7 +117,7 @@ function Mypage() {
   const deleteUser = (id) => {
     // e.preventDefault();
     return axios
-      .delete(`http://localhost:8080/users/${id}`, {
+      .delete(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, {
         "Content-Type": "application/json",
       })
       .then((res) => {
@@ -134,24 +162,24 @@ function Mypage() {
         <div className="user-information">
           <div className="bold">회원정보 변경</div>
           <div>이름</div>
-          <div className="cant-change">{data.name}</div>
+          <div className="cant-change">{userData.name}</div>
           <div>
             아이디
             {/* <button className="submit-button" style={{ float: "right" }}>
               중복검사
             </button> */}
           </div>
-          <div className="cant-change">{data.id}</div>
+          <div className="cant-change">{userData.loginId}</div>
           <div>비밀번호</div>
-          <input onChange={(e) => setPassword(e.target.value)} defaultValue={data.password}></input>
+          <input onChange={(e) => setPassword(e.target.value)} defaultValue={userData.password}></input>
           <div>비밀번호 확인</div>
-          <input onChange={(e) => setPassword2(e.target.value)} defaultValue={data.password}></input>
+          <input onChange={(e) => setPassword2(e.target.value)} defaultValue={userData.password}></input>
           <div>이메일</div>
-          <input onChange={(e) => setEmail(e.target.value)} defaultValue={data.email}></input>
+          <input onChange={(e) => setEmail(e.target.value)} defaultValue={userData.email}></input>
           <div>주소</div>
-          <input onChange={(e) => setAddress(e.target.value)} defaultValue={data.address}></input>
+          <input onChange={(e) => setAddress(e.target.value)} defaultValue={userData.address}></input>
           <div>
-            <button onClick={() => patchUserData(data.userId)} className="submit-button center">
+            <button onClick={() => patchUserData(userData.userId)} className="submit-button center">
               저장
             </button>
             {/* <button onClick={showModal} className="submit-button center">
