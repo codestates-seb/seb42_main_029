@@ -4,7 +4,7 @@ import img6 from '../assets/productImage/img_dummy6.png';
 import background_img from '../assets/productImage/img_dummy1_more.jpeg'
 import dummy from '../assets/dummy/dummy.json';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../Redux/action'
+// import { addToCart } from '../Redux/action'
 
 const ProductInfo = () => {
   // const product6_name = dummy.sample.map(val => (val.name))
@@ -19,7 +19,7 @@ const ProductInfo = () => {
   const dispatch = useDispatch();
 
   function handleAddToCart(item) {
-    dispatch(addToCart(item));
+    // dispatch(addToCart(item));
     // dispatch('ADD_TO_CART'(item))
   }
 
