@@ -13,7 +13,7 @@ public class CustomAuthorityUtils {
     //todo: 어떤식으로 관리자 권한을 줄것인지 설정
     @Value("admin@google.com")
     private String adminMailAddress;
-    private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN", "USER");
+    private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN","SELLER", "BUYER");
     private final List<String> BUYER_ROLES_STRING = List.of("BUYER");
     private final List<String> SELLER_ROLES_STRING = List.of("SELLER");
 
