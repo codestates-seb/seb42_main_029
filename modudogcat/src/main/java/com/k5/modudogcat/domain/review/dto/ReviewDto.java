@@ -11,11 +11,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReviewDto {
-
+    @Setter
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post{
+        private Long userId;
         @NotBlank
         private String title;
         @NotBlank

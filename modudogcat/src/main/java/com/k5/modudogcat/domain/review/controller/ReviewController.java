@@ -30,8 +30,8 @@ public class ReviewController {
                                      @RequestPart(name = "post") ReviewDto.Post postDto,
                                      @RequestPart(required = false) List<MultipartFile> images
     ) throws IOException {
+        postDto.setUserId(userId);
         Review review = reviewMapper.reviewPostToReview(postDto);
-
         List<Image> imageList = reviewMapper.multipartFilesToImages(images);
         Review findReview = reviewService.createReview(review, imageList);
         URI location = UriCreator.createUri("/users/" + userId + "/reviews", findReview.getReviewId());

@@ -4,6 +4,7 @@ import com.k5.modudogcat.domain.review.dto.ReviewDto;
 import com.k5.modudogcat.domain.review.image.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
+    @Mapping(source = "userId", target = "user.userId")
     Review reviewPostToReview(ReviewDto.Post postDto);
     List<ReviewDto.Response> reviewsToResponses(List<Review> reviews);
     default ReviewDto.Response reviewToResponse(Review review){
