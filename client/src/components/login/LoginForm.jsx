@@ -68,7 +68,8 @@ export default function LoginForm() {
           { header }
         )
         .then((res) => {
-          // console.log(res.data.accessToken);
+          console.log(res);
+          console.log(res.headers.authorization);
 
           //? { path: "/" } 전역에 쿠키 사용
           setCookie("accessToken", res.headers.authorization, { path: "/" });
