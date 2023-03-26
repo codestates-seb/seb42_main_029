@@ -2,11 +2,17 @@ package com.k5.modudogcat.domain.order.service;
 
 import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.order.repository.OrderRepository;
+import com.k5.modudogcat.domain.user.entity.User;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,8 +47,27 @@ public class OrderService {
         verifiedActiveOrder(findOrder);
         return findOrder;
     }
+
+    public Page<Order> findOrders(Pageable pageable){
+        PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
+                pageable.getPageSize(),
+                pageable.getSort());
+        List<Order> findOrders = orderRepository.findAllByOrderStatus(Order.OrderStatus.ORDER_ACTIVE);
+
+        return new PageImpl<>(findOrders, of, findOrders.size());
+    }
+
+    public void removeOrder(Long orderId){
+        Order findOrder = findVerifiedOrderById(orderId);
+        verifiedActiveOrder(findOrder);
+
+        findOrder.setOrderStatus(Order.OrderStatus.ORDER_DELETE);
+        orderRepository.save(findOrder);
+    }
     
     public void verifiedActiveOrder(Order findOrder){
-        // todo: Active만 되도록 구현
+        if(findOrder.getOrderStatus().getStatus().equals("삭제된주문")) {
+            throw new BusinessLogicException(ExceptionCode.REMOVED_ORDER);
+        }
     }
 }

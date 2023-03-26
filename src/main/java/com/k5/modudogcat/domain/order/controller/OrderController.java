@@ -4,15 +4,18 @@ import com.k5.modudogcat.domain.order.dto.OrderDto;
 import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.order.mapper.OrderMapper;
 import com.k5.modudogcat.domain.order.service.OrderService;
+import com.k5.modudogcat.dto.MultiResponseDto;
 import com.k5.modudogcat.dto.SingleResponseDto;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
@@ -33,7 +36,7 @@ public class OrderController {
         return ResponseEntity.created(location).build();
     }
     @PatchMapping("/{order-id}")
-    public ResponseEntity patchUser(@PathVariable("order-id") Long orderId,
+    public ResponseEntity patchOrder(@PathVariable("order-id") Long orderId,
                                     @RequestBody OrderDto.Patch patchDto){
         patchDto.setOrderId(orderId);
         Order order = mapper.orderPatchToOrder(patchDto);
@@ -43,5 +46,28 @@ public class OrderController {
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    @GetMapping("/{order-id}")
+    public ResponseEntity getOrder(@PathVariable("order-id") Long orderId){
+        Order findOrder = orderService.findVerifiedOrderById(orderId);
+        OrderDto.Response response = mapper.orderToOrderResponse(findOrder);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity findOrders(Pageable pageable){
+        Page<Order> pageOrders = orderService.findOrders(pageable);
+        List<Order> orders = pageOrders.getContent();
+        List<OrderDto.Response> responses = mapper.ordersToOrdersResponse(orders);
+
+        return new ResponseEntity(new MultiResponseDto<>(
+                responses, pageOrders), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{order-id}")
+    public ResponseEntity deleteOrder(@PathVariable("order-id") long orderId){
+        orderService.removeOrder(orderId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
 }

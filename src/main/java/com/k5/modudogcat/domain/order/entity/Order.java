@@ -29,10 +29,22 @@ public class Order extends Auditable {
     @Column(nullable = false)
     private String receivingAddress;
     @Enumerated(value = EnumType.STRING)
+    private OrderStatus orderStatus = OrderStatus.ORDER_ACTIVE;
+    @Enumerated(value = EnumType.STRING)
     private PayStatus payStatus = PayStatus.PAY_STANDBY;
     @Enumerated(value = EnumType.STRING)
     private PayMethod payMethod = PayMethod.NOBANKBOOK;
     private Integer count; // 상품 수량
+
+    public enum OrderStatus{
+        ORDER_ACTIVE("활성화중"),
+        ORDER_DELETE("삭제된주문");
+        @Getter
+        private final String status;
+        OrderStatus(String status){
+            this.status = status;
+        }
+    }
     public enum PayStatus{
         PAY_STANDBY("결제대기"),
         PAY_FINISH("결제완료");

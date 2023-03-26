@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET,"/users/**").hasRole("BUYER")
                         .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("BUYER")
                         .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST,"/orders/**").hasRole("BUYER")
+                        .antMatchers("/orders/**").hasRole("BUYER")
                         .anyRequest().permitAll()
                 )
                 .httpBasic()
