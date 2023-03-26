@@ -22,6 +22,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -32,11 +33,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils customAuthorityUtils;
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring()
-                .antMatchers(HttpMethod.POST, "/users/sign-up");
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer(){
+//        return (web) -> web.ignoring()
+//                .antMatchers(HttpMethod.POST, "/users/sign-up")
+//                .antMatchers(HttpMethod.GET, "/login");
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -44,7 +46,9 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorize -> authorize
                         //Todo: 인증, 인가가 필요한 요청들 넣어두기
-                        .antMatchers("/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH,"/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET,"/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
@@ -52,11 +56,9 @@ public class SecurityConfig {
                     .disable()
                 .formLogin()
                     .disable()
-//                    .loginPage()
-//                    .loginProcessingUrl("/auth/login")
-//                .and()
-                // cors 에러 뜰수도 있음. 그럴시 corsConfigurationSource()로 직접 연결
-                .cors(httpSecurityCorsConfigurer -> withDefaults()) 
+
+                .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
+
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
@@ -66,7 +68,7 @@ public class SecurityConfig {
 
                 //CORS 요청시, 수정 필요할 수도 있음
                 .headers()
-                    .frameOptions().sameOrigin()
+                    .frameOptions().disable()
 
                 .and()
                 .apply(new CustomFilterConfigurer())
@@ -92,10 +94,10 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-//        configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh"));
-//        configuration.setAllowCredentials(true);
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS","PATCH","DELETE","PUT"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Location", "Refresh","Access-Control-Allow-Origin"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

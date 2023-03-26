@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "dev/be" ]
+    branches: [ "feat/be/deploy" ]
   pull_request:
-    branches: [ "dev/be" ]
+    branches: [ "feat/be/deploy" ]
 
 permissions:
   contents: read
@@ -31,17 +31,14 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: init with Gradle
-      uses: gradle/gradle-build-action@v2
-    - run: gradle init
+
+    - name: Clean with Gradle
+      run: ./gradlew clean
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        gradle-version: 7.6.1
-        arguments: build
+      run: ./gradlew build
 
     - name: Make zip file
-      run: zip -r ./modudogcat-back.zip .
+      run: zip -r ./modudogcat.zip .
       shell: bash
       
     - name: Configure AWS credentials
@@ -52,11 +49,13 @@ jobs:
         aws-region: ap-northeast-2
         
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./modudogcat-back.zip s3://$S3_BUCKET_NAME/modudogcat-back.zip
+      run: aws s3 cp --region ap-northeast-2 ./modudogcat.zip s3://$S3_BUCKET_NAME/modudogcat.zip
 
     - name: Code Deploy
+      env:
+        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       run: >
           aws deploy create-deployment --application-name modudogcat
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name modudogcat-group
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=modudogcat-back.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=modudogcat.zip

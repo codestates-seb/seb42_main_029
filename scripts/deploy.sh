@@ -3,6 +3,7 @@
 BUILD_JAR=$(ls /home/ubuntu/deploy-b/build/libs/modudogcat-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
+# shellcheck disable=SC2129
 echo "> 현재 시간: $(date)" >> /home/ubuntu/deploy-b/deploy.log
 
 echo "> build 파일명: $JAR_NAME" >> /home/ubuntu/deploy-b/deploy.log
@@ -14,6 +15,8 @@ cp $BUILD_JAR $DEPLOY_PATH
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ubuntu/deploy-b/deploy.log
 CURRENT_PID=$(pgrep -f $JAR_NAME)
 
+echo "> 현재 실행중인 애플리케이션 pid: $CURRENT_PID" >> /home/ubuntu/deploy-b/deploy.log
+
 if [ -z $CURRENT_PID ]
 then
   echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다." >> /home/ubuntu/deploy-b/deploy.log
@@ -23,7 +26,18 @@ else
   sleep 5
 fi
 
+DEPLOYBUILD_PATH=/home/ubuntu/deploy-b/build/libs/
 
-DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
+cd $DEPLOY_PATH
+
+echo "> 현재 디렉토리: $(pwd)" >> /home/ubuntu/deploy-b/deploy.log
+
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/deploy-b/deploy.log
-sudo nohup java -jar $DEPLOY_JAR >> /home/ubuntu/deploy.log 2>/home/ubuntu/deploy-b/deploy_err.log &
+
+echo "> --------------------------------------------------------------------------------------" >> /home/ubuntu/deploy-b/resultDeploy.log 2>&1 &
+
+echo "> 현재 시간: $(date)" >> /home/ubuntu/deploy-b/resultDeploy.log 2>&1 &
+
+nohup java -jar -Dspring.profiles.active=server $JAR_NAME >> /home/ubuntu/deploy-b/resultDeploy.log 2>&1 &
+
+echo "> --------------------------------------------------" >> /home/ubuntu/deploy-b/deploy.log
