@@ -41,11 +41,11 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorize -> authorize
                         //Todo: 인증, 인가가 필요한 요청들 넣어두기
-                        .antMatchers(HttpMethod.PATCH,"/users/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET,"/users/**").hasRole("USER")
-                        .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH,"/users/**").hasRole("BUYER")
+                        .antMatchers(HttpMethod.GET,"/users/**").hasRole("BUYER")
+                        .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("BUYER")
                         .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST,"/orders/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST,"/orders/**").hasRole("BUYER")
                         .anyRequest().permitAll()
                 )
                 .httpBasic()
