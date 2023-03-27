@@ -62,6 +62,7 @@ function SellingItemList() {
     },
   ];
   //! 모달
+  const [modalIndex, setModalIndex] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const showModal = () => {
     setModalOpen(true);
@@ -124,7 +125,17 @@ function SellingItemList() {
             <button className="cancle button" style={{ float: "right" }} onClick={showModal}>
               상품 삭제
             </button>
-            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteItem} data={el.productId} keyword="상품삭제" />}
+            {/* {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteItem} data={el.productId} keyword="상품삭제" />} */}
+            {modalOpen && (
+              <Modal
+                setModalOpen={setModalOpen}
+                axiosfunction={deleteItem}
+                data={SellingItemExData}
+                index={SellingItemExData[modalIndex]?.reviewId}
+                objectKey="poductId"
+                keyword="상품삭제"
+              />
+            )}
           </div>
         </div>
       ))}

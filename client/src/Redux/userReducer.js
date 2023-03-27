@@ -23,15 +23,17 @@ export default function userReducer(state = initialState, action) {
         adminId: undefined,
         role: undefined,
       };
-    else if (action.type === "USER_INFORMATION")
+    else if (action.type === "USER_INFORMATION") {
       // 유저정보 저장
+      console.log(action.type);
+      console.log(action.payload);
       return {
         ...state,
         userId: action.payload.userId,
         name: action.payload.name,
         // role: action.payload.role,
       };
-    else if (action.type === "SELLER_INFORMATION")
+    } else if (action.type === "SELLER_INFORMATION")
       // 유저정보 저장
       return {
         ...state,

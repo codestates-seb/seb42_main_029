@@ -9,6 +9,7 @@ import axios from "axios";
 import Modal from "../components/modal";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { FaWindows } from "react-icons/fa";
 function Mypage() {
   const data = {
     userId: "userId",
@@ -31,31 +32,37 @@ function Mypage() {
   };
 
   //! 모든 요청에 withCredentials가 true로 설정됩니다.
-  axios.defaults.withCredentials = true;
+  // axios.defaults.withCredentials = true;
 
   //! 회원정보 axios userInfo
   const [userData, setUserData] = useState({}); //판매자 데이터 담아서 나중에 userData.map()
 
-  //! 리액트 쿠키
+  // 리액트 쿠키
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
   console.log(cookies.accessToken);
 
-  const options = {
+  const noBodyOptions = {
     headers: {
       Authorization: cookies.accessToken,
     },
     withCredentials: true,
   };
 
+  //! 로그인은 통합
+
+  //! 정보요청은 각자
+  //! role을 달라고
+
+  // 로그인할 때 사용자 정보를 바로 줄수있는게 베스트
+
   function userInfoAxios() {
     return (
       axios
-        .get(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, options)
+        .get(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, noBodyOptions)
         .then((res) => {
           console.log(`res.data:`);
           console.log(res.data);
           setUserData(res.data.data);
-
           console.log(res.data.data);
           dispatch({ type: "USER_INFORMATION", payload: res.data.data });
           // 디스패치는 되다가 안되다가 함 아직 보완 필요
@@ -67,7 +74,6 @@ function Mypage() {
         // })
         .catch((err) => {
           console.log("userData GET error");
-          console.log(options);
         })
     );
   }
@@ -76,12 +82,21 @@ function Mypage() {
     console.log(state);
 
     userInfoAxios();
+    // Window.location.reload();
     // dispatch({ type: "USER_INFORMATION", payload: userData });
-    console.log(state);
+    // console.log(state);
   }, []);
+  console.log(state);
 
   //! 변경사항 서버에 patch하기 위한 함수
 
+  const withBodyOptions = {
+    headers: {
+      Authorization: cookies.accessToken,
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  };
   function patchUserData(id) {
     console.log(password, password2, email, address);
     const patchdata = {};
@@ -98,18 +113,15 @@ function Mypage() {
       patchdata.address = address;
     }
     return axios
-      .patch(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, patchdata, {
-        "Content-Type": "application/json",
-      })
+      .patch(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, patchdata, withBodyOptions)
       .then((res) => {
-        console.log(`res.data:`);
+        alert(`회원정보 변경 성공 ! res.data:`);
         console.log(res.data);
-        navigate("/mypage");
+        window.location.reload();
       })
       .catch((err) => {
         console.log("구매자 유저정보 변경 patch 에러");
         console.log(patchdata);
-        navigate("/mypage");
       });
   }
 
@@ -117,16 +129,20 @@ function Mypage() {
   const deleteUser = (id) => {
     // e.preventDefault();
     return axios
-      .delete(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, {
-        "Content-Type": "application/json",
-      })
+      .delete(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${state.user.userId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
+        dispatch({ type: "USER_ISLOGOUT" });
+        // setCookie();
+        setCookie("accessToken", "tokenXX");
+        alert("회원탈퇴가 완료되었습니다.");
+        navigate("/");
       })
       .catch((err) => {
         console.log("회원탈퇴 에러");
         console.log(id);
+        console.log(state.user.userId);
       });
   };
 
@@ -179,7 +195,7 @@ function Mypage() {
           <div>주소</div>
           <input onChange={(e) => setAddress(e.target.value)} defaultValue={userData.address}></input>
           <div>
-            <button onClick={() => patchUserData(userData.userId)} className="submit-button center">
+            <button onClick={() => patchUserData(state.user.userId)} className="submit-button center">
               저장
             </button>
             {/* <button onClick={showModal} className="submit-button center">
