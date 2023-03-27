@@ -50,7 +50,7 @@ public class OrderDto {
     @AllArgsConstructor
     public static class Response {
         private Long orderId;
-//        private Long userId;
+        private Long userId;
         private String receiver;
         private String phone;
         private String receivingAddress;

@@ -27,7 +27,7 @@ public class AdminController {
         AdminDto.Patch patchStatus = new AdminDto.Patch(sellerId, SELLER_APPROVE);
 
         AdminDto.Response responseStatus = new AdminDto.Response
-                (patchStatus.getSellerId(),"seller", "seller", "seller", "12345678901234","서울시 어쩌구2 저쩌구2", "01011112222", "신한", "12345678901234",patchStatus.getSellerStatus());
+                (patchStatus.getSellerId(),"seller", "seller", "seller","e", "12345678901234","서울시 어쩌구2 저쩌구2", "01011112222", "신한", "12345678901234",patchStatus.getSellerStatus());
 
         return new ResponseEntity<>(responseStatus, HttpStatus.OK);
     }
@@ -38,11 +38,11 @@ public class AdminController {
 
         List<AdminDto.Response> getSellers = List.of(
                 new AdminDto.Response
-                        (1L, "seller", "seller", "seller", "11111111111111", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234",SELLER_WAITING),
+                        (1L, "seller", "seller", "seller", "e","11111111111111", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234",SELLER_WAITING),
                 new AdminDto.Response
-                        (2L, "seller2", "seller2", "seller2", "22222222222222", "경기도 어쩌구 저쩌구", "01011112222", "우리", "12345678901111", SELLER_APPROVE),
+                        (2L, "seller2", "seller2", "seller2", "22222222222222", "경기도 어쩌구 저쩌구","e", "01011112222", "우리", "12345678901111", SELLER_APPROVE),
                 new AdminDto.Response
-                        (3L, "seller3", "seller3", "seller3", "33333333333333", "인천시 어쩌구 저쩌구", "01033334444", "기업", "12345678902222", SELLER_REJECTED)
+                        (3L, "seller3", "seller3", "seller3", "33333333333333", "인천시 어쩌구 저쩌구", "e","01033334444", "기업", "12345678902222", SELLER_REJECTED)
         );
 
         Page<AdminDto.Response> pageSellers = new PageImpl<>(getSellers, pageable,3);

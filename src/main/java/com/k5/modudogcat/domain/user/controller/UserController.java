@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity postUser(@RequestBody UserDto.Post postDto){
+    public ResponseEntity postUser(@Valid @RequestBody UserDto.Post postDto){
         User user = mapper.userPostToUser(postDto);
         User findUser = userService.createUser(user);
 

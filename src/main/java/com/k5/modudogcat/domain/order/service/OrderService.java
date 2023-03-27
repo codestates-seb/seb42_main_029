@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +25,11 @@ public class OrderService {
         // todo : 주문이 무한적으로 생성되는것을 막을 방법을 고민해보자.
         return orderRepository.save(order);
     }
-    public Order updateOrder(Order order){
+
+    public Order updateOrder(Order order, Long userId){
         Long orderId = order.getOrderId();
         Order findOrder = findVerifiedOrderById(orderId);
+        verifyCorrectUser(orderId, userId);
 
         Optional.ofNullable(order.getReceiver())
                 .ifPresent(newReceiver -> findOrder.setReceiver(newReceiver));
@@ -39,6 +42,13 @@ public class OrderService {
 
         return orderRepository.save(findOrder);
     }
+    public Order findOrder(Long orderId, Long userId){
+        Order findOrder = findVerifiedOrderById(orderId);
+        verifyCorrectUser(orderId, userId);
+
+        return findOrder;
+    }
+
     public Order findVerifiedOrderById(Long orderId){
         Order findOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> {
@@ -48,7 +58,7 @@ public class OrderService {
         return findOrder;
     }
 
-    public Page<Order> findOrders(Pageable pageable){
+    public Page<Order> findOrders(Pageable pageable, Long userId){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
@@ -57,9 +67,10 @@ public class OrderService {
         return new PageImpl<>(findOrders, of, findOrders.size());
     }
 
-    public void removeOrder(Long orderId){
+    public void removeOrder(Long orderId, Long userId){
         Order findOrder = findVerifiedOrderById(orderId);
         verifiedActiveOrder(findOrder);
+        verifyCorrectUser(orderId, userId);
 
         findOrder.setOrderStatus(Order.OrderStatus.ORDER_DELETE);
         orderRepository.save(findOrder);
@@ -68,6 +79,14 @@ public class OrderService {
     public void verifiedActiveOrder(Order findOrder){
         if(findOrder.getOrderStatus().getStatus().equals("삭제된주문")) {
             throw new BusinessLogicException(ExceptionCode.REMOVED_ORDER);
+        }
+    }
+
+    public void verifyCorrectUser(Long orderId, Long LoginUserId){
+        Order findOrder = findVerifiedOrderById(orderId);
+        Long dbUserId = findOrder.getUser().getUserId();
+        if(LoginUserId != dbUserId){
+            throw new BusinessLogicException(ExceptionCode.NOT_ALLOWED_USER);
         }
     }
 }
