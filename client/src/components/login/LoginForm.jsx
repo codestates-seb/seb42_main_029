@@ -69,6 +69,11 @@ export default function LoginForm() {
           { header }
         )
         .then((res) => {
+          // console.log(res.data.accessToken);
+          console.log(res.data);
+          console.log(res.data.ROLE);
+
+
           //? { path: "/" } 전역에 쿠키 사용
           setCookie("accessToken", res.headers.authorization, { path: "/" });
 
@@ -77,6 +82,11 @@ export default function LoginForm() {
           dispatch({ type: "USER_ROLE", payload: res.data.ROLE });
           dispatch({ type: "USER_IS_LOGIN" });
           alert("로그인 성공..!");
+          // redux isLogin 상태
+          // 나중에 get 받은걸 payload 에 넣는다
+
+          dispatch({ type: "USER_ISLOGIN" });
+
           navigate("/");
         })
         .catch((error) => {
