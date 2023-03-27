@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.product.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.order.entity.OrderProduct;
 import com.k5.modudogcat.domain.product.entity.productImage.ProductDetailImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,7 +35,8 @@ public class Product extends Auditable {
     private Integer stock;
     @Enumerated(value = EnumType.STRING)
     private ProductStatus productStatus = ProductStatus.PRODUCT_ACTIVE;
-
+    @OneToMany(mappedBy = "product")
+    private List<OrderProduct> orderProductList = new ArrayList<>();
     public enum ProductStatus {
         PRODUCT_ACTIVE("판매중"),
         PRODUCT_SOLD_OUT("품절"),
