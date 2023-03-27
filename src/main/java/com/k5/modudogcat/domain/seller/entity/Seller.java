@@ -21,7 +21,7 @@ public class Seller extends Auditable {
     @Column(nullable = false, length = 20, unique = true)
     private String loginId;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
