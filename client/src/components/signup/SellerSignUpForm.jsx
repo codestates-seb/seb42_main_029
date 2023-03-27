@@ -7,16 +7,16 @@ export default function SellerSignUpForm() {
   const navigate = useNavigate();
 
   // input onChange value
-  const [id, setId] = useState("");
+  const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [registration_number, setRegistration_number] = useState("");
+  const [registrationNumber, setRegistrationNumber] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [bank_name, setBank_name] = useState("");
-  const [account_number, setAccount_number] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
 
   // valid Check Error > return part >  <ValidP> tag apply
   const [idError, setIdError] = useState(false);
@@ -24,21 +24,25 @@ export default function SellerSignUpForm() {
   const [passwordCheckError, setPasswordCheckError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [nameError, setNameError] = useState(false);
-  const [registration_numberError, setRegistration_numberError] =
-    useState(false);
+  const [registrationNumberError, setRegistrationNumberError] = useState(false);
   const [addressError, setAddressError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
-  const [bank_nameError, setBank_nameError] = useState(false);
-  const [account_numberError, setAccount_numberError] = useState(false);
+  const [bankNameError, setBankNameError] = useState(false);
+  const [accountNumberError, setAccountNumberError] = useState(false);
 
   const onChangeId = (e) => {
     const userIdRegex = /^[A-Za-z0-9+]{5,}$/;
     if (!e.target.value || userIdRegex.test(e.target.value)) setIdError(false);
     else setIdError(true);
-    setId(e.target.value);
+    setLoginId(e.target.value);
   };
+
   const onChangePassword = (e) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    //! 특문 + 영대소문 + 숫자 >= 8자리
+    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex =
+      /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    // /^(?=.[a-zA-Z])(?=.\d)(?=.*[\W_]).{8,}$/;
     if (!e.target.value || passwordRegex.test(e.target.value))
       setPasswordError(false);
     else setPasswordError(true);
@@ -48,11 +52,14 @@ export default function SellerSignUpForm() {
     else setPasswordCheckError(true);
     setPassword(e.target.value);
   };
+
   const onChangePasswordCheck = (e) => {
     if (password === e.target.value) setPasswordCheckError(false);
     else setPasswordCheckError(true);
     setPasswordCheck(e.target.value);
   };
+
+  // 상호명
   const onChangeName = (e) => {
     if (!e.target.value) setNameError(true);
     else {
@@ -60,6 +67,7 @@ export default function SellerSignUpForm() {
       setName(e.target.value);
     }
   };
+
   const onChangeEmail = (e) => {
     const emailRegex =
       /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -69,12 +77,14 @@ export default function SellerSignUpForm() {
     setEmail(e.target.value);
   };
 
-  const onChangeRegistration_number = (e) => {
-    if (!e.target.value) {
-      setRegistration_numberError(true);
+  const onChangeRegistrationNumber = (e) => {
+    const registrationNumberRegex = /^[0-9]{10}$/;
+
+    if (!e.target.value || registrationNumberRegex.test(e.target.value)) {
+      setRegistrationNumberError(false);
+      setRegistrationNumber(e.target.value);
     } else {
-      setRegistration_numberError(false);
-      setRegistration_number(e.target.value);
+      setRegistrationNumberError(true);
     }
   };
 
@@ -88,57 +98,78 @@ export default function SellerSignUpForm() {
   };
 
   const onChangePhone = (e) => {
-    if (!e.target.value) {
-      setPhoneError(true);
-    } else {
+    const phoneRegex = /^[0-9]{8,12}$/;
+    if (!e.target.value || phoneRegex.test(e.target.value)) {
       setPhoneError(false);
       setPhone(e.target.value);
+    } else {
+      setPhoneError(true);
     }
   };
 
   const onChangeBankName = (e) => {
-    if (!e.target.value) setBank_nameError(true);
+    if (!e.target.value) setBankNameError(true);
     else {
-      setBank_nameError(false);
-      setBank_name(e.target.value);
+      setBankNameError(false);
+      setBankName(e.target.value);
     }
   };
 
   const onChangeAccountNumber = (e) => {
-    if (!e.target.value) setAccount_numberError(true);
-    else {
-      setAccount_numberError(false);
-      setAccount_number(e.target.value);
+    const accountNumberRegex = /^[0-9]{10,15}$/;
+    if (!e.target.value || accountNumberRegex.test(e.target.value)) {
+      setAccountNumberError(false);
+      setAccountNumber(e.target.value);
+    } else {
+      setAccountNumberError(true);
     }
   };
 
   const validation = () => {
     // 각 값이 있을 때 Error 상태 true 변경
-    if (!id) setIdError(true);
+    if (!loginId) setIdError(true);
     if (!password) setPasswordError(true);
     if (!passwordCheck) setPasswordCheckError(true);
     if (!name) setNameError(true);
     if (!email) setEmailError(true);
 
-    if (!registration_number) setRegistration_number(true);
-    if (!address) setAddress(true);
-    if (!phone) setPhone(true);
-    if (!bank_name) setBank_name(true);
-    if (!account_number) setAccount_number(true);
+    if (!registrationNumber) setRegistrationNumberError(true);
+    if (!address) setAddressError(true);
+    if (!phone) setPhoneError(true);
+    if (!bankName) setBankNameError(true);
+    if (!accountNumber) setAccountNumberError(true);
+
+    // 등록시 값이 같지 않다면 false
+    if (password !== passwordCheck) return false;
+
+    // 에러 1개라도 있으면 false
+    if (
+      idError ||
+      passwordError ||
+      passwordCheckError ||
+      nameError ||
+      emailError ||
+      registrationNumberError ||
+      addressError ||
+      phoneError ||
+      bankNameError ||
+      accountNumberError === true
+    )
+      return false;
 
     if (
-      id &&
+      loginId &&
       password &&
       passwordCheck &&
       name &&
       email &&
-      registration_number &&
+      registrationNumber &&
       address &&
       phone &&
-      bank_name &&
-      account_number
+      bankName &&
+      accountNumber
     )
-      return true;
+      return true; // 값이 다 존재하면 true
     else return false;
   };
 
@@ -151,28 +182,35 @@ export default function SellerSignUpForm() {
       },
     };
 
-    if (validation())
-      //! 회원가입 POST
+    if (validation() === true) {
+      //! 판매자 회원가입 POST
       await axios
-        .post("http://localhost:8080/register", {
-          id,
-          password,
-          email,
-          name,
-          registration_number,
-          address,
-          phone,
-          bank_name,
-          account_number,
-        }, {header})
+        .post(
+          "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/sellers",
+          {
+            loginId,
+            password,
+            email,
+            name,
+            registrationNumber,
+            address,
+            phone,
+            bankName,
+            accountNumber,
+          },
+          { header }
+        )
         .then((res) => {
-          navigate("/login");
-          alert("판매자_회원가입 성공..!");
+          navigate("/");
+          alert("판매자_회원가입 신청성공..! 회원가입 승인 대기 중입니다");
         })
         .catch((error) => {
           console.log(error);
           alert("판매자_회원가입 실패..!");
         });
+    } else {
+      alert("회원가입 실패.. 입력하신 정보를 다시 확인해주세요!");
+    }
   };
 
   return (
@@ -188,7 +226,7 @@ export default function SellerSignUpForm() {
       <Title>판매자 회원가입</Title>
       <form onSubmit={onSubmit}>
         <label>아이디</label>
-        <input type="text" name="id" onChange={onChangeId} required />
+        <input type="text" name="loginId" onChange={onChangeId} required />
         {idError && (
           <ValidP>
             영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
@@ -203,7 +241,9 @@ export default function SellerSignUpForm() {
           required
         />
         {passwordError && (
-          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
+          <ValidP>
+          특수문자,영문자,숫자를 조합한 8글자 이상으로 작성하세요.
+          </ValidP>
         )}
 
         <label>비밀번호 확인</label>
@@ -227,11 +267,11 @@ export default function SellerSignUpForm() {
         <input
           type="text"
           name="registrationNumber"
-          onChange={onChangeRegistration_number}
+          onChange={onChangeRegistrationNumber}
           required
         />
-        {registration_numberError && (
-          <ValidP>사업자 등록번호를 입력하세요.</ValidP>
+        {registrationNumberError && (
+          <ValidP>사업자 등록번호는 10자리의 숫자를 입력하세요.</ValidP>
         )}
 
         <label>사업자 주소</label>
@@ -240,7 +280,9 @@ export default function SellerSignUpForm() {
 
         <label>전화번호</label>
         <input type="text" name="phone" onChange={onChangePhone} required />
-        {phoneError && <ValidP>전화번호를 입력하세요.</ValidP>}
+        {phoneError && (
+          <ValidP>전화번호는 최소 8자리, 최대 12자리의 숫자입니다.</ValidP>
+        )}
 
         <label>은행명</label>
         <input
@@ -249,7 +291,7 @@ export default function SellerSignUpForm() {
           onChange={onChangeBankName}
           required
         />
-        {bank_nameError && <ValidP>은행명을 입력하세요.</ValidP>}
+        {bankNameError && <ValidP>은행명을 입력하세요.</ValidP>}
 
         <label>계좌번호</label>
         <input
@@ -258,7 +300,9 @@ export default function SellerSignUpForm() {
           onChange={onChangeAccountNumber}
           required
         />
-        {account_numberError && <ValidP>계좌번호를 입력하세요.</ValidP>}
+        {accountNumberError && (
+          <ValidP>계좌번호는 최소 10자리, 최대 14자리의 숫자입니다.</ValidP>
+        )}
 
         <SignUpBtn>확인</SignUpBtn>
       </form>

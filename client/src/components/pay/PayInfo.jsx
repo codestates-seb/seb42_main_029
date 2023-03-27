@@ -1,7 +1,9 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 export default function PayInfo() {
+  // 결제 정보 상품가격과, 총 결제금액 get 해서 뿌려주기
+
   return (
     <>
       <Title>결제정보</Title>
@@ -21,7 +23,7 @@ export default function PayInfo() {
         </RightWrapper>
       </Wrapper>
     </>
-  )
+  );
 }
 
 const Title = styled.div`
