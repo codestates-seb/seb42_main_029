@@ -1,4 +1,4 @@
-package com.k5.modudogcat.domain.product.entity.productDetailImage;
+package com.k5.modudogcat.domain.product.entity.productImage;
 
 import com.k5.modudogcat.domain.product.entity.Product;
 import lombok.Getter;

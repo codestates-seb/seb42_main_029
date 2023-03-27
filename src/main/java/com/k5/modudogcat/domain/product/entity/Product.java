@@ -1,7 +1,7 @@
 package com.k5.modudogcat.domain.product.entity;
 
 import com.k5.modudogcat.audit.Auditable;
-import com.k5.modudogcat.domain.product.entity.productDetailImage.ProductDetailImage;
+import com.k5.modudogcat.domain.product.entity.productImage.ProductDetailImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,21 +25,22 @@ public class Product extends Auditable {
     private String name;
     @Lob
     private byte[] thumbnailImage;
+    private String thumbnailImageType;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductDetailImage> productDetailImages = new ArrayList<>();
     @Lob
     private String productDetail;
     private Integer price;
     private Integer stock;
-    private ItemStatus itemStatus = ItemStatus.ITEM_ACTIVE;
+    private ProductStatus productStatus = ProductStatus.ITEM_ACTIVE;
 
-    public enum ItemStatus{
+    public enum ProductStatus {
         ITEM_ACTIVE("판매중"),
         ITEM_SOLD_OUT("품절"),
         ITEM_DELETE("삭제된상품");
         @Getter
         private String status;
-        ItemStatus(String status){
+        ProductStatus(String status){
             this.status = status;
         }
     }
