@@ -35,3 +35,5 @@ jwt:
   key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 40
   refresh-token-expiration-minutes: 420
+config:
+  domain: http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080
