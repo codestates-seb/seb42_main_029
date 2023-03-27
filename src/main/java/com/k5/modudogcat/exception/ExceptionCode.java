@@ -11,6 +11,8 @@ public enum ExceptionCode {
     REMOVED_USER(403, "해당 회원은 삭제된 회원입니다."),
     SLEEPER_USER(403, "해당 회원은 삭제된 회원입니다."),
 
+    SELLER_REGISTRATION_NUMBER_EXISTS(409, "이미 존재하는 사업자등록번호입니다."),
+
     SELLER_NOT_FOUND(404,"해당 판매자는 존재하지 않습니다.");
 
 

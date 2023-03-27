@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
@@ -32,7 +33,7 @@ public class SellerController {
 
     //판매자의 판매자 회원가입 신청
     @PostMapping
-    public ResponseEntity postSeller(@RequestBody SellerDto.Post postDto) {
+    public ResponseEntity postSeller(@Valid @RequestBody SellerDto.Post postDto) {
 
         Seller seller = mapper.sellerPostToSeller(postDto);
         Seller findSeller = service.createSeller(seller);
