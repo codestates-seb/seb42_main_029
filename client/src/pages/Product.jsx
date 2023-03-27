@@ -4,18 +4,7 @@ import { Link } from "react-router-dom";
 import dummy from "../assets/dummy/dummy.json";
 import ProductInfo from "./ProductInfo";
 
-// import img_dummy1 from '../assets/productImage/img_dummy1.png';
-// import img_dummy2 from '../assets/productImage/img_dummy2.png';
-// import img_dummy3 from '../assets/productImage/img_dummy3.png';
-// import img_dummy4 from '../assets/productImage/img_dummy4.png';
-// import img_dummy5 from '../assets/productImage/img_dummy5.png';
-// import img_dummy6 from '../assets/productImage/img_dummy6.png';
-// import img_dummy7 from '../assets/productImage/img_dummy7.png';
-// import img_dummy8 from '../assets/productImage/img_dummy8.png';
-
-
 const Product = () => {
-  console.log(dummy.sample);
   return (
     <div style={{ margin: " 0 3rem " , color: "#363636"}}>
       {/* dummy.json을 호출 */}
