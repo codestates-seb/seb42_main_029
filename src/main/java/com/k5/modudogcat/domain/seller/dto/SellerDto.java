@@ -20,6 +20,8 @@ public class SellerDto {
 
         private String name;
 
+        private String email;
+
         private String registrationNumber;
 
         private String address;
@@ -60,11 +62,13 @@ public class SellerDto {
 
         private Long sellerId;
 
-        private String id;
+        private String loginId;
 
         private String password;
 
         private String name;
+
+        private String email;
 
         private String registrationNumber;
 
@@ -78,9 +82,9 @@ public class SellerDto {
 
         private Seller.SellerStatus sellerStatus;
 
-        public Response(Long sellerId, String id, String password, String name, String registrationNumber, String address, String phone, String bankName, String accountNumber) {
+        public Response(Long sellerId, String loginId, String password, String name, String registrationNumber, String address, String phone, String bankName, String accountNumber) {
             this.sellerId = sellerId;
-            this.id = id;
+            this.loginId = loginId;
             this.password = password;
             this.name = name;
             this.registrationNumber = registrationNumber;

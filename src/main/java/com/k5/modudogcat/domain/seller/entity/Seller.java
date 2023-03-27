@@ -18,14 +18,17 @@ public class Seller extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sellerId;
 
-    @Column(nullable = false, length = 20)
-    private String id;
+    @Column(nullable = false, length = 20, unique = true)
+    private String loginId;
 
     @Column(nullable = false, length = 20)
     private String password;
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(nullable = false, length = 10)
     private String registrationNumber;
