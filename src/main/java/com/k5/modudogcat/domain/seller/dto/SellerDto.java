@@ -92,18 +92,6 @@ public class SellerDto {
 
         private String accountNumber;
 
-
-        public Response(Long sellerId, String loginId, String password, String name, String registrationNumber, String address, String phone, String bankName, String accountNumber) {
-            this.sellerId = sellerId;
-            this.loginId = loginId;
-            this.password = password;
-            this.name = name;
-            this.registrationNumber = registrationNumber;
-            this.address = address;
-            this.phone = phone;
-            this.bankName = bankName;
-            this.accountNumber = accountNumber;
-        }
     }
 
 }
