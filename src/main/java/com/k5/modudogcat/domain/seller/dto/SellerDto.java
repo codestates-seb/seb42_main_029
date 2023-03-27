@@ -60,15 +60,9 @@ public class SellerDto {
 
         private String address;
 
+        @Pattern(regexp = "^\\d{8,12}$", message = "전화번호는 최소 8자리에서 최대 12자리의 숫자입니다.")
         private String phone;
 
-        private Seller.SellerStatus sellerStatus;
-
-        public Patch(Long sellerId, String address, String phone) {
-            this.sellerId = sellerId;
-            this.address = address;
-            this.phone = phone;
-        }
 
     }
 
@@ -97,7 +91,6 @@ public class SellerDto {
 
         private String accountNumber;
 
-        private Seller.SellerStatus sellerStatus;
 
         public Response(Long sellerId, String loginId, String password, String name, String registrationNumber, String address, String phone, String bankName, String accountNumber) {
             this.sellerId = sellerId;

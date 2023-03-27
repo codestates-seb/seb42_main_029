@@ -9,4 +9,8 @@ public interface SellerMapper {
 
     //SellerDto.Post -> Seller
     Seller sellerPostToSeller(SellerDto.Post post);
+
+    SellerDto.Response sellerToSellerResponse(Seller seller);
+
+    Seller sellerPatchToSeller(SellerDto.Patch patch);
 }
