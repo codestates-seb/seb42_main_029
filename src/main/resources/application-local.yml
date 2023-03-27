@@ -21,6 +21,10 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
 server:
   servlet:
     encoding:
