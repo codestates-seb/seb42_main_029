@@ -13,8 +13,8 @@ public class CustomAuthorityUtils {
     //todo: 어떤식으로 관리자 권한을 줄것인지 설정
     @Value("admin@google.com")
     private String adminMailAddress;
-    private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN", "USER");
-    private final List<String> USER_ROLES_STRING = List.of("USER");
+    private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN","SELLER", "BUYER");
+    private final List<String> BUYER_ROLES_STRING = List.of("BUYER");
     private final List<String> SELLER_ROLES_STRING = List.of("SELLER");
 
     // DB에 저장된 Role을 기반으로 권한 정보 생성
@@ -31,6 +31,6 @@ public class CustomAuthorityUtils {
             return ADMIN_ROLES_STRING;
         }
         // todo: 판매자 권한 설정
-        return USER_ROLES_STRING;
+        return BUYER_ROLES_STRING;
     }
 }
