@@ -12,6 +12,7 @@ public interface OrderMapper {
     @Mapping(source = "userId", target = "user.userId")
     Order orderPostToOrder(OrderDto.Post postDto);
     Order orderPatchToOrder(OrderDto.Patch patchDto);
+    @Mapping(source = "user.userId", target = "userId")
     OrderDto.Response orderToOrderResponse(Order order);
     List<OrderDto.Response> ordersToOrdersResponse(List<Order> orderList);
 }

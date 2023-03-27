@@ -38,9 +38,12 @@ public class OrderController {
     @PatchMapping("/{order-id}")
     public ResponseEntity patchOrder(@PathVariable("order-id") Long orderId,
                                     @RequestBody OrderDto.Patch patchDto){
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = Long.parseLong(principal);
+
         patchDto.setOrderId(orderId);
         Order order = mapper.orderPatchToOrder(patchDto);
-        Order updateOrder = orderService.updateOrder(order);
+        Order updateOrder = orderService.updateOrder(order, userId);
         OrderDto.Response response = mapper.orderToOrderResponse(updateOrder);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -48,7 +51,9 @@ public class OrderController {
 
     @GetMapping("/{order-id}")
     public ResponseEntity getOrder(@PathVariable("order-id") Long orderId){
-        Order findOrder = orderService.findVerifiedOrderById(orderId);
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = Long.parseLong(principal);
+        Order findOrder = orderService.findOrder(orderId, userId);
         OrderDto.Response response = mapper.orderToOrderResponse(findOrder);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -56,7 +61,9 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity findOrders(Pageable pageable){
-        Page<Order> pageOrders = orderService.findOrders(pageable);
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = Long.parseLong(principal);
+        Page<Order> pageOrders = orderService.findOrders(pageable, userId);
         List<Order> orders = pageOrders.getContent();
         List<OrderDto.Response> responses = mapper.ordersToOrdersResponse(orders);
 
@@ -66,7 +73,9 @@ public class OrderController {
 
     @DeleteMapping("{order-id}")
     public ResponseEntity deleteOrder(@PathVariable("order-id") long orderId){
-        orderService.removeOrder(orderId);
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = Long.parseLong(principal);
+        orderService.removeOrder(orderId, userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
