@@ -140,7 +140,7 @@ export default function SignUpForm() {
           required
         />
         {passwordError && (
-          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
+          <ValidP>특수문자,영문자,숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
         )}
 
         <label>비밀번호 확인</label>

@@ -38,7 +38,10 @@ export default function SellerSignUpForm() {
     setId(e.target.value);
   };
   const onChangePassword = (e) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    // 특문 + 영대소문 + 숫자 >= 8자리
+    const passwordRegex =
+      /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     if (!e.target.value || passwordRegex.test(e.target.value))
       setPasswordError(false);
     else setPasswordError(true);
@@ -139,6 +142,8 @@ export default function SellerSignUpForm() {
       account_number
     )
       return true;
+
+    if (password !== passwordCheck) return false;
     else return false;
   };
 
@@ -151,20 +156,24 @@ export default function SellerSignUpForm() {
       },
     };
 
-    if (validation())
-      //! 회원가입 POST
+    if (validation() === true) {
+      //! 판매자 회원가입 POST
       await axios
-        .post("http://localhost:8080/register", {
-          id,
-          password,
-          email,
-          name,
-          registration_number,
-          address,
-          phone,
-          bank_name,
-          account_number,
-        }, {header})
+        .post(
+          "http://localhost:8080/register",
+          {
+            id,
+            password,
+            email,
+            name,
+            registration_number,
+            address,
+            phone,
+            bank_name,
+            account_number,
+          },
+          { header }
+        )
         .then((res) => {
           navigate("/login");
           alert("판매자_회원가입 성공..!");
@@ -173,6 +182,9 @@ export default function SellerSignUpForm() {
           console.log(error);
           alert("판매자_회원가입 실패..!");
         });
+    } else {
+      alert("회원가입 실패.. 입력하신 정보를 다시 확인해주세요!");
+    }
   };
 
   return (
@@ -203,7 +215,9 @@ export default function SellerSignUpForm() {
           required
         />
         {passwordError && (
-          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
+          <ValidP>
+            특수문자,영문자,숫자를 조합한 최소 8글자 이상으로 작성하세요.
+          </ValidP>
         )}
 
         <label>비밀번호 확인</label>
