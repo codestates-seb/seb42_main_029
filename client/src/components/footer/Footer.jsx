@@ -50,12 +50,7 @@ export default function Footer() {
             김례화_B
           </a>
         </BestMaker>
-        <BestMaker>
-          <a href="https://github.com/ciaomin" target="_blank">
-            <img src={github} alt="githubImg" />
-            이경민_B
-          </a>
-        </BestMaker>
+
         <p>Copyrightⓒ 2023 All rights reserved by 모두댕냥_Project.</p>
       </RightWrapper>
       <EndWrapper></EndWrapper>
@@ -85,8 +80,6 @@ const LeftWrapperWhole = styled.div`
     right: 0.6rem;
     margin-bottom: 5px;
   }
-
-
 `;
 
 const LeftWrapper = styled.div`
@@ -105,7 +98,7 @@ const LeftWrapper = styled.div`
 
     img {
       margin-right: 3rem;
-      margin-top : 0.5rem;
+      margin-top: 0.5rem;
     }
   }
 `;

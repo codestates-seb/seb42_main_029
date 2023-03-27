@@ -33,7 +33,11 @@ export default function SignUpForm() {
     setLoginId(e.target.value);
   };
   const onChangePassword = (e) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    // 특문 + 영대소문 + 숫자 >= 8자리
+    const passwordRegex =
+      /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
     if (!e.target.value || passwordRegex.test(e.target.value))
       setPasswordError(false);
     else setPasswordError(true);
@@ -77,6 +81,7 @@ export default function SignUpForm() {
     if (!name) setNameError(true);
     if (!email) setEmailError(true);
 
+    if (password !== passwordCheck) return false;
     if (loginId && password && passwordCheck && name && email) return true;
     else return false;
   };
@@ -90,7 +95,7 @@ export default function SignUpForm() {
       },
     };
 
-    if (validation())
+    if (validation() === true) {
       //! 회원가입 POST
       await axios
         .post(
@@ -99,8 +104,6 @@ export default function SignUpForm() {
           { header }
         )
         .then((res) => {
-          // console.log(res.data.accessToken);
-          // setCookie('accessToken', res.data.accessToken, { path: '/' })
           navigate("/login");
           alert("회원가입 성공..!");
         })
@@ -108,6 +111,9 @@ export default function SignUpForm() {
           console.log(error);
           alert("회원가입 실패..!");
         });
+    } else {
+      alert("회원가입 실패.. 입력하신 정보를 다시 확인해주세요!");
+    }
   };
 
   return (

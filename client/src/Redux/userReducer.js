@@ -1,18 +1,19 @@
 const initialState = {
   isLogin: false,
+  role: '',
 };
 
 export default function userReducer(state = initialState, action) {
   // eslint-disable-next-line
   {
     //! 로그인 상태
-    if (action.type === "USER_ISLOGIN")
+    if (action.type === "USER_IS_LOGIN")
       // 로그인
       return {
         ...state,
         isLogin: true,
       };
-    else if (action.type === "USER_ISLOGOUT")
+    else if (action.type === "USER_IS_LOGOUT")
       // 로그아웃
       return {
         ...state,
@@ -23,6 +24,11 @@ export default function userReducer(state = initialState, action) {
         adminId: undefined,
         role: undefined,
       };
+    else if (action.type === "USER_ROLE")
+    return {
+      ...state,
+      role : action.payload
+    }
     else if (action.type === "USER_INFORMATION")
       // 유저정보 저장
       return {

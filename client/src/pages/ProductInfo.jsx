@@ -13,7 +13,7 @@ const ProductInfo = () => {
   const product6_proid = dummy.sample[5].product_id;
 
   //Redux 장바구니에 추가하기
-  const cartItems = useSelector((state) => state);
+  const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   function handleAddToCart(item) {

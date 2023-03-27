@@ -145,6 +145,12 @@ export default function SellerSignUpForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const header = {
+      headers: {
+        withCredentials: true,
+      },
+    };
+
     if (validation())
       //! 회원가입 POST
       await axios
@@ -158,7 +164,7 @@ export default function SellerSignUpForm() {
           phone,
           bank_name,
           account_number,
-        })
+        }, {header})
         .then((res) => {
           navigate("/login");
           alert("판매자_회원가입 성공..!");
