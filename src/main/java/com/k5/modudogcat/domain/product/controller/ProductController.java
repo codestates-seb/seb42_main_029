@@ -46,7 +46,7 @@ public class ProductController {
         return ResponseEntity.created(location)
                 .body("ProductImage uploaded successfully");
     }
-
+    // todo: 상품 수정 핸들러 메서드
     @GetMapping("/{product-id}")
     public ResponseEntity getProduct(@PathVariable("product-id") Long productId){
         // todo : Seller 에 해당하는 Product를 조회하도록 수정필요
@@ -65,5 +65,13 @@ public class ProductController {
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(responses, productPages), HttpStatus.OK);
+    }
+
+    // todo: 상품 삭제 핸들러 메서드
+    @DeleteMapping("/{product-id}")
+    public ResponseEntity deleteProduct(@PathVariable("product-id") Long productId){
+        productService.removeProduct(productId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

@@ -32,12 +32,13 @@ public class Product extends Auditable {
     private String productDetail;
     private Integer price;
     private Integer stock;
-    private ProductStatus productStatus = ProductStatus.ITEM_ACTIVE;
+    @Enumerated(value = EnumType.STRING)
+    private ProductStatus productStatus = ProductStatus.PRODUCT_ACTIVE;
 
     public enum ProductStatus {
-        ITEM_ACTIVE("판매중"),
-        ITEM_SOLD_OUT("품절"),
-        ITEM_DELETE("삭제된상품");
+        PRODUCT_ACTIVE("판매중"),
+        PRODUCT_SOLD_OUT("품절"),
+        PRODUCT_DELETE("삭제된상품");
         @Getter
         private String status;
         ProductStatus(String status){

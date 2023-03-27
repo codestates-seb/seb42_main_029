@@ -56,12 +56,18 @@ public class ProductService {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
-        List<Product> findProducts = productRepository.findAllByProductStatusNotLike(Product.ProductStatus.ITEM_DELETE);
+        List<Product> findProducts = productRepository.findAllByProductStatusNotLike(Product.ProductStatus.PRODUCT_DELETE);
 
         return new PageImpl<>(findProducts, of, findProducts.size());
     }
 
-    private void verifiedActiveProduct(Product verifiedProduct){
+    public void removeProduct(Long productId){
+        Product findProduct = findProduct(productId);
+        findProduct.setProductStatus(Product.ProductStatus.PRODUCT_DELETE);
+        productRepository.save(findProduct);
+    }
+
+    public void verifiedActiveProduct(Product verifiedProduct){
         if(verifiedProduct.getProductStatus().getStatus().equals("삭제된상품")){
             throw new BusinessLogicException(ExceptionCode.REMOVED_PRODUCT);
         }
