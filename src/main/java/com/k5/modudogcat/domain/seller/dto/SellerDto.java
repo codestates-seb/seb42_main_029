@@ -60,6 +60,9 @@ public class SellerDto {
 
         private String address;
 
+        @Email
+        private String email;
+
         @Pattern(regexp = "^\\d{8,12}$", message = "전화번호는 최소 8자리에서 최대 12자리의 숫자입니다.")
         private String phone;
 

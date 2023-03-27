@@ -3,6 +3,7 @@ package com.k5.modudogcat.domain.admin.dto;
 import com.k5.modudogcat.domain.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class AdminDto {
@@ -21,6 +22,7 @@ public class AdminDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
 
         private Long sellerId;

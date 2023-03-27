@@ -38,7 +38,7 @@ public class AdminController {
 
         List<AdminDto.Response> getSellers = List.of(
                 new AdminDto.Response
-                        (1L, "seller", "seller", "seller", "11111111111111", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234",SELLER_WAITING),
+                        (1L, "seller", "seller", "seller", "e","11111111111111", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234",SELLER_WAITING),
                 new AdminDto.Response
                         (2L, "seller2", "seller2", "seller2", "22222222222222", "경기도 어쩌구 저쩌구", "01011112222", "우리", "12345678901111", SELLER_APPROVE),
                 new AdminDto.Response
