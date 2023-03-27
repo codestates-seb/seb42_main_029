@@ -33,6 +33,7 @@ public class User extends Auditable {
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
     public enum UserStatus {
         USER_ACTIVE("활동중"),
         USER_SLEEP("휴면계정"),

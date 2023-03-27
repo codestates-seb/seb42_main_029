@@ -12,7 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -21,11 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.lang.reflect.Array;
 import java.util.Arrays;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -46,10 +41,11 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorize -> authorize
                         //Todo: 인증, 인가가 필요한 요청들 넣어두기
-                        .antMatchers(HttpMethod.PATCH,"/users/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET,"/users/**").hasRole("USER")
-                        .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH,"/users/**").hasRole("BUYER")
+                        .antMatchers(HttpMethod.GET,"/users/**").hasRole("BUYER")
+                        .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("BUYER")
                         .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
+                        .antMatchers("/orders/**").hasRole("BUYER")
                         .anyRequest().permitAll()
                 )
                 .httpBasic()
