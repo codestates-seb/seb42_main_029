@@ -5,6 +5,7 @@ import com.k5.modudogcat.domain.seller.entity.Seller;
 import com.k5.modudogcat.domain.seller.mapper.SellerMapper;
 import com.k5.modudogcat.domain.seller.service.SellerService;
 import com.k5.modudogcat.dto.MultiResponseDto;
+import com.k5.modudogcat.dto.SingleResponseDto;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,24 +44,28 @@ public class SellerController {
         return ResponseEntity.created(location).build();
     }
 
-    //판매자의 판매자 페이지 정보 변경 (주소, 전화번호)
+    //판매자의 판매자 페이지 정보 변경 (주소, 전화번호, 이메일)
     @PatchMapping("/{seller-id}")
-    public ResponseEntity<SellerDto.Response> patchSeller(@PathVariable("seller-id") @Positive Long sellerId) {
+    public ResponseEntity patchSeller(@PathVariable("seller-id") @Positive Long sellerId,
+                                      @RequestBody SellerDto.Patch patch) {
 
-        SellerDto.Patch patch = new SellerDto.Patch(sellerId, "서울시 어쩌구2 저쩌구2", "01011112222");
+        patch.setSellerId(sellerId);
+        Seller seller = mapper.sellerPatchToSeller(patch);
+        Seller updateSeller = service.updateSeller(seller);
+        SellerDto.Response response = mapper.sellerToSellerResponse(updateSeller);
 
-        SellerDto.Response response = new SellerDto.Response
-                (patch.getSellerId(), "seller", "seller", "seller", "12345678901234", patch.getAddress(), patch.getPhone(), "신한", "12345678901234");
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     //판매자의 판매자 페이지 조회
-    @GetMapping("/{seller-id}")
-    public ResponseEntity<SellerDto.Response> getSeller(@PathVariable("seller-id") @Positive Long sellerId) {
+    @GetMapping("/my-page")
+    public ResponseEntity getSeller() {
 
-        SellerDto.Response response = new SellerDto.Response
-                (sellerId, "seller", "seller", "seller", "12345678901234", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long sellerId = Long.parseLong(principal);
+        Seller findSeller = service.findVerifiedSellerById(sellerId);
+        SellerDto.Response response = mapper.sellerToSellerResponse(findSeller);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 }

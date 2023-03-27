@@ -31,6 +31,22 @@ public class SellerService {
 
     }
 
+    public Seller updateSeller(Seller seller) {
+        Long sellerId = seller.getSellerId();
+        Seller findSeller = findVerifiedSellerById(sellerId);
+
+        Optional.ofNullable(seller.getAddress())
+                .ifPresent(newAddress -> findSeller.setAddress(newAddress));
+        Optional.ofNullable(seller.getPhone())
+                .ifPresent(newPhone -> findSeller.setPhone(newPhone));
+        Optional.ofNullable(seller.getEmail())
+                .ifPresent(newEmail -> findSeller.setEmail(newEmail));
+
+        return sellerRepository.save(findSeller);
+
+    }
+
+    //패스워드 암호화
     private void setEncodedPassword(Seller seller) {
         seller.setPassword(passwordEncoder.encode(seller.getPassword()));
     }
@@ -52,5 +68,25 @@ public class SellerService {
             throw new BusinessLogicException(ExceptionCode.SELLER_REGISTRATION_NUMBER_EXISTS);
         });
     }
+
+    //존재하는 판매자 여부 검증
+    public Seller findVerifiedSellerById(Long sellerId) {
+        Seller findSeller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> {
+                    throw new BusinessLogicException(ExceptionCode.SELLER_NOT_FOUND);
+                });
+        verifiedApprovedSeller(findSeller);
+        return findSeller;
+    }
+
+    //판매자 상태 검증
+    private void verifiedApprovedSeller(Seller findSeller) {
+        if(findSeller.getSellerStatus().getStatus().equals("가입 거절")) {
+            throw new BusinessLogicException(ExceptionCode.SELLER_REJECTED);
+        } else if(findSeller.getSellerStatus().getStatus().equals("승인 대기 중")) {
+            throw new BusinessLogicException(ExceptionCode.SELLER_WAITING);
+        }
+    }
+
 
 }
