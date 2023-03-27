@@ -14,16 +14,8 @@ public class AdminDto {
 
         private Long sellerId;
 
-        private String address;
-
-        private String phone;
-
         private Seller.SellerStatus sellerStatus;
 
-        public Patch(Long sellerId, Seller.SellerStatus sellerStatus) {
-            this.sellerId = sellerId;
-            this.sellerStatus = sellerStatus;
-        }
     }
 
     @Getter
@@ -33,11 +25,13 @@ public class AdminDto {
 
         private Long sellerId;
 
-        private String id;
+        private String loginId;
 
         private String password;
 
         private String name;
+
+        private String email;
 
         private String registrationNumber;
 
