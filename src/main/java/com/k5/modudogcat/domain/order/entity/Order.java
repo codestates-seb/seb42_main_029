@@ -18,7 +18,7 @@ public class Order extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
-    //todo: user serller와 연관관계 매핑
+    //todo: seller와 연관관계 매핑
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -29,15 +29,15 @@ public class Order extends Auditable {
     @Column(nullable = false)
     private String receivingAddress;
     @Enumerated(value = EnumType.STRING)
-    private OrderStatus orderStatus = OrderStatus.ORDER_ACTIVE;
+    private OrderStatus orderStatus = OrderStatus.ORDER_PAY_STANDBY;
     @Enumerated(value = EnumType.STRING)
-    private PayStatus payStatus = PayStatus.PAY_STANDBY;
-    @Enumerated(value = EnumType.STRING)
-    private PayMethod payMethod = PayMethod.NOBANKBOOK;
+    private PayMethod payMethod = PayMethod.NO_BANK_BOOK;
     private Integer count; // 상품 수량
+    private Integer parcelNumber;
 
     public enum OrderStatus{
-        ORDER_ACTIVE("활성화중"),
+        ORDER_PAY_STANDBY("결제대기"),
+        ORDER_PAY_FINISH("결제완료"),
         ORDER_DELETE("삭제된주문");
         @Getter
         private final String status;
@@ -45,18 +45,9 @@ public class Order extends Auditable {
             this.status = status;
         }
     }
-    public enum PayStatus{
-        PAY_STANDBY("결제대기"),
-        PAY_FINISH("결제완료");
-        @Getter
-        private final String status;
-        PayStatus(String status){
-            this.status = status;
-        }
-    }
 
     public enum PayMethod{
-        NOBANKBOOK("무통장");
+        NO_BANK_BOOK("무통장");
 
         @Getter
         private final String status;

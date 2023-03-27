@@ -54,14 +54,14 @@ public class OrderDto {
         private String receiver;
         private String phone;
         private String receivingAddress;
-        private Order.PayStatus payStatus = Order.PayStatus.PAY_STANDBY;
-        private Order.PayMethod payMethod = Order.PayMethod.NOBANKBOOK;
+        private Order.OrderStatus orderStatus;
+        private Order.PayMethod payMethod;
         private Integer count; // 상품 수량
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
-        public String getPayStatus() {
-            return payStatus.getStatus();
+        public String getOrderStatus() {
+            return orderStatus.getStatus();
         }
         public String getPayMethod() {
             return payMethod.getStatus();
