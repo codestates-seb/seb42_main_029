@@ -34,9 +34,10 @@ export default function SignUpForm() {
   };
   const onChangePassword = (e) => {
     // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    // 특문 + 영대소문 + 숫자 >= 8자리
+    //! 특문 + 영대소문 + 숫자 >= 8자리
     const passwordRegex =
       /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+      // /^(?=.[a-zA-Z])(?=.\d)(?=.*[\W_]).{8,}$/
 
     if (!e.target.value || passwordRegex.test(e.target.value))
       setPasswordError(false);
@@ -82,6 +83,8 @@ export default function SignUpForm() {
     if (!email) setEmailError(true);
 
     if (password !== passwordCheck) return false;
+
+    if (idError || passwordError || passwordCheckError || nameError || emailError === true) return false
     if (loginId && password && passwordCheck && name && email) return true;
     else return false;
   };
@@ -140,7 +143,9 @@ export default function SignUpForm() {
           required
         />
         {passwordError && (
-          <ValidP>특수문자,영문자,숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
+          <ValidP>
+            특수문자,영문자,숫자를 조합한 8글자 이상으로 작성하세요.
+          </ValidP>
         )}
 
         <label>비밀번호 확인</label>

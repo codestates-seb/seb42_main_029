@@ -1,7 +1,9 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 export default function ReceiverInfo() {
+  // 받는 사람 정보 처음으로는 구매자 정보를 띄우고, 변경 가능 하게 버튼 추가하고
+
   return (
     <>
       <Title>받는사람정보</Title>
@@ -21,7 +23,7 @@ export default function ReceiverInfo() {
         </RightWrapper>
       </Wrapper>
     </>
-  )
+  );
 }
 
 const Title = styled.div`

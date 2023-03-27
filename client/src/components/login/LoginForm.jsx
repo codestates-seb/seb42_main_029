@@ -32,7 +32,8 @@ export default function LoginForm() {
     setId(e.target.value);
   };
   const onChangePassword = (e) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex =
+      /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     if (!e.target.value || passwordRegex.test(e.target.value))
       setPasswordError(false);
     else setPasswordError(true);
@@ -114,7 +115,9 @@ export default function LoginForm() {
           required
         />
         {passwordError && (
-          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
+          <ValidP>
+          특수문자,영문자,숫자를 조합한 8글자 이상으로 작성하세요.
+          </ValidP>
         )}
         <LoginBtn>로그인</LoginBtn>
 
