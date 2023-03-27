@@ -46,6 +46,7 @@ public class SellerService {
 
     }
 
+    //패스워드 암호화
     private void setEncodedPassword(Seller seller) {
         seller.setPassword(passwordEncoder.encode(seller.getPassword()));
     }

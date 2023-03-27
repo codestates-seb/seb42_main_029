@@ -69,6 +69,7 @@ public class SellerDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
 
         private Long sellerId;
