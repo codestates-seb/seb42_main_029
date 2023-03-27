@@ -81,16 +81,12 @@ export default function Header() {
             <p onClick={showModal}>LogOut</p>
             {modalOpen && <LogoutModal setModalOpen={setModalOpen} />}
 
-            <Link to="/mypage" style={{ textDecorationLine: "none" }}>
-              <p>My Page</p>
-            </Link>
-
             {/* mypage 조건부 랜더링 가능하도록 하는 코드  */}
-            {state.user.ROLE === "BUYER" ? (
+            {state.user.role === "BUYER" ? (
               <Link to="/mypage" style={{ textDecorationLine: "none" }}>
                 <p>My Page</p>
               </Link>
-            ) : state.user.ROLE === "SELLER" ? (
+            ) : state.user.role === "SELLER" ? (
               <Link to="/sellerMypage" style={{ textDecorationLine: "none" }}>
                 <p>My Page</p>
               </Link>
@@ -125,6 +121,7 @@ const Wrapper = styled.div`
   top: 0;
   color: #363636;
   z-index: 900;
+  border-bottom: 1.2px solid #af9393;
 `;
 
 const LeftSide = styled.div`
