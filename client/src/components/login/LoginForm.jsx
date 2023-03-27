@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import GoogleLoginForm from "./GoogleLoginForm";
-import { googleLogout } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+// import GoogleLoginForm from "./GoogleLoginForm";
+// import { googleLogout } from "@react-oauth/google";
+// import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +33,8 @@ export default function LoginForm() {
   };
   const onChangePassword = (e) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
+    if (!e.target.value || passwordRegex.test(e.target.value))
+      setPasswordError(false);
     else setPasswordError(true);
     setPassword(e.target.value);
   };
@@ -68,15 +69,14 @@ export default function LoginForm() {
           { header }
         )
         .then((res) => {
-          console.log(res);
-          console.log(res.headers.authorization);
-
           //? { path: "/" } 전역에 쿠키 사용
           setCookie("accessToken", res.headers.authorization, { path: "/" });
+
+          //! redux isLogin 상태와 role 부여
+          // console.log(res.data.ROLE);
+          dispatch({ type: "USER_ROLE", payload: res.data.ROLE });
+          dispatch({ type: "USER_IS_LOGIN" });
           alert("로그인 성공..!");
-          // redux isLogin 상태
-          // 나중에 get 받은걸 payload 에 넣는다
-          dispatch({ type: "USER_ISLOGIN" });
           navigate("/");
         })
         .catch((error) => {
@@ -84,6 +84,8 @@ export default function LoginForm() {
           alert("로그인 실패..!");
         });
   };
+
+  // console.log(state.user)
 
   //! 나중 구글 oath2 할 때,, 쓸려면 쓰고 아님 지울 거
   // const LoginHandler = (e) => {
@@ -99,10 +101,21 @@ export default function LoginForm() {
       <form onSubmit={onSubmit}>
         <label>아이디</label>
         <input type="text" name="username" onChange={onChangeId} required />
-        {idError && <ValidP>영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.</ValidP>}
+        {idError && (
+          <ValidP>
+            영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
+          </ValidP>
+        )}
         <label>비밀번호</label>
-        <input type="password" name="password" onChange={onChangePassword} required />
-        {passwordError && <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>}
+        <input
+          type="password"
+          name="password"
+          onChange={onChangePassword}
+          required
+        />
+        {passwordError && (
+          <ValidP>문자와 숫자를 조합한 최소 8글자 이상으로 작성하세요.</ValidP>
+        )}
         <LoginBtn>로그인</LoginBtn>
 
         {/* <GoogleLoginForm />
