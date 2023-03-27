@@ -62,7 +62,7 @@ public class OrderService {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
-        List<Order> findOrders = orderRepository.findAllByOrderStatusAndUserUserId(Order.OrderStatus.ORDER_ACTIVE, userId);
+        List<Order> findOrders = orderRepository.findAllByOrderStatusNotLike(Order.OrderStatus.ORDER_DELETE);
 
         return new PageImpl<>(findOrders, of, findOrders.size());
     }

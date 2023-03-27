@@ -1,4 +1,4 @@
-package com.k5.modudogcat.domain.review.image;
+package com.k5.modudogcat.domain.review.entity.image;
 
 import com.k5.modudogcat.domain.review.entity.Review;
 import lombok.Getter;
@@ -15,6 +15,7 @@ public class Image {
     private Long imageId;
     @Lob
     private byte[] image;
+    @Column(nullable = false, length = 50)
     private String type;
     @ManyToOne
     @JoinColumn(name= "review_id")

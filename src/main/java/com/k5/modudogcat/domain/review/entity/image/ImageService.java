@@ -1,4 +1,4 @@
-package com.k5.modudogcat.domain.review.image;
+package com.k5.modudogcat.domain.review.entity.image;
 
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;

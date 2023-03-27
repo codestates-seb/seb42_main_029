@@ -1,6 +1,6 @@
 package com.k5.modudogcat.domain.review.service;
 
-import com.k5.modudogcat.domain.review.image.Image;
+import com.k5.modudogcat.domain.review.entity.image.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import com.k5.modudogcat.domain.review.repository.ReviewRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;

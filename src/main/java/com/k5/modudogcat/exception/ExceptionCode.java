@@ -18,7 +18,9 @@ public enum ExceptionCode {
     IMAGE_NOT_FOUND(404, "해당 이미지은 존재하지 않습니다."),
     ORDER_NOT_FOUND(404, "해당 주문은 존재하지 않습니다."),
     REMOVED_ORDER(403, "해당 주문은 삭제된 주문입니다."),
-    NOT_ALLOWED_USER(409, "올바르지 않은 로그인 회원이 요청하고 있습니다.");
+    NOT_ALLOWED_USER(409, "올바르지 않은 로그인 회원이 요청하고 있습니다."),
+    PRODUCT_NOT_FOUND(404, "해당 상품은 존재하지 않습니다"),
+    REMOVED_PRODUCT(403,"해당 상품은 삭제된 상품입니다.");
 
     private int status;
 

@@ -1,7 +1,7 @@
 package com.k5.modudogcat.domain.review.mapper;
 
 import com.k5.modudogcat.domain.review.dto.ReviewDto;
-import com.k5.modudogcat.domain.review.image.Image;
+import com.k5.modudogcat.domain.review.entity.image.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
