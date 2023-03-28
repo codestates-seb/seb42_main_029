@@ -1,17 +1,20 @@
 package com.k5.modudogcat.domain.admin.entity;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "admin")
+@Setter
+@Getter
 @NoArgsConstructor
 public class Admin {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long adminId;
 
     @Column
@@ -19,6 +22,5 @@ public class Admin {
 
     @Column
     private String password;
-
 
 }
