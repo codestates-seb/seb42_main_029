@@ -1,5 +1,8 @@
 package com.k5.modudogcat.domain.seller.controller;
 
+import com.k5.modudogcat.domain.product.dto.ProductDto;
+import com.k5.modudogcat.domain.product.entity.Product;
+import com.k5.modudogcat.domain.product.mapper.ProductMapper;
 import com.k5.modudogcat.domain.seller.dto.SellerDto;
 import com.k5.modudogcat.domain.seller.entity.Seller;
 import com.k5.modudogcat.domain.seller.mapper.SellerMapper;
@@ -8,6 +11,7 @@ import com.k5.modudogcat.dto.MultiResponseDto;
 import com.k5.modudogcat.dto.SingleResponseDto;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,15 +34,17 @@ import static com.k5.modudogcat.domain.seller.entity.Seller.SellerStatus.*;
 @RequiredArgsConstructor
 public class SellerController {
 
-    private final SellerMapper mapper;
+    private final SellerMapper sellerMapper;
 
     private final SellerService sellerService;
+
+    private final ProductMapper productMapper;
 
     //판매자의 판매자 회원가입 신청
     @PostMapping
     public ResponseEntity postSeller(@Valid @RequestBody SellerDto.Post postDto) {
 
-        Seller seller = mapper.sellerPostToSeller(postDto);
+        Seller seller = sellerMapper.sellerPostToSeller(postDto);
         Seller findSeller = sellerService.createSeller(seller);
         Long sellerId = findSeller.getSellerId();
         URI location = UriCreator.createUri("/sellers/", sellerId);
@@ -50,9 +57,9 @@ public class SellerController {
                                       @RequestBody SellerDto.Patch patch) {
 
         patch.setSellerId(sellerId);
-        Seller seller = mapper.sellerPatchToSeller(patch);
+        Seller seller = sellerMapper.sellerPatchToSeller(patch);
         Seller updateSeller = sellerService.updateSeller(seller);
-        SellerDto.Response response = mapper.sellerToSellerResponse(updateSeller);
+        SellerDto.Response response = sellerMapper.sellerToSellerResponse(updateSeller);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
@@ -65,8 +72,23 @@ public class SellerController {
         Long userId = Long.parseLong(principal);
         Long sellerId = sellerService.findSellerIdById(userId);
         Seller findSeller = sellerService.findVerifiedSellerById(sellerId);
-        SellerDto.Response response = mapper.sellerToSellerResponse(findSeller);
+        SellerDto.Response response = sellerMapper.sellerToSellerResponse(findSeller);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
+
+    //판매자의 판매 중인 상품 목록 조회
+    @GetMapping("/selling")
+    public  ResponseEntity getSellingProducts(Pageable pageable) {
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = Long.parseLong(principal);
+        Long sellerId = sellerService.findSellerIdById(userId);
+        Page<Product> pageProducts = sellerService.findProducts(pageable, sellerId);
+        List<Product> products = pageProducts.getContent();
+        List<ProductDto.Response> responseList = productMapper.productListToResponseDtoList(products);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(responseList, pageProducts), HttpStatus.OK);
+    }
+
+    //판매자의 판매 중인 상품 삭제
 }

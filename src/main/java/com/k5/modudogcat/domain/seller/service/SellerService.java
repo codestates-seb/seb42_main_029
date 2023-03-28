@@ -1,5 +1,7 @@
 package com.k5.modudogcat.domain.seller.service;
 
+import com.k5.modudogcat.domain.product.entity.Product;
+import com.k5.modudogcat.domain.product.repository.ProductRepository;
 import com.k5.modudogcat.domain.seller.entity.Seller;
 import com.k5.modudogcat.domain.seller.repository.SellerRepository;
 import com.k5.modudogcat.domain.user.entity.User;
@@ -7,9 +9,14 @@ import com.k5.modudogcat.domain.user.repository.UserRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +28,8 @@ public class SellerService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final ProductRepository productRepository;
 
     public Seller createSeller(Seller seller) {
         verifiedByLoginId(seller);
@@ -93,5 +102,15 @@ public class SellerService {
         Optional<User> user= userRepository.findById(userId);
         Long sellerId = user.get().getSeller().getSellerId();
         return sellerId;
+    }
+
+    //sellerId가 일치하고 상품 상태가 delete가 아닌 애들만 가져오기
+    public Page<Product> findProducts(Pageable pageable, Long sellerId) {
+        PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
+                pageable.getPageSize(),
+                pageable.getSort());
+        List<Product> products = productRepository.findAllBySellerIdAndProductStatusNot(sellerId, Product.ProductStatus.PRODUCT_DELETE);
+
+        return new PageImpl<>(products, of, products.size());
     }
 }

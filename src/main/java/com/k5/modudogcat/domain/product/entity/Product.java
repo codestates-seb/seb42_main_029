@@ -3,6 +3,7 @@ package com.k5.modudogcat.domain.product.entity;
 import com.k5.modudogcat.audit.Auditable;
 import com.k5.modudogcat.domain.order.entity.OrderProduct;
 import com.k5.modudogcat.domain.product.entity.productImage.ProductDetailImage;
+import com.k5.modudogcat.domain.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,9 @@ public class Product extends Auditable {
     private ProductStatus productStatus = ProductStatus.PRODUCT_ACTIVE;
     @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<OrderProduct> orderProductList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Seller seller;
     public enum ProductStatus {
         PRODUCT_ACTIVE("판매중"),
         PRODUCT_SOLD_OUT("품절"),
