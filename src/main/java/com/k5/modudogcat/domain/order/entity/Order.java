@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "order_table")
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class Order extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
-    //todo: seller와 연관관계 매핑
+    // todo: seller와 연관관계 매핑
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -32,9 +34,9 @@ public class Order extends Auditable {
     private OrderStatus orderStatus = OrderStatus.ORDER_PAY_STANDBY;
     @Enumerated(value = EnumType.STRING)
     private PayMethod payMethod = PayMethod.NO_BANK_BOOK;
-    private Integer count; // 상품 수량
     private Integer parcelNumber;
-
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<OrderProduct> orderProductList = new ArrayList<>();
     public enum OrderStatus{
         ORDER_PAY_STANDBY("결제대기"),
         ORDER_PAY_FINISH("결제완료"),

@@ -62,7 +62,7 @@ public interface ProductMapper {
         return productDetailImageList;
     }
 
-    default ProductDto.Response productToResponse(Product product, String domain){
+    static ProductDto.Response productToResponse(Product product, String domain){
         if(product == null){
             return null;
         }

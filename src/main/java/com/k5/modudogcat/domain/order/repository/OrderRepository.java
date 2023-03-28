@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order,Long> {
-    List<Order> findAllByOrderStatusNotLike(Order.OrderStatus orderStatus);
+    List<Order> findAllByOrderStatusNotLikeAndUserUserId(Order.OrderStatus orderStatus, Long userId);
 
 }

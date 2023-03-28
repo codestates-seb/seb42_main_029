@@ -22,7 +22,6 @@ public class Product extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
     // todo: seller와 연관관계 매핑
-    @Column(nullable = false)
     private String name;
     @Lob
     private byte[] thumbnailImage;
@@ -35,7 +34,7 @@ public class Product extends Auditable {
     private Integer stock;
     @Enumerated(value = EnumType.STRING)
     private ProductStatus productStatus = ProductStatus.PRODUCT_ACTIVE;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<OrderProduct> orderProductList = new ArrayList<>();
     public enum ProductStatus {
         PRODUCT_ACTIVE("판매중"),

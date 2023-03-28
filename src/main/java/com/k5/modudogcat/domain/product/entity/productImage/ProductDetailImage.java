@@ -15,7 +15,7 @@ public class ProductDetailImage {
     private Long detailImageId;
     @Lob
     private byte[] image;
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String type;
     @ManyToOne
     @JoinColumn(name = "product_id")
