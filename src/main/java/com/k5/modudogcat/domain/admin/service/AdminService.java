@@ -61,7 +61,7 @@ public class AdminService {
 
     //회원가입 거절
     public Seller updateRejectedSellerStatus(Long sellerId) {
-        Seller findSeller = sellerService.findVerifiedSellerById(sellerId);
+        Seller findSeller = findVerifiedSellerById(sellerId);
         findSeller.setSellerStatus(Seller.SellerStatus.SELLER_REJECTED);
         return sellerRepository.save(findSeller);
     }
