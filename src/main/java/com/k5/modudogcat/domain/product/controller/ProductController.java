@@ -61,7 +61,7 @@ public class ProductController {
     public ResponseEntity getProducts(Pageable pageable){
         Page<Product> productPages = productService.findProducts(pageable);
         List<Product> products = productPages.getContent();
-        List<ProductDto.Response> responses = mapper.productsToResponses(products);
+        List<ProductDto.Response> responses = mapper.productsToResponses(products, domain);
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(responses, productPages), HttpStatus.OK);

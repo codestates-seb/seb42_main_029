@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,18 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     Product productPostToProduct(ProductDto.Post postDto);
-    List<ProductDto.Response> productsToResponses(List<Product> products);
+    default List<ProductDto.Response> productsToResponses(List<Product> products, String domain){
+        if ( products == null ) {
+            return null;
+        }
+
+        List<ProductDto.Response> list = new ArrayList<ProductDto.Response>( products.size() );
+        for ( Product product : products ) {
+            list.add( productToResponse( product, domain ) );
+        }
+
+        return list;
+    }
     default Map<String,Object> multipartFileToThumbnailImage(MultipartFile thumbnailDto)  {
         if(thumbnailDto == null){
             return null;
@@ -56,7 +68,13 @@ public interface ProductMapper {
         }
         ProductDto.Response response = new ProductDto.Response();
         // 썸네일 사진 요청 링크
-        String thumbnailLink = domain +"/thumbnails/"+ product.getProductId();
+        String thumbnailLink;
+        if(product.getThumbnailImage() == null){
+            thumbnailLink = null;
+        }else{
+            thumbnailLink = domain +"/thumbnails/"+ product.getProductId();
+        }
+
         // 상품 세부페이지 사진 요청 링크
         List<String> productDetailLinks = product.getProductDetailImages().stream()
                 .map(image -> {
