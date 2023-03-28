@@ -2,7 +2,6 @@ package com.k5.modudogcat.domain.order.service;
 
 import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.order.repository.OrderRepository;
-import com.k5.modudogcat.domain.user.entity.User;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,8 +35,7 @@ public class OrderService {
                 .ifPresent(newPhone -> findOrder.setPhone(newPhone));
         Optional.ofNullable(order.getReceivingAddress())
                 .ifPresent(newAddress -> findOrder.setReceivingAddress(newAddress));
-        Optional.ofNullable(order.getCount())
-                .ifPresent(newCount -> findOrder.setCount(newCount));
+        // todo : 상품의 개수 수정시 리팩토링 필요
 
         return orderRepository.save(findOrder);
     }
@@ -58,12 +55,12 @@ public class OrderService {
         return findOrder;
     }
 
-    public Page<Order> findOrders(Pageable pageable, Long userId){
+    public Page<Order> findBuyerOrders(Pageable pageable, Long userId){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
-        List<Order> findOrders = orderRepository.findAllByOrderStatusNotLike(Order.OrderStatus.ORDER_DELETE);
-
+        List<Order> findOrders = orderRepository.findAllByOrderStatusNotLikeAndUserUserId(Order.OrderStatus.ORDER_DELETE, userId);
+        // NOTE: Order-OrderProduct-Product를 보면 왜 나중에 추가해준 이미지파일은 영속화 되지 않았을까요?
         return new PageImpl<>(findOrders, of, findOrders.size());
     }
 
