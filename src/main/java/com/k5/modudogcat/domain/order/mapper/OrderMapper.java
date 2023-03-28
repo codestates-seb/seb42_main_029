@@ -100,4 +100,6 @@ public interface OrderMapper {
         }
         return userId;
     }
+
+    List<OrderDto.Response> orderListToResponseDtoList(List<Order> orders);
 }

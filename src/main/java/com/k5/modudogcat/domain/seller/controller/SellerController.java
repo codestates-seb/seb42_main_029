@@ -1,5 +1,8 @@
 package com.k5.modudogcat.domain.seller.controller;
 
+import com.k5.modudogcat.domain.order.dto.OrderDto;
+import com.k5.modudogcat.domain.order.entity.Order;
+import com.k5.modudogcat.domain.order.mapper.OrderMapper;
 import com.k5.modudogcat.domain.product.dto.ProductDto;
 import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.product.mapper.ProductMapper;
@@ -13,6 +16,7 @@ import com.k5.modudogcat.util.UriCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +43,8 @@ public class SellerController {
     private final SellerService sellerService;
 
     private final ProductMapper productMapper;
+
+    private final OrderMapper orderMapper;
 
     //판매자의 판매자 회원가입 신청
     @PostMapping
@@ -79,11 +85,8 @@ public class SellerController {
 
     //판매자의 판매 중인 상품 목록 조회
     @GetMapping("/selling")
-    public  ResponseEntity getSellingProducts(Pageable pageable) {
-        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long userId = Long.parseLong(principal);
-        Long sellerId = sellerService.findSellerIdById(userId);
-        Page<Product> pageProducts = sellerService.findProducts(pageable, sellerId);
+    public ResponseEntity getSellingProducts(Pageable pageable) {
+        Page<Product> pageProducts = sellerService.findProducts(pageable, tokenSellerId());
         List<Product> products = pageProducts.getContent();
         List<ProductDto.Response> responseList = productMapper.productListToResponseDtoList(products);
 
@@ -91,4 +94,35 @@ public class SellerController {
     }
 
     //판매자의 판매 중인 상품 삭제
+    @DeleteMapping("/selling/{product-id}")
+    public ResponseEntity deleteSellingProduct(@PathVariable("product-id") @Positive Long productId) {
+        sellerService.removeProduct(productId, tokenSellerId());
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    //판매자의 들어온 주문 목록 리스트 조회
+    @GetMapping("/orders")
+    public ResponseEntity getOrders(Pageable pageable) {
+        Page<Order> pageOrders = sellerService.findOrders(pageable, tokenSellerId());
+        List<Order> orders = pageOrders.getContent();
+        List<OrderDto.Response> responseList = orderMapper.orderListToResponseDtoList(orders);
+
+        return new ResponseEntity(new MultiResponseDto<>(responseList, pageOrders), HttpStatus.OK);
+    }
+
+    //판매자의 주문 상태 변경
+    
+
+
+
+
+    //토큰에서 sellerId 뽑아오기
+    private Long tokenSellerId() {
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = Long.parseLong(principal);
+        return sellerService.findSellerIdById(userId);
+    }
+
+
+
 }

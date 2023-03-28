@@ -1,5 +1,7 @@
 package com.k5.modudogcat.domain.seller.service;
 
+import com.k5.modudogcat.domain.order.entity.Order;
+import com.k5.modudogcat.domain.order.repository.OrderRepository;
 import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.product.repository.ProductRepository;
 import com.k5.modudogcat.domain.seller.entity.Seller;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +33,8 @@ public class SellerService {
     private final PasswordEncoder passwordEncoder;
 
     private final ProductRepository productRepository;
+
+    private final OrderRepository orderRepository;
 
     public Seller createSeller(Seller seller) {
         verifiedByLoginId(seller);
@@ -112,5 +117,26 @@ public class SellerService {
         List<Product> products = productRepository.findAllBySellerIdAndProductStatusNot(sellerId, Product.ProductStatus.PRODUCT_DELETE);
 
         return new PageImpl<>(products, of, products.size());
+    }
+
+    public void removeProduct(Long productId, Long sellerId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PRODUCT_NOT_FOUND));
+        if ( product.getProductStatus().getStatus().equals("삭제된상품")) {
+            throw new BusinessLogicException(ExceptionCode.PRODUCT_NOT_FOUND);}
+        if( product.getSeller().getSellerId() != sellerId) {
+            throw new BusinessLogicException(ExceptionCode.SELLER_NOT_ALLOWED);
+        }
+        product.setProductStatus(Product.ProductStatus.PRODUCT_DELETE);
+        productRepository.save(product);
+    }
+
+    //sellerId가 일치하고, ORDER_DELETE가 아닌 주문들 가지고 오기
+    public Page<Order> findOrders(Pageable pageable, Long sellerId) {
+        PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
+                pageable.getPageSize(),
+                pageable.getSort());
+        List<Order> orders = orderRepository.findAllByOrderStatusNotLikeAndUserUserId(Order.OrderStatus.ORDER_DELETE, sellerId);
+        return new PageImpl<>(orders, of, orders.size());
     }
 }
