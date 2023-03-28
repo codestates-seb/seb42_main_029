@@ -51,7 +51,7 @@ public class ProductController {
     public ResponseEntity getProduct(@PathVariable("product-id") Long productId){
         // todo : Seller 에 해당하는 Product를 조회하도록 수정필요
         Product findProduct = productService.findProduct(productId);
-        ProductDto.Response response = mapper.productToResponse(findProduct, domain);
+        ProductDto.Response response = ProductMapper.productToResponse(findProduct, domain);
 
         return new ResponseEntity<>(
                 new SingleResponseDto(response), HttpStatus.OK);

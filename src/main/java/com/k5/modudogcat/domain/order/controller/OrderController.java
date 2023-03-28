@@ -8,6 +8,7 @@ import com.k5.modudogcat.dto.MultiResponseDto;
 import com.k5.modudogcat.dto.SingleResponseDto;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,12 @@ public class OrderController {
     private final OrderMapper mapper;
     private final OrderService orderService;
     private static final String ORDER_DEFAULT_URL = "/orders/";
+    @Value("${config.domain}")
+    private String domain;
+    // 상품상세에서 바로 구매
     @PostMapping
     public ResponseEntity postOrder(@RequestBody OrderDto.Post postDto){
+        // todo : 주문 생성시 Product가 가진 sellerId가 Order에 들어가도록 orderPostToOrder() 수정
         long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDto.setUserId(userId);
         Order order = mapper.orderPostToOrder(postDto);
@@ -44,7 +49,7 @@ public class OrderController {
         patchDto.setOrderId(orderId);
         Order order = mapper.orderPatchToOrder(patchDto);
         Order updateOrder = orderService.updateOrder(order, userId);
-        OrderDto.Response response = mapper.orderToOrderResponse(updateOrder);
+        OrderDto.Response response = mapper.orderToOrderResponse(updateOrder, domain);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
@@ -54,22 +59,25 @@ public class OrderController {
         String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         long userId = Long.parseLong(principal);
         Order findOrder = orderService.findOrder(orderId, userId);
-        OrderDto.Response response = mapper.orderToOrderResponse(findOrder);
+        OrderDto.Response response = mapper.orderToOrderResponse(findOrder, domain);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity findOrders(Pageable pageable){
+    public ResponseEntity findBuyerOrders(Pageable pageable){
         String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         long userId = Long.parseLong(principal);
-        Page<Order> pageOrders = orderService.findOrders(pageable, userId);
+        Page<Order> pageOrders = orderService.findBuyerOrders(pageable, userId);
         List<Order> orders = pageOrders.getContent();
-        List<OrderDto.Response> responses = mapper.ordersToOrdersResponse(orders);
+        List<OrderDto.Response> responses = mapper.ordersToOrdersResponse(orders, domain);
 
         return new ResponseEntity(new MultiResponseDto<>(
                 responses, pageOrders), HttpStatus.OK);
     }
+
+    // todo: findSellerOrders() 생성
+    // sellerId를 통해 Order를 주문하는 핸들러메서드가 필요합니다.( 판매자
 
     @DeleteMapping("{order-id}")
     public ResponseEntity deleteOrder(@PathVariable("order-id") long orderId){

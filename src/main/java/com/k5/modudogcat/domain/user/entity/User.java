@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.user.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +35,8 @@ public class User extends Auditable {
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Order> orderList;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     private Seller seller;
