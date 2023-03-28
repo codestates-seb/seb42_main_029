@@ -1,5 +1,6 @@
 package com.k5.modudogcat.security.util;
 
+import com.k5.modudogcat.domain.user.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,11 +26,12 @@ public class CustomAuthorityUtils {
     }
 
     // DB 저장 용
-    public List<String> createRoles(String email) {
-        if (email.equals(adminId)) {
+    public List<String> createRoles(User user) {
+        if (user.getLoginId().equals(adminId)) {
             return ADMIN_ROLES_STRING;
+        } else if (user.getSeller().getSellerId() != null) {
+            return SELLER_ROLES_STRING;
         }
-        // todo: 판매자 권한 설정
         return BUYER_ROLES_STRING;
     }
 }

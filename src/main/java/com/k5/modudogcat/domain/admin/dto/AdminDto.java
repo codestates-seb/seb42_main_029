@@ -11,17 +11,6 @@ public class AdminDto {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class Patch {
-
-        private Long sellerId;
-
-        private Seller.SellerStatus sellerStatus;
-
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
 
@@ -47,6 +36,26 @@ public class AdminDto {
 
         private Seller.SellerStatus sellerStatus;
 
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class Update {
+
+        private Long sellerId;
+
+        private String loginId;
+
+        private String password;
+
+        private String name;
+
+        private String email;
+
+        private String address;
+
+        private String phone;
     }
 
 }

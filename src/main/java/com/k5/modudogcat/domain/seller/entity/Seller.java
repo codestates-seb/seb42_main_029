@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.seller.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,13 +50,17 @@ public class Seller extends Auditable {
     @Column(nullable = false)
     private String bankName;
 
+    @OneToOne(mappedBy = "seller")
+    private User user;
+
     public enum SellerStatus {
         SELLER_WAITING("승인 대기 중"),
         SELLER_APPROVE("가입 승인"),
-        SELLER_REJECTED("가입 거절");
+        SELLER_REJECTED("가입 거절"),
+        SELLER_DELETED("삭제된 판매자 회원가입 정보");
 
         @Getter
-        private final String status;
+        private String status;
         SellerStatus(String status) {
             this.status = status;
         }
