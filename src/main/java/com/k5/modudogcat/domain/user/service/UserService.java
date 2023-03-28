@@ -24,16 +24,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils customAuthorityUtils;
-    private final AdminRepository adminRepository;
 
     public User createUser(User user){
         verifiedByLoginId(user);
         verifiedByEmail(user);
         setEncodedPassword(user);
         setDefaultRole(user);
+        User verifiedUser = verifiedAdmin(user);
         // todo : Roles가 관리자면 관리자 객체를 생성시켜 넣고 판매자면 판매자 객체를 생성시켜 넣기
         // UserRoles 클래스와 UserAuthenticationSuccessHandler.sendAuthorization() 참고!
-        return userRepository.save(user);
+        return userRepository.save(verifiedUser);
     }
 
     private void setDefaultRole(User user) {
@@ -123,20 +123,15 @@ public class UserService {
         });
     }
 
-    //
     public User verifiedAdmin(User findUser) {
-        if (findUser.getRoles().equals("ADMIN")) {
-            findVerifiedAdmin(findUser);
+        int a = 1;
+        if (findUser.getRoles().get(0).equals("ADMIN")) {
+            Admin admin = new Admin();
+            admin.setLoginId(findUser.getLoginId());
+            admin.setPassword(findUser.getPassword());
+            findUser.setAdmin(admin);
+            //findVerifiedAdmin(findUser);
         }
         return findUser;
-    }
-
-    private void findVerifiedAdmin(User findUser) {
-        String adminId = findUser.getLoginId();
-        Admin admin = adminRepository.findByLoginId(adminId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ADMIN_EXISTS));
-        admin.setLoginId(adminId);
-        admin.setPassword(findUser.getPassword());
-        adminRepository.save(admin);
     }
 }

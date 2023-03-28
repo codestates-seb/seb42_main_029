@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.user.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.admin.entity.Admin;
 import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.seller.entity.Seller;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,9 @@ public class User extends Auditable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     private Seller seller;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
 
     public enum UserStatus {
         USER_ACTIVE("활동중"),

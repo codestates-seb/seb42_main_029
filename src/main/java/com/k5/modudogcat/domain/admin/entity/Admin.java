@@ -1,5 +1,6 @@
 package com.k5.modudogcat.domain.admin.entity;
 
+import com.k5.modudogcat.domain.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,5 +23,8 @@ public class Admin {
 
     @Column
     private String password;
+
+    @OneToOne(mappedBy = "admin")
+    private User user;
 
 }
