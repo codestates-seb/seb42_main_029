@@ -50,7 +50,7 @@ public class Seller extends Auditable {
     @Column(nullable = false)
     private String bankName;
 
-    @OneToOne(mappedBy = "seller")
+    @OneToOne(mappedBy = "seller", cascade = CascadeType.PERSIST)
     private User user;
 
     public enum SellerStatus {
