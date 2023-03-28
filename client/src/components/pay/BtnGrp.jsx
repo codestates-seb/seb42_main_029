@@ -1,12 +1,55 @@
+import axios from "axios";
 import React from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function BtnGrp() {
+  const navigate = useNavigate();
+  //! 리액트 쿠키
+  const [cookies] = useCookies(["accessToken"]);
+
+  // 주문 내용 get
+
+  // 장바구니 프로덕트 id, count get
+
+  // 장바구니 api 나오면 navigate 링크 수정
+  const goCartPage = (e) => {
+    e.preventDefault();
+    navigate("/cart");
+  };
+
+  const payBtn = async (e) => {
+    e.preventDefault();
+
+    const options = {
+      headers: {
+        Authorization: cookies.accessToken,
+      },
+      withCredentials: true,
+    };
+    // 주문 Post api > paycomplete
+
+    return axios
+      .post(
+        `http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/`,
+        options
+      )
+      .then((res) => {
+        console.log(res)
+        // navigate('/payComplete')
+      })
+      .catch((err) => {
+        console.log("cart post error");
+        console.log(err)
+      });
+  };
+
   return (
     <Wrapper>
       <form>
-        <button>장바구니로 돌아가기</button>
-        <button>결제하기</button>
+        <button onClick={goCartPage}>장바구니로 돌아가기</button>
+        <button onClick={payBtn}>주문하기</button>
       </form>
     </Wrapper>
   );
@@ -40,6 +83,18 @@ const Wrapper = styled.div`
 
       :hover {
         color: #ffffff;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    form {
+      button {
+        font-size: 0.8rem;
+        width: 7.5rem;
+      }
+      button:first-child {
+        margin-right: 0.7rem;
       }
     }
   }

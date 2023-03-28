@@ -8,17 +8,12 @@ import PayInfo from "../components/pay/PayInfo";
 import ReceiverInfo from "../components/pay/ReceiverInfo";
 
 export default function Pay() {
-
   const [userData, setUserData] = useState({});
 
-  console.log(userData)
-
-
   //! 리액트 쿠키
-  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  const [cookies] = useCookies(["accessToken"]);
 
   // 구매자 정보 get ,, users/mypage
-
   const options = {
     headers: {
       Authorization: cookies.accessToken,
@@ -33,7 +28,6 @@ export default function Pay() {
         options
       )
       .then((res) => {
-        console.log(res.data.data);
         setUserData(res.data.data);
       })
       .catch((err) => {
@@ -41,15 +35,16 @@ export default function Pay() {
       });
   }
 
-  //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
   useEffect(() => {
     userInfoAxios();
   }, []);
+
+  // console.log(userData)
   return (
     <Wrapper>
-      <Title>주문/결제</Title>
-      <BuyerInfo />
-      <ReceiverInfo />
+      <Title>🐶 주문/결제</Title>
+      <BuyerInfo userData={userData} />
+      <ReceiverInfo userData={userData} />
       <PayInfo />
       <BtnGrp />
     </Wrapper>
@@ -57,11 +52,10 @@ export default function Pay() {
 }
 
 const Wrapper = styled.div`
-  margin: 3rem;
+  margin: 3rem 3rem;
 `;
 
 const Title = styled.h1`
   font-size: 1.6rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
-
