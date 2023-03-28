@@ -28,8 +28,10 @@ public class UserService {
         verifiedByEmail(user);
         setEncodedPassword(user);
         setDefaultRole(user);
+//        setDefaultCart(user); // NOTE
         // todo : Roles가 관리자면 관리자 객체를 생성시켜 넣고 판매자면 판매자 객체를 생성시켜 넣기
         // UserRoles 클래스와 UserAuthenticationSuccessHandler.sendAuthorization() 참고!
+
         return userRepository.save(user);
     }
 
