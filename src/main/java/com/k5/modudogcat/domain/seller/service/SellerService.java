@@ -80,13 +80,12 @@ public class SellerService {
     }
 
     //판매자 상태 검증
-    private void verifiedApprovedSeller(Seller findSeller) {
+    public void verifiedApprovedSeller(Seller findSeller) {
         if(findSeller.getSellerStatus().getStatus().equals("가입 거절")) {
             throw new BusinessLogicException(ExceptionCode.SELLER_REJECTED);
         } else if(findSeller.getSellerStatus().getStatus().equals("승인 대기 중")) {
             throw new BusinessLogicException(ExceptionCode.SELLER_WAITING);
         }
     }
-
 
 }
