@@ -50,7 +50,7 @@ public class AdminController {
 
         patch.setSellerId(sellerId);
         Seller seller = adminMapper.adminPatchDtoToSeller(patch);
-        Seller updateApproval = adminService.updateApprovalSellerStatus(seller);
+        Seller updateApproval = adminService.updateRejectedSellerStatus(seller);
         AdminDto.Response responseApproval = adminMapper.sellerToAdminResponseDto(updateApproval);
 
         return new ResponseEntity<>(new SingleResponseDto<>(responseApproval), HttpStatus.OK);
