@@ -1,6 +1,11 @@
 package com.k5.modudogcat.domain.admin.controller;
 
 import com.k5.modudogcat.domain.admin.dto.AdminDto;
+import com.k5.modudogcat.domain.admin.mapper.AdminMapper;
+import com.k5.modudogcat.domain.admin.service.AdminService;
+import com.k5.modudogcat.domain.seller.dto.SellerDto;
+import com.k5.modudogcat.domain.seller.entity.Seller;
+import com.k5.modudogcat.domain.seller.service.SellerService;
 import com.k5.modudogcat.dto.MultiResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,9 +21,13 @@ import java.util.List;
 import static com.k5.modudogcat.domain.seller.entity.Seller.SellerStatus.*;
 
 @RestController
-@RequestMapping("/admin/sellers")
+@RequestMapping("/admin/seller")
 @AllArgsConstructor
 public class AdminController {
+
+    private final AdminService adminService;
+
+    private final AdminMapper adminMapper;
 
     //관리자의 판매자 상태 변경
     @PatchMapping("/{seller-id}")
@@ -36,17 +45,9 @@ public class AdminController {
     @GetMapping
     public ResponseEntity getSellers(Pageable pageable) {
 
-        List<AdminDto.Response> getSellers = List.of(
-                new AdminDto.Response
-                        (1L, "seller", "seller", "seller", "e","11111111111111", "서울시 어쩌구 저쩌구", "01012345678", "신한", "12345678901234",SELLER_WAITING),
-                new AdminDto.Response
-                        (2L, "seller2", "seller2", "seller2", "22222222222222", "경기도 어쩌구 저쩌구","e", "01011112222", "우리", "12345678901111", SELLER_APPROVE),
-                new AdminDto.Response
-                        (3L, "seller3", "seller3", "seller3", "33333333333333", "인천시 어쩌구 저쩌구", "e","01033334444", "기업", "12345678902222", SELLER_REJECTED)
-        );
-
-        Page<AdminDto.Response> pageSellers = new PageImpl<>(getSellers, pageable,3);
-        List<AdminDto.Response> responseList = pageSellers.getContent();
+        Page<Seller> pageSellers = adminService.findSellers(pageable);
+        List<Seller> sellers = pageSellers.getContent();
+        List<AdminDto.Response> responseList = adminMapper.sellersToSellersResponse(sellers);
 
         return new ResponseEntity(new MultiResponseDto<>(responseList, pageSellers), HttpStatus.OK);
     }

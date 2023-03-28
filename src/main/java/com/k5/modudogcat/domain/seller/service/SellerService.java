@@ -7,9 +7,13 @@ import com.k5.modudogcat.domain.user.repository.UserRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -87,6 +91,5 @@ public class SellerService {
             throw new BusinessLogicException(ExceptionCode.SELLER_WAITING);
         }
     }
-
 
 }

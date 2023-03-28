@@ -52,7 +52,8 @@ public class Seller extends Auditable {
     public enum SellerStatus {
         SELLER_WAITING("승인 대기 중"),
         SELLER_APPROVE("가입 승인"),
-        SELLER_REJECTED("가입 거절");
+        SELLER_REJECTED("가입 거절"),
+        SELLER_DELETED("삭제된 판매자 회원가입 정보");
 
         @Getter
         private final String status;
