@@ -9,5 +9,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AdminMapper {
 
-    List<AdminDto.Response> sellersToSellersResponse(List<Seller> sellers);
+    List<AdminDto.Response> sellersToAdminResponseDto(List<Seller> sellers);
+
+    Seller adminPatchDtoToSeller(AdminDto.Patch patch);
+
+    AdminDto.Response sellerToAdminResponseDto(Seller updateApproval);
 }

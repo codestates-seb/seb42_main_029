@@ -7,6 +7,7 @@ import com.k5.modudogcat.domain.seller.dto.SellerDto;
 import com.k5.modudogcat.domain.seller.entity.Seller;
 import com.k5.modudogcat.domain.seller.service.SellerService;
 import com.k5.modudogcat.dto.MultiResponseDto;
+import com.k5.modudogcat.dto.SingleResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,7 +22,7 @@ import java.util.List;
 import static com.k5.modudogcat.domain.seller.entity.Seller.SellerStatus.*;
 
 @RestController
-@RequestMapping("/admin/seller")
+@RequestMapping("/admin/sellers")
 @AllArgsConstructor
 public class AdminController {
 
@@ -29,17 +30,33 @@ public class AdminController {
 
     private final AdminMapper adminMapper;
 
-    //관리자의 판매자 상태 변경
-    @PatchMapping("/{seller-id}")
-    public ResponseEntity<AdminDto.Response> patchSellerStatus(@PathVariable("seller-id") @Positive Long sellerId) {
+    //관리자의 판매자 상태 변경(승인)
+    @PatchMapping("/approval/{seller-id}")
+    public ResponseEntity approvalSellerStatus(@PathVariable("seller-id") @Positive Long sellerId,
+                                                 @RequestBody AdminDto.Patch patch) {
 
-        AdminDto.Patch patchStatus = new AdminDto.Patch(sellerId, SELLER_APPROVE);
+        patch.setSellerId(sellerId);
+        Seller seller = adminMapper.adminPatchDtoToSeller(patch);
+        Seller updateApproval = adminService.updateApprovalSellerStatus(seller);
+        AdminDto.Response responseApproval = adminMapper.sellerToAdminResponseDto(updateApproval);
 
-        AdminDto.Response responseStatus = new AdminDto.Response
-                (patchStatus.getSellerId(),"seller", "seller", "seller","e", "12345678901234","서울시 어쩌구2 저쩌구2", "01011112222", "신한", "12345678901234",patchStatus.getSellerStatus());
-
-        return new ResponseEntity<>(responseStatus, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(responseApproval), HttpStatus.OK);
     }
+
+    //관리자의 판매자 상태 변경(거절)
+    @PatchMapping("/rejected/{seller-id}")
+    public ResponseEntity rejectedSellerStatus(@PathVariable("seller-id") @Positive Long sellerId,
+                                                 @RequestBody AdminDto.Patch patch) {
+
+        patch.setSellerId(sellerId);
+        Seller seller = adminMapper.adminPatchDtoToSeller(patch);
+        Seller updateApproval = adminService.updateApprovalSellerStatus(seller);
+        AdminDto.Response responseApproval = adminMapper.sellerToAdminResponseDto(updateApproval);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(responseApproval), HttpStatus.OK);
+    }
+
+
 
     //관리자의 판매자 회원가입 리스트 조회
     @GetMapping
@@ -47,7 +64,7 @@ public class AdminController {
 
         Page<Seller> pageSellers = adminService.findSellers(pageable);
         List<Seller> sellers = pageSellers.getContent();
-        List<AdminDto.Response> responseList = adminMapper.sellersToSellersResponse(sellers);
+        List<AdminDto.Response> responseList = adminMapper.sellersToAdminResponseDto(sellers);
 
         return new ResponseEntity(new MultiResponseDto<>(responseList, pageSellers), HttpStatus.OK);
     }

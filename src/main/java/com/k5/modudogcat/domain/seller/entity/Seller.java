@@ -56,7 +56,7 @@ public class Seller extends Auditable {
         SELLER_DELETED("삭제된 판매자 회원가입 정보");
 
         @Getter
-        private final String status;
+        private String status;
         SellerStatus(String status) {
             this.status = status;
         }

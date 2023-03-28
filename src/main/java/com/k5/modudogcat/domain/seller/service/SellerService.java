@@ -89,6 +89,8 @@ public class SellerService {
             throw new BusinessLogicException(ExceptionCode.SELLER_REJECTED);
         } else if(findSeller.getSellerStatus().getStatus().equals("승인 대기 중")) {
             throw new BusinessLogicException(ExceptionCode.SELLER_WAITING);
+        } else if(findSeller.getSellerStatus().getStatus().equals("삭제된 판매자 회원가입 정보")) {
+            throw new BusinessLogicException(ExceptionCode.SELLER_NOT_FOUND);
         }
     }
 
