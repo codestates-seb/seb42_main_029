@@ -35,3 +35,4 @@ jwt:
   refresh-token-expiration-minutes: 420
 config:
   domain: http://localhost:8080
+  adminId: ${ADMIN_ID}
