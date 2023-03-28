@@ -6,6 +6,8 @@ import com.k5.modudogcat.domain.admin.service.AdminService;
 import com.k5.modudogcat.domain.seller.dto.SellerDto;
 import com.k5.modudogcat.domain.seller.entity.Seller;
 import com.k5.modudogcat.domain.seller.service.SellerService;
+import com.k5.modudogcat.domain.user.dto.UserDto;
+import com.k5.modudogcat.domain.user.entity.User;
 import com.k5.modudogcat.dto.MultiResponseDto;
 import com.k5.modudogcat.dto.SingleResponseDto;
 import lombok.AllArgsConstructor;
@@ -19,10 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
-import static com.k5.modudogcat.domain.seller.entity.Seller.SellerStatus.*;
-
 @RestController
-@RequestMapping("/admin/sellers")
+@RequestMapping("/admin")
 @AllArgsConstructor
 public class AdminController {
 
@@ -30,27 +30,33 @@ public class AdminController {
 
     private final AdminMapper adminMapper;
 
+    private final SellerService sellerService;
+
     //관리자의 판매자 상태 변경(승인)
     @PatchMapping("/approval/{seller-id}")
-    public ResponseEntity approvalSellerStatus(@PathVariable("seller-id") @Positive Long sellerId,
-                                                 @RequestBody AdminDto.Patch patch) {
+    public ResponseEntity approvalSellerStatus(@PathVariable("seller-id") @Positive Long sellerId) {
 
-        patch.setSellerId(sellerId);
-        Seller seller = adminMapper.adminPatchDtoToSeller(patch);
-        Seller updateApproval = adminService.updateApprovalSellerStatus(seller);
-        AdminDto.Response responseApproval = adminMapper.sellerToAdminResponseDto(updateApproval);
+        Seller updateApproval = adminService.updateApprovalSellerStatus(sellerId);
 
-        return new ResponseEntity<>(new SingleResponseDto<>(responseApproval), HttpStatus.OK);
+        return updateToUser(updateApproval);
+    }
+
+    public ResponseEntity updateToUser(Seller seller) {
+
+        sellerService.verifiedApprovedSeller(seller);
+        AdminDto.Update update = adminMapper.sellerToSellerUpdateDto(seller);
+        User user = adminMapper.sellerUpdateDtoToUser(update);
+        adminService.updateToUser(user);
+
+        AdminDto.Response responseApproval = adminMapper.sellerToAdminResponseDto(seller);
+        return new ResponseEntity(new SingleResponseDto<>(responseApproval), HttpStatus.OK);
     }
 
     //관리자의 판매자 상태 변경(거절)
     @PatchMapping("/rejected/{seller-id}")
-    public ResponseEntity rejectedSellerStatus(@PathVariable("seller-id") @Positive Long sellerId,
-                                                 @RequestBody AdminDto.Patch patch) {
+    public ResponseEntity rejectedSellerStatus(@PathVariable("seller-id") @Positive Long sellerId) {
 
-        patch.setSellerId(sellerId);
-        Seller seller = adminMapper.adminPatchDtoToSeller(patch);
-        Seller updateApproval = adminService.updateRejectedSellerStatus(seller);
+        Seller updateApproval = adminService.updateRejectedSellerStatus(sellerId);
         AdminDto.Response responseApproval = adminMapper.sellerToAdminResponseDto(updateApproval);
 
         return new ResponseEntity<>(new SingleResponseDto<>(responseApproval), HttpStatus.OK);
@@ -68,13 +74,5 @@ public class AdminController {
 
         return new ResponseEntity(new MultiResponseDto<>(responseList, pageSellers), HttpStatus.OK);
     }
-
-    //관리자의 판매자 회원가입 정보 삭제
-    @DeleteMapping("/{seller-id}")
-    public ResponseEntity deleteSeller(@PathVariable("seller-id") @Positive Long sellerId) {
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
 
 }

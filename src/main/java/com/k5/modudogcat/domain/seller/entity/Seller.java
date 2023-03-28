@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.seller.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,6 +49,9 @@ public class Seller extends Auditable {
 
     @Column(nullable = false)
     private String bankName;
+
+    @OneToOne(mappedBy = "seller")
+    private User user;
 
     public enum SellerStatus {
         SELLER_WAITING("승인 대기 중"),

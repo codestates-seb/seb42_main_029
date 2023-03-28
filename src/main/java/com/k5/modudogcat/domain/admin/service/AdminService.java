@@ -3,6 +3,8 @@ package com.k5.modudogcat.domain.admin.service;
 import com.k5.modudogcat.domain.seller.entity.Seller;
 import com.k5.modudogcat.domain.seller.repository.SellerRepository;
 import com.k5.modudogcat.domain.seller.service.SellerService;
+import com.k5.modudogcat.domain.user.entity.User;
+import com.k5.modudogcat.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -12,13 +14,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.k5.modudogcat.domain.seller.entity.Seller.SellerStatus.SELLER_APPROVE;
-
 @Service
 @RequiredArgsConstructor
 public class AdminService {
 
     private final SellerRepository sellerRepository;
+
+    private final UserRepository userRepository;
 
     private SellerService sellerService;
 
@@ -34,18 +36,22 @@ public class AdminService {
     }
 
     //회원가입 승인
-    public Seller updateApprovalSellerStatus(Seller seller) {
-        Long sellerId = seller.getSellerId();
+    public Seller updateApprovalSellerStatus(Long sellerId) {
         Seller findSeller = sellerService.findVerifiedSellerById(sellerId);
         findSeller.setSellerStatus(Seller.SellerStatus.SELLER_APPROVE);
-        return sellerRepository.save(findSeller);
+        sellerRepository.save(findSeller);
+        return findSeller;
     }
 
     //회원가입 거절
-    public Seller updateRejectedSellerStatus(Seller seller) {
-        Long sellerId = seller.getSellerId();
+    public Seller updateRejectedSellerStatus(Long sellerId) {
         Seller findSeller = sellerService.findVerifiedSellerById(sellerId);
         findSeller.setSellerStatus(Seller.SellerStatus.SELLER_REJECTED);
         return sellerRepository.save(findSeller);
+    }
+
+    public void updateToUser(User user) {
+        user.setUserStatus(User.UserStatus.SELLER);
+        userRepository.save(user);
     }
 }

@@ -7,13 +7,9 @@ import com.k5.modudogcat.domain.user.repository.UserRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,13 +80,11 @@ public class SellerService {
     }
 
     //판매자 상태 검증
-    private void verifiedApprovedSeller(Seller findSeller) {
+    public void verifiedApprovedSeller(Seller findSeller) {
         if(findSeller.getSellerStatus().getStatus().equals("가입 거절")) {
             throw new BusinessLogicException(ExceptionCode.SELLER_REJECTED);
         } else if(findSeller.getSellerStatus().getStatus().equals("승인 대기 중")) {
             throw new BusinessLogicException(ExceptionCode.SELLER_WAITING);
-        } else if(findSeller.getSellerStatus().getStatus().equals("삭제된 판매자 회원가입 정보")) {
-            throw new BusinessLogicException(ExceptionCode.SELLER_NOT_FOUND);
         }
     }
 

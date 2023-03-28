@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.user.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,11 +34,15 @@ public class User extends Auditable {
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "sellerId")
+    private Seller seller;
 
     public enum UserStatus {
         USER_ACTIVE("활동중"),
         USER_SLEEP("휴면계정"),
-        USER_DELETE("삭제된계정");
+        USER_DELETE("삭제된계정"),
+        SELLER("판매자");
         @Getter
         private final String status;
         UserStatus(String status){
