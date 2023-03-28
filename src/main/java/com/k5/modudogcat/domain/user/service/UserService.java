@@ -1,5 +1,7 @@
 package com.k5.modudogcat.domain.user.service;
 
+import com.k5.modudogcat.domain.admin.entity.Admin;
+import com.k5.modudogcat.domain.admin.repository.AdminRepository;
 import com.k5.modudogcat.domain.user.repository.UserRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
@@ -22,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils customAuthorityUtils;
+    private final AdminRepository adminRepository;
 
     public User createUser(User user){
         verifiedByLoginId(user);
@@ -120,5 +123,20 @@ public class UserService {
         });
     }
 
+    //
+    public User verifiedAdmin(User findUser) {
+        if (findUser.getRoles().equals("ADMIN")) {
+            findVerifiedAdmin(findUser);
+        }
+        return findUser;
+    }
 
+    private void findVerifiedAdmin(User findUser) {
+        String adminId = findUser.getLoginId();
+        Admin admin = adminRepository.findByLoginId(adminId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ADMIN_EXISTS));
+        admin.setLoginId(adminId);
+        admin.setPassword(findUser.getPassword());
+        adminRepository.save(admin);
+    }
 }

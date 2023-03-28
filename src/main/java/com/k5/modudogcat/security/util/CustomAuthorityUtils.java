@@ -1,6 +1,8 @@
 package com.k5.modudogcat.security.util;
 
 import com.k5.modudogcat.domain.user.entity.User;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 @Component
+@Getter
 public class CustomAuthorityUtils {
     //todo: 어떤식으로 관리자 권한을 줄것인지 설정
     @Value("${config.adminId}")
@@ -29,7 +32,7 @@ public class CustomAuthorityUtils {
     public List<String> createRoles(User user) {
         if (user.getLoginId().equals(adminId)) {
             return ADMIN_ROLES_STRING;
-        } else if (user.getSeller().getSellerId() != null) {
+        } else if (user.getSeller() != null) {
             return SELLER_ROLES_STRING;
         }
         return BUYER_ROLES_STRING;
