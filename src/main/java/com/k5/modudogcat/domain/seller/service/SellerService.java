@@ -15,11 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -139,4 +139,46 @@ public class SellerService {
         List<Order> orders = orderRepository.findAllByOrderStatusNotLikeAndUserUserId(Order.OrderStatus.ORDER_DELETE, sellerId);
         return new PageImpl<>(orders, of, orders.size());
     }
+
+    public Order findOrderStatus(Long orderId, Order.OrderStatus orderStatus) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
+        verifiedOrderStatus(order, orderStatus);
+        return order;
+        }
+
+
+    public Order findOrder(Long sellerId, Order order, Order.OrderStatus orderStatus) {
+        //주문의 판매자 id, 로그인한 판매자 id 검증
+        if(order.getSeller().getSellerId() != sellerId) {
+            throw new BusinessLogicException(ExceptionCode.SELLER_NOT_ALLOWED);}
+        //디비에 추가
+        order.setOrderStatus(orderStatus);
+        return orderRepository.save(order);
+    }
+
+    private void verifiedOrderStatus(Order order, Order.OrderStatus orderStatus) {
+        String verifiedOrderStatus = order.getOrderStatus().getStatus();
+        if (verifiedOrderStatus.equals("결제완료")) {
+            if (orderStatus.getStatus().equals("결제대기")) {
+                throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
+        } else if (Objects.equals(verifiedOrderStatus, "배송 준비 중")){
+                if(orderStatus.getStatus().equals("결제대기") || orderStatus.getStatus().equals("결제완료")){
+                throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
+        } else if (verifiedOrderStatus.equals("배송 준비 중")){
+            if(orderStatus.getStatus().equals("결제대기") || orderStatus.getStatus().equals("결제완료")){
+                throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
+        } else if (verifiedOrderStatus.equals("배송 중")){
+            if(orderStatus.getStatus().equals("결제대기") || orderStatus.getStatus().equals("결제완료")
+            || orderStatus.getStatus().equals("배송 준비 중")){
+                throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
+        } else if (verifiedOrderStatus.equals("배송 완료")){
+            if(orderStatus.getStatus().equals("결제대기") || orderStatus.getStatus().equals("결제완료")
+                    || orderStatus.getStatus().equals("배송 준비 중") || orderStatus.getStatus().equals("배송 중")){
+                throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
+    }
+
+}
+
+
 }

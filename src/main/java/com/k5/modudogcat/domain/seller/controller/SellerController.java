@@ -111,7 +111,15 @@ public class SellerController {
     }
 
     //판매자의 주문 상태 변경
-    
+    @PatchMapping("/orders/{order-id}")
+    public ResponseEntity patchOrderStatus(@PathVariable("order-id") @Positive Long orderId,
+                                           @RequestBody Order.OrderStatus orderStatus) {
+        Order order = sellerService.findOrderStatus(orderId, orderStatus);
+        Order patchOrderStatus = sellerService.findOrder(tokenSellerId(), order, orderStatus);
+        OrderDto.Response response = orderMapper.orderToOrderResponse(patchOrderStatus);
+        return new ResponseEntity<> (new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
 
 
 

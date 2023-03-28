@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.seller.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -57,6 +58,9 @@ public class Seller extends Auditable {
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
     private List<Product> product;
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
+    private List<Order> orders;
 
     public enum SellerStatus {
         SELLER_WAITING("승인 대기 중"),
