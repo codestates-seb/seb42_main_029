@@ -88,4 +88,10 @@ public class SellerService {
         }
     }
 
+    //sellerId 가져오기
+    public Long findSellerIdById(Long userId) {
+        Optional<User> user= userRepository.findById(userId);
+        Long sellerId = user.get().getSeller().getSellerId();
+        return sellerId;
+    }
 }

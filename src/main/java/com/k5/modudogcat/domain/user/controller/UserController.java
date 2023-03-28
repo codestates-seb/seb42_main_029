@@ -7,6 +7,7 @@ import com.k5.modudogcat.dto.MultiResponseDto;
 import com.k5.modudogcat.dto.SingleResponseDto;
 import com.k5.modudogcat.domain.user.Mapper.UserMapper;
 
+import com.k5.modudogcat.security.util.CustomAuthorityUtils;
 import com.k5.modudogcat.util.UriCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -29,14 +30,16 @@ public class UserController {
     private final UserMapper mapper;
     private final UserService userService;
 
+    private final CustomAuthorityUtils customAuthorityUtils;
+
     @PostMapping("/sign-up")
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post postDto){
         User user = mapper.userPostToUser(postDto);
         User findUser = userService.createUser(user);
-
-        Long userId = findUser.getUserId();
+        //관리자인지 검증
+        User checkAdmin = userService.verifiedAdmin(findUser);
+        Long userId = checkAdmin.getUserId();
         URI location = UriCreator.createUri(USER_DEFAULT_URL, userId);
-
         return ResponseEntity.created(location).build();
     }
 

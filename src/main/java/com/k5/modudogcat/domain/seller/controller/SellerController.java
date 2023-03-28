@@ -31,14 +31,14 @@ public class SellerController {
 
     private final SellerMapper mapper;
 
-    private final SellerService service;
+    private final SellerService sellerService;
 
     //판매자의 판매자 회원가입 신청
     @PostMapping
     public ResponseEntity postSeller(@Valid @RequestBody SellerDto.Post postDto) {
 
         Seller seller = mapper.sellerPostToSeller(postDto);
-        Seller findSeller = service.createSeller(seller);
+        Seller findSeller = sellerService.createSeller(seller);
         Long sellerId = findSeller.getSellerId();
         URI location = UriCreator.createUri("/sellers/", sellerId);
         return ResponseEntity.created(location).build();
@@ -51,7 +51,7 @@ public class SellerController {
 
         patch.setSellerId(sellerId);
         Seller seller = mapper.sellerPatchToSeller(patch);
-        Seller updateSeller = service.updateSeller(seller);
+        Seller updateSeller = sellerService.updateSeller(seller);
         SellerDto.Response response = mapper.sellerToSellerResponse(updateSeller);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -62,8 +62,9 @@ public class SellerController {
     public ResponseEntity getSeller() {
 
         String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long sellerId = Long.parseLong(principal);
-        Seller findSeller = service.findVerifiedSellerById(sellerId);
+        Long userId = Long.parseLong(principal);
+        Long sellerId = sellerService.findSellerIdById(userId);
+        Seller findSeller = sellerService.findVerifiedSellerById(sellerId);
         SellerDto.Response response = mapper.sellerToSellerResponse(findSeller);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);

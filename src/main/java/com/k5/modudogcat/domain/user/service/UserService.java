@@ -1,5 +1,7 @@
 package com.k5.modudogcat.domain.user.service;
 
+import com.k5.modudogcat.domain.admin.entity.Admin;
+import com.k5.modudogcat.domain.admin.repository.AdminRepository;
 import com.k5.modudogcat.domain.user.repository.UserRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
@@ -28,11 +30,10 @@ public class UserService {
         verifiedByEmail(user);
         setEncodedPassword(user);
         setDefaultRole(user);
-//        setDefaultCart(user); // NOTE
+        User verifiedUser = verifiedAdmin(user);
         // todo : Roles가 관리자면 관리자 객체를 생성시켜 넣고 판매자면 판매자 객체를 생성시켜 넣기
         // UserRoles 클래스와 UserAuthenticationSuccessHandler.sendAuthorization() 참고!
-
-        return userRepository.save(user);
+        return userRepository.save(verifiedUser);
     }
 
     private void setDefaultRole(User user) {
@@ -122,5 +123,15 @@ public class UserService {
         });
     }
 
-
+    public User verifiedAdmin(User findUser) {
+        int a = 1;
+        if (findUser.getRoles().get(0).equals("ADMIN")) {
+            Admin admin = new Admin();
+            admin.setLoginId(findUser.getLoginId());
+            admin.setPassword(findUser.getPassword());
+            findUser.setAdmin(admin);
+            //findVerifiedAdmin(findUser);
+        }
+        return findUser;
+    }
 }
