@@ -34,7 +34,7 @@ public class UserService {
     }
 
     private void setDefaultRole(User user) {
-        List<String> roles = customAuthorityUtils.createRoles(user.getLoginId());
+        List<String> roles = customAuthorityUtils.createRoles(user);
         user.setRoles(roles);
 //        user.getRoles().add("USER");
     }

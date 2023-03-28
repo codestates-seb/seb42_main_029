@@ -68,7 +68,8 @@ public class AdminService {
 
     //변경 userStatus
     public void updateToUser(User user) {
-        customAuthorityUtils.getSELLER_ROLES_STRING();
+        List<String> roles = customAuthorityUtils.createRoles(user);
+        user.setRoles(roles);
         userRepository.save(user);
     }
 }
