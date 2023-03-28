@@ -28,12 +28,13 @@ public class UserService {
         verifiedByEmail(user);
         setEncodedPassword(user);
         setDefaultRole(user);
-
+        // todo : Roles가 관리자면 관리자 객체를 생성시켜 넣고 판매자면 판매자 객체를 생성시켜 넣기
+        // UserRoles 클래스와 UserAuthenticationSuccessHandler.sendAuthorization() 참고!
         return userRepository.save(user);
     }
 
     private void setDefaultRole(User user) {
-        List<String> roles = customAuthorityUtils.createRoles(user.getEmail());
+        List<String> roles = customAuthorityUtils.createRoles(user.getLoginId());
         user.setRoles(roles);
 //        user.getRoles().add("USER");
     }
