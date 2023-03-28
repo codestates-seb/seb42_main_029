@@ -56,10 +56,10 @@ public class OrderDto {
         private String receivingAddress;
         private Order.OrderStatus orderStatus;
         private Order.PayMethod payMethod;
+        private Integer parcelNumber;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private List<ProductDto.Response> productResponse;
-
         public String getOrderStatus() {
             return orderStatus.getStatus();
         }

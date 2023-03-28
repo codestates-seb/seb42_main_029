@@ -34,7 +34,6 @@ public class Order extends Auditable {
     private OrderStatus orderStatus = OrderStatus.ORDER_PAY_STANDBY;
     @Enumerated(value = EnumType.STRING)
     private PayMethod payMethod = PayMethod.NO_BANK_BOOK;
-//    private Integer count; // 상품 수량
     private Integer parcelNumber;
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<OrderProduct> orderProductList = new ArrayList<>();

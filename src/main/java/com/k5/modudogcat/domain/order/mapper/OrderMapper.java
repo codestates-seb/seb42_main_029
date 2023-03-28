@@ -71,6 +71,7 @@ public interface OrderMapper {
         response.setReceivingAddress( order.getReceivingAddress() );
         response.setOrderStatus( order.getOrderStatus() );
         response.setPayMethod( order.getPayMethod() );
+        response.setParcelNumber( order.getParcelNumber() );
         response.setCreatedAt( order.getCreatedAt() );
         response.setModifiedAt( order.getModifiedAt() );
 
