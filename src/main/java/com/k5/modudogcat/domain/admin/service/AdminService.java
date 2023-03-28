@@ -5,12 +5,16 @@ import com.k5.modudogcat.domain.seller.repository.SellerRepository;
 import com.k5.modudogcat.domain.seller.service.SellerService;
 import com.k5.modudogcat.domain.user.entity.User;
 import com.k5.modudogcat.domain.user.repository.UserRepository;
+import com.k5.modudogcat.exception.BusinessLogicException;
+import com.k5.modudogcat.exception.ExceptionCode;
+import com.k5.modudogcat.security.util.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +26,9 @@ public class AdminService {
 
     private final UserRepository userRepository;
 
-    private SellerService sellerService;
+    private final SellerService sellerService;
+
+    private final CustomAuthorityUtils customAuthorityUtils;
 
     public Page<Seller> findSellers(Pageable pageable) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
@@ -36,10 +42,20 @@ public class AdminService {
     }
 
     //회원가입 승인
+    @Transactional
     public Seller updateApprovalSellerStatus(Long sellerId) {
-        Seller findSeller = sellerService.findVerifiedSellerById(sellerId);
+        Seller findSeller = findVerifiedSellerById(sellerId);
         findSeller.setSellerStatus(Seller.SellerStatus.SELLER_APPROVE);
         sellerRepository.save(findSeller);
+        return findSeller;
+    }
+
+    //판매자 존재 여부 확인
+    private Seller findVerifiedSellerById(Long sellerId) {
+        Seller findSeller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> {
+                    throw new BusinessLogicException(ExceptionCode.SELLER_NOT_FOUND);
+                });
         return findSeller;
     }
 
@@ -50,8 +66,9 @@ public class AdminService {
         return sellerRepository.save(findSeller);
     }
 
+    //변경 userStatus
     public void updateToUser(User user) {
-        user.setUserStatus(User.UserStatus.SELLER);
+        customAuthorityUtils.getSELLER_ROLES_STRING();
         userRepository.save(user);
     }
 }

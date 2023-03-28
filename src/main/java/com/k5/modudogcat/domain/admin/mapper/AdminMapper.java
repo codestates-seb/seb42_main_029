@@ -5,6 +5,7 @@ import com.k5.modudogcat.domain.seller.entity.Seller;
 import com.k5.modudogcat.domain.user.dto.UserDto;
 import com.k5.modudogcat.domain.user.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public interface AdminMapper {
 
     AdminDto.Response sellerToAdminResponseDto(Seller updateApproval);
 
+    @Mapping(source = "sellerId", target = "seller.sellerId")
     User sellerUpdateDtoToUser(AdminDto.Update updateToUser);
 
     AdminDto.Update sellerToSellerUpdateDto(Seller updateApproval);
