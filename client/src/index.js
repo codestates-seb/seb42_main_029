@@ -25,6 +25,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== 'production',
+  // middleware: getDefaultMiddleware -> 직렬화 방지 경고문 삭제
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 const persistor = persistStore(store); // redux store 생성

@@ -5,130 +5,6 @@ import background_img from '../assets/productImage/img_dummy1_more.jpeg'
 import dummy from '../assets/dummy/dummy.json';
 import { useSelector, useDispatch } from 'react-redux';
 
-const ProductInfo = () => {
-  // const product6_name = dummy.sample.map(val => (val.name))
-  const product6_img = dummy.sample[5].image;
-  const product6_name = dummy.sample[5].name;
-  const product6_price = dummy.sample[5].price;
-  const product6_proid = dummy.sample[5].product_id;
-
-
-  //Redux 장바구니에 추가하기
-  const cartItems = useSelector((state) => state.cartItems);
-  const dispatch = useDispatch();
-
-  function handleAddToCart(item) {
-    // dispatch(addToCart(item));
-    dispatch('ADD_TO_CART'(item))
-    // dispatch('ADD_TO_CART'(item))
-  }
-
-  return (
-    
-    <Container>
-      {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
-      <ContainerTop>
-        <ItemsImage src={img6} loading="lazy" />
-        <TextArea>
-          <TextContainer>
-            <b>상품명</b> <TextPosition>{product6_name}</TextPosition>
-          </TextContainer>
-          <TextContainer>
-            <b>가격</b>
-            <TextPosition>
-              <TextOrange>{product6_price}</TextOrange>
-            </TextPosition>
-          </TextContainer>
-          <TextContainer>
-            <b>배송비</b> <TextPosition>3,000원</TextPosition>
-          </TextContainer>
-          <ButtonWrapper>
-            <ButtonStyle>구매하기</ButtonStyle>
-            <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}>
-              장바구니에 담기
-            </ButtonStyle>
-            <ButtonStyle>장바구니에 담기</ButtonStyle>
-          </ButtonWrapper>
-        </TextArea>
-      </ContainerTop>
-
-      {/* 상단 버튼 구매하기, 장바구니에 담기  */}
-
-      {/* 상품설명/사진 */}
-      <Information>
-        <InformationText>제품 상세 설명</InformationText>
-        <img src={background_img} alt="상품설명img" loading="lazy" />
-      </Information>
-
-      {/* QnA */}
-      <CommonContainer>
-        <CommonTitle>
-          <Category>QnA</Category>
-          <QnaQuestionbtn>QnA 작성하기</QnaQuestionbtn>
-        </CommonTitle>
-
-        <Contents>
-          <CommonNo>
-            <QnaInfo>No</QnaInfo>
-          </CommonNo>
-          <CommonSubject>
-            <QnaInfo>Subject</QnaInfo>
-          </CommonSubject>
-          <CommonWriter>
-            <QnaInfo>Writer</QnaInfo>
-          </CommonWriter>
-          <CommonDate>
-            <QnaInfo>Date</QnaInfo>
-          </CommonDate>
-        </Contents>
-
-        {/* get data map ㄱㄱ */}
-        {/* <Contents>
-          <CommonNo>
-            <QnaInfo>11</QnaInfo>
-          </CommonNo>
-          <CommonSubject>
-            <QnaInfo>제목</QnaInfo>
-          </CommonSubject>
-          <CommonWriter>
-            <QnaInfo>작성자</QnaInfo>
-          </CommonWriter>
-          <CommonDate>
-            <QnaInfo>날짜?</QnaInfo>
-          </CommonDate>
-        </Contents> */}
-      </CommonContainer>
-
-      {/* 사용후기 */}
-      <CommonContainer>
-        <CommonTitle>
-          <Category>사용후기</Category>
-        </CommonTitle>
-
-        <Contents>
-          <CommonNo>
-            <QnaInfo>No</QnaInfo>
-          </CommonNo>
-          <Star>
-            <QnaInfo>Star</QnaInfo>
-          </Star>
-          <CommonCategory>
-            <QnaInfo>Category</QnaInfo>
-          </CommonCategory>
-          <CommonSubject>
-            <QnaInfo>Subject</QnaInfo>
-          </CommonSubject>
-          <CommonWriter>
-            <QnaInfo>Writer</QnaInfo>
-          </CommonWriter>
-          <CommonDate>
-            <QnaInfo>Date</QnaInfo>
-          </CommonDate>
-        </Contents>
-      </CommonContainer>
-    </Container>
-    
-  );
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -340,6 +216,116 @@ const Category = styled.div`
   font-weight: 500;
   margin-bottom: 20px;
 `;
+
+
+const ProductInfo = () => {
+  // const product6_name = dummy.sample.map(val => (val.name))
+  const product6_img = dummy.sample[5].image;
+  const product6_name = dummy.sample[5].name;
+  const product6_price = dummy.sample[5].price;
+  const product6_proid = dummy.sample[5].product_id;
+
+
+  //Redux 장바구니에 추가하기
+  const cartItems = useSelector((state) => state.cartItems);
+  const dispatch = useDispatch();
+
+  function handleAddToCart(item) {
+    // dispatch(addToCart(item));
+    dispatch('ADD_TO_CART'(item))
+    // dispatch('ADD_TO_CART'(item))
+  }
+
+  return (
+    
+    <Container>
+      {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
+      <ContainerTop>
+        <ItemsImage src={img6} loading="lazy" />
+        <TextArea>
+          <TextContainer>
+            <b>상품명</b> <TextPosition>{product6_name}</TextPosition>
+          </TextContainer>
+          <TextContainer>
+            <b>가격</b>
+            <TextPosition>
+              <TextOrange>{product6_price}</TextOrange>
+            </TextPosition>
+          </TextContainer>
+          <TextContainer>
+            <b>배송비</b> <TextPosition>3,000원</TextPosition>
+          </TextContainer>
+          <ButtonWrapper>
+            <ButtonStyle>구매하기</ButtonStyle>
+            {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
+            <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}>
+              장바구니에 담기
+            </ButtonStyle>
+          </ButtonWrapper>
+        </TextArea>
+      </ContainerTop>
+
+      {/* 상단 버튼 구매하기, 장바구니에 담기  */}
+
+      {/* 상품설명/사진 */}
+      <Information>
+        <InformationText>제품 상세 설명</InformationText>
+        <img src={background_img} alt="상품설명img" loading="lazy" />
+      </Information>
+
+      {/* QnA */}
+      <CommonContainer>
+        <CommonTitle>
+          <Category>QnA</Category>
+          <QnaQuestionbtn>QnA 작성하기</QnaQuestionbtn>
+        </CommonTitle>
+
+        <Contents>
+          <CommonNo>
+            <QnaInfo>No</QnaInfo>
+          </CommonNo>
+          <CommonSubject>
+            <QnaInfo>Subject</QnaInfo>
+          </CommonSubject>
+          <CommonWriter>
+            <QnaInfo>Writer</QnaInfo>
+          </CommonWriter>
+          <CommonDate>
+            <QnaInfo>Date</QnaInfo>
+          </CommonDate>
+        </Contents>
+      </CommonContainer>
+
+      {/* 사용후기 */}
+      <CommonContainer>
+        <CommonTitle>
+          <Category>사용후기</Category>
+        </CommonTitle>
+
+        <Contents>
+          <CommonNo>
+            <QnaInfo>No</QnaInfo>
+          </CommonNo>
+          <Star>
+            <QnaInfo>Star</QnaInfo>
+          </Star>
+          <CommonCategory>
+            <QnaInfo>Category</QnaInfo>
+          </CommonCategory>
+          <CommonSubject>
+            <QnaInfo>Subject</QnaInfo>
+          </CommonSubject>
+          <CommonWriter>
+            <QnaInfo>Writer</QnaInfo>
+          </CommonWriter>
+          <CommonDate>
+            <QnaInfo>Date</QnaInfo>
+          </CommonDate>
+        </Contents>
+      </CommonContainer>
+    </Container>
+    
+  );
 
 };
 export default ProductInfo;

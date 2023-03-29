@@ -1,19 +1,33 @@
-import React from "react";
+import {React, useEffect, useState} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import dummy from "../assets/dummy/dummy.json";
 import ProductInfo from "./ProductInfo";
+import axios from 'axios';
+
 
 const Product = () => {
+  const [data, setData] = useState([]);
+  const url = 'http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products?page=1&size=12';
+  
+  useEffect(()=>{
+    axios.get(url)
+    .then((response)=>{
+      console.log(response.data);
+      setData(response.data);
+      // const axiosData = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, []);
   return (
     <div style={{ margin: " 0 3rem " , color: "#363636"}}>
-      {/* dummy.json을 호출 */}
       <TextSelect>
         <span>인기상품 몇몇선택</span> <span>최신등록순/인기순</span>
       </TextSelect>
-      {/*  */}
       <ItemContainer>
-        {dummy.sample.map((val) => (
+        {data.map((val) => (
           <ItemContents key={val.product_id}>
             <Link
               to="/ProductInfo"

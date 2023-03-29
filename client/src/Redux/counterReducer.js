@@ -1,37 +1,29 @@
-// 액션 생성
-const INCREASE = "COUNTER/INCREASE";
-const DECREASE = "COUNTER/DECREASE";
-
-// 액션 생성 함수
-export const increaseNum = () => {
-  return { type: INCREASE };
-};
-
-export const decreaseNum = () => {
-  return { type: DECREASE };
-};
-
-// 초기 설정
+// 초기값 설정
 const initState = {
-  num: 0,
+  Quantity: 0,
+  ProductId: 0,
+  /*
+   * 질문) Axios에서 받아온 값을 stroe에 저장해서 사용해도 되는가?
+   * {
+   *  product_id2:, 
+   *  name:,
+   *  count:
+   * }
+   */
 };
 
-// 리듀서
 export default function counterReducer(state = initState, action) {
-  switch (action.type) {
-    case INCREASE:
+  if(action.type==='INCREASE') {
       return {
         ...state,
-        num: state.num + 1,
-      };
-    case DECREASE:
+        Quantity: state.Quantity + 1,
+      }
+    }
+    else if(action.type==='DECREASE'){
       return {
         ...state,
-        num: state.num - 1,
+        Quantity: state.Quantity - 1,
       };
-    default:
-      return {
-        ...state,
-      };
+    }
+    else return state;
   }
-}

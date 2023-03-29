@@ -1,78 +1,65 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import dummy from '../assets/dummy/dummy.json';
-const val = [
-  {id: 0, title: '선택 1'}
-];
+import { increment, decrement } from '../Redux/counterReducer';
+/*
+ * 현재는 상품수량 모두 counter 하나로 공유합니다.
+ */
 const Cart = () => {
-  // 체크된 아이템을 담을 배열
-const [checkItems, setCheckItems] = useState([]);
+  // * Redux 함수
+  const counter = useSelector(state => state.counter);
+  const dispatch = useDispatch();
+    console.log({counter});
 
-// 체크박스 단일선택
-const handleSingleCheck = (checked, id) => {
-  if(checked){
-    setCheckItems(prev => [...prev, id]);
-  }else{
-    setCheckItems(checkItems.filter((el) => el !== id));
+  // * 장바구니의 상품 수량 증가함수 
+  function handleIncrease(){
+    //(product_id2 === state.product_id2)
+    dispatch({type:'INCREASE'});
+    console.log({counter});
   }
-}
+  // * 장바구니의 상품 수량 감소함수 
+  function handleDecrease(){
+    dispatch({type:'DECREASE'});
+    console.log({counter});
+  }
 
-  // 체크박스 전체 선택
-  const handleAllCheck = (checked) => {
-    if(checked) {
-      // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
-      const idArray = [];
-      val.forEach((el) => idArray.push(el.id));
-      setCheckItems(idArray);
-    }
-    else {
-      // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
-      setCheckItems([]);
-    }
-  }
-  
-  
   return (
     <Container>
       <CartTitle>장바구니</CartTitle>
       <ProductContainer>
-        <ProductTitle>일반상품(n)</ProductTitle>
+        <ProductTitle>일반상품(8)</ProductTitle>
         <ProductBox>
-          <ItemStyle>
-            <input type='checkbox' name='select-all'
-              onChange={(e) => handleAllCheck(e.target.checked)}
-              // 데이터 개수와 체크된 아이템의 개수가 다를 경우 선택 해제 (하나라도 해제 시 선택 해제)
-              checked={checkItems.length === val.length ? true : false} />
-          </ItemStyle>
-        <Title>전체선택</Title>
+          {/* AllCheckbox 컴포넌트 */}
         </ProductBox>
         
         {/* props로 내려줄때 상품이 하나씩 추가되어야함 */}
+        
+        {dummy.sample.map((data)=>(
+          <ProductBox key={data.product_id}>                
+            <ItemStyle>
+              {/* 여기에 체크박스 컴포넌트 넣기 */}
+              {/* singleCheckbox 컴포넌트 */}
+            </ItemStyle>
+            <ItemStyle>
+              <ItemsImage src={data.image} alt="못찾겠따"/>
+            </ItemStyle>
+            <ItemStyle maxwid="200">{data.name}</ItemStyle>
+            <ItemStyle color="#ff5c00">{data.price}</ItemStyle>
+            <ItemStyle>
             
-            {dummy.sample.map((data, key)=>(
-              <ProductBox>                
-                <ItemStyle>
-                {val?.map((val, key1)=>(
-              <input type='checkbox' name={`select-${val.id}`} onChange={(e)=>handleSingleCheck(e.target.checked, data.id)}
-              //체크된 아이템 배열에 해당 아이템이 있을경우 선택 활성화, 아니면 해제
-              checked={checkItems.includes(val.id) ? true : false} />
-            ))}
-                </ItemStyle>
-                <ItemStyle>
-                  <ItemsImage src={data.image} alt="못찾겠따"/>
-                </ItemStyle>
-                <ItemStyle maxwid="200">{data.name}</ItemStyle>
-                <ItemStyle color="#ff5c00">{data.price}</ItemStyle>
-                <ItemStyle>
-                
-                </ItemStyle>
-                <ItemStyle>합계</ItemStyle>
-                {/* 수량: 리덕스로 counter */}
-                {/* 합계: 수량 * {data.price} */}
-                <DeleteBtn>삭제하기</DeleteBtn>  
-              </ProductBox>
-            ))}   
+            </ItemStyle>
+            <ItemStyle>
+              <CountBtn onClick={() => handleDecrease()}>-</CountBtn>
+                {counter.Quantity}
+              <CountBtn onClick={() => handleIncrease()}>+</CountBtn>
+            </ItemStyle>
+
+            {/* 합계: 수량 * {data.price} */}
+            <DeleteBtn>삭제하기</DeleteBtn>  
+          </ProductBox>
+        ))}   
             
       </ProductContainer>
 
@@ -152,20 +139,33 @@ const DeleteBtn = styled.button`
   color:white;
 `
 const PayBtn = styled.button`
- width:50%;
- height:100%;
- font-size:24px;
- font-weight:bold;
- &:hover{
-  font-size:26px;
- }
- &:active{
-  background-color:gray;
- }
+  width:${props => props.width || '50%'};
+  height:${props => props.height || '100%'};
+  font-size:24px;
+  font-weight:bold;
+  &:hover{
+    font-size:26px;
+  }
+  &:active{
+    background-color:gray;
+  }
 `
 
 const ItemStyle = styled.div`
   color: ${props => props.color || 'black'};
+`
+
+const CountBtn = styled.button`
+  flex-direction:row;
+  border: none;
+  outline: none;
+  background-color:silver;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+  &:active {
+    background-color: #1565C0;
+  }
 `
 
 export default Cart;
