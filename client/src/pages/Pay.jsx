@@ -8,11 +8,9 @@ import PayInfo from "../components/pay/PayInfo";
 import ReceiverInfo from "../components/pay/ReceiverInfo";
 
 export default function Pay() {
-
   const [userData, setUserData] = useState({});
 
-  console.log(userData)
-
+  console.log(userData);
 
   //! 리액트 쿠키
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
@@ -28,10 +26,7 @@ export default function Pay() {
 
   function userInfoAxios() {
     return axios
-      .get(
-        `http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`,
-        options
-      )
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, options)
       .then((res) => {
         console.log(res.data.data);
         setUserData(res.data.data);
@@ -64,4 +59,3 @@ const Title = styled.h1`
   font-size: 1.6rem;
   margin-bottom: 1rem;
 `;
-

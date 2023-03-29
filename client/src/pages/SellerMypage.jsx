@@ -1,44 +1,60 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import OrderList from "../components/sellerMypage/OrderList";
 import SellingItemList from "../components/sellerMypage/SellingItemList";
 import axios from "axios";
 import Modal from "../components/modal";
+import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
 
 function Mypage() {
   const data = {
     sellerId: "sellerId",
     userId: "userId",
     name: "name",
-    id: "id",
+    loginId: "loginId",
     password: "password",
     email: "email",
-    account: "account",
+    accountNumber: "accountNumber",
     bankName: "bank",
     address: "address",
     registrationNumber: "registrationNumber",
     phone: "phone",
   };
+  const navigate = useNavigate();
+  const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  const dispatch = useDispatch(); // dispatch 쉽게하는 hook
+
   //! 모달
   const [modalOpen, setModalOpen] = useState(false);
   const showModal = () => {
     setModalOpen(true);
   };
 
+  //! 쿠키 , 바디없는 옵션 먼저 선언
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  console.log(cookies.accessToken);
+
+  const noBodyOptions = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
   //! 판매자 정보  axios sellerInfo
 
-  const [sellerData, setSellerData] = useState({}); //판매자 데이터 담아서 나중에 sellerData.map()
+  const [sellerData, setSellerData] = useState({});
 
-  function sellerInfoAxios(id) {
+  function sellerInfoAxios() {
     return axios
-      .get(`http://localhost:8080/sellers/${id}`, {
-        "Content-Type": "application/json",
-      })
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/sellers/my-page`, noBodyOptions)
       .then((res) => {
-        console.log(`res.data:`);
+        console.log(`판매자 정보 요청 성공 res.data:`);
         console.log(res.data);
-        setSellerData(res.data);
+        setSellerData(res.data.data);
+        dispatch({ type: "SELLER_INFORMATION", payload: res.data.data });
       })
       .catch((err) => {
         console.log("SellerData GET error");
@@ -46,76 +62,73 @@ function Mypage() {
   }
 
   //! 페이지 로딩됨과 동시에 seller 정보를 가져오기 위한 useEffect
-  // useEffect(()=>{patchSellerData(reduxUserId)},[])
+  useEffect(() => {
+    console.log(state);
+    console.log("sellerInfoAxios 전");
+    sellerInfoAxios();
+    console.log("sellerInfoAxios 후");
+  }, []);
+
+  console.log(state);
 
   //! 변경사항 서버에 patch하기 위한 함수
 
+  const withBodyOptions = {
+    headers: {
+      Authorization: cookies.accessToken,
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  };
+
   function patchSellerData(id) {
     // e.preventDefault();
-    console.log(password, password2, email, account, bank, address, phone);
+    console.log(email, address, phone);
     const patchdata = {};
-    if (password !== "" && password2 !== "" && password === password2) {
-      patchdata.password = password;
-    }
-    if ((password !== "" || password2 !== "") && password !== password2) {
-      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-    }
+
     if (email) {
       patchdata.email = email;
-    }
-    if (account) {
-      patchdata.account = account;
-    }
-    if (bank) {
-      patchdata.bank = bank;
     }
     if (address) {
       patchdata.address = address;
     }
     if (phone) {
       patchdata.phone = phone;
+      // 변경사항 없을때 어떻게 처리해야 할지 모르겠음
     }
-    if (patchdata === {}) {
-      //! 변경사항 없을때 어떻게 처리해야 할지 모르겠음
-      alert("변경사항이 없습니다.");
-    } else if (patchdata) {
-      return axios
-        .patch(`http://localhost:8080/sellers/${id}`, patchdata, {
-          "Content-Type": "application/json",
-        })
-        .then((res) => {
-          console.log(`res.data:`);
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log("판매자정보 변경 patch 에러");
-          console.log(patchdata);
-        });
-    }
-  }
-
-  //! 판매자 회원 탈퇴요청 함수 추가하고, 탈퇴버튼 온클릭에 연결
-  const deleteSeller = (id) => {
-    // e.preventDefault();
     return axios
-      .delete(`http://localhost:8080/sellers/${id}`, {
-        "Content-Type": "application/json",
-      })
+      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/sellers/${id}`, patchdata, withBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
+        alert("회원정보 변경 완료!"); //여기서는 리로드 필요 없다 어차피 화면에서도 값이 바뀌어있으니
+      })
+      .catch((err) => {
+        console.log("판매자정보 변경 patch 에러");
+        console.log(patchdata);
+      });
+  }
+
+  //! 판매자 회원 탈퇴요청 함수
+  const deleteSeller = () => {
+    return axios
+      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/${state.user.sellerId}`, noBodyOptions)
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+        dispatch({ type: "USER_ISLOGOUT" });
+        setCookie("accessToken", "tokenXX");
+        alert("판매자 회원탈퇴가 완료되었습니다.");
+        navigate("/");
       })
       .catch((err) => {
         console.log("판매자 탈퇴 에러");
-        console.log(id);
+        console.log(state.user.userId);
       });
   };
 
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
-  const [account, setAccount] = useState("");
-  const [bank, setBank] = useState("");
+
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -144,50 +157,33 @@ function Mypage() {
         <div className="user-information">
           <div className="bold">판매자 정보 변경</div>
           <div>상호명</div>
-          <div className="cant-change">{data.name}</div>
+          <div className="cant-change">{sellerData.name}</div>
           <div>아이디</div>
-          <div className="cant-change">{data.id}</div>
-          <div>비밀번호</div>
-          <input onChange={(e) => setPassword(e.target.value)} defaultValue={data.password} type="text"></input>
-          <div>비밀번호 확인</div>
-          <input onChange={(e) => setPassword2(e.target.value)} defaultValue={data.password}></input>
+          <div className="cant-change">{sellerData.loginId}</div>
           <div>이메일</div>
-          <input onChange={(e) => setEmail(e.target.value)} defaultValue={data.email}></input>
-          <div>
-            사업자 등록번호
-            {/* <button className="submit-button" style={{ float: "right" }}>
-                    중복검사
-                  </button> */}
-          </div>
-          <div className="cant-change">{data.registrationNumber}</div>
+          <input onChange={(e) => setEmail(e.target.value)} defaultValue={sellerData.email}></input>
+          <div>사업자 등록번호</div>
+          <div className="cant-change">{sellerData.registrationNumber}</div>
           <div>계좌번호</div>
-          <input onChange={(e) => setAccount(e.target.value)} defaultValue={data.account}></input>
+          <div className="cant-change">{sellerData.accountNumber}</div>
           <div>은행 명</div>
-          <input onChange={(e) => setBank(e.target.value)} defaultValue={data.bankName}></input>
+          <div className="cant-change">{sellerData.bankName}</div>
           <div>사업장 주소</div>
-          <input onChange={(e) => setAddress(e.target.value)} defaultValue={data.address}></input>
+          <input onChange={(e) => setAddress(e.target.value)} defaultValue={sellerData.address}></input>
           <div>전화번호</div>
-          <input onChange={(e) => setPhone(e.target.value)} defaultValue={data.phone}></input>
+          <input onChange={(e) => setPhone(e.target.value)} defaultValue={sellerData.phone}></input>
           <div>
-            <button className="submit-button center" onClick={() => patchSellerData(data.sellerId)}>
+            <button className="submit-button center" onClick={() => patchSellerData(state.user.sellerId)}>
               저장
             </button>
           </div>
           <div>
-            {/* <button className="submit-button quit" style={{ float: "right" }}>
-              회원탈퇴
-            </button> */}
-            <button className="submit-button quit" style={{ float: "right" }} onClick={showModal}>
+            {/* <button className="submit-button quit" style={{ float: "right" }} onClick={showModal}>
               회원탈퇴
             </button>
-            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteSeller} data={data.sellerId} keyword="판매자 탈퇴" />}
+            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteSeller} data={sellerData.sellerId} keyword="판매자 탈퇴" />} */}
           </div>
-          <div className="sales">
-            <div className="bold"> 매출 현황 </div>
-            <div> 총 매출은 쉬움 전부 더하면 됨 </div>
-            <div> 월별매출은 어떤식으로 구현할 지 더 고민해봐야함</div>
-            <div> api에 따라 판매내역을 어떤 기준으로 한번에 얼마나 많은 양을 요청하느냐에 따라 다름 </div>
-          </div>
+          <div className="sales"></div>
         </div>
       </div>
     </MypageBody>

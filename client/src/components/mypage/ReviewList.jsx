@@ -182,7 +182,7 @@ function ReviewList() {
 
   function reviewDataAxios() {
     return axios
-      .get(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/reviews`, noBodyOptions)
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/reviews`, noBodyOptions)
       .then((res) => {
         console.log(`리뷰 데이터 get 성공 res.data:`);
         console.log(res.data);
@@ -202,7 +202,7 @@ function ReviewList() {
   const deleteReview = (reviewId) => {
     // e.preventDefault();
     return axios
-      .delete(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/reviews/${reviewId}`, noBodyOptions)
+      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/reviews/${reviewId}`, noBodyOptions)
       .then((res) => {
         console.log(`리뷰 삭제 완료 res.data:`);
         console.log(res.data);
@@ -223,7 +223,7 @@ function ReviewList() {
             <div>{el.image}</div>{" "}
           </div>
           <div className="review-left">
-            <div className="important">주문 번호: {el.reviewId}</div>
+            <div className="important">리뷰 번호: {el.reviewId}</div>
             <div className="important">
               상품 이름: {el.name} {el.productId}
             </div>
@@ -254,7 +254,8 @@ function ReviewList() {
                 setModalOpen={setModalOpen}
                 axiosfunction={deleteReview}
                 data={ReviewExData}
-                index={ReviewExData[modalIndex]?.reviewId}
+                // index={ReviewExData[modalIndex]?.reviewId} //! 오류나서 개선함
+                index={ReviewExData.findIndex((element, index) => index === modalIndex)}
                 objectKey="reviewId"
                 keyword="후기삭제"
               />

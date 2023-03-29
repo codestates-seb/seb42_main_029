@@ -35,16 +35,13 @@ export default function SignUpForm() {
   const onChangePassword = (e) => {
     // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     //! 특문 + 영대소문 + 숫자 >= 8자리
-    const passwordRegex =
-      /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-      // /^(?=.[a-zA-Z])(?=.\d)(?=.*[\W_]).{8,}$/
+    const passwordRegex = /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    // /^(?=.[a-zA-Z])(?=.\d)(?=.*[\W_]).{8,}$/
 
-    if (!e.target.value || passwordRegex.test(e.target.value))
-      setPasswordError(false);
+    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
     else setPasswordError(true);
 
-    if (!passwordCheck || e.target.value === passwordCheck)
-      setPasswordCheckError(false);
+    if (!passwordCheck || e.target.value === passwordCheck) setPasswordCheckError(false);
     else setPasswordCheckError(true);
     setPassword(e.target.value);
   };
@@ -58,10 +55,8 @@ export default function SignUpForm() {
     setName(e.target.value);
   };
   const onChangeEmail = (e) => {
-    const emailRegex =
-      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (!e.target.value || emailRegex.test(e.target.value))
-      setEmailError(false);
+    const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    if (!e.target.value || emailRegex.test(e.target.value)) setEmailError(false);
     else setEmailError(true);
     setEmail(e.target.value);
   };
@@ -84,7 +79,7 @@ export default function SignUpForm() {
 
     if (password !== passwordCheck) return false;
 
-    if (idError || passwordError || passwordCheckError || nameError || emailError === true) return false
+    if (idError || passwordError || passwordCheckError || nameError || emailError === true) return false;
     if (loginId && password && passwordCheck && name && email) return true;
     else return false;
   };
@@ -101,11 +96,7 @@ export default function SignUpForm() {
     if (validation() === true) {
       //! 회원가입 POST
       await axios
-        .post(
-          "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/sign-up",
-          { loginId, password, name, email, address },
-          { header }
-        )
+        .post("http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/sign-up", { loginId, password, name, email, address }, { header })
         .then((res) => {
           navigate("/login");
           alert("회원가입 성공..!");
@@ -129,32 +120,14 @@ export default function SignUpForm() {
 
         <label>아이디</label>
         <input type="text" name="loginId" onChange={onChangeId} required />
-        {idError && (
-          <ValidP>
-            영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
-          </ValidP>
-        )}
+        {idError && <ValidP>영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.</ValidP>}
 
         <label>비밀번호</label>
-        <input
-          type="password"
-          name="password"
-          onChange={onChangePassword}
-          required
-        />
-        {passwordError && (
-          <ValidP>
-            특수문자,영문자,숫자를 조합한 8글자 이상으로 작성하세요.
-          </ValidP>
-        )}
+        <input type="password" name="password" onChange={onChangePassword} required />
+        {passwordError && <ValidP>특수문자,영문자,숫자를 조합한 8글자 이상으로 작성하세요.</ValidP>}
 
         <label>비밀번호 확인</label>
-        <input
-          type="password"
-          name="passwordCheck"
-          onChange={onChangePasswordCheck}
-          required
-        />
+        <input type="password" name="passwordCheck" onChange={onChangePasswordCheck} required />
         {passwordCheckError && <ValidP>비밀번호가 일치하지 않습니다.</ValidP>}
 
         <label>이메일</label>
@@ -162,13 +135,7 @@ export default function SignUpForm() {
         {emailError && <ValidP>유효한 이메일 형식을 입력하세요.</ValidP>}
 
         <label>주소</label>
-        <input
-          type="text"
-          name="address"
-          placeholder="배송지를 위한 주소입니다."
-          onChange={onChangeAddress}
-          required
-        />
+        <input type="text" name="address" placeholder="배송지를 위한 주소입니다." onChange={onChangeAddress} required />
         {addressError && <ValidP>주소를 입력하세요.</ValidP>}
         <SignUpBtn>확인</SignUpBtn>
       </form>
