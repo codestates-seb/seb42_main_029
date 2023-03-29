@@ -102,4 +102,6 @@ public interface OrderMapper {
     }
 
     List<OrderDto.Response> orderListToResponseDtoList(List<Order> orders);
+
+    OrderDto.Response orderToOrderResponseDto(Order patchOrderStatus);
 }

@@ -38,7 +38,7 @@ public class Product extends Auditable {
     @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<OrderProduct> orderProductList = new ArrayList<>();
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "seller_id")
     private Seller seller;
     public enum ProductStatus {
         PRODUCT_ACTIVE("판매중"),

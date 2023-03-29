@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByProductStatusNotLike(Product.ProductStatus productStatus);
 
-    List<Product> findAllBySellerIdAndProductStatusNot(Long sellerId, Product.ProductStatus productDelete);
+    List<Product> findAllBySellerSellerIdAndProductStatusNotLike(Long sellerId, Product.ProductStatus productDelete);
 
-    Optional<Product> findByIdAndProductStatusNot(Long productId, Product.ProductStatus productDelete);
 }

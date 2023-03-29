@@ -114,7 +114,7 @@ public class SellerService {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
-        List<Product> products = productRepository.findAllBySellerIdAndProductStatusNot(sellerId, Product.ProductStatus.PRODUCT_DELETE);
+        List<Product> products = productRepository.findAllBySellerSellerIdAndProductStatusNotLike(sellerId, Product.ProductStatus.PRODUCT_DELETE);
 
         return new PageImpl<>(products, of, products.size());
     }
@@ -157,6 +157,7 @@ public class SellerService {
         return orderRepository.save(order);
     }
 
+    //결제 상태 변경 시 검증
     private void verifiedOrderStatus(Order order, Order.OrderStatus orderStatus) {
         String verifiedOrderStatus = order.getOrderStatus().getStatus();
         if (verifiedOrderStatus.equals("결제완료")) {
@@ -176,9 +177,6 @@ public class SellerService {
             if(orderStatus.getStatus().equals("결제대기") || orderStatus.getStatus().equals("결제완료")
                     || orderStatus.getStatus().equals("배송 준비 중") || orderStatus.getStatus().equals("배송 중")){
                 throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
+        }
     }
-
-}
-
-
 }

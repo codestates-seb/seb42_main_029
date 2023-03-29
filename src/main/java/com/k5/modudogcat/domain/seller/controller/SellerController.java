@@ -100,7 +100,7 @@ public class SellerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    //판매자의 들어온 주문 목록 리스트 조회
+    //판매자의 들어온 주문 목록 조회 //Todo : Order가 아닌 OrderProduct
     @GetMapping("/orders")
     public ResponseEntity getOrders(Pageable pageable) {
         Page<Order> pageOrders = sellerService.findOrders(pageable, tokenSellerId());
@@ -116,12 +116,9 @@ public class SellerController {
                                            @RequestBody Order.OrderStatus orderStatus) {
         Order order = sellerService.findOrderStatus(orderId, orderStatus);
         Order patchOrderStatus = sellerService.findOrder(tokenSellerId(), order, orderStatus);
-        OrderDto.Response response = orderMapper.orderToOrderResponse(patchOrderStatus);
+        OrderDto.Response response = orderMapper.orderToOrderResponseDto(patchOrderStatus);
         return new ResponseEntity<> (new SingleResponseDto<>(response), HttpStatus.OK);
     }
-
-
-
 
 
     //토큰에서 sellerId 뽑아오기
@@ -130,7 +127,5 @@ public class SellerController {
         Long userId = Long.parseLong(principal);
         return sellerService.findSellerIdById(userId);
     }
-
-
 
 }
