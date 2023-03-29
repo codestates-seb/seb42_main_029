@@ -2,13 +2,46 @@ import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-
+import { useCookies } from "react-cookie";
 import Modal from "../modal";
 
 function ReviewList() {
   const ReviewExData = [
     {
-      reviewId: "reviewId",
+      reviewId: "1",
+      userId: "userId1",
+      productId: "productId1",
+      title: "1titletitletitletitletitle",
+      content: "1contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
+      score: 5,
+      image: "1imageimageimage",
+      createdAt: "1createdAt",
+      name: "1name",
+    },
+    {
+      reviewId: "2",
+      userId: "userId",
+      productId: "productId",
+      title: "titletitletitletitletitle",
+      content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
+      score: 5,
+      image: "imageimageimage",
+      createdAt: "createdAt",
+      name: "name",
+    },
+    {
+      reviewId: "3",
+      userId: "userId",
+      productId: "productId",
+      title: "titletitletitletitletitle",
+      content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
+      score: 5,
+      image: "imageimageimage",
+      createdAt: "createdAt",
+      name: "name",
+    },
+    {
+      reviewId: "4",
       userId: "userId",
       productId: "productId",
       title: "titletitletitletitletitle",
@@ -107,44 +140,11 @@ function ReviewList() {
       name: "name",
     },
     {
-      reviewId: "reviewId",
-      userId: "userId",
-      productId: "productId",
-      title: "titletitletitletitletitle",
-      content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
-      score: 5,
-      image: "imageimageimage",
-      createdAt: "createdAt",
-      name: "name",
-    },
-    {
-      reviewId: "reviewId",
-      userId: "userId",
-      productId: "productId",
-      title: "titletitletitletitletitle",
-      content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
-      score: 5,
-      image: "imageimageimage",
-      createdAt: "createdAt",
-      name: "name",
-    },
-    {
-      reviewId: "reviewId",
-      userId: "userId",
-      productId: "productId",
-      title: "titletitletitletitletitle",
-      content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
-      score: 5,
-      image: "imageimageimage",
-      createdAt: "createdAt",
-      name: "name",
-    },
-    {
-      reviewId: "reviewId",
-      userId: "userId",
-      productId: "productId",
-      title: "titletitletitletitletitle",
-      content: "contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
+      reviewId: "12reviewId",
+      userId: "12userId",
+      productId: "12productId",
+      title: "12titletitletitletitletitle",
+      content: "c12ontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent",
       score: 5,
       image: "imageimageimage",
       createdAt: "createdAt",
@@ -153,6 +153,7 @@ function ReviewList() {
   ];
 
   //! 모달
+  const [modalIndex, setModalIndex] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const showModal = () => {
     setModalOpen(true);
@@ -167,18 +168,25 @@ function ReviewList() {
     return star;
   }
 
-  // 해당회원 userId로 회원이 쓴 리뷰 가져오기
+  //! 해당회원 userId로 회원이 쓴 리뷰 가져오기
   const [reviewData, setReviewData] = useState({}); //판매자 데이터 담아서 나중에 reviewData.map()
 
-  function reviewDataAxios(userId) {
+  // 토큰 및 옵션
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  const noBodyOptions = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
+  function reviewDataAxios() {
     return axios
-      .get(`http://localhost:8080/reviews/${userId}`, {
-        "Content-Type": "application/json",
-      })
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/reviews`, noBodyOptions)
       .then((res) => {
-        console.log(`res.data:`);
+        console.log(`리뷰 데이터 get 성공 res.data:`);
         console.log(res.data);
-        setReviewData(res.data);
+        setReviewData(res.data.data);
       })
       .catch((err) => {
         console.log("reviewData GET error");
@@ -186,17 +194,17 @@ function ReviewList() {
   }
 
   //! 페이지 로딩과 동시에 질문 데이터 get
-  // useEffect(()=>{reviewDataAxios(reduxUserId)},[])
+  useEffect(() => {
+    reviewDataAxios();
+  }, []);
 
   //! question 삭제함수
   const deleteReview = (reviewId) => {
     // e.preventDefault();
     return axios
-      .delete(`http://localhost:8080/reviews/${reviewId}`, {
-        "Content-Type": "application/json",
-      })
+      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/reviews/${reviewId}`, noBodyOptions)
       .then((res) => {
-        console.log(`res.data:`);
+        console.log(`리뷰 삭제 완료 res.data:`);
         console.log(res.data);
       })
       .catch((err) => {
@@ -208,14 +216,14 @@ function ReviewList() {
   return (
     <ReviewBody>
       <div className="bold">후기 목록 </div>
-      {ReviewExData.map((el) => (
-        <div className="review">
+      {ReviewExData.map((el, index) => (
+        <div className="review" key={index}>
           <div className="photo">
             {" "}
             <div>{el.image}</div>{" "}
           </div>
           <div className="review-left">
-            <div className="important">주문 번호: {el.reviewId}</div>
+            <div className="important">리뷰 번호: {el.reviewId}</div>
             <div className="important">
               상품 이름: {el.name} {el.productId}
             </div>
@@ -231,10 +239,27 @@ function ReviewList() {
             {/* <button className="button" style={{ float: "right" }} onClick={() => deleteReview(el.reviewId)}>
               <Link className="link">삭제</Link>
             </button> */}
-            <button className="button" style={{ float: "right" }} onClick={showModal}>
+            <button
+              className="button"
+              style={{ float: "right" }}
+              onClick={() => {
+                setModalIndex(index);
+                showModal();
+              }}
+            >
               <Link className="link">삭제</Link>
             </button>
-            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteReview} data={el.reviewId} keyword="후기삭제" />}
+            {modalOpen && (
+              <Modal
+                setModalOpen={setModalOpen}
+                axiosfunction={deleteReview}
+                data={ReviewExData}
+                // index={ReviewExData[modalIndex]?.reviewId} //! 오류나서 개선함
+                index={ReviewExData.findIndex((element, index) => index === modalIndex)}
+                objectKey="reviewId"
+                keyword="후기삭제"
+              />
+            )}
           </div>
         </div>
       ))}

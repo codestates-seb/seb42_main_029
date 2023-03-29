@@ -8,8 +8,8 @@ import SellerSignUpReqeust from "../components/admin/SellerSignUpRequest";
 function AdminMypage() {
   const tabArray = [
     { id: 0, title: "판매자 회원가입 신청" },
-    { id: 1, title: "후기 관리 " },
-    { id: 2, title: "판매 상품 관리" },
+    // { id: 1, title: "후기 관리 " },
+    // { id: 2, title: "판매 상품 관리" },
   ];
   const [focus, setFocus] = useState(0);
 

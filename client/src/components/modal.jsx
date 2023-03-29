@@ -7,10 +7,24 @@ export default function Modal(props) {
   };
 
   const submitHandle = (e) => {
-    console.log(e);
-    props.axiosfunction(props.data);
-    props.setModalOpen(false);
+    if (!props.index && !props.objectKey) {
+      //!인덱스나 키값이 필요없는 모달 사용시
+      console.log(e);
+      props.axiosfunction(props.data);
+      props.setModalOpen(false);
+    } else {
+      //! .map에서 인덱스나 키값이 필요한 모달 사용시
+      console.log(e);
+      console.log(props.data); //원본 데이터 객체 가져옴
+      console.log(props.index); //modal 버튼에 해당하는 인덱스
+      console.log(props.objectKey); //객체에서 접근하고자 하는 원하는 키 이름
+      const key = props.objectKey;
+
+      props.axiosfunction(props.data[props.index][key]);
+      props.setModalOpen(false);
+    }
   };
+
   return (
     <WrapperOut>
       <Wrapper>

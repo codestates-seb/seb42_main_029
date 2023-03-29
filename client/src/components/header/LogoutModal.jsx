@@ -24,7 +24,7 @@ export default function LogoutModal({ setModalOpen }) {
 
     setCookie("accessToken", "tokenXX", { path: "/" });
     // 헤드바 로그인 상태변경
-    dispatch({ type: "USER_ISLOGOUT" });
+    dispatch({ type: "USER_IS_LOGOUT" });
 
     alert("성공적으로 로그아웃 했습니다.");
     navigate("/login");

@@ -1,6 +1,8 @@
+
 // import { createStore } from 'redux';
 // import {INCREASE, DECREASE} from './'
 //상품이미지, 상품이름, 상품가격, 상품id 
+
 const initialState = {
   cartItems: [],
 };
@@ -21,3 +23,4 @@ export default function cartReducer(state = initialState, action) {
       return state;
   }
 };
+

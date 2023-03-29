@@ -1,7 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 
-export default function BuyerInfo() {
+export default function BuyerInfo({userData}) {
+  // console.log(userData)
   return (
     <>
       <Title>구매자정보</Title>
@@ -10,12 +10,10 @@ export default function BuyerInfo() {
         <LeftWrapper>
           <p>이름</p>
           <p>이메일</p>
-          <p>휴대폰</p>
         </LeftWrapper>
         <RightWrapper>
-          <p>댕냥</p>
-          <p>test@test.com</p>
-          <p>010-1111-2222</p>
+          <p>{userData.name}</p>
+          <p>{userData.email}</p>
         </RightWrapper>
       </Wrapper>
     </>
@@ -24,11 +22,13 @@ export default function BuyerInfo() {
 
 const Title = styled.div`
   font-size: 1.3rem;
+  margin-left: 0.5rem;
+  margin-bottom: 1rem;
 `;
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 150px;
+  height: 100px;
   background-color: #fef4f4;
   margin-bottom: 2rem;
   border-radius: 10px;
@@ -42,6 +42,10 @@ const LeftWrapper = styled.div`
   align-items: center;
   background-color: #d1bdbd;
   border-radius: 10px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.85rem;
+  }
 `;
 
 const RightWrapper = styled.div`

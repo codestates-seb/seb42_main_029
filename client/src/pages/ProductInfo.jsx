@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import img6 from '../assets/productImage/img_dummy6.png';
-import background_img from '../assets/productImage/img_dummy1_more.jpeg'
-import dummy from '../assets/dummy/dummy.json';
-import { useSelector, useDispatch } from 'react-redux';
+import React from "react";
+import styled from "styled-components";
+import img6 from "../assets/productImage/img_dummy6.png";
+import background_img from "../assets/productImage/img_dummy1_more.jpeg";
+import dummy from "../assets/dummy/dummy.json";
+import { useSelector, useDispatch } from "react-redux";
 
 const Container = styled.div`
   display: flex;
@@ -86,7 +86,7 @@ const ButtonStyle = styled.button`
   border-radius: 10px;
   border: none;
   font-size: 1rem;
-  background-color: #FCB3BF; 
+  background-color: #fcb3bf;
 
   @media screen and (max-width: 767px) {
     font-size: 0.8rem;
@@ -142,7 +142,6 @@ const CommonTitle = styled.div`
   margin-top: 20px; */
 `;
 const QnaInfo = styled.div`
-
   @media screen and (max-width: 767px) {
     font-size: 0.7rem;
   }
@@ -216,6 +215,7 @@ const Category = styled.div`
   font-weight: 500;
   margin-bottom: 20px;
 `;
+
 
 
 const ProductInfo = () => {

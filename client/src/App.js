@@ -32,9 +32,7 @@ function App() {
   const AdminMypage = React.lazy(() => import("./pages/AdminMypage"));
   const ReviewForm = React.lazy(() => import("./pages/ReviewForm"));
   const Cart = React.lazy(() => import("./pages/Cart"));
-  const NewItemRegistrationForm = React.lazy(() =>
-    import("./pages/NewItemRegistrationForm")
-  );
+  const NewItemRegistrationForm = React.lazy(() => import("./pages/NewItemRegistrationForm"));
 
   return (
     <CookiesProvider>
@@ -44,6 +42,7 @@ function App() {
           <Suspense fallback={<LazyPage />}>
             <Routes>
               <Route path="/" element={<Main />} />
+              <Route path="/lazy" element={<LazyPage />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/about" element={<About />} />
               <Route path="/productInfo" element={<ProductInfo />} />
@@ -59,12 +58,9 @@ function App() {
               <Route path="/myPage" element={<Mypage />} />
               <Route path="/sellerMypage" element={<SellerMypage />} />
               <Route path="/adminMypage" element={<AdminMypage />} />
-              <Route path="/reviewForm" element={<ReviewForm />} />
+              <Route path="/reviewForm/:productId" element={<ReviewForm />} />
               <Route path="/cart" element={<Cart />} />
-              <Route
-                path="/newItemForm"
-                element={<NewItemRegistrationForm />}
-              />
+              <Route path="/newItemForm" element={<NewItemRegistrationForm />} />
               <Route path="/*" element={<ErrorPage />} />
             </Routes>
           </Suspense>

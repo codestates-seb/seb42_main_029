@@ -1,9 +1,10 @@
 import { React, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Rating from "../components/ReviewScore";
+import { useParams } from "react-router-dom";
 
 function ReviewForm(props) {
   // const navigate = useNavigate();
@@ -12,16 +13,17 @@ function ReviewForm(props) {
   const [reviewPhoto, setReviewPhoth] = useState();
   const [title, setTitle] = useState();
 
-  const itemId = props.itemId;
+  const productId = useParams().productId;
+
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
   console.log(state);
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
 
   const [itemData, setItemData] = useState({});
-  //! itemId로 item 정보 가져오는 요청
-  function getItemInfo(itemId) {
+  //! productId로 item 정보 가져오는 요청
+  function getItemInfo(productId) {
     return axios
-      .get(`http://localhost:8080/products/${itemId}`, {
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`, {
         "Content-Type": "application/json",
       })
       .then((res) => {
@@ -34,7 +36,9 @@ function ReviewForm(props) {
       });
   }
   //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
-  // useEffect(()=>{getItemInfo(itemId)},[])
+  useEffect(() => {
+    getItemInfo(productId);
+  }, []);
 
   //! 리뷰 등록요청
   const formData = new FormData();
@@ -57,27 +61,12 @@ function ReviewForm(props) {
   return (
     <ReviewFormBody>
       <div className="center">
-        {/* <div className="form">
-          <div className="bold title">후기 작성</div>
-          <div className="item-information">
-            <img className="img" src={"images/img_dummy1.png"}></img>
-            <div>
-              <div className="item-name"> 상품명 : itemData.name</div>
-            </div>
-          </div>
-          <Rating setScore={setScore} />
-          <div>리뷰 사진 등록</div>
-          <input type="file" onChange={(e) => setReviewPhoth(e.target.value)}></input>
-          <div>상세 후기 작성</div>
-          <textarea className="detail" onChange={(e) => setReview(e.target.value)}></textarea>
-        </div> */}
-
         <form className="form" encType="multipart/form-data" method="post">
           <div className="bold title">후기 작성</div>
           <div className="item-information">
-            <img className="img" src={"images/img_dummy1.png"}></img>
+            <img className="img" alt="product thumbnail" src={itemData.thumbnailLink}></img>
             <div>
-              <div className="item-name"> 상품명 : itemData.name</div>
+              <div className="item-name"> 상품명 : {itemData.name}</div>
             </div>
           </div>
           <Rating setScore={setScore} />
@@ -136,7 +125,6 @@ const ReviewFormBody = styled.div`
     .form {
       width: 80%;
       /* height: 90%; */
-
       input {
         margin: 5px 0;
         width: 95%;
@@ -157,7 +145,6 @@ const ReviewFormBody = styled.div`
         margin-bottom: 15px;
       }
     }
-
     .buttons {
       display: flex;
       flex-direction: row;
