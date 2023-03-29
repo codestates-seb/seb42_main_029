@@ -1,8 +1,43 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
 
+//! 장바구니 api 에서 결제정보인 > 상품가격과, 총 결제금액 get 해서 뿌려주기
 export default function PayInfo() {
-  // 결제 정보 상품가격과, 총 결제금액 get 해서 뿌려주기
+  const [cartData, setCartData] = useState({});
+
+  //! 리액트 쿠키
+  const [cookies] = useCookies(["accessToken"]);
+
+  // 현재 장바구니 정보 get ,,
+  const options = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
+  const cartDataAxiosGet = async () => {
+    return await axios
+      .get(
+        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/`,
+        options
+      )
+      .then((res) => {
+        console.log(res);
+        setCartData(res);
+      })
+      .catch((err) => {
+        console.log("장바구니 > 총 결제금액 GET error");
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    cartDataAxiosGet();
+  }, []);
 
   return (
     <>
@@ -10,13 +45,11 @@ export default function PayInfo() {
 
       <Wrapper>
         <LeftWrapper>
-          <p>상품가격</p>
           <p>배송비</p>
-          <p>총 결제금액</p>
+          <p>결제금액</p>
           <p>결제방법</p>
         </LeftWrapper>
         <RightWrapper>
-          <p>{`${30000}원`}</p>
           <p>무료배송</p>
           <p>{`${40000}원`}</p>
           <p>무통장입금</p>
@@ -28,6 +61,8 @@ export default function PayInfo() {
 
 const Title = styled.div`
   font-size: 1.3rem;
+  margin-left: 0.5rem;
+  margin-bottom: 1rem;
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -46,6 +81,10 @@ const LeftWrapper = styled.div`
   align-items: center;
   background-color: #d1bdbd;
   border-radius: 10px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.85rem;
+  }
 `;
 
 const RightWrapper = styled.div`

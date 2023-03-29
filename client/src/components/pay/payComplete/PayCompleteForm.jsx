@@ -1,12 +1,51 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
 export default function PayCompleteForm() {
+
+  //1. 주문 수정 에서 get 한 것 받아오기
+  const [userData, setUserData] = useState({});
+
+  //! 리액트 쿠키
+  const [cookies] = useCookies(["accessToken"]);
+
+  // 구매자 정보 get ,, users/mypage
+  const options = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
+  function userInfoAxios() {
+    return axios
+      .get(
+        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/`,
+        options
+      )
+      .then((res) => {
+        setUserData(res.data.data);
+      })
+      .catch((err) => {
+        console.log("userData GET error");
+      });
+  }
+
+  useEffect(() => {
+    userInfoAxios();
+  }, []);
+
+
+  //2. 장바구니 api get 요소 받아오기,, 나오면 참고
+
+
   return (
     <Wrapper>
       <TopWrapper>
         <Title>주문이 완료되었습니다.</Title>
         <p>아래 계좌로 입금해 주셔야지 결제가 완료됩니다. </p>
-        <p>입금이 완료된 시간에 따라 익일 발송 처리 될 수 있습니다.</p>
+        <p>입금완료된 시간에 따라 익일 발송 처리 될 수 있습니다.</p>
         <p>정확한 배송 일정은 문의주시기 바랍니다.</p>
       </TopWrapper>
 
@@ -47,6 +86,11 @@ const Wrapper = styled.div`
   width: 80%;
   background-color: #fef7f7;
   margin: 3rem 0;
+  border-radius: 10px;
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
 `;
 
 const TopWrapper = styled.div`
@@ -55,33 +99,65 @@ const TopWrapper = styled.div`
   p {
     margin: 1rem;
   }
+
+  @media screen and (max-width: 768px) {
+    margin: 1.5rem 0 1.5rem 1.2rem;
+    p {
+      font-size: 0.7rem;
+    }
+  }
 `;
 
 const Title = styled.div`
   font-size: 2rem;
   font-weight: 500;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const Title2 = styled.div`
   font-size: 1.6rem;
   font-weight: 500;
   margin-bottom: 5rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+    margin-bottom: 5.3rem;
+  }
 `;
 
 const UnderWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   margin: 3rem 3rem;
+
+  @media screen and (max-width: 768px) {
+    margin: 1rem;
+  }
 `;
 
 const LeftWrapper = styled.div`
   flex: 1.5;
   justify-content: space-around;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    p {
+      margin-bottom: 2rem;
+    }
+  }
 `;
 
 const RightWrapper = styled.div`
   flex: 3;
+
+  @media screen and (max-width: 768px) {
+    p {
+      font-size: 0.7rem;
+    }
+  }
 `;
 
 const PurchaserInfo = styled.div`
@@ -90,11 +166,24 @@ const PurchaserInfo = styled.div`
   p {
     margin-bottom: 10px;
   }
+
+  @media screen and (max-width: 768px) {
+
+    p {
+      font-size: 0.7rem;
+    }
+  }
 `;
 const AccountInfo = styled.div`
   margin-bottom: 2.5rem;
 
   p {
     margin-bottom: 10px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    p {
+      font-size: 0.7rem;
+    }
   }
 `;
