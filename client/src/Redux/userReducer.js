@@ -1,3 +1,4 @@
+// 지현님,민혁님 Action함수
 const initialState = {
   isLogin: false,
   role: "",
