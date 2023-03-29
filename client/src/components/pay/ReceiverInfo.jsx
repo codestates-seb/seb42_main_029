@@ -1,15 +1,27 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
 
-export default function ReceiverInfo({ userData }) {
+export default function ReceiverInfo({
+  userData,
+  receiver,
+  setUsername,
+  phone,
+  setPhone,
+  receivingAddress,
+  setReceivingAddress,
+}) {
   // 받는 사람 정보 처음으로는 구매자 정보를 띄우고, 변경 가능 하게 버튼 추가 > 전화번호
   // console.log(userData);
 
+  //! 리액트 쿠키
+  const [cookies] = useCookies(["accessToken"]);
+
   // input value get
-  const [receiver, setUsername] = useState("");
-  const [phone, setPhone] = useState("");
-  const [receivingAddress, setReceivingAddress] = useState("");
+  // const [receiver, setUsername] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [receivingAddress, setReceivingAddress] = useState("");
 
   const onChangeUsername = (e) => {
     setUsername(e.target.value);
@@ -21,35 +33,43 @@ export default function ReceiverInfo({ userData }) {
     setReceivingAddress(e.target.value);
   };
 
-  console.log(receiver)
-  console.log(phone)
-  console.log(receivingAddress)
+  // console.log(receiver);
+  // console.log(phone);
+  // console.log(receivingAddress);
 
   //! axios.patch 받는 사람 정보 수정
-  const correctInfo = async (id, e) => {
+  const correctInfo = async (e, id) => {
     e.preventDefault();
+    console.log(e);
+    console.log(id);
     const patchData = {
       receiver,
       phone,
       receivingAddress,
     };
 
+    const headers = {
+      headers: {
+        Authorization: cookies.accessToken,
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    };
+
     return await axios
       .patch(
-        `http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/orders/${id}`,
+        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${id}`,
         patchData,
-        {
-          withCredentials: true,
-          "Content-Type": "application/json",
-        }
+        headers
       )
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
-        alert("정보수정이 완료되어 등록 되었습니다.")
+        alert("정보수정이 완료되어 등록 되었습니다.");
       })
       .catch((error) => {
         console.log("구매자 유저정보 변경 patch 에러");
+        alert("정보수정이 실패 되었습니다.");
       });
   };
 
@@ -58,7 +78,7 @@ export default function ReceiverInfo({ userData }) {
       <TopWrapper>
         <Title>받는사람정보</Title>
 
-        <button onClick={correctInfo}>정보수정하기</button>
+        {/* <button >정보수정하기</button> */}
       </TopWrapper>
 
       <Wrapper>
@@ -68,7 +88,7 @@ export default function ReceiverInfo({ userData }) {
           <p>주소</p>
         </LeftWrapper>
         <RightWrapper>
-          <form>
+          <form onSubmit={() => correctInfo()}>
             <input
               type="text"
               name="이름"
@@ -92,6 +112,8 @@ export default function ReceiverInfo({ userData }) {
               // defaultValue={userData.receivingAddress}
               required
             />
+
+            <button>정보수정하기</button>
           </form>
         </RightWrapper>
       </Wrapper>
@@ -101,20 +123,6 @@ export default function ReceiverInfo({ userData }) {
 const TopWrapper = styled.form`
   display: flex;
   justify-content: space-between;
-  form {
-    button {
-      width: 7rem;
-      height: 2rem;
-      border: none;
-      border-radius: 5px;
-      background-color: #e8cccc;
-      cursor: pointer;
-
-      :hover {
-        color: #ffffff;
-      }
-    }
-  }
 `;
 
 const Title = styled.div`
@@ -125,7 +133,7 @@ const Title = styled.div`
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 180px;
+  height: 200px;
   background-color: #fef4f4;
   margin-bottom: 2rem;
   border-radius: 10px;
@@ -140,6 +148,9 @@ const LeftWrapper = styled.div`
   background-color: #d1bdbd;
   border-radius: 10px;
 
+  /* p {
+    margin: 0.6rem 0 2rem 0;
+  } */
   @media screen and (max-width: 768px) {
     font-size: 0.85rem;
   }
@@ -169,6 +180,28 @@ const RightWrapper = styled.div`
       :focus {
         outline: none;
         border: 1px dotted pink;
+      }
+    }
+
+    // 정보수정하기 버튼
+    button {
+      width: 7rem;
+      height: 2rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #e8cccc;
+      cursor: pointer;
+
+      :hover {
+        color: #ffffff;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      button {
+        width: 5rem;
+        height: 2rem;
+        font-size: 0.7rem;
       }
     }
   }

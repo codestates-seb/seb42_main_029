@@ -21,7 +21,7 @@ export default function PayCompleteForm() {
   function userInfoAxios() {
     return axios
       .get(
-        `http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/`,
+        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/`,
         options
       )
       .then((res) => {

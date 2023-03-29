@@ -22,6 +22,9 @@ export default function BtnGrp() {
   const payBtn = async (e) => {
     e.preventDefault();
 
+
+    const postData= {}
+
     const options = {
       headers: {
         Authorization: cookies.accessToken,
@@ -32,16 +35,17 @@ export default function BtnGrp() {
 
     return axios
       .post(
-        `http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/`,
+        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders`,
+        postData,
         options
       )
       .then((res) => {
-        console.log(res)
+        console.log(res);
         // navigate('/payComplete')
       })
       .catch((err) => {
         console.log("cart post error");
-        console.log(err)
+        console.log(err);
       });
   };
 
@@ -92,6 +96,7 @@ const Wrapper = styled.div`
       button {
         font-size: 0.8rem;
         width: 7.5rem;
+        height: 3rem;
       }
       button:first-child {
         margin-right: 0.7rem;

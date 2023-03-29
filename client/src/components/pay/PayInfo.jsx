@@ -22,7 +22,7 @@ export default function PayInfo() {
   const cartDataAxiosGet = async () => {
     return await axios
       .get(
-        `http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/`,
+        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/`,
         options
       )
       .then((res) => {
@@ -30,7 +30,7 @@ export default function PayInfo() {
         setCartData(res);
       })
       .catch((err) => {
-        console.log("GET error");
+        console.log("장바구니 > 총 결제금액 GET error");
         console.log(err);
       });
   };

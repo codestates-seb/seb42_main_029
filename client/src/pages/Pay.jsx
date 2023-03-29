@@ -10,6 +10,15 @@ import ReceiverInfo from "../components/pay/ReceiverInfo";
 export default function Pay() {
   const [userData, setUserData] = useState({});
 
+  //? receiver info
+  const [receiver, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
+  const [receivingAddress, setReceivingAddress] = useState("");
+
+  console.log(receiver);
+  console.log(phone);
+  console.log(receivingAddress);
+
   //! 리액트 쿠키
   const [cookies] = useCookies(["accessToken"]);
 
@@ -24,7 +33,7 @@ export default function Pay() {
   function userInfoAxios() {
     return axios
       .get(
-        `http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`,
+        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`,
         options
       )
       .then((res) => {
@@ -44,9 +53,21 @@ export default function Pay() {
     <Wrapper>
       <Title>🐶 주문/결제</Title>
       <BuyerInfo userData={userData} />
-      <ReceiverInfo userData={userData} />
+      <ReceiverInfo
+        userData={userData}
+        receiver={receiver}
+        setUsername={setUsername}
+        phone={phone}
+        setPhone={setPhone}
+        receivingAddress={receivingAddress}
+        setReceivingAddress={setReceivingAddress}
+      />
       <PayInfo />
-      <BtnGrp />
+      <BtnGrp
+        receiver={receiver}
+        phone={phone}
+        receivingAddress={receivingAddress}
+      />
     </Wrapper>
   );
 }
