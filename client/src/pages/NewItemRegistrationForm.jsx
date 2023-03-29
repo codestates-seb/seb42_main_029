@@ -3,24 +3,38 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 function NewItemRegistrationForm() {
   const navigate = useNavigate();
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
-  //! 상품등록시 post 요청하는 함수 필요
 
+  //! 상품등록시 post 요청하는 함수 필요 ->/products 토큰 넣어서
   const [name, setName] = useState("");
+  const [productDetail, setProductDetail] = useState("");
   const [image, setImage] = useState();
   const [content, setContent] = useState();
   const [price, setPrice] = useState(0);
-  const [stock, setStoke] = useState(0);
+  const [stock, setStock] = useState(0);
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+
+  let imageHandleChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  let contentHandleChange = (e) => {
+    setContent(e.target.files[0]);
+  };
 
   function postNewItem(sellerId) {
     // e.preventDefault();
-    console.log(name, image, content, price, stock);
+    console.log(name, productDetail, image, content, price, stock);
+
     if (!name) {
       alert("상품 이름을 입력하세요.");
+    } else if (!productDetail) {
+      alert("간단한 상품 설명글을 등록하세요.");
     } else if (!image) {
       alert("상품 메인사진을 등록하세요.");
     } else if (!content) {
@@ -31,26 +45,47 @@ function NewItemRegistrationForm() {
       alert("상품 재고를 입력하세요.");
     } else {
       alert("상품을 등록하시겠습니까? ");
-      const patchdata = {};
-      patchdata.name = name;
-      patchdata.image = image;
-      patchdata.content = content;
-      patchdata.price = price;
-      patchdata.stock = stock;
 
+      const patchdata = new FormData();
+      const jsondata = {
+        name: name,
+        productDetail: productDetail,
+        price: price,
+        stock: stock,
+      };
+      // patchdata.append("post", jsondata);
+      patchdata.append("post", new Blob([JSON.stringify(jsondata)], { type: "application/json" }));
+
+      // patchdata.post.append("name", name);
+      // patchdata.post.append("productDetail", productDetail);
+      // patchdata.post.append("price", price);
+      // patchdata.post.append("stock", stock);
+      patchdata.append("thumbnailImage", image);
+      patchdata.append("productDetailImages", content);
+
+      // patchdata.name = name;
+      // patchdata.productDetail = productDetail;
+      // patchdata.thumbnailImage = image;
+      // patchdata.productDetailImages = content;
+      // patchdata.price = price;
+      // patchdata.stock = stock;
+      //! 상품 등록시 판매자 정보는 어떻게 받는지?
+      // console.log(patchdata);
       return axios
-        .post(`http://localhost:8080/products/${sellerId}`, patchdata, {
-          "Content-Type": "application/json",
+        .post(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products`, patchdata, {
+          headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },
         })
         .then((res) => {
-          console.log(`res.data:`);
+          console.log(`새 상품 등록 성공 res.data:`);
           console.log(res.data);
+          // window.location.reload();
         })
         .catch((err) => {
-          console.log("구매자 유저정보 변경 patch 에러");
+          console.log("새상품 등록 에러");
           console.log(patchdata);
-        })
-        .then(navigate("/sellermypage"));
+          console.log(state.user.sellerId);
+        });
+      // .then(navigate("/sellermypage"));
     }
   }
   return (
@@ -67,21 +102,25 @@ function NewItemRegistrationForm() {
           <div>상품가격 (원)</div>
           <input onChange={(e) => setPrice(e.target.value)}></input>
           <div>재고 수 (숫자)</div>
-          <input onChange={(e) => setStoke(e.target.value)}></input>
+          <input onChange={(e) => setStock(e.target.value)}></input>
         </div> */}
 
         <form className="form" encType="multipart/form-data" method="post">
           <div className="bold title">상품 등록 </div>
           <div>상품명 </div>
           <input onChange={(e) => setName(e.target.value)}></input>
+          <div>간단한 상품 설명 </div>
+          <input onChange={(e) => setProductDetail(e.target.value)}></input>
           <div>메인사진 (정방형 사진 권장)</div>
-          <input onChange={(e) => setImage(e.target.value)} type="file"></input>
+          {/* <input onChange={(e) => setImage(e.target.value)} type="file" accept="image/jpg, image/jpeg, image/png, image/gif"></input> */}
+          <input onChange={imageHandleChange} type="file" accept="image/jpg, image/jpeg, image/png, image/gif"></input>
           <div>상세설명 (jpg 파일 형식)</div>
-          <input onChange={(e) => setContent(e.target.value)} type="file"></input>
+          {/* <input onChange={(e) => setContent(e.target.value)} type="file" accept="image/jpg, image/jpeg, image/png, image/gif"></input> */}
+          <input onChange={contentHandleChange} type="file" accept="image/jpg, image/jpeg, image/png, image/gif"></input>
           <div>상품가격 (원)</div>
           <input onChange={(e) => setPrice(e.target.value)}></input>
           <div>재고 수 (숫자)</div>
-          <input onChange={(e) => setStoke(e.target.value)}></input>
+          <input onChange={(e) => setStock(e.target.value)}></input>
         </form>
 
         <div className="buttons">

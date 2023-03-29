@@ -9,12 +9,12 @@ import axios from "axios";
 import Modal from "../components/modal";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { FaWindows } from "react-icons/fa";
+
 function Mypage() {
   const data = {
     userId: "userId",
     name: "name",
-    id: "id",
+    loginId: "id",
     password: "password",
     email: "email",
     address: "address",
@@ -48,39 +48,25 @@ function Mypage() {
     withCredentials: true,
   };
 
-  //! 로그인은 통합
-
-  //! 정보요청은 각자
-  //! role을 달라고
-
   // 로그인할 때 사용자 정보를 바로 줄수있는게 베스트
 
   function userInfoAxios() {
-    return (
-      axios
-        .get(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, noBodyOptions)
-        .then((res) => {
-          console.log(`res.data:`);
-          console.log(res.data);
-          setUserData(res.data.data);
-          console.log(res.data.data);
-          dispatch({ type: "USER_INFORMATION", payload: res.data.data });
-          // 디스패치는 되다가 안되다가 함 아직 보완 필요
-        })
-        // .then(() => {
-        //   console.log(userData);
-        // dispatch({ type: "USER_INFORMATION", payload: userData });
-        //   console.log(state.user);
-        // })
-        .catch((err) => {
-          console.log("userData GET error");
-        })
-    );
+    return axios
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, noBodyOptions)
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+        setUserData(res.data.data);
+        console.log(res.data.data);
+        dispatch({ type: "USER_INFORMATION", payload: res.data.data });
+      })
+      .catch((err) => {
+        console.log("userData GET error");
+      });
   }
   //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
   useEffect(() => {
     console.log(state);
-
     userInfoAxios();
     // Window.location.reload();
     // dispatch({ type: "USER_INFORMATION", payload: userData });
@@ -113,7 +99,7 @@ function Mypage() {
       patchdata.address = address;
     }
     return axios
-      .patch(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, patchdata, withBodyOptions)
+      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, patchdata, withBodyOptions)
       .then((res) => {
         alert(`회원정보 변경 성공 ! res.data:`);
         console.log(res.data);
@@ -129,7 +115,7 @@ function Mypage() {
   const deleteUser = (id) => {
     // e.preventDefault();
     return axios
-      .delete(`http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/users/${state.user.userId}`, noBodyOptions)
+      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/${state.user.userId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -178,22 +164,22 @@ function Mypage() {
         <div className="user-information">
           <div className="bold">회원정보 변경</div>
           <div>이름</div>
-          <div className="cant-change">{userData.name}</div>
+          <div className="cant-change">{data.name}</div>
           <div>
             아이디
             {/* <button className="submit-button" style={{ float: "right" }}>
               중복검사
             </button> */}
           </div>
-          <div className="cant-change">{userData.loginId}</div>
+          <div className="cant-change">{data.loginId}</div>
           <div>비밀번호</div>
-          <input onChange={(e) => setPassword(e.target.value)} defaultValue={userData.password}></input>
+          <input onChange={(e) => setPassword(e.target.value)} defaultValue={data.password} type="password"></input>
           <div>비밀번호 확인</div>
-          <input onChange={(e) => setPassword2(e.target.value)} defaultValue={userData.password}></input>
+          <input onChange={(e) => setPassword2(e.target.value)} defaultValue={data.password} type="password"></input>
           <div>이메일</div>
-          <input onChange={(e) => setEmail(e.target.value)} defaultValue={userData.email}></input>
+          <input onChange={(e) => setEmail(e.target.value)} defaultValue={data.email}></input>
           <div>주소</div>
-          <input onChange={(e) => setAddress(e.target.value)} defaultValue={userData.address}></input>
+          <input onChange={(e) => setAddress(e.target.value)} defaultValue={data.address}></input>
           <div>
             <button onClick={() => patchUserData(state.user.userId)} className="submit-button center">
               저장

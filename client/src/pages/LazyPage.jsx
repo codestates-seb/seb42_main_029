@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 export default function LazyPage() {
-  return <Wrapper>Loading...</Wrapper>;
+
+  return <div style={{ "font-size": "xx-large", margin: "5%" }}>Loading...</div>;
+
 }
 
 const Wrapper = styled.div`

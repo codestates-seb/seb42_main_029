@@ -40,15 +40,12 @@ export default function SellerSignUpForm() {
   const onChangePassword = (e) => {
     //! 특문 + 영대소문 + 숫자 >= 8자리
     // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    const passwordRegex =
-      /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    const passwordRegex = /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     // /^(?=.[a-zA-Z])(?=.\d)(?=.*[\W_]).{8,}$/;
-    if (!e.target.value || passwordRegex.test(e.target.value))
-      setPasswordError(false);
+    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
     else setPasswordError(true);
 
-    if (!passwordCheck || e.target.value === passwordCheck)
-      setPasswordCheckError(false);
+    if (!passwordCheck || e.target.value === passwordCheck) setPasswordCheckError(false);
     else setPasswordCheckError(true);
     setPassword(e.target.value);
   };
@@ -69,10 +66,8 @@ export default function SellerSignUpForm() {
   };
 
   const onChangeEmail = (e) => {
-    const emailRegex =
-      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (!e.target.value || emailRegex.test(e.target.value))
-      setEmailError(false);
+    const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    if (!e.target.value || emailRegex.test(e.target.value)) setEmailError(false);
     else setEmailError(true);
     setEmail(e.target.value);
   };
@@ -157,18 +152,7 @@ export default function SellerSignUpForm() {
     )
       return false;
 
-    if (
-      loginId &&
-      password &&
-      passwordCheck &&
-      name &&
-      email &&
-      registrationNumber &&
-      address &&
-      phone &&
-      bankName &&
-      accountNumber
-    )
+    if (loginId && password && passwordCheck && name && email && registrationNumber && address && phone && bankName && accountNumber)
       return true; // 값이 다 존재하면 true
     else return false;
   };
@@ -186,7 +170,7 @@ export default function SellerSignUpForm() {
       //! 판매자 회원가입 POST
       await axios
         .post(
-          "http://ec2-3-36-78-57.ap-northeast-2.compute.amazonaws.com:8080/sellers",
+          "http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/sellers",
           {
             loginId,
             password,
@@ -227,32 +211,14 @@ export default function SellerSignUpForm() {
       <form onSubmit={onSubmit}>
         <label>아이디</label>
         <input type="text" name="loginId" onChange={onChangeId} required />
-        {idError && (
-          <ValidP>
-            영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.
-          </ValidP>
-        )}
+        {idError && <ValidP>영문자와 숫자를 조합한 최소 5글자 이상으로 작성하세요.</ValidP>}
 
         <label>비밀번호</label>
-        <input
-          type="password"
-          name="password"
-          onChange={onChangePassword}
-          required
-        />
-        {passwordError && (
-          <ValidP>
-          특수문자,영문자,숫자를 조합한 8글자 이상으로 작성하세요.
-          </ValidP>
-        )}
+        <input type="password" name="password" onChange={onChangePassword} required />
+        {passwordError && <ValidP>특수문자,영문자,숫자를 조합한 8글자 이상으로 작성하세요.</ValidP>}
 
         <label>비밀번호 확인</label>
-        <input
-          type="password"
-          name="passwordCheck"
-          onChange={onChangePasswordCheck}
-          required
-        />
+        <input type="password" name="passwordCheck" onChange={onChangePasswordCheck} required />
         {passwordCheckError && <ValidP>비밀번호가 일치하지 않습니다.</ValidP>}
 
         <label>이메일</label>
@@ -264,15 +230,8 @@ export default function SellerSignUpForm() {
         {nameError && <ValidP>상호명을 입력하세요.</ValidP>}
 
         <label>사업자 등록번호</label>
-        <input
-          type="text"
-          name="registrationNumber"
-          onChange={onChangeRegistrationNumber}
-          required
-        />
-        {registrationNumberError && (
-          <ValidP>사업자 등록번호는 10자리의 숫자를 입력하세요.</ValidP>
-        )}
+        <input type="text" name="registrationNumber" onChange={onChangeRegistrationNumber} required />
+        {registrationNumberError && <ValidP>사업자 등록번호는 10자리의 숫자를 입력하세요.</ValidP>}
 
         <label>사업자 주소</label>
         <input type="text" name="address" onChange={onChangeAddress} required />
@@ -280,29 +239,15 @@ export default function SellerSignUpForm() {
 
         <label>전화번호</label>
         <input type="text" name="phone" onChange={onChangePhone} required />
-        {phoneError && (
-          <ValidP>전화번호는 최소 8자리, 최대 12자리의 숫자입니다.</ValidP>
-        )}
+        {phoneError && <ValidP>전화번호는 최소 8자리, 최대 12자리의 숫자입니다.</ValidP>}
 
         <label>은행명</label>
-        <input
-          type="text"
-          name="bankName"
-          onChange={onChangeBankName}
-          required
-        />
+        <input type="text" name="bankName" onChange={onChangeBankName} required />
         {bankNameError && <ValidP>은행명을 입력하세요.</ValidP>}
 
         <label>계좌번호</label>
-        <input
-          type="text"
-          name="accountNumber"
-          onChange={onChangeAccountNumber}
-          required
-        />
-        {accountNumberError && (
-          <ValidP>계좌번호는 최소 10자리, 최대 14자리의 숫자입니다.</ValidP>
-        )}
+        <input type="text" name="accountNumber" onChange={onChangeAccountNumber} required />
+        {accountNumberError && <ValidP>계좌번호는 최소 10자리, 최대 14자리의 숫자입니다.</ValidP>}
 
         <SignUpBtn>확인</SignUpBtn>
       </form>

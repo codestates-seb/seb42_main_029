@@ -1,12 +1,14 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import Modal from "../modal";
+import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
 function SellingItemList() {
   const SellingItemExData = [
     {
-      productId: "productId",
+      productId: "1productId",
       sellerId: "sellerId",
       name: "name",
       image: "imageimage",
@@ -17,7 +19,7 @@ function SellingItemList() {
       modifiedAt: "modifiedAt",
     },
     {
-      productId: "productId",
+      productId: "2productId",
       sellerId: "sellerId",
       name: "name",
       image: "imageimage",
@@ -28,7 +30,7 @@ function SellingItemList() {
       modifiedAt: "modifiedAt",
     },
     {
-      productId: "productId",
+      productId: "3productId",
       sellerId: "sellerId",
       name: "name",
       image: "imageimage",
@@ -39,7 +41,7 @@ function SellingItemList() {
       modifiedAt: "modifiedAt",
     },
     {
-      productId: "productId",
+      productId: "4productId",
       sellerId: "sellerId",
       name: "name",
       image: "imageimage",
@@ -50,7 +52,7 @@ function SellingItemList() {
       modifiedAt: "modifiedAt",
     },
     {
-      productId: "productId",
+      productId: "5productId",
       sellerId: "sellerId",
       name: "name",
       image: "imageimage",
@@ -61,23 +63,52 @@ function SellingItemList() {
       modifiedAt: "modifiedAt",
     },
   ];
+  const navigate = useNavigate();
+  const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  const dispatch = useDispatch(); // dispatch 쉽게하는 hook
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+
   //! 모달
   const [modalIndex, setModalIndex] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const showModal = () => {
     setModalOpen(true);
   };
+  const [imagetest, setImageTest] = useState();
+  const imageaxios = () => {
+    return axios
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/thumbnails/13`, noBodyOptions)
+      .then((res) => {
+        console.log(`이미지 테스트 `);
+        console.log(res.data);
+        setImageTest(res.data);
+      })
+      .catch((err) => {
+        console.log("상품삭제요청 에러");
+      });
+  };
 
-  //상품 삭제 요청 함수
+  useEffect(() => {
+    imageaxios();
+  }, []);
+
+  //! 판매상품 get 함수 필요
+  const noBodyOptions = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
+  //!상품 삭제 요청 함수 필요 ->/products/1 +토큰
   const deleteItem = (id) => {
     // e.preventDefault();
     return axios
-      .delete(`http://localhost:8080/orders/${id}`, {
-        "Content-Type": "application/json",
-      })
+      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${id}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("상품삭제요청 에러");
@@ -97,9 +128,9 @@ function SellingItemList() {
           {/* </button> */}
         </div>
       </div>
-
-      {SellingItemExData.map((el) => (
-        <div className="item">
+      <div></div>
+      {SellingItemExData.map((el, index) => (
+        <div className="item" key={index}>
           <div className="photo">
             {" "}
             <div>{el.image}</div>{" "}
@@ -122,7 +153,14 @@ function SellingItemList() {
             {/* <button className="cancle button" style={{ float: "right" }} onClick={() => deleteItem(el.productId)}>
               상품 삭제
             </button> */}
-            <button className="cancle button" style={{ float: "right" }} onClick={showModal}>
+            <button
+              className="cancle button"
+              style={{ float: "right" }}
+              onClick={() => {
+                setModalIndex(index);
+                showModal();
+              }}
+            >
               상품 삭제
             </button>
             {/* {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteItem} data={el.productId} keyword="상품삭제" />} */}
@@ -131,8 +169,9 @@ function SellingItemList() {
                 setModalOpen={setModalOpen}
                 axiosfunction={deleteItem}
                 data={SellingItemExData}
-                index={SellingItemExData[modalIndex]?.reviewId}
-                objectKey="poductId"
+                // index={SellingItemExData[modalIndex]?.index} //! 오류나서 개선함
+                index={SellingItemExData.findIndex((element, index) => index === modalIndex)}
+                objectKey="productId"
                 keyword="상품삭제"
               />
             )}
