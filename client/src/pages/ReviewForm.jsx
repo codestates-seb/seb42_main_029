@@ -125,7 +125,6 @@ const ReviewFormBody = styled.div`
     .form {
       width: 80%;
       /* height: 90%; */
-
       input {
         margin: 5px 0;
         width: 95%;
@@ -146,7 +145,6 @@ const ReviewFormBody = styled.div`
         margin-bottom: 15px;
       }
     }
-
     .buttons {
       display: flex;
       flex-direction: row;

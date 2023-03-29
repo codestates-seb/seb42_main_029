@@ -128,11 +128,7 @@ function SellingItemList() {
           {/* </button> */}
         </div>
       </div>
-      <div>
-        <img src={imagetest} alt="testimage"></img>
-        <img src="http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/thumbnails/13" alt="testimage"></img>
-        <img src="http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/productDetailImages/1" alt="testimage"></img>
-      </div>
+      <div></div>
       {SellingItemExData.map((el, index) => (
         <div className="item" key={index}>
           <div className="photo">

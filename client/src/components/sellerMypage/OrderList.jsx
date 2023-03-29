@@ -16,7 +16,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      pardelNumber: "",
       orderProductDtos: [
         {
           productId: "1productId",
@@ -75,7 +75,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      pardelNumber: "",
       orderProductDtos: [
         {
           productId: "1productId",

@@ -20,7 +20,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -34,7 +34,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -48,7 +48,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -62,7 +62,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -76,7 +76,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -90,7 +90,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -104,7 +104,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -118,7 +118,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -132,7 +132,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -146,7 +146,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -160,7 +160,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
     {
@@ -174,7 +174,7 @@ const SellerSignUpReqeust = () => {
       sellerStatus: "sellerStatus",
       createdAt: "createdAt",
       modifiedAt: "modifiedAt",
-      accoutNumber: "accoutNumber",
+      accountNumber: "accountNumber",
       bankName: "bankName",
     },
   ];

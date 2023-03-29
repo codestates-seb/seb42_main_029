@@ -81,7 +81,7 @@ function OrderBox(props) {
           </span>
         </div>
 
-        <div>운송장 번호 : {el.pardel_number !== "" ? el.pardel_number : <input title="운송장번호" onChange={pardelNumberHandleChange}></input>}</div>
+        <div>운송장 번호 : {el.pardelNumber !== "" ? el.pardelNumber : <input title="운송장번호" onChange={pardelNumberHandleChange}></input>}</div>
 
         <button className="button" style={{ float: "right" }} onClick={patchOrderData}>
           변경사항 저장
