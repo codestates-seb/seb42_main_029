@@ -42,6 +42,7 @@ function App() {
           <Suspense fallback={<LazyPage />}>
             <Routes>
               <Route path="/" element={<Main />} />
+              <Route path="/lazy" element={<LazyPage />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/about" element={<About />} />
               <Route path="/productInfo" element={<ProductInfo />} />

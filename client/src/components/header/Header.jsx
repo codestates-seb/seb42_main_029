@@ -71,8 +71,14 @@ export default function Header() {
             </Link>
           </RightSide>
           <MenuLogo>
-            <img src={hamburgerLogo} alt="MobileMenu" onClick={showMobileMenuModal} />
-            {mobileModalOpen && <MobileMenu setMobileModalOpen={setMobileModalOpen} />}
+            <img
+              src={hamburgerLogo}
+              alt="MobileMenu"
+              onClick={showMobileMenuModal}
+            />
+            {mobileModalOpen && (
+              <MobileMenu setMobileModalOpen={setMobileModalOpen} />
+            )}
           </MenuLogo>
         </>
       ) : (
@@ -101,8 +107,18 @@ export default function Header() {
             </Link>
           </RightSide>
           <MenuLogo>
-            <img src={hamburgerLogo} alt="MobileMenu" onClick={showMobileMenuModal} />
-            {mobileModalOpen && <MobileMenu setMobileModalOpen={setMobileModalOpen} modalOpen={modalOpen} setModalOpen={setModalOpen} />}
+            <img
+              src={hamburgerLogo}
+              alt="MobileMenu"
+              onClick={showMobileMenuModal}
+            />
+            {mobileModalOpen && (
+              <MobileMenu
+                setMobileModalOpen={setMobileModalOpen}
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+              />
+            )}
           </MenuLogo>
         </>
       )}

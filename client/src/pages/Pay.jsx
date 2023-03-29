@@ -10,13 +10,21 @@ import ReceiverInfo from "../components/pay/ReceiverInfo";
 export default function Pay() {
   const [userData, setUserData] = useState({});
 
-  console.log(userData);
+
+  //? receiver info
+  const [receiver, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
+  const [receivingAddress, setReceivingAddress] = useState("");
+
+  console.log(receiver);
+  console.log(phone);
+  console.log(receivingAddress);
+
 
   //! 리액트 쿠키
-  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  const [cookies] = useCookies(["accessToken"]);
 
   // 구매자 정보 get ,, users/mypage
-
   const options = {
     headers: {
       Authorization: cookies.accessToken,
@@ -26,9 +34,13 @@ export default function Pay() {
 
   function userInfoAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, options)
+
+      .get(
+        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`,
+        options
+      )
+
       .then((res) => {
-        console.log(res.data.data);
         setUserData(res.data.data);
       })
       .catch((err) => {
@@ -36,26 +48,39 @@ export default function Pay() {
       });
   }
 
-  //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
   useEffect(() => {
     userInfoAxios();
   }, []);
+
+  // console.log(userData)
   return (
     <Wrapper>
-      <Title>주문/결제</Title>
-      <BuyerInfo />
-      <ReceiverInfo />
+      <Title>🐶 주문/결제</Title>
+      <BuyerInfo userData={userData} />
+      <ReceiverInfo
+        userData={userData}
+        receiver={receiver}
+        setUsername={setUsername}
+        phone={phone}
+        setPhone={setPhone}
+        receivingAddress={receivingAddress}
+        setReceivingAddress={setReceivingAddress}
+      />
       <PayInfo />
-      <BtnGrp />
+      <BtnGrp
+        receiver={receiver}
+        phone={phone}
+        receivingAddress={receivingAddress}
+      />
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  margin: 3rem;
+  margin: 3rem 3rem;
 `;
 
 const Title = styled.h1`
   font-size: 1.6rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
