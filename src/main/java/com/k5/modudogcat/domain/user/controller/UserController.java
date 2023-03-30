@@ -46,6 +46,7 @@ public class UserController {
     @PatchMapping("/{user-id}")
     public ResponseEntity patchUser(@PathVariable("user-id") Long userId,
                                     @RequestBody UserDto.Patch patchDto){
+        // Note: JWT 토큰의 아이디와 일치하는지 확인하고 수정 가능하도록 구현
         patchDto.setUserId(userId);
         User user = mapper.userPatchToUser(patchDto);
         User updateUser = userService.updateUser(user);
@@ -73,10 +74,13 @@ public class UserController {
         return new ResponseEntity(new MultiResponseDto<>(
                responses, pageUsers), HttpStatus.OK);
     }
-
+    // NOTE : 회원을 삭제해도 로그인이 되고있음
     @DeleteMapping("/{user-id}")
     public ResponseEntity deleteUser(@PathVariable("user-id") long userId){
         userService.removeUser(userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    // NOTE : 아이디 찾기 구현
+
 }

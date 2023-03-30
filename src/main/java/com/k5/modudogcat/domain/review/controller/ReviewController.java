@@ -24,7 +24,7 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewMapper reviewMapper;
-
+    // NOTE : review 작성 올바르게 합시다.
     @PostMapping(path = "/users/{user-id}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity postReview(@PathVariable("user-id") Long userId,
                                      @RequestPart(name = "post") ReviewDto.Post postDto,

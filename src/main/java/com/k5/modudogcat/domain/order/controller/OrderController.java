@@ -31,6 +31,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity postOrder(@RequestBody OrderDto.Post postDto){
         // todo : 주문 생성시 Product가 가진 sellerId가 Order에 들어가도록 orderPostToOrder() 수정
+        // NOTE : 상품을 주문하면, 그 상품의 재고가 count만큼 줄어들도록 구현, 주문이 0개이면 품절상태로 바꾸어 주문이 안되도록해야함
         long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         postDto.setUserId(userId);
         Order order = mapper.orderPostToOrder(postDto);
@@ -86,5 +87,4 @@ public class OrderController {
         orderService.removeOrder(orderId, userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
 }
