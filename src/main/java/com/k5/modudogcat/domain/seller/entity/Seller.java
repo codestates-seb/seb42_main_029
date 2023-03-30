@@ -56,7 +56,7 @@ public class Seller extends Auditable {
     @OneToOne(mappedBy = "seller", cascade = CascadeType.PERSIST)
     private User user;
 
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "seller", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Product> product;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
