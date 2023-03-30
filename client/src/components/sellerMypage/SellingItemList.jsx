@@ -74,23 +74,6 @@ function SellingItemList() {
   const showModal = () => {
     setModalOpen(true);
   };
-  const [imagetest, setImageTest] = useState();
-  const imageaxios = () => {
-    return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/thumbnails/13`, noBodyOptions)
-      .then((res) => {
-        console.log(`이미지 테스트 `);
-        console.log(res.data);
-        setImageTest(res.data);
-      })
-      .catch((err) => {
-        console.log("상품삭제요청 에러");
-      });
-  };
-
-  useEffect(() => {
-    imageaxios();
-  }, []);
 
   //! 판매상품 get 함수 필요
   const noBodyOptions = {

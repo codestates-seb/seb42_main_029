@@ -53,7 +53,7 @@ function NewItemRegistrationForm() {
         price: price,
         stock: stock,
       };
-      // patchdata.append("post", jsondata);
+
       patchdata.append("post", new Blob([JSON.stringify(jsondata)], { type: "application/json" }));
 
       // patchdata.post.append("name", name);
