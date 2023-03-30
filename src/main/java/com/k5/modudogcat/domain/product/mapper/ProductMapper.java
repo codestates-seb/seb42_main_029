@@ -94,4 +94,6 @@ public interface ProductMapper {
 
         return response;
     }
+
+    List<ProductDto.Response> productListToResponseDtoList(List<Product> products);
 }

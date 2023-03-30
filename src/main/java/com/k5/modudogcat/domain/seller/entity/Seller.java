@@ -1,6 +1,8 @@
 package com.k5.modudogcat.domain.seller.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.order.entity.Order;
+import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -53,11 +56,16 @@ public class Seller extends Auditable {
     @OneToOne(mappedBy = "seller", cascade = CascadeType.PERSIST)
     private User user;
 
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
+    private List<Product> product;
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
+    private List<Order> orders;
+
     public enum SellerStatus {
         SELLER_WAITING("승인 대기 중"),
         SELLER_APPROVE("가입 승인"),
-        SELLER_REJECTED("가입 거절"),
-        SELLER_DELETED("삭제된 판매자 회원가입 정보");
+        SELLER_REJECTED("가입 거절");
 
         @Getter
         private String status;
