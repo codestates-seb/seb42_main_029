@@ -35,8 +35,8 @@ public class ProductController {
     // 임시 상품 등록
     @PostMapping
     public ResponseEntity postProduct(@RequestPart(name = "post") ProductDto.Post postDto,
-                                      @RequestPart(required = false) MultipartFile thumbnailImage,
-                                      @RequestPart(required = false) List<MultipartFile> productDetailImages){
+                                      @RequestPart(required = false, name = "thumbnailImage") MultipartFile thumbnailImage,
+                                      @RequestPart(required = false, name = "productDetailImages") List<MultipartFile> productDetailImages){
         Product product = mapper.productPostToProduct(postDto);
         Map<String, Object> thumbnailMap = mapper.multipartFileToThumbnailImage(thumbnailImage);
         List<ProductDetailImage> productDetailImagesList = mapper.multipartFilesToDetailsImages(productDetailImages);

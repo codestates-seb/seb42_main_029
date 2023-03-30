@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.user.entity;
 
 import com.k5.modudogcat.audit.Auditable;
+import com.k5.modudogcat.domain.cart.entity.Cart;
 import com.k5.modudogcat.domain.admin.entity.Admin;
 import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.seller.entity.Seller;
@@ -44,7 +45,9 @@ public class User extends Auditable {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "admin_id")
     private Admin admin;
-
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Cart cart;
+    
     public enum UserStatus {
         USER_ACTIVE("활동중"),
         USER_SLEEP("휴면계정"),
