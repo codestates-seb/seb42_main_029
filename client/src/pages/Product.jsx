@@ -8,14 +8,12 @@ import axios from "axios";
 const Product = () => {
   const [data, setData] = useState([]);
   const url = "http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products?page=1&size=12";
-
   useEffect(() => {
     axios
       .get(url)
       .then((response) => {
         console.log(response.data);
-        setData(response.data);
-        // const axiosData = response.data;
+        setData(response.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -28,12 +26,20 @@ const Product = () => {
       </TextSelect>
       <ItemContainer>
         {Array.isArray(data) &&
-          data.map((val) => (
-            <ItemContents key={val.product_id}>
-              <Link to="/ProductInfo" style={{ color: "black", textDecoration: "none" }}>
-                <ItemsImage src={val.image} alt="못찾겠따" />
-                <TextTitle>{val.name}</TextTitle>
-                <TextPrice>{val.price} </TextPrice>
+          data.map((datas) => (
+            <ItemContents key={datas.productId}>
+              <Link to = {
+                {
+                  pathname: `/ProductInfo/${datas.productId}`,
+                  state: {datas:datas}
+                }
+              }
+              style={{ color: "black", textDecoration: "none" }}>
+                {/* Shop이미지는 thumbnailLink의 주소 그대로쓰기 */}
+              
+                <ItemsImage src={datas.thumbnailLink} alt="못찾겠따" />
+                <TextTitle>{datas.name}</TextTitle>
+                <TextPrice>{datas.price}원 </TextPrice>
               </Link>
             </ItemContents>
           ))}

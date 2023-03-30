@@ -45,7 +45,7 @@ function App() {
               <Route path="/lazy" element={<LazyPage />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/about" element={<About />} />
-              <Route path="/productInfo" element={<ProductInfo />} />
+              <Route path="/productInfo/:productId" element={<ProductInfo />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signUp" element={<SignUp />} />
               <Route path="/sellerSignUp" element={<SellerSignUp />} />
