@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Rating from "../components/ReviewScore";
 import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function ReviewForm(props) {
   // const navigate = useNavigate();
   const [score, setScore] = useState();
   const [review, setReview] = useState("");
-  const [reviewPhoto, setReviewPhoth] = useState();
+  const [reviewPhoto, setReviewPhoto] = useState();
   const [title, setTitle] = useState();
+  //!쿠키 담기
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
   const productId = useParams().productId;
 
@@ -20,7 +23,7 @@ function ReviewForm(props) {
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
 
   const [itemData, setItemData] = useState({});
-  //! productId로 item 정보 가져오는 요청
+  //! productId로 item 정보 가져오는 요청                 테스트 완료
   function getItemInfo(productId) {
     return axios
       .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`, {
@@ -29,7 +32,7 @@ function ReviewForm(props) {
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
-        setItemData(res.data);
+        setItemData(res.data.data);
       })
       .catch((err) => {
         console.log("itemData GET error");
@@ -41,21 +44,35 @@ function ReviewForm(props) {
   }, []);
 
   //! 리뷰 등록요청
-  const formData = new FormData();
-  formData.images = reviewPhoto;
 
-  const value = {
-    content: review,
-    score: score,
-    title: title,
-  };
+  function imageHandleChange(e) {
+    setReviewPhoto(e.target.files[0]);
+  }
 
-  // const blob = new Blob([JSON.stringify(value)], { type: "application/json" });
-
-  // formData.post = blob;
-  formData.post = JSON.stringify(value);
-  function postReview() {
-    console.log(formData);
+  //! 리뷰 등록 post                              XXXXXXXXXXXXXXX
+  function postReview(productId) {
+    const patchdata = new FormData();
+    const jsondata = {
+      content: review,
+      score: score,
+      title: title,
+    };
+    patchdata.append("post", new Blob([JSON.stringify(jsondata)], { type: "application/json" }));
+    patchdata.append("image", reviewPhoto);
+    return axios
+      .post(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products`, patchdata, {
+        headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },
+      })
+      .then((res) => {
+        console.log(`리뷰 등록 성공 res.data:`);
+        console.log(res.data);
+        // window.location.reload();
+      })
+      .catch((err) => {
+        console.log("리뷰 등록 에러");
+        console.log(patchdata);
+        console.log(state.user.sellerId);
+      });
   }
 
   return (
@@ -71,7 +88,7 @@ function ReviewForm(props) {
           </div>
           <Rating setScore={setScore} />
           <div>리뷰 사진 등록</div>
-          <input type="file" accept="image/jpg, image/jpeg, image/png, image/gif" onChange={(e) => setReviewPhoth(e.target.value)}></input>
+          <input type="file" accept="image/jpg, image/jpeg, image/png, image/gif" onChange={imageHandleChange}></input>
           <div>리뷰 제목 작성</div>
           <input onChange={(e) => setTitle(e.target.value)}></input>
           <div>상세 후기 작성</div>
@@ -80,7 +97,7 @@ function ReviewForm(props) {
 
         <div className="buttons">
           <SubmitBtn>등록취소</SubmitBtn>
-          <SubmitBtn onClick={() => postReview()}>후기등록</SubmitBtn>
+          <SubmitBtn onClick={() => postReview(productId)}>후기등록</SubmitBtn>
         </div>
         <div>
           <SubmitBtn onClick={() => dispatch({ type: "USER_LOGIN", payload: { userId: "리덕스", id: "성공", name: "!!!" } })}>로그인</SubmitBtn>

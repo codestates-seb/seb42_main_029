@@ -191,7 +191,7 @@ const SellerSignUpReqeust = () => {
 
   //! 판매자 회원가입 요청 get
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
-
+  console.log(cookies.accessToken);
   const noBodyOptions = {
     headers: {
       Authorization: cookies.accessToken,
@@ -204,7 +204,7 @@ const SellerSignUpReqeust = () => {
   function sellerRequestAxios() {
     //!        페이지네이션 구현해야하는데 아직임
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/admin?page=1&size=12`, noBodyOptions)
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/admin?page=1&size=1`, noBodyOptions)
       .then((res) => {
         console.log(`판매자 신청 get 완료 res.data:`);
         console.log(res.data);

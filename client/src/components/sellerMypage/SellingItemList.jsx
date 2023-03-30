@@ -5,6 +5,8 @@ import axios from "axios";
 import Modal from "../modal";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import Paging from "../pagination/pagination";
+
 function SellingItemList() {
   const SellingItemExData = [
     {
@@ -74,16 +76,34 @@ function SellingItemList() {
   const showModal = () => {
     setModalOpen(true);
   };
-
-  //! 판매상품 get 함수 필요
+  //페이지네이션
+  const [page, setPage] = useState(1);
+  //! 판매상품 get 함수 필요                  테스트 완료
   const noBodyOptions = {
     headers: {
       Authorization: cookies.accessToken,
     },
     withCredentials: true,
   };
+  const [itemData, setItemData] = useState();
+  function ItemAxios() {
+    return axios
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products?page=${page}&size=12`, noBodyOptions)
+      .then((res) => {
+        console.log(`판매아이템 get 성공 res.data:`);
+        console.log(res.data);
+        setItemData(res.data.data);
+      })
+      .catch((err) => {
+        console.log("판매아이템 GET error");
+      });
+  }
 
-  //!상품 삭제 요청 함수 필요 ->/products/1 +토큰
+  useEffect(() => {
+    ItemAxios();
+  }, [page]);
+
+  //!상품 삭제 요청 함수 필요 ->/products/1 +토큰                 테스트 완료
   const deleteItem = (id) => {
     // e.preventDefault();
     return axios
@@ -112,55 +132,57 @@ function SellingItemList() {
         </div>
       </div>
       <div></div>
-      {SellingItemExData.map((el, index) => (
-        <div className="item" key={index}>
-          <div className="photo">
-            {" "}
-            <div>{el.image}</div>{" "}
-          </div>
-          <div className="item-left">
-            <div>상품 번호: {el.productId}</div>
-            <div className="important">
-              상품 이름: {el.name} {el.name}
+      {Array.isArray(itemData) &&
+        itemData.map((el, index) => (
+          <div className="item" key={index}>
+            <div className="photo">
+              {" "}
+              {/* <div>{el.image}</div>{" "} */}
+              <img className="photo" src={el.thumbnailLink} alt="상품 썸네일"></img>
             </div>
-            <div>가격: {el.price}</div>
-            <div className="important">재고: {el.stock}</div>
-            {/* <div className="content">{el.content}</div> */}
-          </div>
-          <div className="item-right">
-            <div> 게시일:{el.createdAt}</div>
-            <div> 수정일:{el.modifiedAt}</div>
-            <br />
-            <br />
+            <div className="item-left">
+              <div>상품 번호: {el.productId}</div>
+              <div className="important">상품 이름: {el.name}</div>
+              <div>가격: {el.price}</div>
+              <div className="important">재고: {el.stock}</div>
+              {/* <div className="content">{el.content}</div> */}
+            </div>
+            <div className="item-right">
+              <div> 상태:{el.productStatus}</div>
+              {/* <div> 수정일:{el.modifiedAt}</div> */}
+              <div className="important">가격: {el.price}</div>
+              <br />
+              <br />
 
-            {/* <button className="cancle button" style={{ float: "right" }} onClick={() => deleteItem(el.productId)}>
+              {/* <button className="cancle button" style={{ float: "right" }} onClick={() => deleteItem(el.productId)}>
               상품 삭제
             </button> */}
-            <button
-              className="cancle button"
-              style={{ float: "right" }}
-              onClick={() => {
-                setModalIndex(index);
-                showModal();
-              }}
-            >
-              상품 삭제
-            </button>
-            {/* {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteItem} data={el.productId} keyword="상품삭제" />} */}
-            {modalOpen && (
-              <Modal
-                setModalOpen={setModalOpen}
-                axiosfunction={deleteItem}
-                data={SellingItemExData}
-                // index={SellingItemExData[modalIndex]?.index} //! 오류나서 개선함
-                index={SellingItemExData.findIndex((element, index) => index === modalIndex)}
-                objectKey="productId"
-                keyword="상품삭제"
-              />
-            )}
+              <button
+                className="cancle button"
+                style={{ float: "right" }}
+                onClick={() => {
+                  setModalIndex(index);
+                  showModal();
+                }}
+              >
+                상품 삭제
+              </button>
+              {/* {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteItem} data={el.productId} keyword="상품삭제" />} */}
+              {modalOpen && (
+                <Modal
+                  setModalOpen={setModalOpen}
+                  axiosfunction={deleteItem}
+                  data={itemData}
+                  // index={SellingItemExData[modalIndex]?.index} //! 오류나서 개선함
+                  index={itemData.findIndex((element, index) => index === modalIndex)}
+                  objectKey="productId"
+                  keyword="상품삭제"
+                />
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      <Paging page={page} setPage={setPage} />
     </SellingItemBody>
   );
 }
@@ -240,13 +262,13 @@ const SellingItemBody = styled.div`
       width: 60px;
     }
     .item-left {
-      width: 55%;
+      width: 60%;
       @media screen and (max-width: 768px) {
         width: 100%;
       }
     }
     .item-right {
-      width: 40%;
+      width: 25%;
       @media screen and (max-width: 768px) {
         width: 100%;
       }
