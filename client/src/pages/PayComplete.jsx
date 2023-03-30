@@ -28,6 +28,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: 'Dovemayo_gothic';
 `;
 
 const BtnGrp = styled.div`

@@ -19,4 +19,6 @@ export default function Main() {
   );
 }
 
-const WrapperSlide = styled.div``;
+const WrapperSlide = styled.div`
+  font-family: 'Dovemayo_gothic';
+  `;

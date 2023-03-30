@@ -78,6 +78,7 @@ export default function Pay() {
 
 const Wrapper = styled.div`
   margin: 3rem 3rem;
+  font-family: 'Dovemayo_gothic';
 `;
 
 const Title = styled.h1`

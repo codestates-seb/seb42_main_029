@@ -43,6 +43,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin: 6rem 2rem 0 1rem;
+  font-family: 'Dovemayo_gothic';
 
   @media screen and (max-width: 1000px) {
     flex-direction: column;

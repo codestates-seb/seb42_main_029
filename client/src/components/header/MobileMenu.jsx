@@ -102,6 +102,7 @@ const Wrapper = styled.div`
   /* border: 1px solid gray; */
   box-shadow: 1px 1px 1px 1px gray;
   border-radius: 7px;
+  font-family: 'Dovemayo_gothic';
 
   /* 최상단 */
   z-index: 999;

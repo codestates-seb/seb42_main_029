@@ -191,6 +191,7 @@ const RightWrapper = styled.div`
       border-radius: 5px;
       background-color: #e8cccc;
       cursor: pointer;
+      font-family: 'Dovemayo_gothic';
 
       :hover {
         color: #ffffff;

@@ -56,6 +56,7 @@ const ItemContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
+  font-family: 'Dovemayo_gothic';
 `;
 
 // ItemContents
@@ -104,4 +105,5 @@ const TextSelect = styled.div`
   font-size: 24px;
   margin-top: 100px;
   margin-bottom: 30px;
+  font-family: 'Dovemayo_gothic';
 `;

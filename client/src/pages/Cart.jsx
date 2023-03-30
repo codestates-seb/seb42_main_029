@@ -87,6 +87,7 @@ const Container = styled.div`
   margin-top:20px;
   align-items:center;
   // justify-content:center;
+  font-family: 'Dovemayo_gothic';
 `
 
 const CartTitle = styled.div`
@@ -134,6 +135,7 @@ const PayBox = styled.div`
   width: 90%;
   font-size:24px;
   font-weight:bold;
+  font-family: 'Dovemayo_gothic';
 `
 const DeleteBtn = styled.button`
   width:70px;
@@ -141,12 +143,14 @@ const DeleteBtn = styled.button`
   border-radius:10px;
   background-color:red;
   color:white;
+  font-family: 'Dovemayo_gothic';
 `
 const PayBtn = styled.button`
   width:${props => props.width || '50%'};
   height:${props => props.height || '100%'};
   font-size:24px;
   font-weight:bold;
+  font-family: 'Dovemayo_gothic';
   &:hover{
     font-size:26px;
   }
