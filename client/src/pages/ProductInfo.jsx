@@ -1,9 +1,12 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import img6 from "../assets/productImage/img_dummy6.png";
 import background_img from "../assets/productImage/img_dummy1_more.jpeg";
 import dummy from "../assets/dummy/dummy.json";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { useParams, Link  } from 'react-router-dom';
+import { addToCart } from '../Redux/action';
 
 const Container = styled.div`
   display: flex;
@@ -219,46 +222,54 @@ const Category = styled.div`
 
 
 const ProductInfo = () => {
-  // const product6_name = dummy.sample.map(val => (val.name))
-  const product6_img = dummy.sample[5].image;
-  const product6_name = dummy.sample[5].name;
-  const product6_price = dummy.sample[5].price;
-  const product6_proid = dummy.sample[5].product_id;
+  const [data, setData] = useState([]);
+  
+  const productId = useParams().productId;
+  const url = `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`;
 
+  useEffect(() => {
 
-  //Redux 장바구니에 추가하기
-  const cartItems = useSelector((state) => state.cartItems);
+    axios
+    .get(url)
+    .then((response) => {
+      setData(response.data.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, []);
+  const {name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus} = data;
+
+  // Redux 장바구니에 추가하기
+  const cartItems = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  console.log(cartItems);
   function handleAddToCart(item) {
-    // dispatch(addToCart(item));
-    dispatch('ADD_TO_CART'(item))
-    // dispatch('ADD_TO_CART'(item))
-  }
+    dispatch({type:"ADD_TO_CART", payload:item})
 
+  }
   return (
     
     <Container>
       {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
       <ContainerTop>
-        <ItemsImage src={img6} loading="lazy" />
+        <ItemsImage src={thumbnailLink} loading="lazy" />
         <TextArea>
           <TextContainer>
-            <b>상품명</b> <TextPosition>{product6_name}</TextPosition>
+            <b>상품명</b> <TextPosition>{name}</TextPosition>
           </TextContainer>
           <TextContainer>
             <b>가격</b>
             <TextPosition>
-              <TextOrange>{product6_price}</TextOrange>
+              <TextOrange>{price}</TextOrange>
             </TextPosition>
           </TextContainer>
           <TextContainer>
-            <b>배송비</b> <TextPosition>3,000원</TextPosition>
+            <b>배송비</b> <TextPosition>무료</TextPosition>
           </TextContainer>
           <ButtonWrapper>
-            <ButtonStyle>구매하기</ButtonStyle>
             {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
-            <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}>
+            <ButtonStyle onClick={() => handleAddToCart({data})}>
               장바구니에 담기
             </ButtonStyle>
           </ButtonWrapper>
@@ -270,7 +281,7 @@ const ProductInfo = () => {
       {/* 상품설명/사진 */}
       <Information>
         <InformationText>제품 상세 설명</InformationText>
-        <img src={background_img} alt="상품설명img" loading="lazy" />
+        <img src={productDetailLinks} alt="상품설명img" loading="lazy" />
       </Information>
 
       {/* QnA */}
