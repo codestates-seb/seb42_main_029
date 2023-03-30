@@ -14,6 +14,7 @@ public class ProductDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post{
+        private Long sellerId;
         private String name;
         private String productDetail;
         private Integer price;

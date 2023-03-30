@@ -4,6 +4,7 @@ import com.k5.modudogcat.domain.product.dto.ProductDto;
 import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.product.entity.productImage.ProductDetailImage;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
+    @Mapping(source = "sellerId", target = "seller.sellerId")
     Product productPostToProduct(ProductDto.Post postDto);
     default List<ProductDto.Response> productsToResponses(List<Product> products, String domain){
         if ( products == null ) {
