@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import dummy from '../assets/dummy/dummy.json';
 import { increment, decrement } from '../Redux/counterReducer';
 /*
  * 현재는 상품수량 모두 counter 하나로 공유합니다.
@@ -10,18 +9,22 @@ import { increment, decrement } from '../Redux/counterReducer';
 const Cart = () => {
   // * Redux 함수
   const counter = useSelector(state => state.counter);
+  const product = useSelector(state => state.cart.cartItems);
   const dispatch = useDispatch();
-    console.log({counter});
+
+    // const {name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus} = product;
+    // console.log(product[0].data.productId)
 
   // * 장바구니의 상품 수량 증가함수 
-  function handleIncrease(){
-    //(product_id2 === state.product_id2)
-    dispatch({type:'INCREASE'});
+  function handleIncrease(productId){
+    dispatch({type:'ADD_TO_COUNT', payload:productId});
+    // dispatch({type:'INCREASE', payload:productId});
     console.log({counter});
+    console.log({product})
   }
   // * 장바구니의 상품 수량 감소함수 
-  function handleDecrease(){
-    dispatch({type:'DECREASE'});
+  function handleDecrease(productId){
+    dispatch({type:'DECREASE', payload:productId});
     console.log({counter});
   }
 
@@ -36,26 +39,27 @@ const Cart = () => {
         
         {/* props로 내려줄때 상품이 하나씩 추가되어야함 */}
         
-        {dummy.sample.map((data)=>(
-          <ProductBox key={data.product_id}>                
+        {product.map((data, index)=>(
+          <ProductBox key={index}>                
             <ItemStyle>
               {/* 여기에 체크박스 컴포넌트 넣기 */}
               {/* singleCheckbox 컴포넌트 */}
             </ItemStyle>
             <ItemStyle>
-              <ItemsImage src={data.image} alt="못찾겠따"/>
+              <ItemsImage src={data.data.thumbnailLink} alt="못찾겠따"/>
             </ItemStyle>
-            <ItemStyle maxwid="200">{data.name}</ItemStyle>
-            <ItemStyle color="#ff5c00">{data.price}</ItemStyle>
+            <ItemStyle maxwid="200">{data.data.name}</ItemStyle>
+            <ItemStyle color="#ff5c00">{data.data.price}원</ItemStyle>
             <ItemStyle>
             
             </ItemStyle>
             <ItemStyle>
-              <CountBtn onClick={() => handleDecrease()}>-</CountBtn>
+              <CountBtn onClick={() => handleDecrease(data.data.productId)}>-</CountBtn>
                 {counter.Quantity}
-              <CountBtn onClick={() => handleIncrease()}>+</CountBtn>
+              <CountBtn onClick={() => handleIncrease(data.data.productId)}>+</CountBtn>
             </ItemStyle>
-
+          {console.log(data.data.productId)}
+          {console.log(data.data)}
             {/* 합계: 수량 * {data.price} */}
             <DeleteBtn>삭제하기</DeleteBtn>  
           </ProductBox>

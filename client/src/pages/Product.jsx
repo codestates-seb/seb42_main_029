@@ -25,7 +25,6 @@ const Product = () => {
         <span>인기상품 몇몇선택</span> <span>최신등록순/인기순</span>
       </TextSelect>
       <ItemContainer>
-        {/* {console.log(Array.isArray(data))} */}
         {Array.isArray(data) &&
           data.map((datas) => (
             <ItemContents key={datas.productId}>
@@ -40,7 +39,7 @@ const Product = () => {
               
                 <ItemsImage src={datas.thumbnailLink} alt="못찾겠따" />
                 <TextTitle>{datas.name}</TextTitle>
-                <TextPrice>{datas.price} </TextPrice>
+                <TextPrice>{datas.price}원 </TextPrice>
               </Link>
             </ItemContents>
           ))}

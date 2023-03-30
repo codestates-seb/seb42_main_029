@@ -243,7 +243,7 @@ const ProductInfo = () => {
   // Redux 장바구니에 추가하기
   const cartItems = useSelector((state) => state);
   const dispatch = useDispatch();
-  console.log(cartItems);
+
   function handleAddToCart(item) {
     dispatch({type:"ADD_TO_CART", payload:item})
 
@@ -261,7 +261,7 @@ const ProductInfo = () => {
           <TextContainer>
             <b>가격</b>
             <TextPosition>
-              <TextOrange>{price}</TextOrange>
+              <TextOrange>{price}원</TextOrange>
             </TextPosition>
           </TextContainer>
           <TextContainer>

@@ -1,14 +1,14 @@
-// import { ADD_TO_CART, REMOVE_FROM_CART } from './actions';
-
 const initialState = {
   cartItems: [],
 };
 
 export default function cartReducer(state = initialState, action) {
   if(action.type==='ADD_TO_CART') {
+    const data = action.payload;
+    data.count = 1;
       return {
         ...state,
-        cartItems: [...state.cartItems, action.payload],
+        cartItems: [...state.cartItems, data ],
       }
   }
   else if(action.type==='REMOVE_FROM_CART'){
@@ -17,24 +17,15 @@ export default function cartReducer(state = initialState, action) {
     cartItems: [...state.cartItems, action.payload],
     };
   }
+  else if(action.type==='ADD_TO_COUNT'){
+    // let result3= state.cartItems.filter(el=>  el.productId === action.payload)
+      //let result2= state.cartItems.filter(el=>  el.productId !== action.payload)
+      // result3.count+=1;
+
+      //let result4=Object.assign(result2,result3)
+
+      // return Object.assign({},state,{cartItems: result4})
+  }
   else return state;
 };
-
-
-// export default function cartReducer(state = initialState, action) {
-//   switch (action.type) {
-//     case 'ADD_TO_CART':
-//       return {
-//         ...state,
-//         cartItems: [...state.cartItems, action.payload],
-//       };
-//     case 'REMOVE_FROM_CART':
-//       return {
-//       ...state,
-//       cartItems: [...state.cartItems, action.payload],
-//       };
-//     default:
-//       return state;
-//   }
-// };
 
