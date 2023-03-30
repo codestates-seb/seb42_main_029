@@ -5,6 +5,7 @@ import com.k5.modudogcat.domain.product.mapper.ProductMapper;
 import com.k5.modudogcat.domain.product.dto.ProductDto;
 import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.product.service.ProductService;
+import com.k5.modudogcat.domain.seller.service.SellerService;
 import com.k5.modudogcat.dto.MultiResponseDto;
 import com.k5.modudogcat.dto.SingleResponseDto;
 import com.k5.modudogcat.util.UriCreator;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,12 +33,15 @@ public class ProductController {
     private final ProductService productService;
     @Value("${config.domain}")
     private String domain;
+    private final SellerService sellerService;
 
     // 임시 상품 등록
     @PostMapping
     public ResponseEntity postProduct(@RequestPart(name = "post") ProductDto.Post postDto,
                                       @RequestPart(required = false, name = "thumbnailImage") MultipartFile thumbnailImage,
                                       @RequestPart(required = false, name = "productDetailImages") List<MultipartFile> productDetailImages){
+        Long sellerId = tokenSellerId();
+        postDto.setSellerId(sellerId);
         Product product = mapper.productPostToProduct(postDto);
         Map<String, Object> thumbnailMap = mapper.multipartFileToThumbnailImage(thumbnailImage);
         List<ProductDetailImage> productDetailImagesList = mapper.multipartFilesToDetailsImages(productDetailImages);
@@ -73,5 +78,11 @@ public class ProductController {
         productService.removeProduct(productId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    public Long tokenSellerId() {
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = Long.parseLong(principal);
+        return sellerService.findSellerIdById(userId);
     }
 }
