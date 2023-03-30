@@ -34,7 +34,7 @@ function Mypage() {
   //! 모든 요청에 withCredentials가 true로 설정됩니다.
   // axios.defaults.withCredentials = true;
 
-  //! 회원정보 axios userInfo
+  //! 회원정보 axios userInfo                         테스트 완료
   const [userData, setUserData] = useState({}); //판매자 데이터 담아서 나중에 userData.map()
 
   // 리액트 쿠키
@@ -74,7 +74,7 @@ function Mypage() {
   }, []);
   console.log(state);
 
-  //! 변경사항 서버에 patch하기 위한 함수
+  //! 변경사항 서버에 patch하기 위한 함수                         테스트 완료
 
   const withBodyOptions = {
     headers: {
@@ -111,7 +111,7 @@ function Mypage() {
       });
   }
 
-  //! 회원 탈퇴요청 함수 추가하고, 탈퇴버튼 온클릭에 연결
+  //! 회원 탈퇴요청 함수 추가하고, 탈퇴버튼 온클릭에 연결                         테스트 완료
   const deleteUser = (id) => {
     // e.preventDefault();
     return axios
@@ -148,7 +148,7 @@ function Mypage() {
 
   return (
     <MypageBody>
-      <h1 className="page_title">🏠 회원 마이페이지</h1>
+      <h1 className="page_title">🏠 구매자회원 마이페이지</h1>
       <ul className="tab">
         {tabArray.map((el) => (
           <li key={el.id} onClick={() => setFocus(el.id)} className={el.id === focus ? "focus" : ""}>

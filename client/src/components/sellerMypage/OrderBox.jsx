@@ -28,7 +28,7 @@ function OrderBox(props) {
     console.log(e.target.value);
   };
 
-  //! 변경사항 요청 날리는 함수
+  //! 변경사항 요청 날리는 함수           완료
   const withBodyOptions = {
     headers: {
       Authorization: cookies.accessToken,
@@ -43,7 +43,7 @@ function OrderBox(props) {
     patchOrderData.status = status;
     patchOrderData.pardelNumber = pardelNumber;
     return axios
-      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${el.order_id}`, patchOrderData, withBodyOptions)
+      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${el.orderId}`, patchOrderData, withBodyOptions)
       .then((res) => {
         console.log(`주문정보 변경 성공 res.data:`);
         console.log(res.data);

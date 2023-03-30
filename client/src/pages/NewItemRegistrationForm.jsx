@@ -10,7 +10,6 @@ function NewItemRegistrationForm() {
   const state = useSelector((state) => state); // 전역 state에 접근하는 hook
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
 
-  //! 상품등록시 post 요청하는 함수 필요 ->/products 토큰 넣어서
   const [name, setName] = useState("");
   const [productDetail, setProductDetail] = useState("");
   const [image, setImage] = useState();
@@ -27,6 +26,7 @@ function NewItemRegistrationForm() {
     setContent(e.target.files[0]);
   };
 
+  //! 상품등록시 post 요청하는 함수                         테스트 완료
   function postNewItem(sellerId) {
     // e.preventDefault();
     console.log(name, productDetail, image, content, price, stock);
@@ -36,9 +36,9 @@ function NewItemRegistrationForm() {
     } else if (!productDetail) {
       alert("간단한 상품 설명글을 등록하세요.");
     } else if (!image) {
-      alert("상품 메인사진을 등록하세요.");
+      alert("상품 메인사진을 등록하세요.(용량제한 1MB)");
     } else if (!content) {
-      alert("상품 설명사진을 등록하세요.");
+      alert("상품 설명사진을 등록하세요.(용량제한 1MB)");
     } else if (!price) {
       alert("상품 가격을 입력하세요.");
     } else if (!stock) {
@@ -53,24 +53,13 @@ function NewItemRegistrationForm() {
         price: price,
         stock: stock,
       };
-      // patchdata.append("post", jsondata);
+
       patchdata.append("post", new Blob([JSON.stringify(jsondata)], { type: "application/json" }));
 
-      // patchdata.post.append("name", name);
-      // patchdata.post.append("productDetail", productDetail);
-      // patchdata.post.append("price", price);
-      // patchdata.post.append("stock", stock);
       patchdata.append("thumbnailImage", image);
       patchdata.append("productDetailImages", content);
 
-      // patchdata.name = name;
-      // patchdata.productDetail = productDetail;
-      // patchdata.thumbnailImage = image;
-      // patchdata.productDetailImages = content;
-      // patchdata.price = price;
-      // patchdata.stock = stock;
       //! 상품 등록시 판매자 정보는 어떻게 받는지?
-      // console.log(patchdata);
       return axios
         .post(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products`, patchdata, {
           headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },
@@ -85,26 +74,11 @@ function NewItemRegistrationForm() {
           console.log(patchdata);
           console.log(state.user.sellerId);
         });
-      // .then(navigate("/sellermypage"));
     }
   }
   return (
     <NewItemRegistrationFormBody>
       <div className="center">
-        {/* <div className="form">
-          <div className="bold title">상품 등록 </div>
-          <div>상품명 </div>
-          <input onChange={(e) => setName(e.target.value)}></input>
-          <div>메인사진 (정방형 사진 권장)</div>
-          <input onChange={(e) => setImage(e.target.value)} type="file"></input>
-          <div>상세설명 (jpg 파일 형식)</div>
-          <input onChange={(e) => setContent(e.target.value)} type="file"></input>
-          <div>상품가격 (원)</div>
-          <input onChange={(e) => setPrice(e.target.value)}></input>
-          <div>재고 수 (숫자)</div>
-          <input onChange={(e) => setStock(e.target.value)}></input>
-        </div> */}
-
         <form className="form" encType="multipart/form-data" method="post">
           <div className="bold title">상품 등록 </div>
           <div>상품명 </div>
@@ -136,9 +110,7 @@ export default NewItemRegistrationForm;
 
 const NewItemRegistrationFormBody = styled.div`
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
-  /* align-items: center */
 
   .center {
     display: flex;

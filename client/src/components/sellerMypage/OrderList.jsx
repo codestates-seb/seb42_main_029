@@ -1,10 +1,14 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SelectBox from "./statusSelectBox";
 import Paging from "../pagination/pagination";
-
 import OrderBox from "./OrderBox";
+
+import axios from "axios";
+import Modal from "../modal";
+import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
 function OrderList() {
   const OrderExData = [
     {
@@ -442,10 +446,43 @@ function OrderList() {
     },
   ];
 
+  const navigate = useNavigate();
+  const state = useSelector((state) => state); // 전역 state에 접근하는 hook
+  const dispatch = useDispatch(); // dispatch 쉽게하는 hook
+
   //! 주문목록 상태, 운송장번호 입력해서 통신하는 함수 필요
 
   //!pagination
   const [page, setPage] = useState(1);
+
+  //! 주문목록 get              테스트 실패 -> 서버 로직 수정한다고 하심
+  const [orderData, setOrderData] = useState({});
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+  // console.log(cookies.accessToken);
+
+  const noBodyOptions = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
+  function OrdersAxios() {
+    return axios
+      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders?page=${page}&size=12`, noBodyOptions)
+      .then((res) => {
+        console.log(`orderdata get success res.data:`);
+        console.log(res.data);
+        setOrderData(res.data.data);
+      })
+      .catch((err) => {
+        console.log("orderdata GET error");
+      });
+  }
+
+  useEffect(() => {
+    OrdersAxios();
+  }, [page]);
 
   return (
     <OrderBody>

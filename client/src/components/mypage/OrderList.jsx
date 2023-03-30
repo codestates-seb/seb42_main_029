@@ -8,17 +8,6 @@ import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 function OrderList() {
   const OrderExData = [
-    // {
-    //   orderId: 1,
-    //   receiver: "뉴진스하니",
-    //   phone: "010-1111-7777",
-    //   receivingAddress: "수정된 서울특별시 강남구 주소주소",
-    //   orderStatus: "결제대기",
-    //   payMethod: "무통장",
-    //   count: 3,
-    //   createdAt: "2023-03-27T16:02:36.625268",
-    //   modifiedAt: "2023-03-27T16:02:48.4291336"
-    // },
     {
       orderId: 1,
       receiver: "뉴진스하니",
@@ -429,11 +418,14 @@ function OrderList() {
   const showModal = () => {
     setModalOpen(true);
   };
-  //! 온클릭 및 여러가지 나중에 함 api 명세서 나왔을 때
-  //! 주문목록 get
+
+  //!pagination
+  const [page, setPage] = useState(1);
+
+  //! 주문목록 get                             테스트 완료
   const [orderData, setOrderData] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
-  console.log(cookies.accessToken);
+  // console.log(cookies.accessToken);
 
   const noBodyOptions = {
     headers: {
@@ -447,7 +439,7 @@ function OrderList() {
       .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders?page=${page}&size=12`, noBodyOptions)
       .then((res) => {
         console.log(`orderdata get success res.data:`);
-        console.log(res.data);
+        console.log(res.data.data);
         setOrderData(res.data.data);
       })
       .catch((err) => {
@@ -457,9 +449,9 @@ function OrderList() {
 
   useEffect(() => {
     OrdersAxios();
-  }, []);
+  }, [page]);
 
-  //! 개별주문 delete
+  //! 개별주문 delete                            테스트 완료
   const deleteOrder = (orderId) => {
     // e.preventDefault();
     return axios
@@ -478,96 +470,80 @@ function OrderList() {
 
   //! 개별 상품 후기작성 link -> prop으로 상품id 넘겨서
 
-  //!pagination
-  const [page, setPage] = useState(1);
-
   return (
     <OrderBody>
       <div className="bold">주문 목록 </div>
-      {OrderExData.map((el, index) => (
-        <div className="order" key={index}>
-          <div className="order-left">
-            <div className="important">주문 번호: {el.orderId}</div>
-            {/* <div className="important">상품 이름: {el.name}</div> */}
-            {/* <div className="important">
+      {Array.isArray(orderData) &&
+        orderData.map((el, index) => (
+          <div className="order" key={index}>
+            <div className="order-left">
+              <div className="important">주문 번호: {el.orderId}</div>
+              {/* <div className="important">상품 이름: {el.name}</div> */}
+              {/* <div className="important">
               <span>{`가격 :${el.price} 원 ,`}</span> <span>{`수량 :${el.count}`}</span>
             </div> */}
-            {el.orderProductDtos.map((el, index) => (
-              <div key={index}>
-                <div className="important">
-                  상품 이름: {el.name}
-                  <span>
-                    <button className="button small-review">
-                      <Link to={`/reviewform/${el.productId}`} className="link" proptest="test">
-                        후기 작성
-                      </Link>
-                    </button>{" "}
-                    {/* <button className="button small-review">
-                      <Link
-                        to={{
-                          pathname: "/reviewform",
-                          state: {
-                            itemId: el.itemId,
-                            proptest: "test",
-                          },
-                        }}
-                        className="link"
-                      >
-                        후기 작성
-                      </Link>
-                    </button> */}
-                  </span>
+              {el.productResponse.map((el, index) => (
+                <div key={index}>
+                  <div className="important">
+                    상품 이름: {el.name}
+                    <span>
+                      <button className="button small-review">
+                        <Link to={`/reviewform/${el.productId}`} className="link" proptest="test">
+                          후기 작성
+                        </Link>
+                      </button>{" "}
+                    </span>
+                  </div>
+                  <div className="important">
+                    <span>{`가격 :${el.price} 원 ,`}</span> <span>{`수량 :${el.count}`}</span>{" "}
+                  </div>
                 </div>
-                <div className="important">
-                  <span>{`가격 :${el.price} 원 ,`}</span> <span>{`수량 :${el.count}`}</span>{" "}
-                </div>
-              </div>
-            ))}
+              ))}
 
-            <div>주소 :{el.receivingAddress}</div>
-            <div>받는 사람 : {el.receiver}</div>
-            <div>연락처 : {el.phone}</div>
-          </div>
-          <div className="order-right">
-            <div>
-              <button
-                className="button cancle"
-                style={{ float: "right" }}
-                onClick={() => {
-                  setModalIndex(index);
-                  showModal();
-                }}
-              >
-                주문 취소
-              </button>
-              {modalOpen && (
-                <Modal
-                  setModalOpen={setModalOpen}
-                  axiosfunction={deleteOrder}
-                  data={OrderExData}
-                  index={OrderExData.findIndex((element, index) => index === modalIndex)}
-                  objectKey="orderId"
-                  keyword="주문취소"
-                />
-              )}
+              <div>주소 :{el.receivingAddress}</div>
+              <div>받는 사람 : {el.receiver}</div>
+              <div>연락처 : {el.phone}</div>
             </div>
-            <br />
-            <br />
+            <div className="order-right">
+              <div>
+                <button
+                  className="button cancle"
+                  style={{ float: "right" }}
+                  onClick={() => {
+                    setModalIndex(index);
+                    showModal();
+                  }}
+                >
+                  주문 취소
+                </button>
+                {modalOpen && (
+                  <Modal
+                    setModalOpen={setModalOpen}
+                    axiosfunction={deleteOrder}
+                    data={OrderExData}
+                    index={OrderExData.findIndex((element, index) => index === modalIndex)}
+                    objectKey="orderId"
+                    keyword="주문취소"
+                  />
+                )}
+              </div>
+              <br />
+              <br />
 
-            <div>주문일:{el.createdAt.split(".")[0]}</div>
-            <div>상태변경일:{el.modifiedAt.split(".")[0]}</div>
-            {/* <div className="important">
+              <div>주문일:{el.createdAt.split(".")[0]}</div>
+              <div>상태변경일:{el.modifiedAt.split(".")[0]}</div>
+              {/* <div className="important">
               합계 금액: {el.price * el.count} {" 원"}
             </div> */}
-            <div>운송장 번호 : {el.pardelNumber}</div>
-            <div>상태 : {el.orderStatus}</div>
+              <div>운송장 번호 : {el.pardelNumber}</div>
+              <div>상태 : {el.orderStatus}</div>
 
-            {/* <button className="button" style={{ float: "right" }}>
+              {/* <button className="button" style={{ float: "right" }}>
               <Link className="link">후기 작성</Link>
             </button> */}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
       <Paging page={page} setPage={setPage} />
     </OrderBody>
