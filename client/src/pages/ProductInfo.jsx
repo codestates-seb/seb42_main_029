@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useParams, Link  } from 'react-router-dom';
 import { addToCart } from '../Redux/action';
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   display: flex;
@@ -90,6 +91,13 @@ const ButtonStyle = styled.button`
   border: none;
   font-size: 1rem;
   background-color: #fcb3bf;
+  &:hover{
+    font-size: 18px;
+    cursor: pointer;
+  }
+  &:active{
+    background-color:silver;
+  }
 
   @media screen and (max-width: 767px) {
     font-size: 0.8rem;
@@ -225,10 +233,9 @@ const ProductInfo = () => {
   const [data, setData] = useState([]);
   
   const productId = useParams().productId;
-  const url = `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`;
+  const url = `http://ec2-13-125-150-3.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`;
 
   useEffect(() => {
-
     axios
     .get(url)
     .then((response) => {
@@ -246,7 +253,14 @@ const ProductInfo = () => {
 
   function handleAddToCart(item) {
     dispatch({type:"ADD_TO_CART", payload:item})
-
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "장바구니에 추가완료!!",
+      showConfirmButton: false,
+      timer: 1200,
+    });
+    // Swal.fire('장바구니에 추가되었습니다.', 'Cart에서 확인', 'title')
   }
   return (
     
@@ -269,7 +283,8 @@ const ProductInfo = () => {
           </TextContainer>
           <ButtonWrapper>
             {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
-            <ButtonStyle onClick={() => handleAddToCart({data})}>
+            <ButtonStyle onClick={() => {handleAddToCart({data}); }}>
+              
               장바구니에 담기
             </ButtonStyle>
           </ButtonWrapper>

@@ -19,13 +19,14 @@ const Cart = () => {
   function handleIncrease(productId){
     dispatch({type:'ADD_TO_COUNT', payload:productId});
     // dispatch({type:'INCREASE', payload:productId});
-    console.log({counter});
-    console.log({product})
   }
   // * 장바구니의 상품 수량 감소함수 
   function handleDecrease(productId){
     dispatch({type:'DECREASE', payload:productId});
-    console.log({counter});
+  }
+
+  function handleDelete(){
+
   }
 
   return (
@@ -61,7 +62,7 @@ const Cart = () => {
           {console.log(data.data.productId)}
           {console.log(data.data)}
             {/* 합계: 수량 * {data.price} */}
-            <DeleteBtn>삭제하기</DeleteBtn>  
+            <DeleteBtn onClick={() => handleDelete()}>삭제하기</DeleteBtn>  
           </ProductBox>
         ))}   
             
