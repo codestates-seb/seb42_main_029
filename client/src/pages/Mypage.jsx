@@ -52,7 +52,7 @@ function Mypage() {
 
   function userInfoAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/users/my-page`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -99,7 +99,7 @@ function Mypage() {
       patchdata.address = address;
     }
     return axios
-      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/${id}`, patchdata, withBodyOptions)
+      .patch(`${process.env.REACT_APP_AWS_EC2}/users/${id}`, patchdata, withBodyOptions)
       .then((res) => {
         alert(`회원정보 변경 성공 ! res.data:`);
         console.log(res.data);
@@ -115,7 +115,7 @@ function Mypage() {
   const deleteUser = (id) => {
     // e.preventDefault();
     return axios
-      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/${state.user.userId}`, noBodyOptions)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/users/${state.user.userId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);

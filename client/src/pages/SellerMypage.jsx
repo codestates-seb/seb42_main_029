@@ -49,7 +49,7 @@ function Mypage() {
 
   function sellerInfoAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/sellers/my-page`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/sellers/my-page`, noBodyOptions)
       .then((res) => {
         console.log(`판매자 정보 요청 성공 res.data:`);
         console.log(res.data);
@@ -97,7 +97,7 @@ function Mypage() {
       // 변경사항 없을때 어떻게 처리해야 할지 모르겠음
     }
     return axios
-      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/sellers/${id}`, patchdata, withBodyOptions)
+      .patch(`${process.env.REACT_APP_AWS_EC2}/sellers/${id}`, patchdata, withBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -112,7 +112,7 @@ function Mypage() {
   //! 판매자 회원 탈퇴요청 함수
   const deleteSeller = () => {
     return axios
-      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/${state.user.sellerId}`, noBodyOptions)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/users/${state.user.sellerId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);

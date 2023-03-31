@@ -21,10 +21,7 @@ export default function PayInfo() {
 
   const cartDataAxiosGet = async () => {
     return await axios
-      .get(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/`,
-        options
-      )
+      .get(`${process.env.REACT_APP_AWS_EC2}/`, options)
       .then((res) => {
         console.log(res);
         setCartData(res);

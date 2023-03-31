@@ -3,15 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
 
-export default function ReceiverInfo({
-  userData,
-  receiver,
-  setUsername,
-  phone,
-  setPhone,
-  receivingAddress,
-  setReceivingAddress,
-}) {
+export default function ReceiverInfo({ userData, receiver, setUsername, phone, setPhone, receivingAddress, setReceivingAddress }) {
   // 받는 사람 정보 처음으로는 구매자 정보를 띄우고, 변경 가능 하게 버튼 추가 > 전화번호
   // console.log(userData);
 
@@ -57,11 +49,7 @@ export default function ReceiverInfo({
     };
 
     return await axios
-      .patch(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${id}`,
-        patchData,
-        headers
-      )
+      .patch(`${process.env.REACT_APP_AWS_EC2}/orders/${id}`, patchData, headers)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -97,13 +85,7 @@ export default function ReceiverInfo({
               // defaultValue={userData.name}
               required
             />
-            <input
-              type="text"
-              name="폰번호"
-              onChange={onChangePhone}
-              placeholder="전화번호를 입력해주세요!"
-              required
-            />
+            <input type="text" name="폰번호" onChange={onChangePhone} placeholder="전화번호를 입력해주세요!" required />
             <input
               type="text"
               name="주소"

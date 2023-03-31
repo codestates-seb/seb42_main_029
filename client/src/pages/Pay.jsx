@@ -10,7 +10,6 @@ import ReceiverInfo from "../components/pay/ReceiverInfo";
 export default function Pay() {
   const [userData, setUserData] = useState({});
 
-
   //? receiver info
   const [receiver, setUsername] = useState("");
   const [phone, setPhone] = useState("");
@@ -19,7 +18,6 @@ export default function Pay() {
   console.log(receiver);
   console.log(phone);
   console.log(receivingAddress);
-
 
   //! 리액트 쿠키
   const [cookies] = useCookies(["accessToken"]);
@@ -35,10 +33,7 @@ export default function Pay() {
   function userInfoAxios() {
     return axios
 
-      .get(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`,
-        options
-      )
+      .get(`${process.env.REACT_APP_AWS_EC2}/users/my-page`, options)
 
       .then((res) => {
         setUserData(res.data.data);
@@ -67,11 +62,7 @@ export default function Pay() {
         setReceivingAddress={setReceivingAddress}
       />
       <PayInfo />
-      <BtnGrp
-        receiver={receiver}
-        phone={phone}
-        receivingAddress={receivingAddress}
-      />
+      <BtnGrp receiver={receiver} phone={phone} receivingAddress={receivingAddress} />
     </Wrapper>
   );
 }

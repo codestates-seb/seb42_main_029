@@ -204,7 +204,7 @@ const SellerSignUpReqeust = () => {
   function sellerRequestAxios() {
     //!        페이지네이션 구현해야하는데 아직임
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/admin?page=1&size=1`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/admin?page=1&size=1`, noBodyOptions)
       .then((res) => {
         console.log(`판매자 신청 get 완료 res.data:`);
         console.log(res.data);
@@ -224,7 +224,7 @@ const SellerSignUpReqeust = () => {
   //! 판매자 신청 거절 함수
   const deleteSellerRequest = (sellerId) => {
     return axios
-      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/admin/rejected/${sellerId}`, noBodyOptions)
+      .patch(`${process.env.REACT_APP_AWS_EC2}/admin/rejected/${sellerId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -239,7 +239,7 @@ const SellerSignUpReqeust = () => {
   //! 판매자 신청 승인 함수
   const acceptSellerRequest = (sellerId) => {
     return axios
-      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/admin/approval/${sellerId}`, noBodyOptions)
+      .patch(`${process.env.REACT_APP_AWS_EC2}/admin/approval/${sellerId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);

@@ -5,8 +5,8 @@ import background_img from "../assets/productImage/img_dummy1_more.jpeg";
 import dummy from "../assets/dummy/dummy.json";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { useParams, Link  } from 'react-router-dom';
-import { addToCart } from '../Redux/action';
+import { useParams, Link } from "react-router-dom";
+import { addToCart } from "../Redux/action";
 
 const Container = styled.div`
   display: flex;
@@ -219,37 +219,32 @@ const Category = styled.div`
   margin-bottom: 20px;
 `;
 
-
-
 const ProductInfo = () => {
   const [data, setData] = useState([]);
-  
+
   const productId = useParams().productId;
-  const url = `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`;
+  const url = `${process.env.REACT_APP_AWS_EC2}/products/${productId}`;
 
   useEffect(() => {
-
     axios
-    .get(url)
-    .then((response) => {
-      setData(response.data.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .get(url)
+      .then((response) => {
+        setData(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-  const {name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus} = data;
+  const { name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus } = data;
 
   // Redux 장바구니에 추가하기
   const cartItems = useSelector((state) => state);
   const dispatch = useDispatch();
 
   function handleAddToCart(item) {
-    dispatch({type:"ADD_TO_CART", payload:item})
-
+    dispatch({ type: "ADD_TO_CART", payload: item });
   }
   return (
-    
     <Container>
       {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
       <ContainerTop>
@@ -269,9 +264,7 @@ const ProductInfo = () => {
           </TextContainer>
           <ButtonWrapper>
             {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
-            <ButtonStyle onClick={() => handleAddToCart({data})}>
-              장바구니에 담기
-            </ButtonStyle>
+            <ButtonStyle onClick={() => handleAddToCart({ data })}>장바구니에 담기</ButtonStyle>
           </ButtonWrapper>
         </TextArea>
       </ContainerTop>
@@ -335,8 +328,6 @@ const ProductInfo = () => {
         </Contents>
       </CommonContainer>
     </Container>
-    
   );
-
 };
 export default ProductInfo;

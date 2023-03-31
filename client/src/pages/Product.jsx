@@ -7,7 +7,7 @@ import axios from "axios";
 
 const Product = () => {
   const [data, setData] = useState([]);
-  const url = "http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products?page=1&size=12";
+  const url = `${process.env.REACT_APP_AWS_EC2}/products?page=1&size=12`;
   useEffect(() => {
     axios
       .get(url)
@@ -28,15 +28,15 @@ const Product = () => {
         {Array.isArray(data) &&
           data.map((datas) => (
             <ItemContents key={datas.productId}>
-              <Link to = {
-                {
+              <Link
+                to={{
                   pathname: `/ProductInfo/${datas.productId}`,
-                  state: {datas:datas}
-                }
-              }
-              style={{ color: "black", textDecoration: "none" }}>
+                  state: { datas: datas },
+                }}
+                style={{ color: "black", textDecoration: "none" }}
+              >
                 {/* Shop이미지는 thumbnailLink의 주소 그대로쓰기 */}
-              
+
                 <ItemsImage src={datas.thumbnailLink} alt="못찾겠따" />
                 <TextTitle>{datas.name}</TextTitle>
                 <TextPrice>{datas.price}원 </TextPrice>

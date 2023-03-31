@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
 export default function PayCompleteForm() {
-
   //1. 주문 수정 에서 get 한 것 받아오기
   const [userData, setUserData] = useState({});
 
@@ -20,10 +19,7 @@ export default function PayCompleteForm() {
 
   function userInfoAxios() {
     return axios
-      .get(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/`,
-        options
-      )
+      .get(`${process.env.REACT_APP_AWS_EC2}/`, options)
       .then((res) => {
         setUserData(res.data.data);
       })
@@ -36,9 +32,7 @@ export default function PayCompleteForm() {
     userInfoAxios();
   }, []);
 
-
   //2. 장바구니 api get 요소 받아오기,, 나오면 참고
-
 
   return (
     <Wrapper>
@@ -168,7 +162,6 @@ const PurchaserInfo = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-
     p {
       font-size: 0.7rem;
     }
@@ -180,7 +173,7 @@ const AccountInfo = styled.div`
   p {
     margin-bottom: 10px;
   }
-  
+
   @media screen and (max-width: 768px) {
     p {
       font-size: 0.7rem;

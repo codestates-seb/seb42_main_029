@@ -34,6 +34,8 @@ function App() {
   const Cart = React.lazy(() => import("./pages/Cart"));
   const NewItemRegistrationForm = React.lazy(() => import("./pages/NewItemRegistrationForm"));
 
+  const MainAnimation = React.lazy(() => import("./pages/MainAnimation"));
+
   return (
     <CookiesProvider>
       <BrowserRouter>
@@ -61,6 +63,8 @@ function App() {
               <Route path="/reviewForm/:productId" element={<ReviewForm />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/newItemForm" element={<NewItemRegistrationForm />} />
+              <Route path="/mainanimation" element={<MainAnimation />} />
+
               <Route path="/*" element={<ErrorPage />} />
             </Routes>
           </Suspense>

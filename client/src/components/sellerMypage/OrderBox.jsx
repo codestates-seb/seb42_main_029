@@ -13,9 +13,9 @@ function OrderBox(props) {
   const statusOption = [
     //배송상태 선택지
     { value: "status", name: el.orderStatus },
-    { value: "결제 대기", name: "결제 대기" },
-    { value: "결제 완료", name: "결제 완료" },
-    { value: "배송 준비중", name: "배송 준비중" },
+    { value: "결제대기", name: "결제대기" },
+    { value: "결제완료", name: "결제완료" },
+    { value: "배송 준비 중", name: "배송 준비 중" },
     { value: "배송 중", name: "배송 중" },
     { value: "배송 완료", name: "배송 완료" },
   ];
@@ -43,7 +43,7 @@ function OrderBox(props) {
     patchOrderData.status = status;
     patchOrderData.pardelNumber = pardelNumber;
     return axios
-      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${el.orderId}`, patchOrderData, withBodyOptions)
+      .patch(`${process.env.REACT_APP_AWS_EC2}/orders/${el.orderId}`, patchOrderData, withBodyOptions)
       .then((res) => {
         console.log(`주문정보 변경 성공 res.data:`);
         console.log(res.data);

@@ -436,7 +436,7 @@ function OrderList() {
 
   function OrdersAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders?page=${page}&size=12`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/orders?page=${page}&size=12`, noBodyOptions)
       .then((res) => {
         console.log(`orderdata get success res.data:`);
         console.log(res.data.data);
@@ -455,7 +455,7 @@ function OrderList() {
   const deleteOrder = (orderId) => {
     // e.preventDefault();
     return axios
-      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${orderId}`, noBodyOptions)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/orders/${orderId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);

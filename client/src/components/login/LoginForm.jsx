@@ -60,7 +60,7 @@ export default function LoginForm() {
       //! 로그인 POST
       return await axios
         .post(
-          "http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/auth/login",
+          `${process.env.REACT_APP_AWS_EC2}/auth/login`,
           {
             username,
             password,

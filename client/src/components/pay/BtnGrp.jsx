@@ -22,8 +22,7 @@ export default function BtnGrp() {
   const payBtn = async (e) => {
     e.preventDefault();
 
-
-    const postData= {}
+    const postData = {};
 
     const options = {
       headers: {
@@ -34,11 +33,7 @@ export default function BtnGrp() {
     // 주문 Post api > paycomplete
 
     return axios
-      .post(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders`,
-        postData,
-        options
-      )
+      .post(`${process.env.REACT_APP_AWS_EC2}/orders`, postData, options)
       .then((res) => {
         console.log(res);
         // navigate('/payComplete')
