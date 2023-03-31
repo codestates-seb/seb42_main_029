@@ -11,9 +11,9 @@ spring:
         show_sql: true
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
-    url: jdbc:mysql://database-1.ckzdqlg4gwg9.ap-northeast-2.rds.amazonaws.com:3306/modudogcat?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: admin
-    password: qwer1234
+    url: ${RDS_URL}
+    username: ${RDS_ID}
+    password: ${RDS_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 환경변수 처리로 해주세요.
 #config:

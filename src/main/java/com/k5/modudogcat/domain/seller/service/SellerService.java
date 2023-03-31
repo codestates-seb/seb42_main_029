@@ -90,6 +90,7 @@ public class SellerService {
                     throw new BusinessLogicException(ExceptionCode.SELLER_NOT_FOUND);
                 });
         verifiedApprovedSeller(findSeller);
+        //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!=> " + findSeller.getProduct().get(0).getOrderProductList().get(0).getOrder());
         return findSeller;
     }
 
