@@ -57,10 +57,10 @@ public class CartService {
                 .orElseThrow(() -> {
                     throw new BusinessLogicException(ExceptionCode.WRONG_PRODUCT_OR_CART);
                 });
-        if(findCartProduct.getProducts_count() == findCartProduct.getProduct().getStock()){
+        if(findCartProduct.getProductsCount() == findCartProduct.getProduct().getStock()){
             throw new RuntimeException("더이상 증가시킬 수 없습니다.");
         }else{
-            findCartProduct.setProducts_count(findCartProduct.getProducts_count() + 1);
+            findCartProduct.setProductsCount(findCartProduct.getProductsCount() + 1);
         }
         cartProductRepository.save(findCartProduct);
     }
@@ -71,10 +71,10 @@ public class CartService {
                     throw new BusinessLogicException(ExceptionCode.WRONG_PRODUCT_OR_CART);
                 });
 
-        if(findCartProduct.getProducts_count() == 0){
+        if(findCartProduct.getProductsCount() == 0){
             throw new RuntimeException("더이상 감소시킬 수 없습니다.");
         }else{
-            findCartProduct.setProducts_count(findCartProduct.getProducts_count() - 1);
+            findCartProduct.setProductsCount(findCartProduct.getProductsCount() - 1);
         }
         cartProductRepository.save(findCartProduct);
     }

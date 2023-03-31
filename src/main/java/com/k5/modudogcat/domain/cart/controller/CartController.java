@@ -1,11 +1,13 @@
 package com.k5.modudogcat.domain.cart.controller;
 
+import com.k5.modudogcat.domain.cart.dto.CartDto;
 import com.k5.modudogcat.domain.cart.entity.CartProduct;
 import com.k5.modudogcat.domain.cart.mapper.CartMapper;
 import com.k5.modudogcat.domain.cart.service.CartService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,8 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
     private final CartMapper cartMapper;
+    @Value("${config.domain}")
+    private String domain;
     // 장바구니에 상품 등록요청
     @PostMapping("/products/{product-id}")
     public ResponseEntity postProducts(@PathVariable("product-id") Long productId){
@@ -36,14 +40,16 @@ public class CartController {
     }
 
     // 장바구니 조회
-//    @GetMapping
-////    public ResponseEntity getCartProducts(Pageable pageable){
-////        Long userId = getUserPrincipleByJWT();
-////        Long cartId = cartService.findVerifedCart(userId).getCartId();
-////        Page<CartProduct> cartProductPages = cartService.findCartProducts(pageable, cartId);
-////        List<CartProduct> findCartProducts = cartProductPages.getContent();
-////        cartMapper.cartProductsToResponse(findCartProducts);
-////    }
+    @GetMapping
+    public ResponseEntity getCartProducts(Pageable pageable){
+        Long userId = getUserPrincipleByJWT();
+        Long cartId = cartService.findVerifedCart(userId).getCartId();
+        Page<CartProduct> cartProductPages = cartService.findCartProducts(pageable, cartId);
+        List<CartProduct> findCartProducts = cartProductPages.getContent();
+        CartDto.Response response = cartMapper.cartProductsToResponse(findCartProducts, cartId, domain);
+
+        return new ResponseEntity(response, HttpStatus.OK);
+    }
 
     // 장바구니의 상품 개수 추가 v1
     @PatchMapping("/products/{product-id}/plus")
