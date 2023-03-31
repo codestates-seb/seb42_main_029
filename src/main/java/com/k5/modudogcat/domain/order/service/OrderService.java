@@ -29,8 +29,8 @@ public class OrderService {
     public Order createOrder(Order order){
         // todo : (회원이 계속 뒤로가기를 눌러서) 주문이 무한적으로 생성되는것을 막을 방법을 고민해보자.
         Order savedOrder = orderRepository.save(order);
-        List<OrderProduct> orderProductList = productStockMinusByOrder(savedOrder);
-        savedOrder.setOrderProductList(orderProductList);
+//        List<OrderProduct> orderProductList = productStockMinusByOrder(savedOrder);
+//        savedOrder.setOrderProductList(orderProductList);
         return savedOrder;
     }
 
