@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +26,12 @@ public class CartService {
     private final CartProductRepository cartProductRepository;
     private final ProductService productService;
 
-    public CartProduct addToCart(Long userId, Long productId){
+    public CartProduct addToCart(Long cartId, Long productId){
+        // 이미 장바구니에 담겼는지 확인
+        verifiedCartProduct(cartId, productId);
+        
         CartProduct cartProduct = new CartProduct();
-        Cart findCart = findVerifedCart(userId);
+        Cart findCart = findVerifedCart(cartId);
         Product findProduct = productService.findProduct(productId);
         cartProduct.setProduct(findProduct);
         cartProduct.addCart(findCart);
@@ -35,8 +39,8 @@ public class CartService {
         return cartProductRepository.save(cartProduct);
     }
 
-    public Cart findVerifedCart(Long userId){
-        Cart findCart = cartRepository.findByUserUserId(userId)
+    public Cart findVerifedCart(Long cartId){
+        Cart findCart = cartRepository.findById(cartId)
                 .orElseThrow(() -> {
                     throw new BusinessLogicException(ExceptionCode.USER_NO_CART);
                 });
@@ -53,12 +57,9 @@ public class CartService {
     }
     @Transactional
     public void plusCount(Long productId, Long cartId){
-        CartProduct findCartProduct = cartProductRepository.findByProductProductIdAndCartCartId(productId, cartId)
-                .orElseThrow(() -> {
-                    throw new BusinessLogicException(ExceptionCode.WRONG_PRODUCT_OR_CART);
-                });
+        CartProduct findCartProduct = findVerfiedCartProduct(productId, cartId);
         if(findCartProduct.getProductsCount() == findCartProduct.getProduct().getStock()){
-            throw new RuntimeException("더이상 증가시킬 수 없습니다.");
+            throw new RuntimeException("더 이상 증가시킬 수 없습니다.");
         }else{
             findCartProduct.setProductsCount(findCartProduct.getProductsCount() + 1);
         }
@@ -66,17 +67,31 @@ public class CartService {
     }
 
     public void minusCount(Long productId, Long cartId){
-        CartProduct findCartProduct = cartProductRepository.findByProductProductIdAndCartCartId(productId, cartId)
-                .orElseThrow(() -> {
-                    throw new BusinessLogicException(ExceptionCode.WRONG_PRODUCT_OR_CART);
-                });
-
+        CartProduct findCartProduct = findVerfiedCartProduct(productId, cartId);
         if(findCartProduct.getProductsCount() == 0){
-            throw new RuntimeException("더이상 감소시킬 수 없습니다.");
+            throw new RuntimeException("더 이상 감소시킬 수 없습니다.");
         }else{
             findCartProduct.setProductsCount(findCartProduct.getProductsCount() - 1);
         }
         cartProductRepository.save(findCartProduct);
     }
+    @Transactional
+    public void removeCartProduct(Long productId, Long cartId){
+        cartProductRepository.deleteByProductProductIdAndCartCartId(productId, cartId);
+    }
 
+    public CartProduct findVerfiedCartProduct(Long productId, Long cartId){
+        CartProduct findCartProduct = cartProductRepository.findByProductProductIdAndCartCartId(productId, cartId)
+                .orElseThrow(() -> {
+                    throw new BusinessLogicException(ExceptionCode.WRONG_PRODUCT_OR_CART);
+                });
+        return findCartProduct;
+    }
+
+    private void verifiedCartProduct(Long cartId, Long productId){
+        Optional<CartProduct> optionalCartProduct = cartProductRepository.findByProductProductIdAndCartCartId(cartId, productId);
+        optionalCartProduct.ifPresent(cartProduct -> {
+                    throw new BusinessLogicException(ExceptionCode.CART_ALREADY_EXISTS);
+                });
+    }
 }
