@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .antMatchers("/admin/**").hasRole("ADMIN")
                         .antMatchers(HttpMethod.PATCH,"/sellers/**").hasRole("SELLER")
                         .antMatchers(HttpMethod.GET,"/sellers/**").hasRole("SELLER")
+                        .antMatchers("/carts/**").hasRole("BUYER")
                         .anyRequest().permitAll()
                 )
                 .httpBasic()

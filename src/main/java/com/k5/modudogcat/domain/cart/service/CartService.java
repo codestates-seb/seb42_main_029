@@ -58,7 +58,7 @@ public class CartService {
     @Transactional
     public void plusCount(Long productId, Long cartId){
         CartProduct findCartProduct = findVerfiedCartProduct(productId, cartId);
-        if(findCartProduct.getProductsCount() == findCartProduct.getProduct().getStock()){
+        if(findCartProduct.getProductsCount().equals(findCartProduct.getProduct().getStock())){
             throw new RuntimeException("더 이상 증가시킬 수 없습니다.");
         }else{
             findCartProduct.setProductsCount(findCartProduct.getProductsCount() + 1);

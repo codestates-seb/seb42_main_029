@@ -1,7 +1,11 @@
 package com.k5.modudogcat.domain.order.service;
 
 import com.k5.modudogcat.domain.order.entity.Order;
+import com.k5.modudogcat.domain.order.entity.OrderProduct;
 import com.k5.modudogcat.domain.order.repository.OrderRepository;
+import com.k5.modudogcat.domain.product.entity.Product;
+import com.k5.modudogcat.domain.product.repository.ProductRepository;
+import com.k5.modudogcat.domain.product.service.ProductService;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -11,17 +15,23 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-
+    private final ProductService productService;
+    @Transactional
     public Order createOrder(Order order){
-        // todo : 주문이 무한적으로 생성되는것을 막을 방법을 고민해보자.
-        return orderRepository.save(order);
+        // todo : (회원이 계속 뒤로가기를 눌러서) 주문이 무한적으로 생성되는것을 막을 방법을 고민해보자.
+        Order savedOrder = orderRepository.save(order);
+        List<OrderProduct> orderProductList = productStockMinusByOrder(savedOrder);
+        savedOrder.setOrderProductList(orderProductList);
+        return savedOrder;
     }
 
     public Order updateOrder(Order order, Long userId){
@@ -85,5 +95,21 @@ public class OrderService {
         if(LoginUserId != dbUserId){
             throw new BusinessLogicException(ExceptionCode.NOT_ALLOWED_USER);
         }
+    }
+
+    private List<OrderProduct> productStockMinusByOrder(Order order){
+        return order.getOrderProductList().stream()
+                .map(orderProduct -> {
+                    Product product = productService.findProduct(orderProduct.getProduct().getProductId());
+                    Long updateStock = product.getStock() - orderProduct.getProductCount();
+                    if (updateStock >= 0) {
+                        product.setStock(updateStock);
+                    } else {
+                        throw new RuntimeException("재고 수량보다 많이 주문 했습니다.");
+                    }
+                    orderProduct.setProduct(product);
+                    return orderProduct;
+                })
+                .collect(Collectors.toList());
     }
 }
