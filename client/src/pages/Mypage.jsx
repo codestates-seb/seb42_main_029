@@ -9,6 +9,7 @@ import axios from "axios";
 import Modal from "../components/modal";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import Fade from "react-reveal/Fade";
 
 function Mypage() {
   const data = {
@@ -161,41 +162,43 @@ function Mypage() {
       </ul>
       <div className="content">
         <div className="tab-content"> {focus === 0 ? <OrderList /> : focus === 1 ? <QnAList /> : focus === 2 ? <ReviewList /> : ""}</div>
-        <div className="user-information">
-          <div className="bold">회원정보 변경</div>
-          <div>이름</div>
-          <div className="cant-change">{data.name}</div>
-          <div>
-            아이디
-            {/* <button className="submit-button" style={{ float: "right" }}>
+        <Fade right>
+          <div className="user-information">
+            <div className="bold">회원정보 변경</div>
+            <div>이름</div>
+            <div className="cant-change">{data.name}</div>
+            <div>
+              아이디
+              {/* <button className="submit-button" style={{ float: "right" }}>
               중복검사
             </button> */}
-          </div>
-          <div className="cant-change">{data.loginId}</div>
-          <div>비밀번호</div>
-          <input onChange={(e) => setPassword(e.target.value)} defaultValue={data.password} type="password"></input>
-          <div>비밀번호 확인</div>
-          <input onChange={(e) => setPassword2(e.target.value)} defaultValue={data.password} type="password"></input>
-          <div>이메일</div>
-          <input onChange={(e) => setEmail(e.target.value)} defaultValue={data.email}></input>
-          <div>주소</div>
-          <input onChange={(e) => setAddress(e.target.value)} defaultValue={data.address}></input>
-          <div>
-            <button onClick={() => patchUserData(state.user.userId)} className="submit-button center">
-              저장
-            </button>
-            {/* <button onClick={showModal} className="submit-button center">
+            </div>
+            <div className="cant-change">{data.loginId}</div>
+            <div>비밀번호</div>
+            <input onChange={(e) => setPassword(e.target.value)} defaultValue={data.password} type="password"></input>
+            <div>비밀번호 확인</div>
+            <input onChange={(e) => setPassword2(e.target.value)} defaultValue={data.password} type="password"></input>
+            <div>이메일</div>
+            <input onChange={(e) => setEmail(e.target.value)} defaultValue={data.email}></input>
+            <div>주소</div>
+            <input onChange={(e) => setAddress(e.target.value)} defaultValue={data.address}></input>
+            <div>
+              <button onClick={() => patchUserData(state.user.userId)} className="submit-button center">
+                저장
+              </button>
+              {/* <button onClick={showModal} className="submit-button center">
               저장
             </button> */}
-            {/* {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={patchUserData} data={data.userId} keyword="회원정보 변경" />} */}
+              {/* {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={patchUserData} data={data.userId} keyword="회원정보 변경" />} */}
+            </div>
+            <div>
+              <button onClick={showModal} className="submit-button quit" style={{ float: "right" }}>
+                회원탈퇴
+              </button>
+              {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteUser} data={data.userId} keyword="회원탈퇴" />}
+            </div>
           </div>
-          <div>
-            <button onClick={showModal} className="submit-button quit" style={{ float: "right" }}>
-              회원탈퇴
-            </button>
-            {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteUser} data={data.userId} keyword="회원탈퇴" />}
-          </div>
-        </div>
+        </Fade>
       </div>
     </MypageBody>
   );
@@ -206,8 +209,8 @@ const MypageBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
-  font-family: 'Dovemayo_gothic';
-  
+  font-family: "Dovemayo_gothic";
+
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
     padding: 15px;

@@ -47,7 +47,7 @@ export default TopButton;
 const Wrapper = styled.div`
   .scroll__container {
     position: fixed;
-    right: 5%;
+    right: 9%;
     bottom: 5%;
     z-index: 1;
   }
@@ -57,14 +57,13 @@ const Wrapper = styled.div`
     padding: 15px 10px;
     background-color: #fdb8b8;
     color: #fff;
-    border: 1px solid rgb(210, 204, 193);
     border-radius: 50%;
     border: 3px solid #ff9696;
-
     outline: none;
     cursor: pointer;
   }
   #top:hover {
+    background-color: #f2a0a0;
     color: rgb(242, 99, 99);
   }
 `;
