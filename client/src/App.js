@@ -62,6 +62,7 @@ function App() {
               <Route path="/adminMypage" element={<AdminMypage />} />
               <Route path="/reviewForm/:productId" element={<ReviewForm />} />
               <Route path="/cart" element={<Cart />} />
+
               <Route path="/newItemForm" element={<NewItemRegistrationForm />} />
               <Route path="/mainanimation" element={<MainAnimation />} />
 

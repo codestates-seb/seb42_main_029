@@ -111,6 +111,7 @@ export default NewItemRegistrationForm;
 const NewItemRegistrationFormBody = styled.div`
   display: flex;
   justify-content: center;
+  font-family: 'Dovemayo_gothic';
 
   .center {
     display: flex;

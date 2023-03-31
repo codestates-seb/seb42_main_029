@@ -144,9 +144,10 @@ const LeftSide = styled.div`
   display: flex;
   justify-content: space-around;
   flex: 1;
-
+  font-family: 'Dovemayo_gothic';
+  
   p {
-    color: #363636;
+    color: black;
   }
   p:hover {
     cursor: pointer;
@@ -167,6 +168,7 @@ const MiddleSide = styled.div`
   flex: 1;
   font-size: 1.6rem;
   font-weight: 600;
+  font-family: 'Dovemayo_gothic';
 
   img {
     height: 7rem;
@@ -199,6 +201,7 @@ const RightSide = styled.div`
   display: flex;
   justify-content: space-around;
   flex: 1;
+  font-family: 'Dovemayo_gothic';
 
   p {
     color: black;

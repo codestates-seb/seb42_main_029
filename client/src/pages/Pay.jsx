@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import BtnGrp from "../components/pay/BtnGrp";
 import BuyerInfo from "../components/pay/BuyerInfo";
@@ -9,6 +10,12 @@ import ReceiverInfo from "../components/pay/ReceiverInfo";
 
 export default function Pay() {
   const [userData, setUserData] = useState({});
+
+  const allCharge = useLocation();
+  // console.log(allCharge.state);
+
+  //? 수량 미적용된 총 결제 금액
+  const payCharge = allCharge.state;
 
   //? receiver info
   const [receiver, setUsername] = useState("");
@@ -61,7 +68,7 @@ export default function Pay() {
         receivingAddress={receivingAddress}
         setReceivingAddress={setReceivingAddress}
       />
-      <PayInfo />
+      <PayInfo payCharge={payCharge} />
       <BtnGrp receiver={receiver} phone={phone} receivingAddress={receivingAddress} />
     </Wrapper>
   );
@@ -69,6 +76,7 @@ export default function Pay() {
 
 const Wrapper = styled.div`
   margin: 3rem 3rem;
+  font-family: "Dovemayo_gothic";
 `;
 
 const Title = styled.h1`

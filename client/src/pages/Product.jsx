@@ -56,6 +56,7 @@ const ItemContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
+  font-family: 'Dovemayo_gothic';
 `;
 
 // ItemContents
@@ -76,7 +77,7 @@ const ItemContents = styled.div`
 const ItemsImage = styled.img`
   display: flex;
   flex-direction: row;
-  width: 300px;
+  width:  270px;
   height: 270px;
 `;
 
@@ -104,4 +105,5 @@ const TextSelect = styled.div`
   font-size: 24px;
   margin-top: 100px;
   margin-bottom: 30px;
+  font-family: 'Dovemayo_gothic';
 `;
