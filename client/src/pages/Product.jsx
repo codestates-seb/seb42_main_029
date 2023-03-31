@@ -7,7 +7,7 @@ import axios from "axios";
 
 const Product = () => {
   const [data, setData] = useState([]);
-  const url = "http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products?page=1&size=12";
+  const url = `${process.env.REACT_APP_AWS_EC2}/products?page=1&size=12`;
   useEffect(() => {
     axios
       .get(url)
@@ -77,7 +77,7 @@ const ItemContents = styled.div`
 const ItemsImage = styled.img`
   display: flex;
   flex-direction: row;
-  width: 300px;
+  width:  270px;
   height: 270px;
 `;
 

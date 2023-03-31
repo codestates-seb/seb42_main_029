@@ -1,12 +1,158 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
-import img6 from "../assets/productImage/img_dummy6.png";
-import background_img from "../assets/productImage/img_dummy1_more.jpeg";
-import dummy from "../assets/dummy/dummy.json";
-import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { useParams, Link  } from 'react-router-dom';
-import { addToCart } from '../Redux/action';
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
+const ProductInfo = () => {
+  const [data, setData] = useState([]);
+
+  const navigate = useNavigate();
+  //! 리액트 쿠키
+  const [cookies] = useCookies(["accessToken"]);
+
+  const productId = useParams().productId;
+
+  // 아이템 get
+
+  const url = `${process.env.REACT_APP_AWS_EC2}/products/${productId}`;
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((response) => {
+        setData(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const {
+    name,
+    thumbnailLink,
+    productDetailLinks,
+    productDetail,
+    price,
+    stock,
+    productStatus,
+  } = data;
+
+  //장바구니에 추가하기
+
+  const addCartProduct = async (id) => {
+    const options = {
+      headers: {
+        Authorization: cookies.accessToken,
+      },
+      withCredentials: true,
+    };
+
+    return await axios
+      .post(
+        `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`,
+        { productId },
+        options
+      )
+      .then((res) => {
+        console.log(res);
+        alert("장바구니 담기 성공!")
+        navigate("/cart");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("담기실패");
+      });
+  };
+
+  return (
+    <Container>
+      {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
+      <ContainerTop>
+        <ItemsImage src={thumbnailLink} loading="lazy" />
+        <TextArea>
+          <TextContainer>
+            <b>상품명</b> <TextPosition>{name}</TextPosition>
+          </TextContainer>
+          <TextContainer>
+            <b>가격</b>
+            <TextPosition>
+              <TextOrange>{price}원</TextOrange>
+            </TextPosition>
+          </TextContainer>
+          <TextContainer>
+            <b>배송비</b> <TextPosition>무료</TextPosition>
+          </TextContainer>
+          <ButtonWrapper>
+            {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
+            <ButtonStyle onClick={() => addCartProduct(productId)}>
+              장바구니에 담기
+            </ButtonStyle>
+          </ButtonWrapper>
+        </TextArea>
+      </ContainerTop>
+
+      {/* 상단 버튼 구매하기, 장바구니에 담기  */}
+
+      {/* 상품설명/사진 */}
+      <Information>
+        <InformationText>제품 상세 설명</InformationText>
+        <img src={productDetailLinks} alt="상품설명img" loading="lazy" />
+      </Information>
+
+      {/* QnA */}
+      <CommonContainer>
+        <CommonTitle>
+          <Category>QnA</Category>
+          <QnaQuestionbtn>QnA 작성하기</QnaQuestionbtn>
+        </CommonTitle>
+
+        <Contents>
+          <CommonNo>
+            <QnaInfo>No</QnaInfo>
+          </CommonNo>
+          <CommonSubject>
+            <QnaInfo>Subject</QnaInfo>
+          </CommonSubject>
+          <CommonWriter>
+            <QnaInfo>Writer</QnaInfo>
+          </CommonWriter>
+          <CommonDate>
+            <QnaInfo>Date</QnaInfo>
+          </CommonDate>
+        </Contents>
+      </CommonContainer>
+
+      {/* 사용후기 */}
+      <CommonContainer>
+        <CommonTitle>
+          <Category>사용후기</Category>
+        </CommonTitle>
+
+        <Contents>
+          <CommonNo>
+            <QnaInfo>No</QnaInfo>
+          </CommonNo>
+          <Star>
+            <QnaInfo>Star</QnaInfo>
+          </Star>
+          <CommonCategory>
+            <QnaInfo>Category</QnaInfo>
+          </CommonCategory>
+          <CommonSubject>
+            <QnaInfo>Subject</QnaInfo>
+          </CommonSubject>
+          <CommonWriter>
+            <QnaInfo>Writer</QnaInfo>
+          </CommonWriter>
+          <CommonDate>
+            <QnaInfo>Date</QnaInfo>
+          </CommonDate>
+        </Contents>
+      </CommonContainer>
+    </Container>
+  );
+};
+export default ProductInfo;
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +161,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   margin: 3rem 0 0 0;
-  font-family: 'Dovemayo_gothic';
+  font-family: "Dovemayo_gothic";
 `;
 const ContainerTop = styled.div`
   display: flex;
@@ -219,125 +365,3 @@ const Category = styled.div`
   font-weight: 500;
   margin-bottom: 20px;
 `;
-
-
-
-const ProductInfo = () => {
-  const [data, setData] = useState([]);
-  
-  const productId = useParams().productId;
-  const url = `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`;
-
-  useEffect(() => {
-
-    axios
-    .get(url)
-    .then((response) => {
-      setData(response.data.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, []);
-  const {name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus} = data;
-
-  // Redux 장바구니에 추가하기
-  const cartItems = useSelector((state) => state);
-  const dispatch = useDispatch();
-
-  function handleAddToCart(item) {
-    dispatch({type:"ADD_TO_CART", payload:item})
-
-  }
-  return (
-    
-    <Container>
-      {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
-      <ContainerTop>
-        <ItemsImage src={thumbnailLink} loading="lazy" />
-        <TextArea>
-          <TextContainer>
-            <b>상품명</b> <TextPosition>{name}</TextPosition>
-          </TextContainer>
-          <TextContainer>
-            <b>가격</b>
-            <TextPosition>
-              <TextOrange>{price}원</TextOrange>
-            </TextPosition>
-          </TextContainer>
-          <TextContainer>
-            <b>배송비</b> <TextPosition>무료</TextPosition>
-          </TextContainer>
-          <ButtonWrapper>
-            {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
-            <ButtonStyle onClick={() => handleAddToCart({data})}>
-              장바구니에 담기
-            </ButtonStyle>
-          </ButtonWrapper>
-        </TextArea>
-      </ContainerTop>
-
-      {/* 상단 버튼 구매하기, 장바구니에 담기  */}
-
-      {/* 상품설명/사진 */}
-      <Information>
-        <InformationText>제품 상세 설명</InformationText>
-        <img src={productDetailLinks} alt="상품설명img" loading="lazy" />
-      </Information>
-
-      {/* QnA */}
-      <CommonContainer>
-        <CommonTitle>
-          <Category>QnA</Category>
-          <QnaQuestionbtn>QnA 작성하기</QnaQuestionbtn>
-        </CommonTitle>
-
-        <Contents>
-          <CommonNo>
-            <QnaInfo>No</QnaInfo>
-          </CommonNo>
-          <CommonSubject>
-            <QnaInfo>Subject</QnaInfo>
-          </CommonSubject>
-          <CommonWriter>
-            <QnaInfo>Writer</QnaInfo>
-          </CommonWriter>
-          <CommonDate>
-            <QnaInfo>Date</QnaInfo>
-          </CommonDate>
-        </Contents>
-      </CommonContainer>
-
-      {/* 사용후기 */}
-      <CommonContainer>
-        <CommonTitle>
-          <Category>사용후기</Category>
-        </CommonTitle>
-
-        <Contents>
-          <CommonNo>
-            <QnaInfo>No</QnaInfo>
-          </CommonNo>
-          <Star>
-            <QnaInfo>Star</QnaInfo>
-          </Star>
-          <CommonCategory>
-            <QnaInfo>Category</QnaInfo>
-          </CommonCategory>
-          <CommonSubject>
-            <QnaInfo>Subject</QnaInfo>
-          </CommonSubject>
-          <CommonWriter>
-            <QnaInfo>Writer</QnaInfo>
-          </CommonWriter>
-          <CommonDate>
-            <QnaInfo>Date</QnaInfo>
-          </CommonDate>
-        </Contents>
-      </CommonContainer>
-    </Container>
-    
-  );
-
-};
-export default ProductInfo;

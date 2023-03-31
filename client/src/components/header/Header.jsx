@@ -147,7 +147,7 @@ const LeftSide = styled.div`
   font-family: 'Dovemayo_gothic';
   
   p {
-    color: #363636;
+    color: black;
   }
   p:hover {
     cursor: pointer;
