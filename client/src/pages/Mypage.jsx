@@ -206,6 +206,8 @@ const MypageBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  font-family: 'Dovemayo_gothic';
+  
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
     padding: 15px;

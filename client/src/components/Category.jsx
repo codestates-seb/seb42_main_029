@@ -5,6 +5,7 @@ const StyledCategory = styled.div`
 
 display:flex;
 justify-content: center;
+font-family: 'Dovemayo_gothic';
 
 ul {
   background: gray;
@@ -32,6 +33,7 @@ a {
   -ms-transition: all .25s ease;
   -o-transition: all .25s ease;
   transition: all .25s ease;
+  font-family: 'Dovemayo_gothic';
 
   &:hover {
     display:flex;
@@ -49,6 +51,7 @@ const TextStyled = styled.span`
   align-items: center;
   font-size:32px;
   margin-top:80px;
+  font-family: 'Dovemayo_gothic';
 `
 const Category = () => {
   return (

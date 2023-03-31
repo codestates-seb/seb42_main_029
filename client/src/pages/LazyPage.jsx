@@ -13,4 +13,5 @@ const Wrapper = styled.div`
   align-items: center;
   font-size: 5rem;
   color: #fbd8d8;
+  font-family: 'Dovemayo_gothic';
 `;

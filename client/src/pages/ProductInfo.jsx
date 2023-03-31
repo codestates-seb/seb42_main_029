@@ -15,6 +15,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   margin: 3rem 0 0 0;
+  font-family: 'Dovemayo_gothic';
 `;
 const ContainerTop = styled.div`
   display: flex;

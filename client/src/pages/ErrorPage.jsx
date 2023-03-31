@@ -16,6 +16,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin-top: 5rem;
   margin-bottom: 17rem;
+  font-family: 'Dovemayo_gothic';
 
   img {
     width: 370px;

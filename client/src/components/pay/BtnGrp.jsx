@@ -65,6 +65,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin-top: 5rem;
 
+
   form {
     button {
       width: 170px;
@@ -73,6 +74,7 @@ const Wrapper = styled.div`
       cursor: pointer;
       border-radius: 5px;
       font-size: 1rem;
+      font-family: 'Dovemayo_gothic';
     }
     button:last-child {
       margin-left: 1rem;

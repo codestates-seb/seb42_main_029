@@ -36,6 +36,8 @@ const AdminBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  font-family: 'Dovemayo_gothic';
+  margin-bottom: 10rem;
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
     padding: 15px;

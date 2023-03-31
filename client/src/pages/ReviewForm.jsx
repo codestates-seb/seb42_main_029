@@ -118,6 +118,8 @@ const ReviewFormBody = styled.div`
   /* flex-direction: column; */
   justify-content: center;
   /* align-items: center */
+  font-family: 'Dovemayo_gothic';
+  
   .item-name {
     margin-top: 10px;
     font-size: x-large;
