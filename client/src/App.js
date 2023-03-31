@@ -83,6 +83,6 @@ export default App;
 const Wrapper = styled.div`
   max-width: 1450px;
   min-height: 100%;
-  padding-bottom: 200px;
+  padding-bottom: 40%;
   margin: 0 auto;
 `;
