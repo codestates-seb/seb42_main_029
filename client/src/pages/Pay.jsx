@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import BtnGrp from "../components/pay/BtnGrp";
 import BuyerInfo from "../components/pay/BuyerInfo";
@@ -10,7 +11,8 @@ import ReceiverInfo from "../components/pay/ReceiverInfo";
 export default function Pay() {
   const [userData, setUserData] = useState({});
 
-
+  const allCharge = useLocation()
+  
   //? receiver info
   const [receiver, setUsername] = useState("");
   const [phone, setPhone] = useState("");
@@ -36,7 +38,7 @@ export default function Pay() {
     return axios
 
       .get(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/my-page`,
+        `${process.env.REACT_APP_AWS_EC2}/users/my-page`,
         options
       )
 
