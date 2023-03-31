@@ -1,9 +1,13 @@
 package com.k5.modudogcat.domain.order.dto;
 
+import com.k5.modudogcat.domain.order.entity.OrderProduct;
+import com.k5.modudogcat.domain.product.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 public class OrderProductDto {
     @Setter
@@ -12,7 +16,26 @@ public class OrderProductDto {
     @AllArgsConstructor
     public static class Post{
         private Long productId;
-        private Integer count;
+        private Long productCount;
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class Response {
+        private Long productsCount;
+        private String productName;
+        private Long productPrice;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DetailResponse {
+        private Long productsCount;
+        private String parcelNumber;
+        private OrderProduct.OrderProductStatus orderProductStatus;
+        private ProductDto.Response productResponse;
+    }
 }

@@ -29,6 +29,7 @@ public class CartController {
     @Value("${config.domain}")
     private String domain;
     // 장바구니에 상품 등록요청
+    // NOTE : 고정해둔 Buyer 말고는 장바구니가 안담아지고 있음 + Seller도 담아지고 있음.
     @PostMapping("/products/{product-id}")
     public ResponseEntity postProducts(@PathVariable("product-id") Long productId){
 

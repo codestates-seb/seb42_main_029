@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.order.mapper;
 
 import com.k5.modudogcat.domain.order.dto.OrderDto;
+import com.k5.modudogcat.domain.order.dto.OrderProductDto;
 import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.order.entity.OrderProduct;
 import com.k5.modudogcat.domain.product.dto.ProductDto;
@@ -41,6 +42,7 @@ public interface OrderMapper {
         order.setReceiver( postDto.getReceiver() );
         order.setPhone( postDto.getPhone() );
         order.setReceivingAddress( postDto.getReceivingAddress() );
+        order.setTotalPrice( postDto.getTotalPrice() );
 
         List<OrderProduct> orderProducts = postDto.getOrderProductDtos().stream()
                 .map(orderProductDto -> {
@@ -49,7 +51,7 @@ public interface OrderMapper {
                     product.setProductId(orderProductDto.getProductId());
                     orderProduct.setOrder(order);
                     orderProduct.setProduct(product);
-                    orderProduct.setCount(orderProductDto.getCount());
+                    orderProduct.setProductCount(orderProductDto.getProductCount());
                     return orderProduct;
                 }).collect(Collectors.toList());
         order.setUser(fkUser);
@@ -69,19 +71,23 @@ public interface OrderMapper {
         response.setReceiver( order.getReceiver() );
         response.setPhone( order.getPhone() );
         response.setReceivingAddress( order.getReceivingAddress() );
-        response.setOrderStatus( order.getOrderStatus() );
+        response.setTotalPrice( order.getTotalPrice() );
         response.setPayMethod( order.getPayMethod() );
-        response.setParcelNumber( order.getParcelNumber() );
+        response.setOrderStatus( order.getOrderStatus() );
         response.setCreatedAt( order.getCreatedAt() );
         response.setModifiedAt( order.getModifiedAt() );
 
         ProductDto.Response productResponse = new ProductDto.Response();
-        List<ProductDto.Response> productDtoResponses = order.getOrderProductList().stream()
+        List<OrderProductDto.DetailResponse> orderProductDetailResponse = order.getOrderProductList().stream()
                 .map(orderProduct -> {
-                    return ProductMapper.productToResponse(orderProduct.getProduct(), domain);
-                })
-                .collect(Collectors.toList());
-        response.setProductResponse(productDtoResponses);
+                    OrderProductDto.DetailResponse detailResponse = new OrderProductDto.DetailResponse();
+                    detailResponse.setProductsCount(orderProduct.getProductCount());
+                    detailResponse.setParcelNumber(orderProduct.getParcelNumber());
+                    detailResponse.setOrderProductStatus(orderProduct.getOrderProductStatus());
+                    detailResponse.setProductResponse(ProductMapper.productToResponse(orderProduct.getProduct(), domain));
+                    return detailResponse;
+                }).collect(Collectors.toList());
+        response.setDetailResponses(orderProductDetailResponse);
 
         return response;
     }

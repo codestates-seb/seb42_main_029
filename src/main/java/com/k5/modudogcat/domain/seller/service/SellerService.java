@@ -149,14 +149,14 @@ public class SellerService {
         }
 
 
-    public Order findOrder(Long sellerId, Order order, Order.OrderStatus orderStatus) {
-        //주문의 판매자 id, 로그인한 판매자 id 검증
-        if(order.getSeller().getSellerId() != sellerId) {
-            throw new BusinessLogicException(ExceptionCode.SELLER_NOT_ALLOWED);}
-        //디비에 추가
-        order.setOrderStatus(orderStatus);
-        return orderRepository.save(order);
-    }
+//    public Order findOrder(Long sellerId, Order order, Order.OrderStatus orderStatus) {
+//        //주문의 판매자 id, 로그인한 판매자 id 검증
+//        if(order.getSeller().getSellerId() != sellerId) {
+//            throw new BusinessLogicException(ExceptionCode.SELLER_NOT_ALLOWED);}
+//        //디비에 추가
+//        order.setOrderStatus(orderStatus);
+//        return orderRepository.save(order);
+//    }
 
     //결제 상태 변경 시 검증
     private void verifiedOrderStatus(Order order, Order.OrderStatus orderStatus) {
