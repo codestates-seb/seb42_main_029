@@ -31,29 +31,13 @@ public class Order extends Auditable {
     private String phone;
     @Column(nullable = false)
     private String receivingAddress;
-    @Enumerated(value = EnumType.STRING)
-    private OrderStatus orderStatus = OrderStatus.ORDER_PAY_STANDBY;
+    private Long totalPrice;
     @Enumerated(value = EnumType.STRING)
     private PayMethod payMethod = PayMethod.NO_BANK_BOOK;
-    private Integer parcelNumber;
+    @Enumerated(value = EnumType.STRING)
+    private OrderStatus orderStatus = OrderStatus.ORDER_ACTIVE;
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<OrderProduct> orderProductList = new ArrayList<>();
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
-    public enum OrderStatus{
-        ORDER_PAY_STANDBY("결제대기"),
-        ORDER_PAY_FINISH("결제완료"),
-        DELIVERY_PREPARE("베송 준비 중"),
-        DELIVERY_ING("배송 중"),
-        DELIVERY_COMPLETE("배송 완료"),
-        ORDER_DELETE("삭제된주문");
-        @Getter
-        private final String status;
-        OrderStatus(String status){
-            this.status = status;
-        }
-    }
 
     public enum PayMethod{
         NO_BANK_BOOK("무통장");
@@ -61,6 +45,15 @@ public class Order extends Auditable {
         @Getter
         private final String status;
         PayMethod(String status){
+            this.status = status;
+        }
+    }
+    public enum OrderStatus{
+        ORDER_ACTIVE("활성화주문"),
+        ORDER_DELETE("삭제된주문");
+        @Getter
+        private final String status;
+        OrderStatus(String status){
             this.status = status;
         }
     }

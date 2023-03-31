@@ -59,9 +59,6 @@ public class Seller extends Auditable {
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
     private List<Product> product;
 
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE)
-    private List<Order> orders;
-
     public enum SellerStatus {
         SELLER_WAITING("승인 대기 중"),
         SELLER_APPROVE("가입 승인"),

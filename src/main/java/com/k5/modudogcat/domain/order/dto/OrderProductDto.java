@@ -12,7 +12,16 @@ public class OrderProductDto {
     @AllArgsConstructor
     public static class Post{
         private Long productId;
-        private Integer count;
+        private Long productCount;
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class Response {
+        private Long productsCount;
+        private String productName;
+        private Long productPrice;
+
+    }
 }

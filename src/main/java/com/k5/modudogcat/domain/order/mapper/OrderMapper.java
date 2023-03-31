@@ -41,6 +41,7 @@ public interface OrderMapper {
         order.setReceiver( postDto.getReceiver() );
         order.setPhone( postDto.getPhone() );
         order.setReceivingAddress( postDto.getReceivingAddress() );
+        order.setTotalPrice( postDto.getTotalPrice() );
 
         List<OrderProduct> orderProducts = postDto.getOrderProductDtos().stream()
                 .map(orderProductDto -> {
@@ -49,7 +50,7 @@ public interface OrderMapper {
                     product.setProductId(orderProductDto.getProductId());
                     orderProduct.setOrder(order);
                     orderProduct.setProduct(product);
-                    orderProduct.setCount(orderProductDto.getCount());
+                    orderProduct.setProductCount(orderProductDto.getProductCount());
                     return orderProduct;
                 }).collect(Collectors.toList());
         order.setUser(fkUser);
@@ -71,7 +72,6 @@ public interface OrderMapper {
         response.setReceivingAddress( order.getReceivingAddress() );
         response.setOrderStatus( order.getOrderStatus() );
         response.setPayMethod( order.getPayMethod() );
-        response.setParcelNumber( order.getParcelNumber() );
         response.setCreatedAt( order.getCreatedAt() );
         response.setModifiedAt( order.getModifiedAt() );
 
