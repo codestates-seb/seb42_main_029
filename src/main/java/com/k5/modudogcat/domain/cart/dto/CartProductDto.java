@@ -1,19 +1,18 @@
 package com.k5.modudogcat.domain.cart.dto;
 
+import com.k5.modudogcat.domain.product.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-public class CartDto {
+public class CartProductDto {
     @Setter
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response{
-        private Long cartId;
-        private List<CartProductDto.Response> cartProductDtoList;
+        private ProductDto.Response productResponse;
+        private Integer productsCount;
     }
 }

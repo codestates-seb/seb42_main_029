@@ -26,10 +26,10 @@ logging:
           jpa: DEBUG
       hibernate:
         SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
 
 jwt:
   key: ${JWT_SECRET_KEY}
