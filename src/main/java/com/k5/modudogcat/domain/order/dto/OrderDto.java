@@ -56,12 +56,12 @@ public class OrderDto {
         private String receiver;
         private String phone;
         private String receivingAddress;
-        private Order.OrderStatus orderStatus;
+        private Long totalPrice;
         private Order.PayMethod payMethod;
-        private Integer parcelNumber;
+        private Order.OrderStatus orderStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        private List<ProductDto.Response> productResponse;
+        private List<OrderProductDto.DetailResponse> detailResponses;
         public String getOrderStatus() {
             return orderStatus.getStatus();
         }

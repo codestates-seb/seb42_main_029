@@ -27,7 +27,7 @@ public class OrderController {
     private static final String ORDER_DEFAULT_URL = "/orders/";
     @Value("${config.domain}")
     private String domain;
-    // 상품상세에서 바로 구매
+    // 장바구니에서 온 여러 상품과 수량으로 주문이 생성된다.
     @PostMapping
     public ResponseEntity postOrder(@RequestBody OrderDto.Post postDto){
 //        long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
