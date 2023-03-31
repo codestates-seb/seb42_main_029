@@ -33,6 +33,7 @@ public class UserService {
         User verifiedUser = verifiedAdmin(user);
         // todo : Roles가 관리자면 관리자 객체를 생성시켜 넣고 판매자면 판매자 객체를 생성시켜 넣기
         // UserRoles 클래스와 UserAuthenticationSuccessHandler.sendAuthorization() 참고!
+        makeCart(verifiedUser);
         return userRepository.save(verifiedUser);
     }
 
@@ -133,5 +134,11 @@ public class UserService {
             //findVerifiedAdmin(findUser);
         }
         return findUser;
+    }
+
+    private void makeCart(User user){
+        if(user.getRoles().contains("SELLER") || user.getRoles().contains("SELLER")){
+            user.setCart(null);
+        }
     }
 }

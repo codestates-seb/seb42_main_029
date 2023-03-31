@@ -60,7 +60,7 @@ public class OrderService {
                 pageable.getPageSize(),
                 pageable.getSort());
         List<Order> findOrders = orderRepository.findAllByOrderStatusNotLikeAndUserUserId(Order.OrderStatus.ORDER_DELETE, userId);
-        // NOTE: Order-OrderProduct-Product를 보면 왜 나중에 추가해준 이미지파일은 영속화 되지 않았을까요?
+
         return new PageImpl<>(findOrders, of, findOrders.size());
     }
 

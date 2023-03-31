@@ -1,10 +1,14 @@
 package com.k5.modudogcat.domain.cart.entity;
 
 import com.k5.modudogcat.domain.product.entity.Product;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class CartProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,4 +19,12 @@ public class CartProduct {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    private Integer productsCount = 1;
+
+    public void addCart(Cart cart){
+        this.cart = cart;
+        if(!cart.getCartProductList().contains(this)){
+            cart.getCartProductList().add(this);
+        }
+    }
 }
