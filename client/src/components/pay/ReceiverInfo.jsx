@@ -58,7 +58,7 @@ export default function ReceiverInfo({
 
     return await axios
       .patch(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${id}`,
+        `${process.env.REACT_APP_AWS_EC2}/orders/${id}`,
         patchData,
         headers
       )
@@ -191,7 +191,7 @@ const RightWrapper = styled.div`
       border-radius: 5px;
       background-color: #e8cccc;
       cursor: pointer;
-      font-family: 'Dovemayo_gothic';
+      font-family: "Dovemayo_gothic";
 
       :hover {
         color: #ffffff;

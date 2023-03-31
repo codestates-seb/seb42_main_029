@@ -10,8 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const Cart = () => {
   // const productId = useParams().productId;
 
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   //! 장바구니 get
 
@@ -92,7 +91,7 @@ const Cart = () => {
     return await axios
       .patch(`${process.env.REACT_APP_AWS_EC2}/carts/products/`, options)
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         window.location.reload();
       })
       .catch((err) => {
@@ -104,19 +103,18 @@ const Cart = () => {
 
   // 가격 받아온것
   const charge = cartData.map((el) => {
-    return el.productResponse.price
+    return el.productResponse.price;
   });
 
   // 가격 받아온거 더한 거
-  const allCharge = charge.reduce((a,b) => a+b, 0)
+  const allCharge = charge.reduce((a, b) => a + b, 0);
   // console.log(allCharge)
 
   //! 주문하러가기
-  
-  const payBtn = () => {
-    navigate('/pay' ,{ state: allCharge })
-  }
 
+  const payBtn = () => {
+    navigate("/pay", { state: allCharge });
+  };
 
   return (
     <Container>

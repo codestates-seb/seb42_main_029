@@ -11,8 +11,12 @@ import ReceiverInfo from "../components/pay/ReceiverInfo";
 export default function Pay() {
   const [userData, setUserData] = useState({});
 
-  const allCharge = useLocation()
-  
+  const allCharge = useLocation();
+  // console.log(allCharge.state);
+
+  //? 수량 미적용된 총 결제 금액
+  const payCharge = allCharge.state
+
   //? receiver info
   const [receiver, setUsername] = useState("");
   const [phone, setPhone] = useState("");
@@ -21,7 +25,6 @@ export default function Pay() {
   console.log(receiver);
   console.log(phone);
   console.log(receivingAddress);
-
 
   //! 리액트 쿠키
   const [cookies] = useCookies(["accessToken"]);
@@ -37,10 +40,7 @@ export default function Pay() {
   function userInfoAxios() {
     return axios
 
-      .get(
-        `${process.env.REACT_APP_AWS_EC2}/users/my-page`,
-        options
-      )
+      .get(`${process.env.REACT_APP_AWS_EC2}/users/my-page`, options)
 
       .then((res) => {
         setUserData(res.data.data);
@@ -68,7 +68,7 @@ export default function Pay() {
         receivingAddress={receivingAddress}
         setReceivingAddress={setReceivingAddress}
       />
-      <PayInfo />
+      <PayInfo payCharge={payCharge} />
       <BtnGrp
         receiver={receiver}
         phone={phone}
@@ -80,7 +80,7 @@ export default function Pay() {
 
 const Wrapper = styled.div`
   margin: 3rem 3rem;
-  font-family: 'Dovemayo_gothic';
+  font-family: "Dovemayo_gothic";
 `;
 
 const Title = styled.h1`
