@@ -42,8 +42,8 @@ public class ProductService {
 
         return savedProduct;
     }
+    // todo: sellerId를 이용해서 조회하는 메서드도 필요함.
     public Product findProduct(Long productId){
-        // todo: sellerId 또한 where 문 조건에 넣어서 조회하도록 수정해야함
         Optional<Product> optionalProduct = productRepository.findById(productId);
         Product verifiedProduct = optionalProduct.orElseThrow(() -> {
             throw new BusinessLogicException(ExceptionCode.PRODUCT_NOT_FOUND);
