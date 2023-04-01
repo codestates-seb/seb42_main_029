@@ -24,7 +24,7 @@ export default function MobileMenu({ setMobileModalOpen, modalOpen, setModalOpen
         <WrapperOut>
           <Wrapper>
             <MenuList>
-              <Link to="/login" style={{ textDecorationLine: "none" }}>
+              <Link to="/login" style={{ textDecorationLine: "none" , cursor: "pointer"}}>
                 <p>Login</p>
               </Link>
 
