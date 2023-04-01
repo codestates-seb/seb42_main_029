@@ -29,12 +29,13 @@ public class CartController {
     @Value("${config.domain}")
     private String domain;
     // 장바구니에 상품 등록요청
+    // NOTE : 고정해둔 Buyer 말고는 장바구니가 안담아지고 있음 + Seller도 담아지고 있음.
     @PostMapping("/products/{product-id}")
     public ResponseEntity postProducts(@PathVariable("product-id") Long productId){
 
         Long userId = getUserPrincipleByJWT();
-
-        cartService.addToCart(userId, productId);
+        Long cartId = cartService.findVerifedCart(userId).getCartId();
+        cartService.addToCart(cartId, productId);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -71,7 +72,17 @@ public class CartController {
     }
 
 
-    // 장바구니 삭제
+    // 장바구니 속 상품 삭제
+    @DeleteMapping("/products/{product-id}")
+    public ResponseEntity deleteProducts(@PathVariable("product-id") Long productId){
+
+        Long userId = getUserPrincipleByJWT();
+        Long cartId = cartService.findVerifedCart(userId).getCartId();
+        cartService.removeCartProduct(productId, cartId);
+
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
     private Long getUserPrincipleByJWT(){
         return Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }

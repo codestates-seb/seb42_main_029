@@ -101,6 +101,11 @@ public class SellerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-
+    //토큰에서 sellerId 뽑아오기
+    private Long tokenSellerId() {
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = Long.parseLong(principal);
+        return sellerService.findSellerIdById(userId);
+    }
 
 }

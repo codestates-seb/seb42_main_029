@@ -31,8 +31,8 @@ public class Product extends Auditable {
     private List<ProductDetailImage> productDetailImages = new ArrayList<>();
     @Lob
     private String productDetail;
-    private Integer price;
-    private Integer stock;
+    private Long price;
+    private Long stock;
     @Enumerated(value = EnumType.STRING)
     private ProductStatus productStatus = ProductStatus.PRODUCT_ACTIVE;
     @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

@@ -27,7 +27,7 @@ public class UserService {
 
     public User createUser(User user){
         verifiedByLoginId(user);
-        verifiedByEmail(user);
+//        verifiedByEmail(user);
         setEncodedPassword(user);
         setDefaultRole(user);
         User verifiedUser = verifiedAdmin(user);

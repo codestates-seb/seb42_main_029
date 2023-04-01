@@ -17,8 +17,8 @@ public class ProductDto {
         private Long sellerId;
         private String name;
         private String productDetail;
-        private Integer price;
-        private Integer stock;
+        private Long price;
+        private Long stock;
     }
 
     @Setter
@@ -31,8 +31,8 @@ public class ProductDto {
         private String thumbnailLink;
         private List<String> productDetailLinks;
         private String productDetail;
-        private Integer price;
-        private Integer stock;
+        private Long price;
+        private Long stock;
         private Product.ProductStatus productStatus;
 
         public String getProductStatus(){
