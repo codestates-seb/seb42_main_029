@@ -63,8 +63,8 @@ export default function MobileMenu({ setMobileModalOpen, modalOpen, setModalOpen
                 <p>About</p>
               </Link>
 
-              <Link to="/about" style={{ textDecorationLine: "none" }}>
-                <p>About</p>
+              <Link to="/mypage" style={{ textDecorationLine: "none" }}>
+                <p>My Page</p>
               </Link>
 
               <Link to="/cart" style={{ textDecorationLine: "none" }}>
