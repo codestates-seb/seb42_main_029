@@ -94,4 +94,9 @@ public class CartService {
                     throw new BusinessLogicException(ExceptionCode.CART_ALREADY_EXISTS);
                 });
     }
+
+    public void removeCartProductsByCartId(Long userId){
+        Long cartId = findVerifedCart(userId).getCartId();
+        cartProductRepository.deleteAllByCartCartId(cartId);
+    }
 }
