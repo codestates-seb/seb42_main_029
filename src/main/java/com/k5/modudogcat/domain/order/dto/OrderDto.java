@@ -24,6 +24,8 @@ public class OrderDto {
         private String phone;
         @NotBlank(message = "수령지는 필수 입력 값입니다.")
         private String receivingAddress;
+        @NotBlank(message = "총 금액은 필수 입력 값입니다.")
+        private Long totalPrice;
         private List<OrderProductDto.Post> orderProductDtos;
     }
 
@@ -68,3 +70,4 @@ public class OrderDto {
         }
     }
 }
+

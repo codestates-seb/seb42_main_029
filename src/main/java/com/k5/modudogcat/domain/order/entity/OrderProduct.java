@@ -23,6 +23,21 @@ public class OrderProduct {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    private Long productCount;
+    private String parcelNumber;
+    @Enumerated(value = EnumType.STRING)
+    private OrderProductStatus orderStatus = OrderProductStatus.ORDER_PAY_STANDBY;
 
-    private Integer count;
+    public enum OrderProductStatus{
+        ORDER_PAY_STANDBY("결제대기"),
+        ORDER_PAY_FINISH("결제완료"),
+        DELIVERY_PREPARE("베송 준비 중"),
+        DELIVERY_ING("배송 중"),
+        DELIVERY_COMPLETE("배송 완료");
+        @Getter
+        private final String status;
+        OrderProductStatus(String status){
+            this.status = status;
+        }
+    }
 }

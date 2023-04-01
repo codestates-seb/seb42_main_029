@@ -8,7 +8,6 @@ import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.product.mapper.ProductMapper;
 import com.k5.modudogcat.domain.user.entity.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public interface OrderMapper {
                     product.setProductId(orderProductDto.getProductId());
                     orderProduct.setOrder(order);
                     orderProduct.setProduct(product);
-                    orderProduct.setCount(orderProductDto.getCount());
+                    orderProduct.setProductCount(orderProductDto.getCount());
                     return orderProduct;
                 }).collect(Collectors.toList());
         order.setUser(fkUser);
