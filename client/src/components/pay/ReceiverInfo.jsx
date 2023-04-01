@@ -1,6 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import React from "react";
 import styled from "styled-components";
 
 export default function ReceiverInfo({

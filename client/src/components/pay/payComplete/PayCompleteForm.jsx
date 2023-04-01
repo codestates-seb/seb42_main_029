@@ -1,44 +1,10 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 export default function PayCompleteForm() {
+  const userInfo = useLocation();
+  console.log(userInfo);
 
-  //1. 주문 수정 에서 get 한 것 받아오기
-  const [userData, setUserData] = useState({});
-
-  //! 리액트 쿠키
-  const [cookies] = useCookies(["accessToken"]);
-
-  // 구매자 정보 get ,, users/mypage
-  const options = {
-    headers: {
-      Authorization: cookies.accessToken,
-    },
-    withCredentials: true,
-  };
-
-  function userInfoAxios() {
-    return axios
-      .get(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/`,
-        options
-      )
-      .then((res) => {
-        setUserData(res.data.data);
-      })
-      .catch((err) => {
-        console.log("userData GET error");
-      });
-  }
-
-  useEffect(() => {
-    userInfoAxios();
-  }, []);
-
-
-  //2. 장바구니 api get 요소 받아오기,, 나오면 참고
-
+  console.log(userInfo.state.address);
 
   return (
     <Wrapper>
@@ -59,20 +25,20 @@ export default function PayCompleteForm() {
         <RightWrapper>
           {/* 배송지 정보 내용 */}
           <PurchaserInfo>
-            <p>{`이름 : 댕냥`}</p>
-            <p>{`연락처 : 010-1111-2222`}</p>
-            <p>{`주소 : 부산시 해운대구 해운대로 xx-qqq, @???`}</p>
+            <p>이름 : {`${userInfo.state.name}`}</p>
+            <p>연락처 : {`${userInfo.state.phoneNum}`}</p>
+            <p>주소 : {`${userInfo.state.address}`}</p>
           </PurchaserInfo>
 
           {/* 입금계좌안내 내용 */}
           <AccountInfo>
             <p>{`은행명 : 농협`}</p>
-            <p>{`계좌번호 : 3521023048302`}</p>
-            <p>{`예금주 : 댕냥`}</p>
+            <p>{`계좌번호 : 351012438302`}</p>
+            <p>{`예금주 : 모두댕냥 관리자`}</p>
           </AccountInfo>
 
           {/* 입금액 === 총 결제금액 */}
-          <p>{`${40000} 원`}</p>
+          <p>{`${userInfo.state.totalPrice} 원`}</p>
         </RightWrapper>
       </UnderWrapper>
     </Wrapper>
@@ -168,7 +134,6 @@ const PurchaserInfo = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-
     p {
       font-size: 0.7rem;
     }
@@ -180,7 +145,7 @@ const AccountInfo = styled.div`
   p {
     margin-bottom: 10px;
   }
-  
+
   @media screen and (max-width: 768px) {
     p {
       font-size: 0.7rem;
