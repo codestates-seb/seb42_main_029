@@ -1,7 +1,8 @@
 package com.k5.modudogcat.domain.review.entity;
 
 import com.k5.modudogcat.audit.Auditable;
-import com.k5.modudogcat.domain.review.entity.image.Image;
+import com.k5.modudogcat.domain.product.entity.Product;
+import com.k5.modudogcat.domain.review.entity.reviewImage.Image;
 import com.k5.modudogcat.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,8 +35,10 @@ public class Review extends Auditable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    // todo: 상품과 연관관계 매핑
     public enum ReviewStatus{
         REVIEW_ACTIVE("활성중"),
         REVIEW_DELETE("삭제된리뷰");

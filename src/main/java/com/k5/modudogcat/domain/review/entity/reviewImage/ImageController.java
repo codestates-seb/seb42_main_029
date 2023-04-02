@@ -1,4 +1,4 @@
-package com.k5.modudogcat.domain.review.entity.image;
+package com.k5.modudogcat.domain.review.entity.reviewImage;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController {
     private final ImageService imageService;
 
-    @GetMapping("/images/{image-id}")
+    @GetMapping("/reviewImages/{image-id}")
     public ResponseEntity<byte[]> getImage(@PathVariable("image-id") Long imageId){
         Image image = imageService.findImage(imageId);
         byte[] imageByteArray = image.getImage();

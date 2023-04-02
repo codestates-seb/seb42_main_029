@@ -1,6 +1,6 @@
 package com.k5.modudogcat.domain.review.service;
 
-import com.k5.modudogcat.domain.review.entity.image.Image;
+import com.k5.modudogcat.domain.review.entity.reviewImage.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import com.k5.modudogcat.domain.review.repository.ReviewRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
@@ -22,6 +22,7 @@ public class ReviewService {
     @Transactional
     public Review createReview(Review review, List<Image> images){
         //todo: 해당 유저의 상품, 리뷰가 존재할 시, 리뷰가 이미 존재하고 있음을 알리자.
+        // todo : 리뷰가 생성되면, 상품에도 리뷰가 추가되어야한다.
         Review saveReviewed = reviewRepository.save(review);
         if(images != null){
             List<Image> collect = images.stream()
@@ -43,14 +44,22 @@ public class ReviewService {
         return verifiedReview;
     }
 
-    public Page<Review> findReviews(Pageable pageable){
+    public Page<Review> findUserReviews(Pageable pageable, Long userId){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 Sort.by("createdAt").descending());
-        List<Review> findReviews = reviewRepository.findAllByReviewStatus(Review.ReviewStatus.REVIEW_ACTIVE);
-        PageImpl<Review> reviewPages = new PageImpl<>(findReviews, of, findReviews.size());
+        Page<Review> findReviews = reviewRepository.findAllByReviewStatusAndUserUserId(Review.ReviewStatus.REVIEW_ACTIVE, userId, of);
 
-        return reviewPages;
+        return findReviews;
+    }
+
+    public Page<Review> findProductReviews(Pageable pageable, Long productId){
+        PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
+                pageable.getPageSize(),
+                Sort.by("createdAt").descending());
+        Page<Review> findReviews = reviewRepository.findAllByReviewStatusAndProductProductId(Review.ReviewStatus.REVIEW_ACTIVE, productId, of);
+
+        return findReviews;
     }
 
     public void removeReview(Long reviewId){

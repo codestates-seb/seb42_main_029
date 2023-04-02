@@ -91,10 +91,9 @@ public class UserService {
                 pageable.getPageSize(),
                 Sort.by("createdAt").descending());
         // Active한 User들만 가져온 후, 페이징 객체로 생성
-        List<User> findUsers = userRepository.findAllByUserStatus(User.UserStatus.USER_ACTIVE);
-        Page<User> pageUsers = new PageImpl<>(findUsers, of, findUsers.size());
+        Page<User> findUsers = userRepository.findAllByUserStatus(User.UserStatus.USER_ACTIVE, pageable);
 
-        return pageUsers;
+        return findUsers;
     }
 
     public void removeUser(Long userId){
