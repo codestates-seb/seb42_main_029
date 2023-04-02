@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 
@@ -13,12 +13,12 @@ const ProductInfo = () => {
   const [cookies] = useCookies(["accessToken"]);
 
   const productId = useParams().productId;
+  // console.log(productId)
 
-  // 셀러 장바구니담기 금지 시키기
+  // 셀러,관리자 장바구니담기 금지 시키기
   const state = useSelector((state) => state);
   const sellerRole = state.user.role;
 
-  console.log(sellerRole);
   // 아이템 get
 
   const url = `${process.env.REACT_APP_AWS_EC2}/products/${productId}`;
@@ -55,6 +55,11 @@ const ProductInfo = () => {
 
     if (sellerRole === "SELLER") {
       alert("판매자는 장바구니 담기 금지!");
+      return navigate("/");
+    }
+
+    if (sellerRole === "ADMIN") {
+      alert("관리자는 장바구니 담기 금지!");
       return navigate("/");
     }
 
