@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
  * 현재는 상품수량 모두 counter 하나로 공유합니다.
  */
 const Cart = () => {
-  // const productId = useParams().productId;
-
   const navigate = useNavigate();
 
   //! 장바구니 get
@@ -113,6 +111,7 @@ const Cart = () => {
     
     navigate("/pay", { state: totalPrice(cartData) });
   };
+
 
   return (
     <Container>
