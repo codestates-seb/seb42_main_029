@@ -33,15 +33,7 @@ const ProductInfo = () => {
       });
   }, []);
 
-  const {
-    name,
-    thumbnailLink,
-    productDetailLinks,
-    productDetail,
-    price,
-    stock,
-    productStatus,
-  } = data;
+  const { name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus } = data;
 
   //장바구니에 추가하기
 
@@ -59,11 +51,7 @@ const ProductInfo = () => {
     }
 
     return await axios
-      .post(
-        `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`,
-        { productId },
-        options
-      )
+      .post(`${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`, { productId }, options)
       .then((res) => {
         console.log(res);
         alert("장바구니 담기 성공!");
@@ -96,9 +84,7 @@ const ProductInfo = () => {
           <ButtonWrapper>
             {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
             {}
-            <ButtonStyle onClick={() => addCartProduct(productId)}>
-              장바구니에 담기
-            </ButtonStyle>
+            <ButtonStyle onClick={() => addCartProduct(productId)}>장바구니에 담기</ButtonStyle>
           </ButtonWrapper>
         </TextArea>
       </ContainerTop>

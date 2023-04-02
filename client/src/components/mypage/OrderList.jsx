@@ -18,7 +18,7 @@ function OrderList() {
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -53,7 +53,7 @@ function OrderList() {
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -78,7 +78,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -124,7 +124,7 @@ function OrderList() {
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -160,7 +160,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -185,7 +185,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -221,7 +221,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -246,7 +246,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -271,7 +271,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -296,7 +296,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -332,7 +332,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -368,7 +368,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -436,7 +436,7 @@ function OrderList() {
 
   function OrdersAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders?page=${page}&size=12`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/orders`, noBodyOptions)
       .then((res) => {
         console.log(`orderdata get success res.data:`);
         console.log(res.data.data);
@@ -455,7 +455,7 @@ function OrderList() {
   const deleteOrder = (orderId) => {
     // e.preventDefault();
     return axios
-      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${orderId}`, noBodyOptions)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/orders/${orderId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -473,8 +473,8 @@ function OrderList() {
   return (
     <OrderBody>
       <div className="bold">주문 목록 </div>
-      {Array.isArray(orderData) &&
-        orderData.map((el, index) => (
+      {Array.isArray(OrderExData) &&
+        OrderExData.map((el, index) => (
           <div className="order" key={index}>
             <div className="order-left">
               <div className="important">주문 번호: {el.orderId}</div>

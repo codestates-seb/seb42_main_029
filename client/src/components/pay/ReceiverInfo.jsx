@@ -1,17 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function ReceiverInfo({
-  userData,
-  receiver,
-  setUsername,
-  phone,
-  setPhone,
-  receivingAddress,
-  setReceivingAddress,
-}) {
-
-
+export default function ReceiverInfo({ userData, receiver, setUsername, phone, setPhone, receivingAddress, setReceivingAddress }) {
   const onChangeUsername = (e) => {
     setUsername(e.target.value);
   };
@@ -21,7 +11,6 @@ export default function ReceiverInfo({
   const onChangeAddress = (e) => {
     setReceivingAddress(e.target.value);
   };
-
 
   return (
     <>
@@ -39,27 +28,9 @@ export default function ReceiverInfo({
         </LeftWrapper>
         <RightWrapper>
           <form onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="text"
-              name="이름"
-              onChange={onChangeUsername}
-              placeholder="이름을 입력해주세요!"
-              required
-            />
-            <input
-              type="text"
-              name="폰번호"
-              onChange={onChangePhone}
-              placeholder="전화번호를 입력해주세요!"
-              required
-            />
-            <input
-              type="text"
-              name="주소"
-              onChange={onChangeAddress}
-              placeholder="주소를 입력해주세요!"
-              required
-            />
+            <input type="text" name="이름" onChange={onChangeUsername} placeholder="이름을 입력해주세요!" required />
+            <input type="text" name="폰번호" onChange={onChangePhone} placeholder="전화번호를 입력해주세요!" required />
+            <input type="text" name="주소" onChange={onChangeAddress} placeholder="주소를 입력해주세요!" required />
 
             {/* <button>정보수정하기</button> */}
           </form>

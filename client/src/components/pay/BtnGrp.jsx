@@ -4,13 +4,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-export default function BtnGrp({
-  receiver,
-  phone,
-  receivingAddress,
-  totalPrice,
-  orderProductDtos,
-}) {
+export default function BtnGrp({ receiver, phone, receivingAddress, totalPrice, orderProductDtos }) {
   const navigate = useNavigate();
   //! 리액트 쿠키
   const [cookies] = useCookies(["accessToken"]);

@@ -14,17 +14,15 @@ export default function Pay() {
 
   const allCharge = useLocation();
 
-
   //? 장바구니 물건 id와 카운트
   const [cartData, setCartData] = useState([]);
 
-  const orderProductDtos = cartData.map((el)=> {
-    const productId = el.productResponse.productId
-    const productsCount = el.productsCount
+  const orderProductDtos = cartData.map((el) => {
+    const productId = el.productResponse.productId;
+    const productsCount = el.productsCount;
 
-  return {productId,productsCount}
-
-  })
+    return { productId, productsCount };
+  });
   // console.log(cartData)
   // console.log(orderProductDtos)
 
@@ -64,7 +62,7 @@ export default function Pay() {
       });
   };
 
-   //! 장바구니 아이템 get ,,
+  //! 장바구니 아이템 get ,,
   const cartGetItem = async () => {
     return await axios
       .get(`${process.env.REACT_APP_AWS_EC2}/carts?page=1&size=10`, options)
@@ -99,13 +97,7 @@ export default function Pay() {
         setReceivingAddress={setReceivingAddress}
       />
       <PayInfo totalPrice={totalPrice} />
-      <BtnGrp
-        receiver={receiver}
-        phone={phone}
-        receivingAddress={receivingAddress}
-        totalPrice={totalPrice}
-        orderProductDtos={orderProductDtos}
-      />
+      <BtnGrp receiver={receiver} phone={phone} receivingAddress={receivingAddress} totalPrice={totalPrice} orderProductDtos={orderProductDtos} />
     </Wrapper>
   );
 }
@@ -121,5 +113,5 @@ const Title = styled.h1`
 `;
 
 const SubTitle = styled.div`
-margin: 0 0 1.5rem 0.5rem;
-`
+  margin: 0 0 1.5rem 0.5rem;
+`;
