@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.Optional;
 
+
 import static com.k5.modudogcat.domain.order.entity.OrderProduct.OrderProductStatus.*;
 
 @Service
@@ -65,7 +66,8 @@ public class OrderProductService {
         }
     }
 
-    //결제 상태 변경 시 검증 //Todo 앞으로 2단계도 못뛰게 검증 변경 != 형태
+
+    //결제 상태 변경 시 검증 //Todo 앞으로 2단계도 못뛰게 검증 변경 != 형태// 검증
     private void verifiedOrderStatus(OrderProduct orderProduct, OrderProduct.OrderProductStatus orderProductStatus) {
         String verifiedOrderStatus = orderProduct.getOrderProductStatus().getStatus();
         if (verifiedOrderStatus.equals(ORDER_PAY_STANDBY)) {
