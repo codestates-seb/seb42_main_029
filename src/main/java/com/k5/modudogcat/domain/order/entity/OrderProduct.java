@@ -30,7 +30,7 @@ public class OrderProduct extends Auditable {
     @Column(nullable = true)
     private String parcelNumber;
     @Enumerated(value = EnumType.STRING)
-    private OrderProductStatus orderProductStatus = OrderProductStatus.valueOf("결제대기");
+    private OrderProductStatus orderProductStatus = OrderProductStatus.ORDER_PAY_STANDBY;
 
     public enum OrderProductStatus{
         ORDER_PAY_STANDBY("결제대기"),
