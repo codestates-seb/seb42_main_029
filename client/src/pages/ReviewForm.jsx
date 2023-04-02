@@ -23,6 +23,7 @@ function ReviewForm(props) {
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
 
   const [itemData, setItemData] = useState({});
+
   //! productId로 item 정보 가져오는 요청                 테스트 완료
   function getItemInfo(productId) {
     return axios
@@ -43,6 +44,20 @@ function ReviewForm(props) {
     getItemInfo(productId);
   }, []);
 
+  // const [data, setData] = useState([]);
+  // const url = `${process.env.REACT_APP_AWS_EC2}/products/${productId}`;
+  // useEffect(() => {
+  //   axios
+  //     .get(url)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setData(response.data.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
   //! 리뷰 등록요청
 
   function imageHandleChange(e) {
@@ -53,14 +68,15 @@ function ReviewForm(props) {
   function postReview(productId) {
     const patchdata = new FormData();
     const jsondata = {
+      productId: productId,
       content: review,
       score: score,
       title: title,
     };
     patchdata.append("post", new Blob([JSON.stringify(jsondata)], { type: "application/json" }));
-    patchdata.append("image", reviewPhoto);
+    patchdata.append("images", reviewPhoto);
     return axios
-      .post(`${process.env.REACT_APP_AWS_EC2}/products`, patchdata, {
+      .post(`${process.env.REACT_APP_AWS_EC2}/reviews`, patchdata, {
         headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },
       })
       .then((res) => {
@@ -94,18 +110,10 @@ function ReviewForm(props) {
           <div>상세 후기 작성</div>
           <textarea className="detail" onChange={(e) => setReview(e.target.value)}></textarea>
         </form>
-
         <div className="buttons">
           <SubmitBtn>등록취소</SubmitBtn>
           <SubmitBtn onClick={() => postReview(productId)}>후기등록</SubmitBtn>
         </div>
-        <div>
-          <SubmitBtn onClick={() => dispatch({ type: "USER_LOGIN", payload: { userId: "리덕스", id: "성공", name: "!!!" } })}>로그인</SubmitBtn>
-          <SubmitBtn onClick={() => dispatch({ type: "USER_LOGOUT" })}>로그아웃</SubmitBtn>
-        </div>
-        <div> {state.user.userId}</div>
-        <div> {state.user.id}</div>
-        <div> {state.user.name}</div>
       </div>
     </ReviewFormBody>
   );
@@ -118,8 +126,8 @@ const ReviewFormBody = styled.div`
   /* flex-direction: column; */
   justify-content: center;
   /* align-items: center */
-  font-family: 'Dovemayo_gothic';
-  
+  font-family: "Dovemayo_gothic";
+
   .item-name {
     margin-top: 10px;
     font-size: x-large;
