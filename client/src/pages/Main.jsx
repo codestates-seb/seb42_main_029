@@ -38,8 +38,7 @@ const WrapperSlide = styled.div`
     overflow: hidden;
     max-width: 100%;
   }
-    font-family: "Dovemayo_gothic";
-
+  font-family: "Dovemayo_gothic";
 `;
 const move = keyframes`
 0%{
@@ -77,6 +76,5 @@ const Dog = styled.img`
   left: -40%;
   z-index: 600;
   transition: 1s;
-  animation: ${move} 16s 0s infinite;
-
+  animation: ${move} 19s 0s infinite;
 `;
