@@ -121,13 +121,14 @@ public class UserService {
     }
 
     public User verifiedAdmin(User findUser) {
-        int a = 1;
         if (findUser.getRoles().get(0).equals("ADMIN")) {
             Admin admin = new Admin();
             admin.setLoginId(findUser.getLoginId());
             admin.setPassword(findUser.getPassword());
             findUser.setAdmin(admin);
             //findVerifiedAdmin(findUser);
+        } else{
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_ADMIN);
         }
         return findUser;
     }

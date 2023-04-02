@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -75,14 +74,20 @@ public class ReviewController {
     }
 // 구매자가 후기를 삭제하는 메서드
     @DeleteMapping("/userReviews/{review-id}")
-    public ResponseEntity deleteReview(@PathVariable("review-id") Long reviewId){
+    public ResponseEntity deleteReviewByUser(@PathVariable("review-id") Long reviewId){
         Long userId = tokenUserId();
         reviewService.removeReview(reviewId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 // 관리자가 후기를 삭제하는 메서드
+    @DeleteMapping("/userReviews/admin/{review-id}")
+    public ResponseEntity deleteReviewByAdmin(@PathVariable("review-id") Long reviewId){
+        Long userId = tokenUserId();
+        reviewService.removeReviewByAdmin(reviewId, userId);
 
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
     public Long tokenUserId() {
         String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = Long.parseLong(principal);
