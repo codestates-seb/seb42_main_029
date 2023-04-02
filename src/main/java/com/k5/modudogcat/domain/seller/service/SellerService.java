@@ -11,10 +11,7 @@ import com.k5.modudogcat.domain.user.repository.UserRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -113,7 +110,7 @@ public class SellerService {
     public Page<Product> findProducts(Pageable pageable, Long sellerId) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort().descending());
+                Sort.by("createdAt").descending());
         Page<Product> products = productRepository.findAllBySellerSellerIdAndProductStatusNotLike(sellerId, Product.ProductStatus.PRODUCT_DELETE, of);
 
         return products;
@@ -135,7 +132,7 @@ public class SellerService {
     public Page<Order> findOrders(Pageable pageable, Long sellerId) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort().descending());
+                Sort.by("createdAt").descending());
         Page<Order> orders = orderRepository.findAllByOrderStatusNotLikeAndUserUserId(Order.OrderStatus.ORDER_DELETE, sellerId, of);
         return orders;
     }

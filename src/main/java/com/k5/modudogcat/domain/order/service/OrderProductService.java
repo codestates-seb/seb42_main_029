@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -24,7 +25,7 @@ public class OrderProductService {
     public Page<OrderProduct> findOrdersBySellerId(Pageable pageable, Long sellerId) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort().descending());
+                Sort.by("createdAt").descending());
         //해당 orderproduct(단일상품 주문) 가져오기
         Page<OrderProduct> orderProducts = orderProductRepository.findByProductSellerSellerId(sellerId, of);
 
