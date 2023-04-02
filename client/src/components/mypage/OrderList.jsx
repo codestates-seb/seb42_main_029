@@ -18,7 +18,7 @@ function OrderList() {
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -53,7 +53,7 @@ function OrderList() {
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -78,7 +78,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -124,7 +124,7 @@ function OrderList() {
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -160,7 +160,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -185,7 +185,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -221,7 +221,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -246,7 +246,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -271,7 +271,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -296,7 +296,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -332,7 +332,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -368,7 +368,7 @@ function OrderList() {
       modifiedAt: "2023-03-27T16:02:48.4291336",
       pardelNumber: "123412341234",
 
-      orderProductDtos: [
+      productResponse: [
         {
           productId: "1productId",
           sellerId: "sellerId",
@@ -436,7 +436,7 @@ function OrderList() {
 
   function OrdersAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders?page=${page}&size=12`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/orders?page=${page}&size=12`, noBodyOptions)
       .then((res) => {
         console.log(`orderdata get success res.data:`);
         console.log(res.data.data);
@@ -455,7 +455,7 @@ function OrderList() {
   const deleteOrder = (orderId) => {
     // e.preventDefault();
     return axios
-      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders/${orderId}`, noBodyOptions)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/orders/${orderId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -482,23 +482,22 @@ function OrderList() {
               {/* <div className="important">
               <span>{`가격 :${el.price} 원 ,`}</span> <span>{`수량 :${el.count}`}</span>
             </div> */}
-              {el.productResponse.map((el, index) => (
-                <div key={index}>
-                  <div className="important">
-                    상품 이름: {el.name}
-                    <span>
-                      <button className="button small-review">
-                        <Link to={`/reviewform/${el.productId}`} className="link" proptest="test">
-                          후기 작성
-                        </Link>
-                      </button>{" "}
-                    </span>
+              {Array.isArray(el.detailResponses) &&
+                el.detailResponses.map((el, index) => (
+                  <div key={index} className="individuel-product">
+                    <div className="important">상품 이름: {el.productResponse.name}</div>
+                    <div className="important">
+                      <span>{`가격 :${el.productResponse.price} 원 ,`}</span> <span>{`수량 :${el.productsCount}`}</span>{" "}
+                      <span>
+                        <button className="button small-review">
+                          <Link to={`/reviewform/${el.productResponse.productId}`} className="link" proptest="test">
+                            후기 작성
+                          </Link>
+                        </button>{" "}
+                      </span>
+                    </div>
                   </div>
-                  <div className="important">
-                    <span>{`가격 :${el.price} 원 ,`}</span> <span>{`수량 :${el.count}`}</span>{" "}
-                  </div>
-                </div>
-              ))}
+                ))}
 
               <div>주소 :{el.receivingAddress}</div>
               <div>받는 사람 : {el.receiver}</div>
@@ -520,8 +519,8 @@ function OrderList() {
                   <Modal
                     setModalOpen={setModalOpen}
                     axiosfunction={deleteOrder}
-                    data={OrderExData}
-                    index={OrderExData.findIndex((element, index) => index === modalIndex)}
+                    data={orderData}
+                    index={orderData.findIndex((element, index) => index === modalIndex)}
                     objectKey="orderId"
                     keyword="주문취소"
                   />
@@ -590,10 +589,16 @@ const OrderBody = styled.div`
       border: 1.5px solid black;
       cursor: pointer;
     }
+    .individuel-product {
+      margin: 10px 0;
+      border-bottom: 1px solid #fcc3c3;
+    }
     .small-review {
+      font-size: small;
       padding: 1px 2px;
-      width: 80px;
-      margin-left: 3rem;
+      width: 60px;
+      background-color: #c5e2ff;
+      margin-left: 1rem;
     }
     .cancle {
       background-color: #f9a9a9;
@@ -602,13 +607,13 @@ const OrderBody = styled.div`
       width: 60px;
     }
     .order-left {
-      width: 65%;
+      width: 66%;
       @media screen and (max-width: 768px) {
         width: 100%;
       }
     }
     .order-right {
-      width: 33%;
+      width: 30%;
       @media screen and (max-width: 768px) {
         width: 100%;
       }

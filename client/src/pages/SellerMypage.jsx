@@ -7,6 +7,7 @@ import axios from "axios";
 import Modal from "../components/modal";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import Fade from "react-reveal/Fade";
 
 function Mypage() {
   const data = {
@@ -49,7 +50,7 @@ function Mypage() {
 
   function sellerInfoAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/sellers/my-page`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/sellers/my-page`, noBodyOptions)
       .then((res) => {
         console.log(`판매자 정보 요청 성공 res.data:`);
         console.log(res.data);
@@ -97,7 +98,7 @@ function Mypage() {
       // 변경사항 없을때 어떻게 처리해야 할지 모르겠음
     }
     return axios
-      .patch(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/sellers/${id}`, patchdata, withBodyOptions)
+      .patch(`${process.env.REACT_APP_AWS_EC2}/sellers/${id}`, patchdata, withBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -112,7 +113,7 @@ function Mypage() {
   //! 판매자 회원 탈퇴요청 함수
   const deleteSeller = () => {
     return axios
-      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/${state.user.sellerId}`, noBodyOptions)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/users/${state.user.sellerId}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
@@ -154,37 +155,39 @@ function Mypage() {
       </ul>
       <div className="content">
         <div className="tab-content"> {focus === 0 ? <OrderList /> : focus === 1 ? <SellingItemList /> : null}</div>
-        <div className="user-information">
-          <div className="bold">판매자 정보 변경</div>
-          <div>상호명</div>
-          <div className="cant-change">{sellerData.name}</div>
-          <div>아이디</div>
-          <div className="cant-change">{sellerData.loginId}</div>
-          <div>이메일</div>
-          <input onChange={(e) => setEmail(e.target.value)} defaultValue={sellerData.email}></input>
-          <div>사업자 등록번호</div>
-          <div className="cant-change">{sellerData.registrationNumber}</div>
-          <div>계좌번호</div>
-          <div className="cant-change">{sellerData.accountNumber}</div>
-          <div>은행 명</div>
-          <div className="cant-change">{sellerData.bankName}</div>
-          <div>사업장 주소</div>
-          <input onChange={(e) => setAddress(e.target.value)} defaultValue={sellerData.address}></input>
-          <div>전화번호</div>
-          <input onChange={(e) => setPhone(e.target.value)} defaultValue={sellerData.phone}></input>
-          <div>
-            <button className="submit-button center" onClick={() => patchSellerData(state.user.sellerId)}>
-              저장
-            </button>
-          </div>
-          <div>
-            {/* <button className="submit-button quit" style={{ float: "right" }} onClick={showModal}>
+        <Fade right>
+          <div className="user-information">
+            <div className="bold">판매자 정보 변경</div>
+            <div>상호명</div>
+            <div className="cant-change">{sellerData.name}</div>
+            <div>아이디</div>
+            <div className="cant-change">{sellerData.loginId}</div>
+            <div>이메일</div>
+            <input onChange={(e) => setEmail(e.target.value)} defaultValue={sellerData.email}></input>
+            <div>사업자 등록번호</div>
+            <div className="cant-change">{sellerData.registrationNumber}</div>
+            <div>계좌번호</div>
+            <div className="cant-change">{sellerData.accountNumber}</div>
+            <div>은행 명</div>
+            <div className="cant-change">{sellerData.bankName}</div>
+            <div>사업장 주소</div>
+            <input onChange={(e) => setAddress(e.target.value)} defaultValue={sellerData.address}></input>
+            <div>전화번호</div>
+            <input onChange={(e) => setPhone(e.target.value)} defaultValue={sellerData.phone}></input>
+            <div>
+              <button className="submit-button center" onClick={() => patchSellerData(state.user.sellerId)}>
+                저장
+              </button>
+            </div>
+            <div>
+              {/* <button className="submit-button quit" style={{ float: "right" }} onClick={showModal}>
               회원탈퇴
             </button>
             {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteSeller} data={sellerData.sellerId} keyword="판매자 탈퇴" />} */}
+            </div>
+            <div className="sales"></div>
           </div>
-          <div className="sales"></div>
-        </div>
+        </Fade>
       </div>
     </MypageBody>
   );
@@ -196,6 +199,8 @@ const MypageBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  font-family: "Dovemayo_gothic";
+
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
     padding: 15px;

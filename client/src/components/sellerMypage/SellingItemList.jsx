@@ -88,7 +88,7 @@ function SellingItemList() {
   const [itemData, setItemData] = useState();
   function ItemAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products?page=${page}&size=12`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/products?page=${page}&size=12`, noBodyOptions)
       .then((res) => {
         console.log(`판매아이템 get 성공 res.data:`);
         console.log(res.data);
@@ -107,7 +107,7 @@ function SellingItemList() {
   const deleteItem = (id) => {
     // e.preventDefault();
     return axios
-      .delete(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${id}`, noBodyOptions)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/products/${id}`, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);

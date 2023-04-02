@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-export default function BtnGrp() {
+export default function BtnGrp({ receiver, phone, receivingAddress, totalPrice, orderProductDtos }) {
   const navigate = useNavigate();
   //! 리액트 쿠키
   const [cookies] = useCookies(["accessToken"]);
@@ -22,8 +22,13 @@ export default function BtnGrp() {
   const payBtn = async (e) => {
     e.preventDefault();
 
-
-    const postData= {}
+    const postData = {
+      receiver,
+      phone,
+      receivingAddress,
+      totalPrice,
+      orderProductDtos,
+    };
 
     const options = {
       headers: {
@@ -31,22 +36,29 @@ export default function BtnGrp() {
       },
       withCredentials: true,
     };
-    // 주문 Post api > paycomplete
 
-    return axios
-      .post(
-        `http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders`,
-        postData,
-        options
-      )
-      .then((res) => {
-        console.log(res);
-        // navigate('/payComplete')
-      })
-      .catch((err) => {
-        console.log("cart post error");
-        console.log(err);
-      });
+    if (receiver && phone && receivingAddress !== "") {
+      return await axios
+        .post(`${process.env.REACT_APP_AWS_EC2}/orders`, postData, options)
+        .then((res) => {
+          // console.log(res);
+          alert("주문성공!");
+          navigate("/payComplete", {
+            state: {
+              name: receiver,
+              phoneNum: phone,
+              address: receivingAddress,
+              totalPrice: totalPrice
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("주문하기 실패!");
+        });
+    } else {
+      alert("받는사람정보를 입력해주세요!");
+    }
   };
 
   return (
@@ -73,8 +85,10 @@ const Wrapper = styled.div`
       cursor: pointer;
       border-radius: 5px;
       font-size: 1rem;
+      font-family: "Dovemayo_gothic";
     }
     button:last-child {
+      background-color: #ffe3e1;
       margin-left: 1rem;
       :hover {
         color: #ffffff;
@@ -82,7 +96,7 @@ const Wrapper = styled.div`
     }
 
     button:first-child {
-      background-color: #a48686;
+      background-color: #ffd1d1;
       margin-right: 2rem;
 
       :hover {

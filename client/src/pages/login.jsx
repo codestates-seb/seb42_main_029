@@ -15,4 +15,5 @@ export default function Login() {
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
+  font-family: 'Dovemayo_gothic';
 `;

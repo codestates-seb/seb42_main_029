@@ -170,7 +170,7 @@ export default function SellerSignUpForm() {
       //! 판매자 회원가입 POST
       await axios
         .post(
-          "http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/sellers",
+          `${process.env.REACT_APP_AWS_EC2}/sellers`,
           {
             loginId,
             password,

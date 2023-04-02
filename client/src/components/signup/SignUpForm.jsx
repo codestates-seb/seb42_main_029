@@ -96,7 +96,7 @@ export default function SignUpForm() {
     if (validation() === true) {
       //! 회원가입 POST
       await axios
-        .post("http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/users/sign-up", { loginId, password, name, email, address }, { header })
+        .post(`${process.env.REACT_APP_AWS_EC2}/users/sign-up`, { loginId, password, name, email, address }, { header })
         .then((res) => {
           navigate("/login");
           alert("회원가입 성공..!");

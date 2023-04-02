@@ -64,6 +64,7 @@ const Wrapper = styled.div`
   background-color: #f9e8e8;
   display: flex;
   color: #363636;
+  font-family: 'Dovemayo_gothic';
 `;
 
 const LeftWrapperWhole = styled.div`

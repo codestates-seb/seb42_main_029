@@ -61,7 +61,7 @@ function NewItemRegistrationForm() {
 
       //! 상품 등록시 판매자 정보는 어떻게 받는지?
       return axios
-        .post(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products`, patchdata, {
+        .post(`${process.env.REACT_APP_AWS_EC2}/products`, patchdata, {
           headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },
         })
         .then((res) => {
@@ -111,6 +111,7 @@ export default NewItemRegistrationForm;
 const NewItemRegistrationFormBody = styled.div`
   display: flex;
   justify-content: center;
+  font-family: 'Dovemayo_gothic';
 
   .center {
     display: flex;

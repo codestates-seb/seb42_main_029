@@ -60,7 +60,9 @@ function App() {
               <Route path="/adminMypage" element={<AdminMypage />} />
               <Route path="/reviewForm/:productId" element={<ReviewForm />} />
               <Route path="/cart" element={<Cart />} />
+
               <Route path="/newItemForm" element={<NewItemRegistrationForm />} />
+
               <Route path="/*" element={<ErrorPage />} />
             </Routes>
           </Suspense>
@@ -77,6 +79,6 @@ export default App;
 const Wrapper = styled.div`
   max-width: 1450px;
   min-height: 100%;
-  padding-bottom: 200px;
+  padding-bottom: 40%;
   margin: 0 auto;
 `;

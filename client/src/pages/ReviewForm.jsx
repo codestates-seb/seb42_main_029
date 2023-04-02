@@ -26,7 +26,7 @@ function ReviewForm(props) {
   //! productId로 item 정보 가져오는 요청                 테스트 완료
   function getItemInfo(productId) {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`, {
+      .get(`${process.env.REACT_APP_AWS_EC2}/products/${productId}`, {
         "Content-Type": "application/json",
       })
       .then((res) => {
@@ -60,7 +60,7 @@ function ReviewForm(props) {
     patchdata.append("post", new Blob([JSON.stringify(jsondata)], { type: "application/json" }));
     patchdata.append("image", reviewPhoto);
     return axios
-      .post(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products`, patchdata, {
+      .post(`${process.env.REACT_APP_AWS_EC2}/products`, patchdata, {
         headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },
       })
       .then((res) => {
@@ -118,6 +118,8 @@ const ReviewFormBody = styled.div`
   /* flex-direction: column; */
   justify-content: center;
   /* align-items: center */
+  font-family: 'Dovemayo_gothic';
+  
   .item-name {
     margin-top: 10px;
     font-size: x-large;

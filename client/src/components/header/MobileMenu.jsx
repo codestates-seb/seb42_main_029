@@ -24,7 +24,7 @@ export default function MobileMenu({ setMobileModalOpen, modalOpen, setModalOpen
         <WrapperOut>
           <Wrapper>
             <MenuList>
-              <Link to="/login" style={{ textDecorationLine: "none" }}>
+              <Link to="/login" style={{ textDecorationLine: "none" , cursor: "pointer"}}>
                 <p>Login</p>
               </Link>
 
@@ -63,8 +63,8 @@ export default function MobileMenu({ setMobileModalOpen, modalOpen, setModalOpen
                 <p>About</p>
               </Link>
 
-              <Link to="/about" style={{ textDecorationLine: "none" }}>
-                <p>About</p>
+              <Link to="/mypage" style={{ textDecorationLine: "none" }}>
+                <p>My Page</p>
               </Link>
 
               <Link to="/cart" style={{ textDecorationLine: "none" }}>
@@ -102,6 +102,7 @@ const Wrapper = styled.div`
   /* border: 1px solid gray; */
   box-shadow: 1px 1px 1px 1px gray;
   border-radius: 7px;
+  font-family: 'Dovemayo_gothic';
 
   /* 최상단 */
   z-index: 999;
