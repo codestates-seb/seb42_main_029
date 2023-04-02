@@ -17,6 +17,7 @@ public class ReviewDto {
     @AllArgsConstructor
     public static class Post{
         private Long userId;
+        private Long productId;
         @NotBlank
         private String title;
         @NotBlank

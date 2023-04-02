@@ -1,4 +1,4 @@
-package com.k5.modudogcat.domain.review.entity.image;
+package com.k5.modudogcat.domain.review.entity.reviewImage;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,29 +1,42 @@
 package com.k5.modudogcat.domain.review.mapper;
 
 import com.k5.modudogcat.domain.review.dto.ReviewDto;
-import com.k5.modudogcat.domain.review.entity.image.Image;
+import com.k5.modudogcat.domain.review.entity.reviewImage.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
     @Mapping(source = "userId", target = "user.userId")
+    @Mapping(source = "productId", target = "product.productId")
     Review reviewPostToReview(ReviewDto.Post postDto);
-    List<ReviewDto.Response> reviewsToResponses(List<Review> reviews);
-    default ReviewDto.Response reviewToResponse(Review review){
+    default List<ReviewDto.Response> reviewsToResponses(List<Review> reviews, String domain){
+        if ( reviews == null ) {
+            return null;
+        }
+
+        List<ReviewDto.Response> list = new ArrayList<ReviewDto.Response>( reviews.size() );
+        for ( Review review : reviews ) {
+            list.add( reviewToResponse( review, domain ) );
+        }
+
+        return list;
+    }
+    default ReviewDto.Response reviewToResponse(Review review, String domain){
         if ( review == null ) {
                return null;
         }
         ReviewDto.Response response = new ReviewDto.Response();
         List<String> links = review.getImages().stream()
                 .map(image -> {
-                    String link = "http://localhost:8080/images/" + image.getImageId();
+                    String link = domain + "/reviewImages/" + image.getImageId();
                     return link;
                 })
                 .collect(Collectors.toList());
