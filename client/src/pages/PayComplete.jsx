@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PayCompleteForm from "../components/pay/payComplete/PayCompleteForm";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 export default function PayComplete() {
   const navigate = useNavigate();
@@ -13,6 +15,36 @@ export default function PayComplete() {
   const homeBtnHandle = () => {
     navigate("/");
   };
+
+  //! 주문 내역 get
+  const [orderData, setOrderData] = useState([]);
+
+  const [cookies] = useCookies(["accessToken"]);
+
+  const options = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
+  const orderDataGet = async () => {
+    return await axios
+      .get(`${process.env.REACT_APP_AWS_EC2}/orders?page=1&size=12`, options)
+      .then((res) => {
+        console.log(res);
+        setOrderData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("주문내역 받아오기 실패");
+      });
+  };
+
+  useEffect(() => {
+    orderDataGet();
+  }, []);
+
   return (
     <Wrapper>
       <PayCompleteForm />
@@ -28,7 +60,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Dovemayo_gothic';
+  font-family: "Dovemayo_gothic";
 `;
 
 const BtnGrp = styled.div`

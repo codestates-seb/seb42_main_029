@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 import runningdog from "../assets/img/running dog.gif";
 import runningdogs from "../assets/img/picmix.com_2018219.gif";
+import runningdog3 from "../assets/img/runningdog3.gif";
 
 // import { useScrollFadeIn } from "../hooks";
 
@@ -26,9 +27,9 @@ export default function MainAnimation() {
   };
   return (
     <>
-      <Dog src={runningdogs} onClick={linkToAbout}>
-        {/* <Link to="/about"></Link> */}
-      </Dog>
+      <Dog src={runningdog} onClick={linkToAbout}></Dog>
+      {/* <Dog src={runningdogs} onClick={linkToAbout}></Dog> */}
+
       <WrapperSlide>
         <Slide />
       </WrapperSlide>
@@ -63,56 +64,56 @@ const WrapperSlide = styled.div`
 `;
 const move = keyframes`
 0%{
-  top: 4.2rem;
+  top: 4rem;
   left: -35%;
 }
 /* 10%{
-  top: 2.9rem;
+  top: 4rem;
   left: 7%;
 }
 20%{
-  top: 2.9rem;
+  top: 4rem;
   left: 19%;
 }
 30%{
-  top: 2.9rem;
+  top: 4rem;
   left: 29%;
 }
 40%{
-  top: 2.9rem;
+  top: 4rem;
   left: 40%;
 }
 47%{
-  top: 2.9rem;
+  top: 4rem;
   left: 49%;
 }
 55%{
-  top: 2.9rem;
+  top: 4rem;
   left: 58%;
 }
 60%{
-  top: 2.9rem;
+  top: 4rem;
   left: 67%;
 }
 70%{
-  top: 2.9rem;
+  top: 4rem;
   left: 77%;
 }
 80%{
-  top: 2.9rem;
+  top: 4rem;
   left: 85%;
 }
 90%{
-  top: 2.9rem;
+  top: 4rem;
   left: 94%;
 }
 97%{
-  top: 2.9rem;
+  top: 4rem;
   left: 105%;
 } */
 100%{
-  top: 4.2rem;
-  left: 120%;
+  top: 4rem;
+  left: 100%;
 }
 `;
 const Dog = styled.img`
@@ -123,10 +124,10 @@ const Dog = styled.img`
   height: 80px;
   position: absolute;
   top: 3.2rem;
-  left: -35%;
+  left: -40%;
   z-index: 600;
   transition: 1s;
-  animation: ${move} 10s 1s infinite;
+  animation: ${move} 10s 0s infinite;
   /* border-bottom: -300px;
   padding-bottom: -100px; */
 `;

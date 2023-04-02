@@ -4,17 +4,6 @@ import { useCookies } from "react-cookie";
 import styled from "styled-components";
 
 export default function ReceiverInfo({ userData, receiver, setUsername, phone, setPhone, receivingAddress, setReceivingAddress }) {
-  // 받는 사람 정보 처음으로는 구매자 정보를 띄우고, 변경 가능 하게 버튼 추가 > 전화번호
-  // console.log(userData);
-
-  //! 리액트 쿠키
-  const [cookies] = useCookies(["accessToken"]);
-
-  // input value get
-  // const [receiver, setUsername] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [receivingAddress, setReceivingAddress] = useState("");
-
   const onChangeUsername = (e) => {
     setUsername(e.target.value);
   };
@@ -23,42 +12,6 @@ export default function ReceiverInfo({ userData, receiver, setUsername, phone, s
   };
   const onChangeAddress = (e) => {
     setReceivingAddress(e.target.value);
-  };
-
-  // console.log(receiver);
-  // console.log(phone);
-  // console.log(receivingAddress);
-
-  //! axios.patch 받는 사람 정보 수정
-  const correctInfo = async (e, id) => {
-    e.preventDefault();
-    console.log(e);
-    console.log(id);
-    const patchData = {
-      receiver,
-      phone,
-      receivingAddress,
-    };
-
-    const headers = {
-      headers: {
-        Authorization: cookies.accessToken,
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    };
-
-    return await axios
-      .patch(`${process.env.REACT_APP_AWS_EC2}/orders/${id}`, patchData, headers)
-      .then((res) => {
-        console.log(`res.data:`);
-        console.log(res.data);
-        alert("정보수정이 완료되어 등록 되었습니다.");
-      })
-      .catch((error) => {
-        console.log("구매자 유저정보 변경 patch 에러");
-        alert("정보수정이 실패 되었습니다.");
-      });
   };
 
   return (
@@ -76,26 +29,12 @@ export default function ReceiverInfo({ userData, receiver, setUsername, phone, s
           <p>주소</p>
         </LeftWrapper>
         <RightWrapper>
-          <form onSubmit={() => correctInfo()}>
-            <input
-              type="text"
-              name="이름"
-              onChange={onChangeUsername}
-              placeholder="이름을 입력해주세요!"
-              // defaultValue={userData.name}
-              required
-            />
+          <form onSubmit={(e) => e.preventDefault()}>
+            <input type="text" name="이름" onChange={onChangeUsername} placeholder="이름을 입력해주세요!" required />
             <input type="text" name="폰번호" onChange={onChangePhone} placeholder="전화번호를 입력해주세요!" required />
-            <input
-              type="text"
-              name="주소"
-              onChange={onChangeAddress}
-              placeholder="주소를 입력해주세요!"
-              // defaultValue={userData.receivingAddress}
-              required
-            />
+            <input type="text" name="주소" onChange={onChangeAddress} placeholder="주소를 입력해주세요!" required />
 
-            <button>정보수정하기</button>
+            {/* <button>정보수정하기</button> */}
           </form>
         </RightWrapper>
       </Wrapper>
@@ -127,7 +66,7 @@ const LeftWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: #d1bdbd;
+  background-color: #fcabab;
   border-radius: 10px;
 
   /* p {
@@ -158,7 +97,7 @@ const RightWrapper = styled.div`
       height: 1.3rem;
       border: none;
       border-radius: 5px;
-      margin-bottom: 1.3rem;
+      margin: 1.4rem 0;
       :focus {
         outline: none;
         border: 1px dotted pink;

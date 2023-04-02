@@ -45,6 +45,7 @@ function Mypage() {
   const noBodyOptions = {
     headers: {
       Authorization: cookies.accessToken,
+      Adddd: "aaddd",
     },
     withCredentials: true,
   };

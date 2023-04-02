@@ -191,6 +191,7 @@ const SellerSignUpReqeust = () => {
 
   //! 판매자 회원가입 요청 get
   const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
+
   console.log(cookies.accessToken);
   const noBodyOptions = {
     headers: {
@@ -224,11 +225,11 @@ const SellerSignUpReqeust = () => {
   //! 판매자 신청 거절 함수
   const deleteSellerRequest = (sellerId) => {
     return axios
-      .patch(`${process.env.REACT_APP_AWS_EC2}/admin/rejected/${sellerId}`, noBodyOptions)
+      .patch(`${process.env.REACT_APP_AWS_EC2}/admin/rejected/${sellerId}`, null, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((err) => {
         console.log("판매자신청 거절 에러");
@@ -239,7 +240,7 @@ const SellerSignUpReqeust = () => {
   //! 판매자 신청 승인 함수
   const acceptSellerRequest = (sellerId) => {
     return axios
-      .patch(`${process.env.REACT_APP_AWS_EC2}/admin/approval/${sellerId}`, noBodyOptions)
+      .patch(`${process.env.REACT_APP_AWS_EC2}/admin/approval/${sellerId}`, null, noBodyOptions)
       .then((res) => {
         console.log(`res.data:`);
         console.log(res.data);
