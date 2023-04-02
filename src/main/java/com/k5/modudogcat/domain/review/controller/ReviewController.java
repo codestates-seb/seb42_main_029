@@ -74,7 +74,7 @@ public class ReviewController {
         return new ResponseEntity(responses, HttpStatus.OK);
     }
 // 구매자가 후기를 삭제하는 메서드
-    @DeleteMapping("/reviews/userReviews/{review-id}")
+    @DeleteMapping("/userReviews/{review-id}")
     public ResponseEntity deleteReview(@PathVariable("review-id") Long reviewId){
         Long userId = tokenUserId();
         reviewService.removeReview(reviewId);
