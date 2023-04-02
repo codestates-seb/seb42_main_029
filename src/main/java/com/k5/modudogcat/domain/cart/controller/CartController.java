@@ -34,7 +34,7 @@ public class CartController {
     public ResponseEntity postProducts(@PathVariable("product-id") Long productId){
 
         Long userId = getUserPrincipleByJWT();
-        Long cartId = cartService.findVerifedCart(userId).getCartId();
+        Long cartId = cartService.findVerifiedCartByUserId(userId).getCartId();
         cartService.addToCart(cartId, productId);
 
         return new ResponseEntity(HttpStatus.CREATED);
@@ -44,7 +44,7 @@ public class CartController {
     @GetMapping
     public ResponseEntity getCartProducts(Pageable pageable){
         Long userId = getUserPrincipleByJWT();
-        Long cartId = cartService.findVerifedCart(userId).getCartId();
+        Long cartId = cartService.findVerifiedCartByUserId(userId).getCartId();
         Page<CartProduct> cartProductPages = cartService.findCartProducts(pageable, cartId);
         List<CartProduct> findCartProducts = cartProductPages.getContent();
         CartDto.Response response = cartMapper.cartProductsToResponse(findCartProducts, cartId, domain);
@@ -56,7 +56,7 @@ public class CartController {
     @PatchMapping("/products/{product-id}/plus")
     public ResponseEntity plusProductCount(@PathVariable("product-id") Long productId) {
         Long userId = getUserPrincipleByJWT();
-        Long cartId = cartService.findVerifedCart(userId).getCartId();
+        Long cartId = cartService.findVerifiedCartByUserId(userId).getCartId();
         cartService.plusCount(productId, cartId);
 
         return new ResponseEntity(HttpStatus.OK);
@@ -65,7 +65,7 @@ public class CartController {
     @PatchMapping("/products/{product-id}/minus")
     public ResponseEntity minusProductCount(@PathVariable("product-id") Long productId) {
         Long userId = getUserPrincipleByJWT();
-        Long cartId = cartService.findVerifedCart(userId).getCartId();
+        Long cartId = cartService.findVerifiedCartByUserId(userId).getCartId();
         cartService.minusCount(productId, cartId);
 
         return new ResponseEntity(HttpStatus.OK);
@@ -77,7 +77,7 @@ public class CartController {
     public ResponseEntity deleteProducts(@PathVariable("product-id") Long productId){
 
         Long userId = getUserPrincipleByJWT();
-        Long cartId = cartService.findVerifedCart(userId).getCartId();
+        Long cartId = cartService.findVerifiedCartByUserId(userId).getCartId();
         cartService.removeCartProduct(productId, cartId);
 
         return new ResponseEntity(HttpStatus.CREATED);
