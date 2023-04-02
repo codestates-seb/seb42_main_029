@@ -64,6 +64,7 @@ public class OrderProductDto {
         private String receiver;
         private String phone;
         private String receivingAddress;
+        @JsonDeserialize(using = OrderProductStatusDeserializer.class)
         private OrderProduct.OrderProductStatus orderProductStatus;
         private String parcelNumber;
 
@@ -73,10 +74,10 @@ public class OrderProductDto {
     @Getter
     @Setter
     @AllArgsConstructor
-    @JsonDeserialize(using = OrderProductStatusDeserializer.class)
     public static class patch {
         @Nullable
         private String parcelNumber;
+        @JsonDeserialize(using = OrderProductStatusDeserializer.class)
         private OrderProduct.OrderProductStatus orderProductStatus;
     }
 }

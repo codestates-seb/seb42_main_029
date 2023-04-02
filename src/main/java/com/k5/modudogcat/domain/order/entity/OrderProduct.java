@@ -15,7 +15,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@JsonDeserialize(using = OrderProductStatusDeserializer.class)
 public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +29,7 @@ public class OrderProduct {
     @Column(nullable = true)
     private String parcelNumber;
     @Enumerated(value = EnumType.STRING)
-    private OrderProductStatus orderProductStatus = OrderProductStatus.ORDER_PAY_STANDBY;
+    private OrderProductStatus orderProductStatus = OrderProductStatus.valueOf("결제대기");
 
     public enum OrderProductStatus{
         ORDER_PAY_STANDBY("결제대기"),
