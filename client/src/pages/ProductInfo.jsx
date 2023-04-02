@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
 
 const ProductInfo = () => {
   const [data, setData] = useState([]);
@@ -13,6 +14,11 @@ const ProductInfo = () => {
 
   const productId = useParams().productId;
 
+  // 셀러 장바구니담기 금지 시키기
+  const state = useSelector((state) => state);
+  const sellerRole = state.user.role;
+
+  console.log(sellerRole);
   // 아이템 get
 
   const url = `${process.env.REACT_APP_AWS_EC2}/products/${productId}`;
@@ -47,6 +53,11 @@ const ProductInfo = () => {
       withCredentials: true,
     };
 
+    if (sellerRole === "SELLER") {
+      alert("판매자는 장바구니 담기 금지!");
+      return navigate("/");
+    }
+
     return await axios
       .post(
         `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`,
@@ -55,12 +66,12 @@ const ProductInfo = () => {
       )
       .then((res) => {
         console.log(res);
-        alert("장바구니 담기 성공!")
+        alert("장바구니 담기 성공!");
         navigate("/cart");
       })
       .catch((err) => {
         console.log(err);
-        console.log("담기실패");
+        alert("이미 장바구니에 있습니다..");
       });
   };
 
@@ -84,6 +95,7 @@ const ProductInfo = () => {
           </TextContainer>
           <ButtonWrapper>
             {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
+            {}
             <ButtonStyle onClick={() => addCartProduct(productId)}>
               장바구니에 담기
             </ButtonStyle>
@@ -224,7 +236,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 300px;
+  width: 180px;
   height: 150px;
 `;
 

@@ -40,7 +40,7 @@ const LeftWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: #d1bdbd;
+  background-color: #fcabab;
   border-radius: 10px;
 
   @media screen and (max-width: 768px) {

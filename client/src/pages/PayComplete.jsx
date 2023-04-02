@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PayCompleteForm from "../components/pay/payComplete/PayCompleteForm";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 export default function PayComplete() {
   const navigate = useNavigate();
@@ -13,6 +15,9 @@ export default function PayComplete() {
   const homeBtnHandle = () => {
     navigate("/");
   };
+
+  //! 주문 내역 get
+
   return (
     <Wrapper>
       <PayCompleteForm />
@@ -28,7 +33,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Dovemayo_gothic';
+  font-family: "Dovemayo_gothic";
 `;
 
 const BtnGrp = styled.div`
