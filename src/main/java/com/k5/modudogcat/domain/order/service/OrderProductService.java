@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
+
 
 import static com.k5.modudogcat.domain.order.entity.OrderProduct.OrderProductStatus.*;
 
@@ -63,6 +65,7 @@ public class OrderProductService {
             orderProductRepository.save(orderProduct);
         }
     }
+
 
     //결제 상태 변경 시 검증 //Todo 앞으로 2단계도 못뛰게 검증 변경 != 형태// 검증
     private void verifiedOrderStatus(OrderProduct orderProduct, OrderProduct.OrderProductStatus orderProductStatus) {

@@ -19,7 +19,7 @@ public class CartProduct {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    private Integer productsCount = 1;
+    private Integer productCount = 1;
 
     public void addCart(Cart cart){
         this.cart = cart;

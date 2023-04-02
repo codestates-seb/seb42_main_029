@@ -13,6 +13,6 @@ public class CartProductDto {
     @AllArgsConstructor
     public static class Response{
         private ProductDto.Response productResponse;
-        private Integer productsCount;
+        private Integer productCount;
     }
 }
