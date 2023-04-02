@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 function ReviewForm(props) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [score, setScore] = useState();
   const [review, setReview] = useState("");
   const [reviewPhoto, setReviewPhoto] = useState();
@@ -82,6 +82,7 @@ function ReviewForm(props) {
       .then((res) => {
         console.log(`리뷰 등록 성공 res.data:`);
         console.log(res.data);
+        Navigate("/mypage");
         // window.location.reload();
       })
       .catch((err) => {
