@@ -9,10 +9,7 @@ import com.k5.modudogcat.domain.product.service.ProductService;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -58,7 +55,7 @@ public class CartService {
     public Page<CartProduct> findCartProducts(Pageable pageable, Long cartId){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort().descending());
+                Sort.by("createdAt").descending());
         List<CartProduct> findCartProducts = cartProductRepository.findAllByCartCartId(cartId);
 
         return new PageImpl<>(findCartProducts, of, findCartProducts.size());
@@ -66,20 +63,20 @@ public class CartService {
     @Transactional
     public void plusCount(Long productId, Long cartId){
         CartProduct findCartProduct = findVerfiedCartProduct(productId, cartId);
-        if(findCartProduct.getProductsCount().equals(findCartProduct.getProduct().getStock())){
+        if(findCartProduct.getProductCount().equals(findCartProduct.getProduct().getStock())){
             throw new RuntimeException("더 이상 증가시킬 수 없습니다.");
         }else{
-            findCartProduct.setProductsCount(findCartProduct.getProductsCount() + 1);
+            findCartProduct.setProductCount(findCartProduct.getProductCount() + 1);
         }
         cartProductRepository.save(findCartProduct);
     }
 
     public void minusCount(Long productId, Long cartId){
         CartProduct findCartProduct = findVerfiedCartProduct(productId, cartId);
-        if(findCartProduct.getProductsCount() == 0){
+        if(findCartProduct.getProductCount() == 0){
             throw new RuntimeException("더 이상 감소시킬 수 없습니다.");
         }else{
-            findCartProduct.setProductsCount(findCartProduct.getProductsCount() - 1);
+            findCartProduct.setProductCount(findCartProduct.getProductCount() - 1);
         }
         cartProductRepository.save(findCartProduct);
     }

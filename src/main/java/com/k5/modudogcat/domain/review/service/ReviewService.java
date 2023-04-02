@@ -6,10 +6,7 @@ import com.k5.modudogcat.domain.review.repository.ReviewRepository;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -49,7 +46,7 @@ public class ReviewService {
     public Page<Review> findReviews(Pageable pageable){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort().descending());
+                Sort.by("createdAt").descending());
         List<Review> findReviews = reviewRepository.findAllByReviewStatus(Review.ReviewStatus.REVIEW_ACTIVE);
         PageImpl<Review> reviewPages = new PageImpl<>(findReviews, of, findReviews.size());
 

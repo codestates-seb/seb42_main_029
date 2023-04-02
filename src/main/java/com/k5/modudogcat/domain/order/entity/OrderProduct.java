@@ -1,6 +1,8 @@
 package com.k5.modudogcat.domain.order.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.k5.modudogcat.domain.product.entity.Product;
+import com.k5.modudogcat.util.OrderProductStatusDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +29,8 @@ public class OrderProduct {
     @Column(nullable = true)
     private String parcelNumber;
     @Enumerated(value = EnumType.STRING)
+    @JsonDeserialize(using = OrderProductStatusDeserializer.class)
     private OrderProductStatus orderProductStatus = OrderProductStatus.ORDER_PAY_STANDBY;
-
 
     public enum OrderProductStatus{
         ORDER_PAY_STANDBY("결제대기"),
