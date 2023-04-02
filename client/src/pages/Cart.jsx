@@ -98,11 +98,10 @@ const Cart = () => {
     let tPrice = 0;
 
     for (let i = 0; i < cartData.length; i++) {
-      tPrice += cartData[i].productResponse.price * cartData[i].productsCount;
+      tPrice += cartData[i].productResponse.price * cartData[i].productCount;
     }
     return tPrice;
   };
-  // console.log(totalPrice(cartData));
 
   //! 주문하러가기
 
@@ -139,7 +138,7 @@ const Cart = () => {
               {data.productResponse.productDetail}
             </ItemStyle>
             <ItemStyle color="#ff5c00">
-              {`${data.productResponse.price * data.productsCount}`}원
+              {`${data.productResponse.price * data.productCount}`}원
             </ItemStyle>
             <ItemStyle></ItemStyle>
             <ItemStyle>
@@ -148,7 +147,7 @@ const Cart = () => {
               >
                 -
               </CountBtn>
-              {data.productsCount}
+              {data.productCount}
               <CountBtn
                 onClick={() => handleIncrease(data.productResponse.productId)}
               >
