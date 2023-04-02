@@ -35,10 +35,8 @@ public class AdminService {
                 pageable.getPageSize(),
                 pageable.getSort().descending());
 
-        List<Seller> findSellers = sellerRepository.findAllBySellerStatus(Seller.SellerStatus.SELLER_WAITING);
-        Page<Seller> pageSellers = new PageImpl<>(findSellers, of, findSellers.size());
-
-        return pageSellers;
+        Page<Seller> findSellers = sellerRepository.findAllBySellerStatus(Seller.SellerStatus.SELLER_WAITING, of);
+        return findSellers;
     }
 
     //회원가입 승인

@@ -135,7 +135,7 @@ public class SellerService {
     public Page<Order> findOrders(Pageable pageable, Long sellerId) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort().descending(D));
+                pageable.getSort().descending());
         Page<Order> orders = orderRepository.findAllByOrderStatusNotLikeAndUserUserId(Order.OrderStatus.ORDER_DELETE, sellerId, of);
         return orders;
     }
