@@ -20,10 +20,10 @@ public interface CartMapper {
                 .map(cartProduct -> {
                     CartProductDto.Response cpResponse = new CartProductDto.Response();
                     ProductDto.Response productResponse = ProductMapper.productToResponse(cartProduct.getProduct(), domain);
-                    Integer productsCount = cartProduct.getProductsCount();
+                    Integer productsCount = cartProduct.getProductCount();
 
                     cpResponse.setProductResponse(productResponse);
-                    cpResponse.setProductsCount(productsCount);
+                    cpResponse.setProductCount(productsCount);
 
                     return cpResponse;
                 }).collect(Collectors.toList());
