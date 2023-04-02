@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productOrderId;
+    private Long orderProductId;
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
@@ -27,6 +27,7 @@ public class OrderProduct {
     private String parcelNumber;
     @Enumerated(value = EnumType.STRING)
     private OrderProductStatus orderProductStatus = OrderProductStatus.ORDER_PAY_STANDBY;
+
 
     public enum OrderProductStatus{
         ORDER_PAY_STANDBY("결제대기"),
