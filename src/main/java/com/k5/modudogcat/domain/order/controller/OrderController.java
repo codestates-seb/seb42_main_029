@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class OrderController {
     private String domain;
     // 장바구니에서 온 여러 상품과 수량으로 주문이 생성된다.
     @PostMapping
-    public ResponseEntity postOrder(@RequestBody OrderDto.Post postDto){
+    public ResponseEntity postOrder(@RequestBody @Valid OrderDto.Post postDto){
 //        long userId = Long.parseLong((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Long userId = getUserPrincipleByJWT();
         postDto.setUserId(userId);
