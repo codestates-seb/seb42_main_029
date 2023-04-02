@@ -66,20 +66,20 @@ public class CartService {
     @Transactional
     public void plusCount(Long productId, Long cartId){
         CartProduct findCartProduct = findVerfiedCartProduct(productId, cartId);
-        if(findCartProduct.getProductsCount().equals(findCartProduct.getProduct().getStock())){
+        if(findCartProduct.getProductCount().equals(findCartProduct.getProduct().getStock())){
             throw new RuntimeException("더 이상 증가시킬 수 없습니다.");
         }else{
-            findCartProduct.setProductsCount(findCartProduct.getProductsCount() + 1);
+            findCartProduct.setProductCount(findCartProduct.getProductCount() + 1);
         }
         cartProductRepository.save(findCartProduct);
     }
 
     public void minusCount(Long productId, Long cartId){
         CartProduct findCartProduct = findVerfiedCartProduct(productId, cartId);
-        if(findCartProduct.getProductsCount() == 0){
+        if(findCartProduct.getProductCount() == 0){
             throw new RuntimeException("더 이상 감소시킬 수 없습니다.");
         }else{
-            findCartProduct.setProductsCount(findCartProduct.getProductsCount() - 1);
+            findCartProduct.setProductCount(findCartProduct.getProductCount() - 1);
         }
         cartProductRepository.save(findCartProduct);
     }
