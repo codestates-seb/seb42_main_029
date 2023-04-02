@@ -30,7 +30,7 @@ public class ReviewController {
     @Value("${config.domain}")
     private String domain;
     // 구매자가 리뷰를 작성할 수 있다.
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping
     public ResponseEntity postReview(@RequestPart(name = "post") ReviewDto.Post postDto,
                                      @RequestPart(required = false) List<MultipartFile> images
     ) throws IOException {
@@ -73,14 +73,16 @@ public class ReviewController {
 
         return new ResponseEntity(responses, HttpStatus.OK);
     }
-
-    @DeleteMapping("/reviews/{review-id}")
-    public ResponseEntity deleteReview(@PathVariable("user-id") Long userId,
-                                       @PathVariable("review-id") Long reviewId){
+// 구매자가 후기를 삭제하는 메서드
+    @DeleteMapping("/reviews/userReviews/{review-id}")
+    public ResponseEntity deleteReview(@PathVariable("review-id") Long reviewId){
+        Long userId = tokenUserId();
         reviewService.removeReview(reviewId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+// 관리자가 후기를 삭제하는 메서드
+
     public Long tokenUserId() {
         String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = Long.parseLong(principal);
