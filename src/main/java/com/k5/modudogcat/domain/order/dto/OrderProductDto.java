@@ -1,9 +1,11 @@
 package com.k5.modudogcat.domain.order.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.k5.modudogcat.domain.order.entity.Order;
 import com.k5.modudogcat.domain.order.entity.OrderProduct;
 import com.k5.modudogcat.domain.product.dto.ProductDto;
 import com.k5.modudogcat.domain.product.entity.Product;
+import com.k5.modudogcat.util.OrderProductStatusDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -71,6 +73,7 @@ public class OrderProductDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @JsonDeserialize(using = OrderProductStatusDeserializer.class)
     public static class patch {
         @Nullable
         private String parcelNumber;
