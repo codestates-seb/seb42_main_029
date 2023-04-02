@@ -436,7 +436,7 @@ function OrderList() {
 
   function OrdersAxios() {
     return axios
-      .get(`${process.env.REACT_APP_AWS_EC2}/orders`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/orders?page=${page}&size=12`, noBodyOptions)
       .then((res) => {
         console.log(`orderdata get success res.data:`);
         console.log(res.data.data);
@@ -473,8 +473,8 @@ function OrderList() {
   return (
     <OrderBody>
       <div className="bold">주문 목록 </div>
-      {Array.isArray(OrderExData) &&
-        OrderExData.map((el, index) => (
+      {Array.isArray(orderData) &&
+        orderData.map((el, index) => (
           <div className="order" key={index}>
             <div className="order-left">
               <div className="important">주문 번호: {el.orderId}</div>
@@ -482,23 +482,22 @@ function OrderList() {
               {/* <div className="important">
               <span>{`가격 :${el.price} 원 ,`}</span> <span>{`수량 :${el.count}`}</span>
             </div> */}
-              {el.productResponse.map((el, index) => (
-                <div key={index}>
-                  <div className="important">
-                    상품 이름: {el.name}
-                    <span>
-                      <button className="button small-review">
-                        <Link to={`/reviewform/${el.productId}`} className="link" proptest="test">
-                          후기 작성
-                        </Link>
-                      </button>{" "}
-                    </span>
+              {Array.isArray(el.detailResponses) &&
+                el.detailResponses.map((el, index) => (
+                  <div key={index} className="individuel-product">
+                    <div className="important">상품 이름: {el.productResponse.name}</div>
+                    <div className="important">
+                      <span>{`가격 :${el.productResponse.price} 원 ,`}</span> <span>{`수량 :${el.productsCount}`}</span>{" "}
+                      <span>
+                        <button className="button small-review">
+                          <Link to={`/reviewform/${el.productResponse.productId}`} className="link" proptest="test">
+                            후기 작성
+                          </Link>
+                        </button>{" "}
+                      </span>
+                    </div>
                   </div>
-                  <div className="important">
-                    <span>{`가격 :${el.price} 원 ,`}</span> <span>{`수량 :${el.count}`}</span>{" "}
-                  </div>
-                </div>
-              ))}
+                ))}
 
               <div>주소 :{el.receivingAddress}</div>
               <div>받는 사람 : {el.receiver}</div>
@@ -520,8 +519,8 @@ function OrderList() {
                   <Modal
                     setModalOpen={setModalOpen}
                     axiosfunction={deleteOrder}
-                    data={OrderExData}
-                    index={OrderExData.findIndex((element, index) => index === modalIndex)}
+                    data={orderData}
+                    index={orderData.findIndex((element, index) => index === modalIndex)}
                     objectKey="orderId"
                     keyword="주문취소"
                   />
@@ -590,10 +589,16 @@ const OrderBody = styled.div`
       border: 1.5px solid black;
       cursor: pointer;
     }
+    .individuel-product {
+      margin: 10px 0;
+      border-bottom: 1px solid #fcc3c3;
+    }
     .small-review {
+      font-size: small;
       padding: 1px 2px;
-      width: 80px;
-      margin-left: 3rem;
+      width: 60px;
+      background-color: #c5e2ff;
+      margin-left: 1rem;
     }
     .cancle {
       background-color: #f9a9a9;
@@ -602,13 +607,13 @@ const OrderBody = styled.div`
       width: 60px;
     }
     .order-left {
-      width: 65%;
+      width: 66%;
       @media screen and (max-width: 768px) {
         width: 100%;
       }
     }
     .order-right {
-      width: 33%;
+      width: 30%;
       @media screen and (max-width: 768px) {
         width: 100%;
       }
