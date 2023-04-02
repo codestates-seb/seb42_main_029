@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.k5.modudogcat.domain.order.entity.OrderProduct.OrderProductStatus.*;
+
 @Service
 @RequiredArgsConstructor
 public class OrderProductService {
@@ -42,41 +44,48 @@ public class OrderProductService {
             throw new BusinessLogicException(ExceptionCode.SELLER_NOT_ALLOWED);}
         //결제 상태 검증(앞뒤 단계)
         verifiedOrderStatus(orderProduct, patch.getOrderProductStatus());
+        //결제 상태 변경 감지
+        verifiedChangedOrderStatus(orderProduct, patch.getOrderProductStatus());
         //운송장 번호 추가 및 수정
         postParcelNumber(orderProduct, patch.getParcelNumber());
-        //디비에 추가
-        orderProduct.setOrderProductStatus(patch.getOrderProductStatus());
-        return orderProductRepository.save(orderProduct);
+        return orderProduct;
+    }
+
+    private void verifiedChangedOrderStatus(OrderProduct orderProduct, OrderProduct.OrderProductStatus orderProductStatus) {
+        if(!orderProduct.getOrderProductStatus().equals(orderProductStatus)) {
+            orderProduct.setOrderProductStatus(orderProductStatus);
+            orderProductRepository.save(orderProduct);
+        }
     }
 
     private void postParcelNumber(OrderProduct orderProduct, String parcelNumber) {
-        Optional.ofNullable(parcelNumber)
-                .ifPresent(newParcel -> orderProduct.setParcelNumber(parcelNumber));
-
+        if(parcelNumber != null) {
+            orderProduct.setParcelNumber(parcelNumber);
+            orderProductRepository.save(orderProduct);
+        }
     }
 
     //결제 상태 변경 시 검증 //Todo 앞으로 2단계도 못뛰게 검증 변경 != 형태
     private void verifiedOrderStatus(OrderProduct orderProduct, OrderProduct.OrderProductStatus orderProductStatus) {
         String verifiedOrderStatus = orderProduct.getOrderProductStatus().getStatus();
-        if (verifiedOrderStatus.equals("결제대기")) {
-            if (!orderProductStatus.getStatus().equals("결제완료") || !orderProductStatus.getStatus().equals("결제대기")) {
+        if (verifiedOrderStatus.equals(ORDER_PAY_STANDBY)) {
+            if (!(orderProductStatus.getStatus().equals(ORDER_PAY_FINISH) || orderProductStatus.getStatus().equals(ORDER_PAY_STANDBY))) {
                 throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
 
-        } else if (Objects.equals(verifiedOrderStatus, "결제완료")){
-            if(!orderProductStatus.getStatus().equals("배송 준비 중")|| !orderProductStatus.getStatus().equals("결제완료")){
+        } else if (Objects.equals(verifiedOrderStatus, ORDER_PAY_FINISH)){
+            if(!(orderProductStatus.getStatus().equals(DELIVERY_PREPARE)|| orderProductStatus.getStatus().equals(ORDER_PAY_FINISH))){
                 throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
 
-        } else if (verifiedOrderStatus.equals("배송 준비 중")){
-            if(!orderProductStatus.getStatus().equals("배송 중") || !orderProductStatus.getStatus().equals("배송 준비 중")){
+        } else if (verifiedOrderStatus.equals(DELIVERY_PREPARE)){
+            if(!(orderProductStatus.getStatus().equals(DELIVERY_ING) || orderProductStatus.getStatus().equals(DELIVERY_PREPARE))){
                 throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
 
-        } else if (verifiedOrderStatus.equals("배송 중")){
-            if(!orderProductStatus.getStatus().equals("배송 완료") || !orderProductStatus.getStatus().equals("배송 중")){
+        } else if (verifiedOrderStatus.equals(DELIVERY_ING)){
+            if(!(orderProductStatus.getStatus().equals(DELIVERY_COMPLETE) || orderProductStatus.getStatus().equals(DELIVERY_ING))){
                 throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
 
-        } else if (verifiedOrderStatus.equals("배송 완료")){
-            if(orderProductStatus.getStatus().equals("결제대기") || orderProductStatus.getStatus().equals("결제완료")
-                    || orderProductStatus.getStatus().equals("배송 준비 중") || orderProductStatus.getStatus().equals("배송 중")){
+        } else if (verifiedOrderStatus.equals(DELIVERY_COMPLETE)){
+            if(!orderProductStatus.getStatus().equals(DELIVERY_COMPLETE)){
                 throw new BusinessLogicException(ExceptionCode.COMPLETED_ORDER);}
         }
     }
