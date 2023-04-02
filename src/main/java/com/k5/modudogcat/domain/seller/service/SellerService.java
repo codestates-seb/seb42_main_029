@@ -114,7 +114,7 @@ public class SellerService {
     public Page<Product> findProducts(Pageable pageable, Long sellerId) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort());
+                pageable.getSort().descending());
         Page<Product> products = productRepository.findAllBySellerSellerIdAndProductStatusNotLike(sellerId, Product.ProductStatus.PRODUCT_DELETE, of);
 
         return products;

@@ -8,9 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class OrderProductDto {
     @Setter
@@ -67,5 +67,14 @@ public class OrderProductDto {
 
     }
     //@Getter 붙이고 내부 생성자 만들고 @Builder 붙여서 (순서 상관없이, 넣고 싶은 인자만 넣을 수 있게) 만들기
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class patch {
+        @Nullable
+        private String parcelNumber;
+        private OrderProduct.OrderProductStatus orderProductStatus;
+    }
 }
 

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -39,12 +40,12 @@ public class OrderProductController {
         return new ResponseEntity(new MultiResponseDto<>(getSellerOrders, orderProductPage), HttpStatus.OK);
     }
 
-    //판매자의 주문 상태 변경
-    @PatchMapping("/orders/{order-id}")
-    public ResponseEntity patchOrderStatus(@PathVariable("order-id") @Positive Long orderId,
-                                           @RequestBody OrderProduct.OrderProductStatus orderStatus) {
-        OrderProduct orderProduct = orderProductService.findOrderStatus(orderId, orderStatus);
-        OrderProduct patchOrderStatus = orderProductService.findOrder(tokenSellerId(), orderProduct, orderStatus);
+    //판매자의 주문 상태 변경 및 운송장번호 입력
+    @PatchMapping("/orders/{orderProduct-id}")
+    public ResponseEntity patchOrderStatus(@PathVariable("orderProduct-id") @Positive Long orderProductId,
+                                           @RequestBody @Valid OrderProductDto.patch patch) {
+        OrderProduct orderProduct = orderProductService.findByOrderProductId(orderProductId);
+        OrderProduct patchOrderStatus = orderProductService.patchOrderStatusOrParcelNumber(tokenSellerId(), orderProduct, patch);
         OrderProductDto.sellerResponse response = orderProductMapper.orderProductToSellerResponse(patchOrderStatus);
         return new ResponseEntity<> (new SingleResponseDto<>(response), HttpStatus.OK);
     }
