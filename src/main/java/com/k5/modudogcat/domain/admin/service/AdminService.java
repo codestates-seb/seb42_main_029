@@ -33,10 +33,12 @@ public class AdminService {
     public Page<Seller> findSellers(Pageable pageable) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort().descending());
+                pageable.getSort());
 
-        Page<Seller> findSellers = sellerRepository.findAllBySellerStatus(Seller.SellerStatus.SELLER_WAITING, of);
-        return findSellers;
+        List<Seller> findSellers = sellerRepository.findAllBySellerStatus(Seller.SellerStatus.SELLER_WAITING);
+        Page<Seller> pageSellers = new PageImpl<>(findSellers, of, findSellers.size());
+
+        return pageSellers;
     }
 
     //회원가입 승인

@@ -30,13 +30,25 @@ public class OrderService {
     private final CartService cartService;
     @Transactional
     public Order createOrder(Order order){
-        // todo : (회원이 계속 뒤로가기를 눌러서) 주문이 무한적으로 생성되는것을 막을 방법을 고민해보자.
+        // NOTE : (회원이 계속 뒤로가기를 눌러서) 주문이 무한적으로 생성되는것을 막을 방법을 고민해보자.
+        List<OrderProduct> orderProductList = stockMinusCount(order);
+        order.setOrderProductList(orderProductList);
         Order savedOrder = orderRepository.save(order);
-//        productStockMinusByOrder(savedOrder); // NOTE : 리액트와 통신하면 order안에 null이 들어오는 중임
         emptyCart(savedOrder.getUser().getUserId());
         return savedOrder;
     }
-
+    private List<OrderProduct> stockMinusCount(Order order){
+        List<OrderProduct> orderProductList = order.getOrderProductList().stream()
+                .map(orderProduct -> {
+                    Product product = productService.findProduct(orderProduct.getProduct().getProductId());
+                    long updatedStock = product.getStock() - orderProduct.getProductCount();
+                    product.setStock(updatedStock);
+                    orderProduct.setProduct(product);
+                    return orderProduct;
+                })
+                .collect(Collectors.toList());
+        return orderProductList;
+    }
     public Order updateOrder(Order order, Long userId){
         Long orderId = order.getOrderId();
         Order findOrder = findVerifiedOrderById(orderId);
@@ -98,23 +110,6 @@ public class OrderService {
         if(LoginUserId != dbUserId){
             throw new BusinessLogicException(ExceptionCode.NOT_ALLOWED_USER);
         }
-    }
-
-    private void productStockMinusByOrder(Order savedOrder){
-        List<OrderProduct> orderProductList = savedOrder.getOrderProductList().stream()
-                .map(orderProduct -> {
-                    Product product = productService.findProduct(orderProduct.getProduct().getProductId());
-                    Long updateStock = product.getStock() - orderProduct.getProductCount();
-                    if (updateStock >= 0) {
-                        product.setStock(updateStock);
-                        orderProduct.setProduct(product);
-                    } else {
-                        throw new RuntimeException("재고 수량보다 많이 주문 했습니다.");
-                    }
-                    return orderProduct;
-                })
-                .collect(Collectors.toList());
-        savedOrder.setOrderProductList(orderProductList);
     }
 
     private void emptyCart(Long userId){

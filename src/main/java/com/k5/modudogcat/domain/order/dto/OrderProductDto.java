@@ -27,12 +27,12 @@ public class OrderProductDto {
     public static class Response {
 
         Product product = new Product();
-        private Long productsCount;
+        private Long productCount;
         private String productName = product.getName();
         private Long productPrice = product.getPrice();
 
-        public Response(Long productsCount, String productName, Long productPrice) {
-            this.productsCount = productsCount;
+        public Response(Long productCount, String productName, Long productPrice) {
+            this.productCount = productCount;
             this.productName = productName;
             this.productPrice = productPrice;
         }
@@ -43,7 +43,7 @@ public class OrderProductDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DetailResponse {
-        private Long productsCount;
+        private Long productCount;
         private String parcelNumber;
         private OrderProduct.OrderProductStatus orderProductStatus;
         private ProductDto.Response productResponse;
