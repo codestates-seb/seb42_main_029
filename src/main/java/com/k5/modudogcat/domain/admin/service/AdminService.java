@@ -33,7 +33,7 @@ public class AdminService {
     public Page<Seller> findSellers(Pageable pageable) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort());
+                pageable.getSort().descending());
 
         Page<Seller> findSellers = sellerRepository.findAllBySellerStatus(Seller.SellerStatus.SELLER_WAITING, of);
         return findSellers;
