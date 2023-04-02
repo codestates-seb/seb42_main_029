@@ -2,6 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import Slide from "../components/Main/Slide";
 import Product from "./Product";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +18,7 @@ export default function MainAnimation() {
   const linkToAbout = () => {
     navigate("/about");
   };
+
   return (
     <>
       <Dog src={runningdog} onClick={linkToAbout}></Dog>
@@ -36,6 +38,8 @@ const WrapperSlide = styled.div`
     overflow: hidden;
     max-width: 100%;
   }
+    font-family: "Dovemayo_gothic";
+
 `;
 const move = keyframes`
 0%{
@@ -74,4 +78,5 @@ const Dog = styled.img`
   z-index: 600;
   transition: 1s;
   animation: ${move} 16s 0s infinite;
+
 `;

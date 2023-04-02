@@ -137,7 +137,8 @@ const Wrapper = styled.div`
   top: 0;
   color: #363636;
   z-index: 900;
-  border-bottom: 1.2px solid #af9393;
+  /* border-bottom: 1.2px solid #af9393; */
+  box-shadow: 3px 3px 6px #af9393 ;
 `;
 
 const LeftSide = styled.div`

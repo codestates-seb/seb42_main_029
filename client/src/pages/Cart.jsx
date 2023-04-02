@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 /*
  * 현재는 상품수량 모두 counter 하나로 공유합니다.
  */
@@ -208,6 +208,10 @@ const ProductBox = styled.div`
 
 const ItemsImage = styled.img`
   height: 70px;
+
+  @media screen and (max-width: 768px){
+    margin: 0.3rem 0.6rem 0.3rem 0.2rem;
+  }
 `;
 
 const PayBox = styled.div`
@@ -237,12 +241,17 @@ const PayBoxCharge = styled.div`
 `;
 
 const DeleteBtn = styled.button`
-  width: 65px;
+  width: 70px;
   height: 40px;
   border-radius: 10px;
   background-color: #fc5050;
-  color: white;
+  color: #ffffff;
   font-family: "Dovemayo_gothic";
+  cursor: pointer;
+
+  :hover {
+    font-size: 1rem;
+  }
 `;
 
 const PayBtn = styled.button`
@@ -266,6 +275,10 @@ const PayBtn = styled.button`
 
 const ItemStyle = styled.div`
   color: ${(props) => props.color || "black"};
+
+  @media screen and (max-width: 768px){
+    font-size: 0.8rem;
+  }
 `;
 
 const CountBtn = styled.button`
@@ -276,8 +289,14 @@ const CountBtn = styled.button`
   margin-right: 10px;
   margin-left: 10px;
   border-radius: 10px;
+  cursor: pointer;
+
   &:active {
     background-color: #1565c0;
+  }
+
+  :hover {
+    color: #ffffff;
   }
 `;
 

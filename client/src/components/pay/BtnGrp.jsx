@@ -43,7 +43,14 @@ export default function BtnGrp({ receiver, phone, receivingAddress, totalPrice, 
         .then((res) => {
           // console.log(res);
           alert("주문성공!");
-          navigate("/payComplete");
+          navigate("/payComplete", {
+            state: {
+              name: receiver,
+              phoneNum: phone,
+              address: receivingAddress,
+              totalPrice: totalPrice
+            },
+          });
         })
         .catch((err) => {
           console.log(err);

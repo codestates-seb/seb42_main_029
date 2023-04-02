@@ -13,7 +13,7 @@ const Product = () => {
     axios
       .get(url)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setData(response.data.data);
       })
       .catch((error) => {
@@ -70,7 +70,7 @@ const ItemContents = styled.div`
   align-items: center;
 
   width: 24%;
-  min-width: 330px;
+  min-width: 300px;
 
   height: 360px;
   border-radius: 10px;
@@ -108,5 +108,10 @@ const TextSelect = styled.div`
   font-size: 24px;
   margin-top: 100px;
   margin-bottom: 30px;
-  font-family: "Dovemayo_gothic";
+
+  font-family: 'Dovemayo_gothic';
+
+  @media screen and (max-width: 768px){
+    font-size: 1rem;
+  }
 `;

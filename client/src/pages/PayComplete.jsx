@@ -17,33 +17,6 @@ export default function PayComplete() {
   };
 
   //! 주문 내역 get
-  const [orderData, setOrderData] = useState([]);
-
-  const [cookies] = useCookies(["accessToken"]);
-
-  const options = {
-    headers: {
-      Authorization: cookies.accessToken,
-    },
-    withCredentials: true,
-  };
-
-  const orderDataGet = async () => {
-    return await axios
-      .get(`${process.env.REACT_APP_AWS_EC2}/orders?page=1&size=12`, options)
-      .then((res) => {
-        console.log(res);
-        setOrderData(res);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("주문내역 받아오기 실패");
-      });
-  };
-
-  useEffect(() => {
-    orderDataGet();
-  }, []);
 
   return (
     <Wrapper>
