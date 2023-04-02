@@ -55,7 +55,7 @@ public class ProductService {
     public Page<Product> findProducts(Pageable pageable){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort());
+                pageable.getSort().descending());
         Page<Product> findProducts = productRepository.findAllByProductStatusNotLike(Product.ProductStatus.PRODUCT_DELETE, of);
 
         return findProducts;
