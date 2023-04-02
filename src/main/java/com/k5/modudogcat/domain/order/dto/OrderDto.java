@@ -35,11 +35,8 @@ public class OrderDto {
     @AllArgsConstructor
     public static class Patch {
         private Long orderId;
-        @NotBlank(message = "수령자는 필수 입력 값입니다.")
         private String receiver;
-        @NotBlank(message = "전화번호는 필수 입력 값입니다.")
         private String phone;
-        @NotBlank(message = "수령지는 필수 입력 값입니다.")
         private String receivingAddress;
         @NotBlank(message = "주문수량은 필수 입력 값입니다.")
         @Min(value = 1, message = "1이상의 값을 입력해주세요.")

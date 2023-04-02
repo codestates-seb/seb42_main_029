@@ -43,7 +43,7 @@ public interface OrderMapper {
         order.setPhone( postDto.getPhone() );
         order.setReceivingAddress( postDto.getReceivingAddress() );
         order.setTotalPrice( postDto.getTotalPrice() );
-
+        // orderProduct를 orderProductDto로 바꾸어주는 과정이 없네?
         List<OrderProduct> orderProducts = postDto.getOrderProductDtos().stream()
                 .map(orderProductDto -> {
                     OrderProduct orderProduct = new OrderProduct();
@@ -51,7 +51,7 @@ public interface OrderMapper {
                     product.setProductId(orderProductDto.getProductId());
                     orderProduct.setOrder(order);
                     orderProduct.setProduct(product);
-                    orderProduct.setProductCount(orderProductDto.getProductCount());
+                    orderProduct.setProductsCount(orderProductDto.getProductsCount());
                     return orderProduct;
                 }).collect(Collectors.toList());
         order.setUser(fkUser);
@@ -81,7 +81,7 @@ public interface OrderMapper {
         List<OrderProductDto.DetailResponse> orderProductDetailResponse = order.getOrderProductList().stream()
                 .map(orderProduct -> {
                     OrderProductDto.DetailResponse detailResponse = new OrderProductDto.DetailResponse();
-                    detailResponse.setProductsCount(orderProduct.getProductCount());
+                    detailResponse.setProductsCount(orderProduct.getProductsCount());
                     detailResponse.setParcelNumber(orderProduct.getParcelNumber());
                     detailResponse.setOrderProductStatus(orderProduct.getOrderProductStatus());
                     detailResponse.setProductResponse(ProductMapper.productToResponse(orderProduct.getProduct(), domain));
