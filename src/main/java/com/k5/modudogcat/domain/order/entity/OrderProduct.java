@@ -1,6 +1,7 @@
 package com.k5.modudogcat.domain.order.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.k5.modudogcat.audit.Auditable;
 import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.util.OrderProductStatusDeserializer;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderProduct {
+public class OrderProduct extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderProductId;
