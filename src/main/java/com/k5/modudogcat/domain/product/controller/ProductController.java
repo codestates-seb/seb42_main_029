@@ -1,5 +1,6 @@
 package com.k5.modudogcat.domain.product.controller;
 
+import com.k5.modudogcat.domain.admin.service.AdminService;
 import com.k5.modudogcat.domain.product.entity.productImage.ProductDetailImage;
 import com.k5.modudogcat.domain.product.mapper.ProductMapper;
 import com.k5.modudogcat.domain.product.dto.ProductDto;
@@ -34,6 +35,8 @@ public class ProductController {
     @Value("${config.domain}")
     private String domain;
     private final SellerService sellerService;
+
+    private final AdminService adminService;
 
     // 임시 상품 등록
     @PostMapping
@@ -75,8 +78,7 @@ public class ProductController {
     // todo: 상품 삭제 핸들러 메서드
     @DeleteMapping("/{product-id}")
     public ResponseEntity deleteProduct(@PathVariable("product-id") Long productId){
-        productService.removeProduct(productId);
-
+        productService.removeProduct(productId, tokenSellerId(), hasRole());
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
@@ -84,5 +86,11 @@ public class ProductController {
         String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = Long.parseLong(principal);
         return sellerService.findSellerIdById(userId);
+    }
+
+    public boolean hasRole() {
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = Long.parseLong(principal);
+        return adminService.verifiedHasAdminRole(userId);
     }
 }

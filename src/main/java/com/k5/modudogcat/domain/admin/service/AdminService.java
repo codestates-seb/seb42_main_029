@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -66,5 +67,14 @@ public class AdminService {
         List<String> roles = customAuthorityUtils.createRoles(user);
         user.setRoles(roles);
         userRepository.save(user);
+    }
+
+    //관리자 권한 확인
+    public boolean verifiedHasAdminRole(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if(user.get().getRoles().equals("ADMIN")) {
+           return true;
+        }
+        throw new BusinessLogicException(ExceptionCode.NOT_HAS_ADMIN_ROLE);
     }
 }
