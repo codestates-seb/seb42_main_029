@@ -18,14 +18,14 @@ import java.time.format.DateTimeFormatter;
 public abstract class Auditable {
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.parse(LocalDateTime.now().format(formatter));
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime modifiedAt = LocalDateTime.parse(LocalDateTime.now().format(formatter));
+    private LocalDateTime modifiedAt;
 
     @Transient
     private static final DateTimeFormatter formatter =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd a HH:mm");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public String getFormattedCreatedAt() {
         return createdAt.format(formatter);
