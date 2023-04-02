@@ -31,7 +31,7 @@ public class CartService {
         verifiedCartProduct(cartId, productId);
         
         CartProduct cartProduct = new CartProduct();
-        Cart findCart = findVerifedCart(cartId);
+        Cart findCart = findVerifiedCartByCartId(cartId);
         Product findProduct = productService.findProduct(productId);
         cartProduct.setProduct(findProduct);
         cartProduct.addCart(findCart);
@@ -39,10 +39,18 @@ public class CartService {
         return cartProductRepository.save(cartProduct);
     }
 
-    public Cart findVerifedCart(Long cartId){
-        Cart findCart = cartRepository.findById(cartId)
+    public Cart findVerifiedCartByUserId(Long userId){
+        Cart findCart = cartRepository.findByUserUserId(userId)
                 .orElseThrow(() -> {
                     throw new BusinessLogicException(ExceptionCode.USER_NO_CART);
+                });
+        return findCart;
+    }
+
+    public Cart findVerifiedCartByCartId(Long cartId){
+        Cart findCart = cartRepository.findById(cartId)
+                .orElseThrow(() -> {
+                    throw new BusinessLogicException(ExceptionCode.WRONG_PRODUCT_OR_CART);
                 });
         return findCart;
     }
@@ -96,7 +104,7 @@ public class CartService {
     }
 
     public void removeCartProductsByCartId(Long userId){
-        Long cartId = findVerifedCart(userId).getCartId();
+        Long cartId = findVerifiedCartByUserId(userId).getCartId();
         cartProductRepository.deleteAllByCartCartId(cartId);
     }
 }

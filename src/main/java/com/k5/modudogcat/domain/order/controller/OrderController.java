@@ -67,8 +67,6 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity findBuyerOrders(Pageable pageable){
-//        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        long userId = Long.parseLong(principal);
         Long userId = getUserPrincipleByJWT();
         Page<Order> pageOrders = orderService.findBuyerOrders(pageable, userId);
         List<Order> orders = pageOrders.getContent();

@@ -1,8 +1,6 @@
 package com.k5.modudogcat.domain.seller.service;
 
 import com.k5.modudogcat.domain.order.entity.Order;
-import com.k5.modudogcat.domain.order.entity.OrderProduct;
-import com.k5.modudogcat.domain.order.repository.OrderProductRepository;
 import com.k5.modudogcat.domain.order.repository.OrderRepository;
 import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.product.repository.ProductRepository;
@@ -37,8 +35,6 @@ public class SellerService {
     private final ProductRepository productRepository;
 
     private final OrderRepository orderRepository;
-
-    private final OrderProductRepository orderProductRepository;
 
     public Seller createSeller(Seller seller) {
         verifiedByLoginId(seller);
@@ -119,9 +115,9 @@ public class SellerService {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
-        List<Product> products = productRepository.findAllBySellerSellerIdAndProductStatusNotLike(sellerId, Product.ProductStatus.PRODUCT_DELETE);
+        Page<Product> products = productRepository.findAllBySellerSellerIdAndProductStatusNotLike(sellerId, Product.ProductStatus.PRODUCT_DELETE, of);
 
-        return new PageImpl<>(products, of, products.size());
+        return products;
     }
 
     public void removeProduct(Long productId, Long sellerId) {
