@@ -38,6 +38,7 @@ function ReviewForm(props) {
         console.log("itemData GET error");
       });
   }
+
   //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
   useEffect(() => {
     getItemInfo(productId);
@@ -49,7 +50,8 @@ function ReviewForm(props) {
     setReviewPhoto(e.target.files[0]);
   }
 
-  //! 리뷰 등록 post                              XXXXXXXXXXXXXXX
+
+  // ! 리뷰 등록 post                              XXXXXXXXXXXXXXX
   function postReview(productId) {
     const patchdata = new FormData();
     const jsondata = {
@@ -57,8 +59,10 @@ function ReviewForm(props) {
       score: score,
       title: title,
     };
+
     patchdata.append("post", new Blob([JSON.stringify(jsondata)], { type: "application/json" }));
     patchdata.append("image", reviewPhoto);
+
     return axios
       .post(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products`, patchdata, {
         headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },

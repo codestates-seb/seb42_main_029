@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import Swal from "sweetalert2";
 
 const ProductInfo = () => {
   const [data, setData] = useState([]);
@@ -16,6 +17,7 @@ const ProductInfo = () => {
   // 아이템 get
 
   const url = `${process.env.REACT_APP_AWS_EC2}/products/${productId}`;
+  // const url = "http://ec2-13-125-150-3.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}"
   useEffect(() => {
     axios
       .get(url)
@@ -40,6 +42,13 @@ const ProductInfo = () => {
   //장바구니에 추가하기
 
   const addCartProduct = async (id) => {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "장바구니에 추가완료!!",
+      showConfirmButton: false,
+      timer: 1200,
+    });
     const options = {
       headers: {
         Authorization: cookies.accessToken,
@@ -49,13 +58,16 @@ const ProductInfo = () => {
 
     return await axios
       .post(
-        `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`,
+        // `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`,
+        `http://ec2-13-125-150-3.ap-northeast-2.compute.amazonaws.com:8080/carts/products/${id}`,
         { productId },
         options
       )
       .then((res) => {
         console.log(res);
-        alert("장바구니 담기 성공!")
+        
+        // alert("장바구니 담기 성공!")
+
         navigate("/cart");
       })
       .catch((err) => {
@@ -237,7 +249,10 @@ const ButtonStyle = styled.button`
   border: none;
   font-size: 1rem;
   background-color: #fcb3bf;
-
+  &:hover{
+    cursor:pointer;
+    color:white;
+  }
   @media screen and (max-width: 767px) {
     font-size: 0.8rem;
     width: 100px;
