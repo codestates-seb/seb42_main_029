@@ -25,7 +25,7 @@ public class OrderProductService {
     public Page<OrderProduct> findOrdersBySellerId(Pageable pageable, Long sellerId) {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                Sort.by("createdAt").descending());
+                Sort.by("order.createdAt").descending());
         //해당 orderproduct(단일상품 주문) 가져오기
         Page<OrderProduct> orderProducts = orderProductRepository.findByProductSellerSellerId(sellerId, of);
 
