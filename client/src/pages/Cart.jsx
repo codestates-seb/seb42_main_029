@@ -43,12 +43,11 @@ const Cart = () => {
 
   //! 장바구니의 각 상품 수량 증가함수
   const handleIncrease = async (id) => {
-    const data = {};
 
     return await axios
       .patch(
         `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}/plus`,
-        data,
+        null,
         options
       )
       .then((res) => {
@@ -62,12 +61,12 @@ const Cart = () => {
 
   //! 장바구니의 상품 수량 감소함수
   const handleDecrease = async (id) => {
-    const data = {};
+    // const data = {}
 
     return await axios
       .patch(
         `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}/minus`,
-        data,
+        null,
         options
       )
       .then((res) => {
@@ -76,6 +75,7 @@ const Cart = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert("상품 수량은 1개 이상 담으세요!")
       });
   };
 
@@ -107,6 +107,10 @@ const Cart = () => {
   //! 주문하러가기
 
   const goOrderBtn = () => {
+    if(totalPrice(cartData) === 0) {
+      return alert('총 결제금액이 0원 입니다.. 수량은 1개 이상부터 주문 가능!')
+    }
+    
     navigate("/pay", { state: totalPrice(cartData) });
   };
 
@@ -209,7 +213,7 @@ const ProductBox = styled.div`
 const ItemsImage = styled.img`
   height: 70px;
 
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     margin: 0.3rem 0.6rem 0.3rem 0.2rem;
   }
 `;
@@ -276,7 +280,7 @@ const PayBtn = styled.button`
 const ItemStyle = styled.div`
   color: ${(props) => props.color || "black"};
 
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     font-size: 0.8rem;
   }
 `;

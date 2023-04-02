@@ -3,9 +3,9 @@ import styled from "styled-components";
 export default function PayCompleteForm() {
 
   const userInfo = useLocation();
-  console.log(userInfo);
+  // console.log(userInfo);
 
-  console.log(userInfo.state.address);
+  // console.log(userInfo.state.address);
 
   return (
     <Wrapper>
