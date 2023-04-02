@@ -23,7 +23,7 @@ public class OrderProductDto {
     @Setter
     @AllArgsConstructor
     public static class Response {
-        private Long productsCount;
+        private Long productCount;
         private String productName;
         private Long productPrice;
     }
@@ -33,7 +33,7 @@ public class OrderProductDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DetailResponse {
-        private Long productsCount;
+        private Long productCount;
         private String parcelNumber;
         private OrderProduct.OrderProductStatus orderProductStatus;
         private ProductDto.Response productResponse;

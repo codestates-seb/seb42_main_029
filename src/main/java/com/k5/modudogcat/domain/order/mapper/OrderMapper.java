@@ -81,7 +81,7 @@ public interface OrderMapper {
         List<OrderProductDto.DetailResponse> orderProductDetailResponse = order.getOrderProductList().stream()
                 .map(orderProduct -> {
                     OrderProductDto.DetailResponse detailResponse = new OrderProductDto.DetailResponse();
-                    detailResponse.setProductsCount(orderProduct.getProductCount());
+                    detailResponse.setProductCount(orderProduct.getProductCount());
                     detailResponse.setParcelNumber(orderProduct.getParcelNumber());
                     detailResponse.setOrderProductStatus(orderProduct.getOrderProductStatus());
                     detailResponse.setProductResponse(ProductMapper.productToResponse(orderProduct.getProduct(), domain));
