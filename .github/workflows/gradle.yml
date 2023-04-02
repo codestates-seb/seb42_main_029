@@ -15,7 +15,7 @@ permissions:
   contents: read
   
 env:
-  S3_BUCKET_NAME: modudogcat
+  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
 
 jobs:
   build:
@@ -47,13 +47,13 @@ jobs:
         aws-region: ap-northeast-2
         
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./modudogcat.zip s3://$S3_BUCKET_NAME/modudogcat.zip
+      run: aws s3 cp --region ap-northeast-2 ./${{ secrets.S3_BUCKET_NAME }}.zip s3://$S3_BUCKET_NAME/${{ secrets.S3_BUCKET_NAME }}.zip
 
     - name: Code Deploy
       env:
         JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       run: >
-          aws deploy create-deployment --application-name modudogcat
+          aws deploy create-deployment --application-name ${{ secrets.S3_BUCKET_NAME }}
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name modudogcat-group
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=modudogcat.zip
+          --deployment-group-name ${{ secrets.S3_BUCKET_NAME }}-group
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=${{ secrets.S3_BUCKET_NAME }}.zip
