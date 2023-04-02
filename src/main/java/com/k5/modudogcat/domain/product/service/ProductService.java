@@ -56,9 +56,9 @@ public class ProductService {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
-        List<Product> findProducts = productRepository.findAllByProductStatusNotLike(Product.ProductStatus.PRODUCT_DELETE, pageable);
+        Page<Product> findProducts = productRepository.findAllByProductStatusNotLike(Product.ProductStatus.PRODUCT_DELETE, of);
 
-        return new PageImpl<>(findProducts, of, findProducts.size());
+        return findProducts;
     }
 
     public void removeProduct(Long productId){
