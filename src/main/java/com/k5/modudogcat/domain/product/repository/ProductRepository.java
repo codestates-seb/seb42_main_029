@@ -11,5 +11,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllBySellerSellerIdAndProductStatusNotLike(Long sellerId, Product.ProductStatus productDelete);
 
-    List<Product> findAllBySellerSellerId(Long sellerId);
+    List<Product> findBySellerSellerId(Long sellerId);
 }

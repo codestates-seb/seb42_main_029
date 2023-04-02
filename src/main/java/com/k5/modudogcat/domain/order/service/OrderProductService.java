@@ -1,6 +1,6 @@
 package com.k5.modudogcat.domain.order.service;
 
-import com.k5.modudogcat.domain.order.entity.Order;
+import com.k5.modudogcat.domain.order.dto.OrderProductDto;
 import com.k5.modudogcat.domain.order.entity.OrderProduct;
 import com.k5.modudogcat.domain.order.repository.OrderProductRepository;
 import com.k5.modudogcat.domain.product.entity.Product;
@@ -25,24 +25,19 @@ public class OrderProductService {
 
     private final OrderProductRepository orderProductRepository;
 
-    //sellerId가 일치하고, ORDER_DELETE가 아닌 주문들 가지고 오기
-    public List<OrderProduct> findOrders(Long sellerId) {
+    public Page<OrderProduct> findOrdersBySellerId(Pageable pageable, Long sellerId) {
+        PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
+                pageable.getPageSize(),
+                pageable.getSort());
         //해당 seller 상품 가져오기
-        List<Product> productList = productRepository.findAllBySellerSellerId(sellerId);
-        //해당 orderproduct 가져오기
-        List<OrderProduct> orderProducts = orderProductRepository.findAllByProduct(productList);
+        List<Product> productList = productRepository.findBySellerSellerId(sellerId);
+        //해당 orderproduct(단일상품 주문) 가져오기
+        List<OrderProduct> orderProducts = orderProductRepository.findByProductSellerSellerId(sellerId);
 
-        return orderProducts;
-//        // ------------------ pagination
-//        PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
-//                pageable.getPageSize(),
-//                pageable.getSort());
-//        //orderRepository, OrderStatus != ORDER_DELETE
-//        List<Order> orders = orderRepository.findAllByOrderStatusNotLikeAndUserUserId(Order.OrderStatus.ORDER_DELETE, sellerId);
-//        return new PageImpl<>(orders, of, orders.size());
+        return new PageImpl<>(orderProducts, of, orderProducts.size());
     }
 
-    //주문 찾기
+    //주문 찾기 //Todo findOrder vs findOrderStatus verifiedOrderStatus 위치 다시 확인해보기
     public OrderProduct findOrderStatus(Long orderProductId, OrderProduct.OrderProductStatus orderStatus) {
         OrderProduct orderProduct = orderProductRepository.findById(orderProductId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
@@ -50,13 +45,12 @@ public class OrderProductService {
         return orderProduct;
     }
 
-
-    public Order findOrder(Long sellerId, OrderProduct orderProduct, OrderProduct.OrderProductStatus orderStatus) {
+    public OrderProduct findOrder(Long sellerId, OrderProduct orderProduct, OrderProduct.OrderProductStatus orderStatus) {
         //주문의 판매자 id, 로그인한 판매자 id 검증
         if(orderProduct.getProduct().getSeller().getSellerId() != sellerId) {
             throw new BusinessLogicException(ExceptionCode.SELLER_NOT_ALLOWED);}
         //디비에 추가
-        orderProduct.setOrderStatus(orderStatus);
+        orderProduct.setOrderProductStatus(orderStatus);
         return orderProductRepository.save(orderProduct);
     }
 
