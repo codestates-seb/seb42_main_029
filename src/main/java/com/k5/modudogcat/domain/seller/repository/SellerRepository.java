@@ -1,6 +1,8 @@
 package com.k5.modudogcat.domain.seller.repository;
 
 import com.k5.modudogcat.domain.seller.entity.Seller;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,5 +12,5 @@ public interface SellerRepository extends JpaRepository<Seller, Long> {
 
     Optional<Seller> findByRegistrationNumber(String registrationNumber);
 
-    List<Seller> findAllBySellerStatus(Seller.SellerStatus sellerWaiting);
+    Page<Seller> findAllBySellerStatus(Seller.SellerStatus sellerWaiting, Pageable pageable);
 }

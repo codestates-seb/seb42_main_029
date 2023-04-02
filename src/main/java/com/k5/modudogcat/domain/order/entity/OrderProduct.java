@@ -1,10 +1,13 @@
 package com.k5.modudogcat.domain.order.entity;
 
+import com.k5.modudogcat.audit.Auditable;
 import com.k5.modudogcat.domain.product.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -13,10 +16,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderProduct {
+public class OrderProduct extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productOrderId;
+    private Long orderProductId;
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
@@ -24,9 +27,11 @@ public class OrderProduct {
     @JoinColumn(name = "product_id")
     private Product product;
     private Long productsCount = 1L;
+    @Column(nullable = true)
     private String parcelNumber;
     @Enumerated(value = EnumType.STRING)
     private OrderProductStatus orderProductStatus = OrderProductStatus.ORDER_PAY_STANDBY;
+
 
     public enum OrderProductStatus{
         ORDER_PAY_STANDBY("결제대기"),
