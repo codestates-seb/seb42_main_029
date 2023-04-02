@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
@@ -33,15 +34,7 @@ const ProductInfo = () => {
       });
   }, []);
 
-  const {
-    name,
-    thumbnailLink,
-    productDetailLinks,
-    productDetail,
-    price,
-    stock,
-    productStatus,
-  } = data;
+  const { name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus } = data;
 
   //장바구니에 추가하기
 
@@ -64,14 +57,16 @@ const ProductInfo = () => {
     }
 
     return await axios
-      .post(
-        `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`,
-        { productId },
-        options
-      )
+      .post(`${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`, { productId }, options)
       .then((res) => {
-        console.log(res);
-        alert("장바구니 담기 성공!");
+        //console.log(res)
+            Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "장바구니에 추가완료!!",
+      showConfirmButton: false,
+      timer: 1200,
+    });
         navigate("/cart");
       })
       .catch((err) => {
@@ -101,9 +96,7 @@ const ProductInfo = () => {
           <ButtonWrapper>
             {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
             {}
-            <ButtonStyle onClick={() => addCartProduct(productId)}>
-              장바구니에 담기
-            </ButtonStyle>
+            <ButtonStyle onClick={() => addCartProduct(productId)}>장바구니에 담기</ButtonStyle>
           </ButtonWrapper>
         </TextArea>
       </ContainerTop>
@@ -254,6 +247,13 @@ const ButtonStyle = styled.button`
   border: none;
   font-size: 1rem;
   background-color: #fcb3bf;
+  &:hover{
+    font-size: 18px;
+    cursor: pointer;
+  }
+  &:active{
+    background-color:silver;
+  }
 
   @media screen and (max-width: 767px) {
     font-size: 0.8rem;

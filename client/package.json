@@ -24,6 +24,7 @@
     "react-icons": "^4.8.0",
     "react-js-pagination": "^3.0.3",
     "react-redux": "^8.0.5",
+    "react-reveal": "^1.2.2",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
@@ -31,6 +32,7 @@
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.8",
+    "sweetalert2": "^11.7.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -58,5 +60,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy" : "http://ec2-13-125-150-3.ap-northeast-2.compute.amazonaws.com:8080"
+  "proxy": "http://ec2-13-125-150-3.ap-northeast-2.compute.amazonaws.com:8080"
 }
