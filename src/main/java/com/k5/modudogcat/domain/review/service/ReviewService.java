@@ -49,7 +49,7 @@ public class ReviewService {
     public Page<Review> findReviews(Pageable pageable){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort());
+                pageable.getSort().descending());
         List<Review> findReviews = reviewRepository.findAllByReviewStatus(Review.ReviewStatus.REVIEW_ACTIVE);
         PageImpl<Review> reviewPages = new PageImpl<>(findReviews, of, findReviews.size());
 

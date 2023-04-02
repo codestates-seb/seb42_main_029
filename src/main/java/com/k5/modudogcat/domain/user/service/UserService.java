@@ -92,7 +92,7 @@ public class UserService {
     public Page<User> findUsers(Pageable pageable){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort());
+                pageable.getSort().descending());
         // Active한 User들만 가져온 후, 페이징 객체로 생성
         List<User> findUsers = userRepository.findAllByUserStatus(User.UserStatus.USER_ACTIVE);
         Page<User> pageUsers = new PageImpl<>(findUsers, of, findUsers.size());

@@ -58,7 +58,7 @@ public class CartService {
     public Page<CartProduct> findCartProducts(Pageable pageable, Long cartId){
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
-                pageable.getSort());
+                pageable.getSort().descending());
         List<CartProduct> findCartProducts = cartProductRepository.findAllByCartCartId(cartId);
 
         return new PageImpl<>(findCartProducts, of, findCartProducts.size());
