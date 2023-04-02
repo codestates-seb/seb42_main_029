@@ -36,10 +36,6 @@ public class OrderProductController {
         List<OrderProduct> orderProductList = orderProductPage.getContent();
         List<OrderProductDto.sellerResponse> getSellerOrders = orderProductMapper.orderProductListToOrderProductDtoList(orderProductList);
 
-//        Page<Order> pageOrders = orderProductService.findOrders(pageable, tokenSellerId());
-//        List<Order> orders = pageOrders.getContent();
-//        List<OrderDto.Response> responseList = orderMapper.orderListToResponseDtoList(orders);
-
         return new ResponseEntity(new MultiResponseDto<>(getSellerOrders, orderProductPage), HttpStatus.OK);
     }
 

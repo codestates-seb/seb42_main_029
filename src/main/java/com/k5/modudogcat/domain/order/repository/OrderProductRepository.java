@@ -1,12 +1,12 @@
 package com.k5.modudogcat.domain.order.repository;
 
 import com.k5.modudogcat.domain.order.entity.OrderProduct;
-import com.k5.modudogcat.domain.product.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 
 public interface OrderProductRepository extends JpaRepository<OrderProduct, Long> {
 
-    List<OrderProduct> findByProductSellerSellerId(Long sellerId);
+    Page<OrderProduct> findByProductSellerSellerId(Long sellerId, Pageable pageable);
 }

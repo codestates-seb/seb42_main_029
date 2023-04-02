@@ -2,6 +2,7 @@ package com.k5.modudogcat.domain.order.service;
 
 import com.k5.modudogcat.domain.order.dto.OrderProductDto;
 import com.k5.modudogcat.domain.order.entity.OrderProduct;
+import com.k5.modudogcat.domain.order.mapper.OrderProductMapper;
 import com.k5.modudogcat.domain.order.repository.OrderProductRepository;
 import com.k5.modudogcat.domain.product.entity.Product;
 import com.k5.modudogcat.domain.product.repository.ProductRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,12 +31,10 @@ public class OrderProductService {
         PageRequest of = PageRequest.of(pageable.getPageNumber() - 1,
                 pageable.getPageSize(),
                 pageable.getSort());
-        //해당 seller 상품 가져오기
-        List<Product> productList = productRepository.findBySellerSellerId(sellerId);
         //해당 orderproduct(단일상품 주문) 가져오기
-        List<OrderProduct> orderProducts = orderProductRepository.findByProductSellerSellerId(sellerId);
+        Page<OrderProduct> orderProducts = orderProductRepository.findByProductSellerSellerId(sellerId, of);
 
-        return new PageImpl<>(orderProducts, of, orderProducts.size());
+        return orderProducts;
     }
 
     //주문 찾기 //Todo findOrder vs findOrderStatus verifiedOrderStatus 위치 다시 확인해보기
