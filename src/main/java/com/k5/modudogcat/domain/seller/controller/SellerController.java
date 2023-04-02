@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +46,8 @@ public class SellerController {
 
     private final ProductMapper productMapper;
 
-    private final OrderMapper orderMapper;
+    @Value("${config.domain}")
+    private String domain;
 
     //판매자의 판매자 회원가입 신청
     @PostMapping
@@ -89,7 +91,7 @@ public class SellerController {
     public ResponseEntity getSellingProducts(Pageable pageable) {
         Page<Product> pageProducts = sellerService.findProducts(pageable, tokenSellerId());
         List<Product> products = pageProducts.getContent();
-        List<ProductDto.Response> responseList = productMapper.productListToResponseDtoList(products);
+        List<ProductDto.Response> responseList = productMapper.productsToResponses(products,domain);
 
         return new ResponseEntity<>(new MultiResponseDto<>(responseList, pageProducts), HttpStatus.OK);
     }
