@@ -23,7 +23,7 @@ public class OrderProduct {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    private Long productsCount = 1L;
+    private Long productCount = 1L;
     private String parcelNumber;
     @Enumerated(value = EnumType.STRING)
     private OrderProductStatus orderProductStatus = OrderProductStatus.ORDER_PAY_STANDBY;

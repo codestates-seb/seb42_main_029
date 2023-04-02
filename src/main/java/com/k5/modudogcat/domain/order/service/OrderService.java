@@ -41,7 +41,7 @@ public class OrderService {
         List<OrderProduct> orderProductList = order.getOrderProductList().stream()
                 .map(orderProduct -> {
                     Product product = productService.findProduct(orderProduct.getProduct().getProductId());
-                    long updatedStock = product.getStock() - orderProduct.getProductsCount();
+                    long updatedStock = product.getStock() - orderProduct.getProductCount();
                     product.setStock(updatedStock);
                     orderProduct.setProduct(product);
                     return orderProduct;

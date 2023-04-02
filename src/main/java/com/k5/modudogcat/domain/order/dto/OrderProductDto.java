@@ -16,7 +16,7 @@ public class OrderProductDto {
     @AllArgsConstructor
     public static class Post{
         private Long productId;
-        private Long productsCount;
+        private Long productCount;
     }
 
     @Getter
