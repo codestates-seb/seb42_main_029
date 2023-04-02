@@ -24,9 +24,11 @@ public class OrderProduct {
     @JoinColumn(name = "product_id")
     private Product product;
     private Long productCount = 1L;
+    @Column(nullable = true)
     private String parcelNumber;
     @Enumerated(value = EnumType.STRING)
     private OrderProductStatus orderProductStatus = OrderProductStatus.ORDER_PAY_STANDBY;
+
 
     public enum OrderProductStatus{
         ORDER_PAY_STANDBY("결제대기"),
