@@ -63,9 +63,20 @@ export default function MobileMenu({ setMobileModalOpen, modalOpen, setModalOpen
                 <p>About</p>
               </Link>
 
+            {/* mypage 조건부 랜더링 가능하도록 하는 코드  */}
+            {state.user.role === "BUYER" ? (
               <Link to="/mypage" style={{ textDecorationLine: "none" }}>
                 <p>My Page</p>
               </Link>
+            ) : state.user.role === "SELLER" ? (
+              <Link to="/sellerMypage" style={{ textDecorationLine: "none" }}>
+                <p>My Page</p>
+              </Link>
+            ) : (
+              <Link to="/adminMypage" style={{ textDecorationLine: "none" }}>
+                <p>My Page</p>
+              </Link>
+            )}
 
               <Link to="/cart" style={{ textDecorationLine: "none" }}>
                 <p>Cart</p>
