@@ -1,4 +1,3 @@
-
 import React, { Suspense } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -10,7 +9,8 @@ import { CookiesProvider } from "react-cookie";
 import TopButton from "./components/topbutton";
 import axios from "axios";
 import LazyPage from "./pages/LazyPage";
-import ReviewData from './components/review/ReviewData';
+import ReviewData from "./components/review/ReviewData";
+import ScrollToTop from "./components/ScrollToTop";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -41,6 +41,7 @@ function App() {
   return (
     <CookiesProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <Wrapper>
           <Suspense fallback={<LazyPage />}>
