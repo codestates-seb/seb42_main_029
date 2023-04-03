@@ -41,13 +41,6 @@ const ProductInfo = () => {
   //장바구니에 추가하기
 
   const addCartProduct = async (id) => {
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "장바구니에 추가완료!!",
-      showConfirmButton: false,
-      timer: 1200,
-    });
     const options = {
       headers: {
         Authorization: cookies.accessToken,
