@@ -60,7 +60,7 @@
 |                                        <a href="https://github.com/ryehwa" target="_blank">김례화</a><br>(BE, 팀장)                                        |                                       <a href="https://github.com/steadykyu" target="_blank">김규하</a><br>(BE, 팀원)                                        |     
 | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | <img width="180" height="200" alt="김례화" src="https://user-images.githubusercontent.com/96058996/229338812-8c8d8e75-2cb0-418f-8abb-36e77735006a.png"> | <img width="180" height="200" alt="김규하" src="https://user-images.githubusercontent.com/96058996/229338820-b0c2ddcd-8071-469c-8cda-245e0db95775.png"> |     |
-|      </br>`백 오피스 & 서버 & 배포환경 구축`</br> Git Action </br> S3 & EC2 & RDS </br> Route53</br></br>`관리자`</br>판매자 회원가입 승인&거절</br>후기삭제</br>상품 삭제</br></br>`판매자`</br>판매자 회원가입 & 정보관리</br>상품 등록 & 관리</br>주문관리</br>Q&A 답변 </br>매출 관리</br>     |     </br>`로그인 & 관리`</br>AUTHENTICATION</br>AUTHORIZATION</br>JWT</br></br>`서비스 & 기능`</br>회원(구매자)</br>상품</br>주문</br>                                 |
+|      </br>`서버 & 배포환경 구축`</br> Git Action </br> S3 & EC2 & RDS </br> Route53</br>------------</br></br>`백오피스`</br></br>`관리자`</br>판매자 회원가입 승인&거절</br>후기삭제</br>상품 삭제</br></br>`판매자`</br>판매자 회원가입 & 정보관리</br>상품 등록 & 관리</br>주문관리</br>Q&A 답변 </br>매출 관리</br>     |     </br>`로그인 & 관리`</br>AUTHENTICATION</br>AUTHORIZATION</br>JWT</br></br>`서비스 & 기능`</br>회원(구매자)</br>상품</br>주문</br>                                 |
 
 <br/>
 <br/>
