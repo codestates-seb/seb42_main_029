@@ -10,7 +10,12 @@ import Modal from "../components/modal";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import Fade from "react-reveal/Fade";
-
+/*
+  리뷰 등록기능
+  작성된 리뷰를 map으로 뿌려주기
+  작성된 리뷰는 해당 구매자만 볼수있게
+  리뷰 삭제기능
+*/ 
 function Mypage() {
   const data = {
     userId: "userId",
