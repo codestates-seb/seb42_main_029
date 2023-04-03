@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public class OrderProductDto {
@@ -67,7 +68,6 @@ public class OrderProductDto {
         @JsonDeserialize(using = OrderProductStatusDeserializer.class)
         private OrderProduct.OrderProductStatus orderProductStatus;
         private String parcelNumber;
-
     }
     //@Getter 붙이고 내부 생성자 만들고 @Builder 붙여서 (순서 상관없이, 넣고 싶은 인자만 넣을 수 있게) 만들기
 
@@ -76,6 +76,7 @@ public class OrderProductDto {
     @AllArgsConstructor
     public static class patch {
         @Nullable
+        //@Pattern(regexp = "^[0-9]+$")
         private String parcelNumber;
         @JsonDeserialize(using = OrderProductStatusDeserializer.class)
         private OrderProduct.OrderProductStatus orderProductStatus;
