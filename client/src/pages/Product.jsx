@@ -51,7 +51,9 @@ const Product = () => {
             </ItemContents>
           ))}
       </ItemContainer>
-      <Paging page={page} setPage={setPage} />
+      <Page>
+        <Paging page={page} setPage={setPage} />
+      </Page>
     </div>
   );
 };
@@ -119,4 +121,7 @@ const TextSelect = styled.div`
   @media screen and (max-width: 768px) {
     font-size: 1rem;
   }
+`;
+const Page = styled.div`
+  margin-top: 70px;
 `;
