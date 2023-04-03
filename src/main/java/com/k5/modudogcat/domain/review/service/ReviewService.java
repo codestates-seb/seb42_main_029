@@ -3,6 +3,8 @@ package com.k5.modudogcat.domain.review.service;
 import com.k5.modudogcat.domain.review.entity.reviewImage.Image;
 import com.k5.modudogcat.domain.review.entity.Review;
 import com.k5.modudogcat.domain.review.repository.ReviewRepository;
+import com.k5.modudogcat.domain.user.entity.User;
+import com.k5.modudogcat.domain.user.service.UserService;
 import com.k5.modudogcat.exception.BusinessLogicException;
 import com.k5.modudogcat.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final UserService userService;
 
     @Transactional
     public Review createReview(Review review, List<Image> images){
@@ -67,6 +70,13 @@ public class ReviewService {
         verifiedActiveReview(findReview);
         findReview.setReviewStatus(Review.ReviewStatus.REVIEW_DELETE);
         reviewRepository.save(findReview);
+    }
+
+    public void removeReviewByAdmin(Long reviewId, Long userId){
+        User findUser = userService.findVerifiedUserById(userId);
+        // 관리자 검증
+        userService.verifiedAdmin(findUser);
+        removeReview(reviewId);
     }
 
     private void verifiedActiveReview(Review verifiedReview){
