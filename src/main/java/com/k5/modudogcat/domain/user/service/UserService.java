@@ -127,8 +127,6 @@ public class UserService {
             admin.setPassword(findUser.getPassword());
             findUser.setAdmin(admin);
             //findVerifiedAdmin(findUser);
-        } else{
-            throw new BusinessLogicException(ExceptionCode.USER_NOT_ADMIN);
         }
         return findUser;
     }
