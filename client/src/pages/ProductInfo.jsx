@@ -41,13 +41,6 @@ const ProductInfo = () => {
   //장바구니에 추가하기
 
   const addCartProduct = async (id) => {
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "장바구니에 추가완료!!",
-      showConfirmButton: false,
-      timer: 1200,
-    });
     const options = {
       headers: {
         Authorization: cookies.accessToken,
@@ -67,20 +60,20 @@ const ProductInfo = () => {
 
     if (sellerRole === undefined) {
       alert("로그인 후 이용해주세요!");
-      return navigate("/")
+      return navigate("/");
     }
 
     return await axios
       .post(`${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`, { productId }, options)
       .then((res) => {
         //console.log(res)
-            Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "장바구니에 추가완료!!",
-      showConfirmButton: false,
-      timer: 1200,
-    });
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "장바구니에 추가중..",
+          showConfirmButton: false,
+          timer: 1200,
+        });
         navigate("/cart");
       })
       .catch((err) => {
@@ -115,9 +108,8 @@ const ProductInfo = () => {
     <Container>
       {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
       <ContainerTop>
-
         {/* 삼항연산자로 admin이거나 seller면 상품삭제버튼이 보임 */}
-      {state.user.role === "ADMIN" ? (
+        {state.user.role === "ADMIN" ? (
           <button onClick={() => deleteItem(productId)}>상품삭제</button>
         ) : state.user.role === "SELLER" ? (
           <button onClick={() => deleteItem(productId)}>상품삭제</button>
@@ -155,9 +147,9 @@ const ProductInfo = () => {
 
       {/* 사용후기 */}
       <CommonContainer>
-         <div className="reviewTitle">사용후기</div>
+        <div className="reviewTitle">사용후기</div>
 
-         <ReviewData />
+        <ReviewData />
       </CommonContainer>
     </Container>
   );
@@ -303,10 +295,10 @@ const CommonContainer = styled.div`
 
   width: 80%;
   height: auto;
-  
-  .reviewTitle{
-    margin-top:30px;
-    margin-left:25px;
-    margin-bottom:25px;
+
+  .reviewTitle {
+    margin-top: 30px;
+    margin-left: 25px;
+    margin-bottom: 25px;
   }
 `;
