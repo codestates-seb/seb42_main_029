@@ -94,7 +94,7 @@ public class CartService {
     }
 
     private void verifiedCartProduct(Long cartId, Long productId){
-        Optional<CartProduct> optionalCartProduct = cartProductRepository.findByProductProductIdAndCartCartId(cartId, productId);
+        Optional<CartProduct> optionalCartProduct = cartProductRepository.findByProductProductIdAndCartCartId(productId, cartId);
         optionalCartProduct.ifPresent(cartProduct -> {
                     throw new BusinessLogicException(ExceptionCode.CART_ALREADY_EXISTS);
                 });
