@@ -55,7 +55,6 @@ function ReviewForm(props) {
     setReviewPhoto(e.target.files[0]);
   }
 
-
   // ! 리뷰 등록 post                              XXXXXXXXXXXXXXX
   function postReview(productId) {
     const patchdata = new FormData();
@@ -70,7 +69,6 @@ function ReviewForm(props) {
 
     patchdata.append("image", reviewPhoto);
 
-
     patchdata.append("images", reviewPhoto);
 
     return axios
@@ -80,7 +78,8 @@ function ReviewForm(props) {
       .then((res) => {
         console.log(`리뷰 등록 성공 res.data:`);
         console.log(res.data);
-        Navigate("/mypage");
+        alert("리뷰 작성 완료 !");
+        navigate("/mypage");
       })
       .catch((err) => {
         console.log("리뷰 등록 에러");
@@ -88,6 +87,9 @@ function ReviewForm(props) {
         console.log(state.user.sellerId);
       });
   }
+  // const backpage(){
+  //   navigate(-1)
+  // }
 
   return (
     <ReviewFormBody>
@@ -109,7 +111,7 @@ function ReviewForm(props) {
           <textarea className="detail" onChange={(e) => setReview(e.target.value)}></textarea>
         </form>
         <div className="buttons">
-          <SubmitBtn>등록취소</SubmitBtn>
+          <SubmitBtn onClick={() => navigate(-1)}>등록취소</SubmitBtn>
           <SubmitBtn onClick={() => postReview(productId)}>후기등록</SubmitBtn>
         </div>
       </div>
