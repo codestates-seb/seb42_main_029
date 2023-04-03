@@ -469,14 +469,14 @@ function OrderList() {
 
   function OrdersAxios() {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/orders?page=${page}&size=12`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/sellers/orders?page=${page}&size=12`, noBodyOptions)
       .then((res) => {
-        console.log(`orderdata get success res.data:`);
+        console.log(`판매자 마이페이지 orderdata get success res.data:`);
         console.log(res.data);
         setOrderData(res.data.data);
       })
       .catch((err) => {
-        console.log("orderdata GET error");
+        console.log("판매자 마이페이지 orderdata GET error");
       });
   }
 
@@ -487,9 +487,7 @@ function OrderList() {
   return (
     <OrderBody>
       <div className="bold">주문 목록 </div>
-      {OrderExData.map((el, index) => (
-        <OrderBox el={el} key={index} />
-      ))}
+      {Array.isArray(orderData) && orderData.map((el, index) => <OrderBox el={el} key={index} />)}
       <Paging page={page} setPage={setPage} />
     </OrderBody>
   );
@@ -538,7 +536,11 @@ const OrderBody = styled.div`
       padding: 0;
       width: 60px;
     }
-
+    .individuel-product {
+      margin: 7px 0;
+      border-bottom: 1px solid #fcc3c3;
+      padding-bottom: 6px;
+    }
     .order-left {
       width: 45%;
       @media screen and (max-width: 768px) {

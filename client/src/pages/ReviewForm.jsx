@@ -7,6 +7,11 @@ import Rating from "../components/ReviewScore";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
+/**
+ * 관리자와 리뷰작성자만 해당 리뷰를 제거 가능하게 구현
+ * 리뷰 C R U D
+ */
+
 function ReviewForm(props) {
   // const navigate = useNavigate();
   const [score, setScore] = useState();
@@ -23,10 +28,11 @@ function ReviewForm(props) {
   const dispatch = useDispatch(); // dispatch 쉽게하는 hook
 
   const [itemData, setItemData] = useState({});
+  
   //! productId로 item 정보 가져오는 요청                 테스트 완료
   function getItemInfo(productId) {
     return axios
-      .get(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}`, {
+      .get(`${process.env.REACT_APP_AWS_EC2}/products/${productId}`, {
         "Content-Type": "application/json",
       })
       .then((res) => {
@@ -64,7 +70,7 @@ function ReviewForm(props) {
     patchdata.append("image", reviewPhoto);
 
     return axios
-      .post(`http://ec2-43-200-2-180.ap-northeast-2.compute.amazonaws.com:8080/products`, patchdata, {
+      .post(`${process.env.REACT_APP_AWS_EC2}/products`, patchdata, {
         headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },
       })
       .then((res) => {

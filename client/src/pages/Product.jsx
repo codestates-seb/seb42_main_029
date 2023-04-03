@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import dummy from "../assets/dummy/dummy.json";
 import ProductInfo from "./ProductInfo";
 import axios from "axios";
+import Fade from "react-reveal/Fade";
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -13,7 +14,7 @@ const Product = () => {
     axios
       .get(url)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setData(response.data.data);
       })
       .catch((error) => {
@@ -29,19 +30,21 @@ const Product = () => {
         {Array.isArray(data) &&
           data.map((datas) => (
             <ItemContents key={datas.productId}>
-              <Link to = {
-                {
-                  pathname: `/ProductInfo/${datas.productId}`,
-                  state: {datas:datas}
-                }
-              }
-              style={{ color: "black", textDecoration: "none" }}>
-                {/* Shop이미지는 thumbnailLink의 주소 그대로쓰기 */}
-              
-                <ItemsImage src={datas.thumbnailLink} alt="못찾겠따" />
-                <TextTitle>{datas.name}</TextTitle>
-                <TextPrice>{datas.price}원 </TextPrice>
-              </Link>
+              <Fade bottom>
+                <Link
+                  to={{
+                    pathname: `/ProductInfo/${datas.productId}`,
+                    state: { datas: datas },
+                  }}
+                  style={{ color: "black", textDecoration: "none" }}
+                >
+                  {/* Shop이미지는 thumbnailLink의 주소 그대로쓰기 */}
+
+                  <ItemsImage src={datas.thumbnailLink} alt="못찾겠따" loading="lazy" />
+                  <TextTitle>{datas.name}</TextTitle>
+                  <TextPrice>{datas.price}원 </TextPrice>
+                </Link>
+              </Fade>
             </ItemContents>
           ))}
       </ItemContainer>
@@ -57,7 +60,7 @@ const ItemContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
-  font-family: 'Dovemayo_gothic';
+  font-family: "Dovemayo_gothic";
 `;
 
 // ItemContents
@@ -68,7 +71,7 @@ const ItemContents = styled.div`
   align-items: center;
 
   width: 24%;
-  min-width: 330px;
+  min-width: 300px;
 
   height: 360px;
   border-radius: 10px;
@@ -78,7 +81,7 @@ const ItemContents = styled.div`
 const ItemsImage = styled.img`
   display: flex;
   flex-direction: row;
-  width:  270px;
+  width: 270px;
   height: 270px;
 `;
 
@@ -106,5 +109,10 @@ const TextSelect = styled.div`
   font-size: 24px;
   margin-top: 100px;
   margin-bottom: 30px;
+
   font-family: 'Dovemayo_gothic';
+
+  @media screen and (max-width: 768px){
+    font-size: 1rem;
+  }
 `;

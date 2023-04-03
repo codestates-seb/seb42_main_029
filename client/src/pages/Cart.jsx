@@ -3,15 +3,14 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 /*
  * 현재는 상품수량 모두 counter 하나로 공유합니다.
  */
 const Cart = () => {
   // const productId = useParams().productId;
 
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   //! 장바구니 get
 
@@ -42,21 +41,13 @@ const Cart = () => {
     cartGetItem();
   }, []);
 
-  console.log(cartData);
-  // console.log(cartData[0].productResponse.productId)
-
-  const proId = cartData.map((el) => {
-    return el.productResponse.productId;
-  });
-  console.log(proId);
   //! 장바구니의 각 상품 수량 증가함수
   const handleIncrease = async (id) => {
-    const data = {};
 
     return await axios
       .patch(
         `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}/plus`,
-        data,
+        null,
         options
       )
       .then((res) => {
@@ -70,12 +61,12 @@ const Cart = () => {
 
   //! 장바구니의 상품 수량 감소함수
   const handleDecrease = async (id) => {
-    const data = {};
+    // const data = {}
 
     return await axios
       .patch(
         `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}/minus`,
-        data,
+        null,
         options
       )
       .then((res) => {
@@ -84,15 +75,16 @@ const Cart = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert("상품 수량은 1개 이상 담으세요!")
       });
   };
 
   //! 장바구니 삭제
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
     return await axios
-      .patch(`${process.env.REACT_APP_AWS_EC2}/carts/products/`, options)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`, options)
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         window.location.reload();
       })
       .catch((err) => {
@@ -102,27 +94,31 @@ const Cart = () => {
 
   //! 총 결제 금액
 
-  // 가격 받아온것
-  const charge = cartData.map((el) => {
-    return el.productResponse.price
-  });
+  const totalPrice = (cartData) => {
+    let tPrice = 0;
 
-  // 가격 받아온거 더한 거
-  const allCharge = charge.reduce((a,b) => a+b, 0)
-  // console.log(allCharge)
+    for (let i = 0; i < cartData.length; i++) {
+      tPrice += cartData[i].productResponse.price * cartData[i].productsCount;
+    }
+    return tPrice;
+  };
+  // console.log(totalPrice(cartData));
 
   //! 주문하러가기
-  
-  const payBtn = () => {
-    navigate('/pay' ,{ state: allCharge })
-  }
 
+  const goOrderBtn = () => {
+    if(totalPrice(cartData) === 0) {
+      return alert('총 결제금액이 0원 입니다.. 수량은 1개 이상부터 주문 가능!')
+    }
+    
+    navigate("/pay", { state: totalPrice(cartData) });
+  };
 
   return (
     <Container>
       <CartTitle>장바구니</CartTitle>
       <ProductContainer>
-        <ProductTitle>일반상품(8)</ProductTitle>
+        <ProductTitle>상품</ProductTitle>
         <ProductBox>{/* AllCheckbox 컴포넌트 */}</ProductBox>
 
         {/* props로 내려줄때 상품이 하나씩 추가되어야함 */}
@@ -143,39 +139,36 @@ const Cart = () => {
               {data.productResponse.productDetail}
             </ItemStyle>
             <ItemStyle color="#ff5c00">
-              {`${data.productResponse.price}`}원
+              {`${data.productResponse.price * data.productsCount}`}원
             </ItemStyle>
             <ItemStyle></ItemStyle>
             <ItemStyle>
               <CountBtn
-                onClick={() =>
-                  handleDecrease(cartData[1].productResponse.productId)
-                }
+                onClick={() => handleDecrease(data.productResponse.productId)}
               >
                 -
               </CountBtn>
               {data.productsCount}
               <CountBtn
-                onClick={() =>
-                  handleIncrease(cartData[1].productResponse.productId)
-                }
+                onClick={() => handleIncrease(data.productResponse.productId)}
               >
                 +
               </CountBtn>
             </ItemStyle>
-            {/* {console.log(data.data.productId)}
-            {console.log(data.data)} */}
-            {/* 합계: 수량 * {data.price} */}
-            <DeleteBtn onClick={() => handleDelete()}>삭제하기</DeleteBtn>
+            <DeleteBtn
+              onClick={() => handleDelete(data.productResponse.productId)}
+            >
+              삭제하기
+            </DeleteBtn>
           </ProductBox>
         ))}
       </ProductContainer>
 
-      <PayBox color="#f5f5f0">결제할 금액</PayBox>
-      <PayBox color="#96CAFF">{allCharge}</PayBox>
-      <PayBox color="#f5f5f0">
+      <PayBox color="#FFE3E1">결제금액</PayBox>
+      <PayBoxCharge color="#FFD1D1">{`${totalPrice(cartData)}`}원</PayBoxCharge>
+      <PayBox color="#FF9494">
         {/* <PayBtn>선택한 상품 결제하기</PayBtn> */}
-        <PayBtn onClick={payBtn}>주문하러가기</PayBtn>
+        <PayBtn onClick={goOrderBtn}>주문하러가기</PayBtn>
       </PayBox>
     </Container>
   );
@@ -186,7 +179,6 @@ const Container = styled.div`
   flex-direction: column;
   margin-top: 20px;
   align-items: center;
-  // justify-content:center;
   font-family: "Dovemayo_gothic";
   margin-bottom: 2rem;
 `;
@@ -201,7 +193,6 @@ const ProductContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 90%;
-  border: 1px solid black;
   background-color: #f5f5f0;
 `;
 const ProductTitle = styled.div`
@@ -210,21 +201,23 @@ const ProductTitle = styled.div`
   font-weight: bold;
   height: 30px;
 `;
-const Title = styled.span`
-  display: flex;
-`;
+
 const ProductBox = styled.div`
-  display:grid;
-  grid-template-columns:0.5fr 1fr 3fr 1fr 1fr 1fr 1fr;
-  grid-auto-rows:minmax(150px, auto)
-  height:150px;
-  align-items:center;
-  border: 1px solid gray;
-  background-color:white;
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 3fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  border: 1px solid #ffffff;
+  background-color: white;
 `;
+
 const ItemsImage = styled.img`
   height: 70px;
+
+  @media screen and (max-width: 768px) {
+    margin: 0.3rem 0.6rem 0.3rem 0.2rem;
+  }
 `;
+
 const PayBox = styled.div`
   display: flex;
   align-items: center;
@@ -235,15 +228,36 @@ const PayBox = styled.div`
   font-size: 24px;
   font-weight: bold;
   font-family: "Dovemayo_gothic";
+  color: #363636;
 `;
+
+const PayBoxCharge = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => props.color};
+  height: 80px;
+  width: 90%;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "Dovemayo_gothic";
+  color: #ff5c00;
+`;
+
 const DeleteBtn = styled.button`
   width: 70px;
-  height: 50px;
+  height: 40px;
   border-radius: 10px;
-  background-color: red;
-  color: white;
+  background-color: #fc5050;
+  color: #ffffff;
   font-family: "Dovemayo_gothic";
+  cursor: pointer;
+
+  :hover {
+    font-size: 1rem;
+  }
 `;
+
 const PayBtn = styled.button`
   width: 100%;
   height: ${(props) => props.height || "100%"};
@@ -265,6 +279,10 @@ const PayBtn = styled.button`
 
 const ItemStyle = styled.div`
   color: ${(props) => props.color || "black"};
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const CountBtn = styled.button`
@@ -275,8 +293,14 @@ const CountBtn = styled.button`
   margin-right: 10px;
   margin-left: 10px;
   border-radius: 10px;
+  cursor: pointer;
+
   &:active {
     background-color: #1565c0;
+  }
+
+  :hover {
+    color: #ffffff;
   }
 `;
 

@@ -38,7 +38,9 @@ export default function userReducer(state = initialState, action) {
         ...state,
         userId: action.payload.userId,
         name: action.payload.name,
+        sellerId: action.payload.sellerId,
       };
+      
     else if (action.type === "SELLER_INFORMATION")
       // 유저정보 저장
       return {

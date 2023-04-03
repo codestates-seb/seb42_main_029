@@ -1,9 +1,11 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import ReviewData from "../components/review/ReviewData";
 
 const ProductInfo = () => {
   const [data, setData] = useState([]);
@@ -13,11 +15,15 @@ const ProductInfo = () => {
   const [cookies] = useCookies(["accessToken"]);
 
   const productId = useParams().productId;
+  // console.log(productId)
+
+  // 셀러,관리자 장바구니담기 금지 시키기
+  const state = useSelector((state) => state);
+  const sellerRole = state.user.role;
 
   // 아이템 get
 
   const url = `${process.env.REACT_APP_AWS_EC2}/products/${productId}`;
-  // const url = "http://ec2-13-125-150-3.ap-northeast-2.compute.amazonaws.com:8080/products/${productId}"
   useEffect(() => {
     axios
       .get(url)
@@ -29,15 +35,7 @@ const ProductInfo = () => {
       });
   }, []);
 
-  const {
-    name,
-    thumbnailLink,
-    productDetailLinks,
-    productDetail,
-    price,
-    stock,
-    productStatus,
-  } = data;
+  const { name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus } = data;
 
   //장바구니에 추가하기
 
@@ -56,23 +54,48 @@ const ProductInfo = () => {
       withCredentials: true,
     };
 
+    if (sellerRole === "SELLER") {
+      alert("판매자는 장바구니 담기 금지!");
+      return navigate("/");
+    }
+
+    if (sellerRole === "ADMIN") {
+      alert("관리자는 장바구니 담기 금지!");
+      return navigate("/");
+    }
+
     return await axios
-      .post(
-        // `${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`,
-        `http://ec2-13-125-150-3.ap-northeast-2.compute.amazonaws.com:8080/carts/products/${id}`,
-        { productId },
-        options
-      )
+      .post(`${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`, { productId }, options)
       .then((res) => {
         console.log(res);
-        
-        // alert("장바구니 담기 성공!")
-
+        alert("장바구니 담기 성공!");
         navigate("/cart");
       })
       .catch((err) => {
         console.log(err);
-        console.log("담기실패");
+        alert("이미 장바구니에 있습니다..");
+      });
+  };
+  const noBodyOptions = {
+    headers: {
+      Authorization: cookies.accessToken,
+    },
+    withCredentials: true,
+  };
+
+  //!상품 삭제 요청 함수 필요 ->/products/1 +토큰
+  const deleteItem = (id) => {
+    // e.preventDefault();
+    return axios
+      .delete(`${process.env.REACT_APP_AWS_EC2}/products/${id}`, noBodyOptions)
+      .then((res) => {
+        console.log(`res.data:`);
+        console.log(res.data);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log("상품삭제요청 에러");
+        console.log(id);
       });
   };
 
@@ -80,6 +103,14 @@ const ProductInfo = () => {
     <Container>
       {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
       <ContainerTop>
+
+        {/* 삼항연산자로 admin이거나 seller면 상품삭제버튼이 보임 */}
+      {state.user.role === "ADMIN" ? (
+          <button onClick={() => deleteItem(productId)}>상품삭제</button>
+        ) : state.user.role === "SELLER" ? (
+          <button onClick={() => deleteItem(productId)}>상품삭제</button>
+        ) : null}
+
         <ItemsImage src={thumbnailLink} loading="lazy" />
         <TextArea>
           <TextContainer>
@@ -96,9 +127,8 @@ const ProductInfo = () => {
           </TextContainer>
           <ButtonWrapper>
             {/* <ButtonStyle onClick={() => handleAddToCart({ image: product6_img, name: product6_name, price:product6_price, id:product6_proid })}> */}
-            <ButtonStyle onClick={() => addCartProduct(productId)}>
-              장바구니에 담기
-            </ButtonStyle>
+            {}
+            <ButtonStyle onClick={() => addCartProduct(productId)}>장바구니에 담기</ButtonStyle>
           </ButtonWrapper>
         </TextArea>
       </ContainerTop>
@@ -111,55 +141,11 @@ const ProductInfo = () => {
         <img src={productDetailLinks} alt="상품설명img" loading="lazy" />
       </Information>
 
-      {/* QnA */}
-      <CommonContainer>
-        <CommonTitle>
-          <Category>QnA</Category>
-          <QnaQuestionbtn>QnA 작성하기</QnaQuestionbtn>
-        </CommonTitle>
-
-        <Contents>
-          <CommonNo>
-            <QnaInfo>No</QnaInfo>
-          </CommonNo>
-          <CommonSubject>
-            <QnaInfo>Subject</QnaInfo>
-          </CommonSubject>
-          <CommonWriter>
-            <QnaInfo>Writer</QnaInfo>
-          </CommonWriter>
-          <CommonDate>
-            <QnaInfo>Date</QnaInfo>
-          </CommonDate>
-        </Contents>
-      </CommonContainer>
-
       {/* 사용후기 */}
       <CommonContainer>
-        <CommonTitle>
-          <Category>사용후기</Category>
-        </CommonTitle>
+         <div className="reviewTitle">사용후기</div>
 
-        <Contents>
-          <CommonNo>
-            <QnaInfo>No</QnaInfo>
-          </CommonNo>
-          <Star>
-            <QnaInfo>Star</QnaInfo>
-          </Star>
-          <CommonCategory>
-            <QnaInfo>Category</QnaInfo>
-          </CommonCategory>
-          <CommonSubject>
-            <QnaInfo>Subject</QnaInfo>
-          </CommonSubject>
-          <CommonWriter>
-            <QnaInfo>Writer</QnaInfo>
-          </CommonWriter>
-          <CommonDate>
-            <QnaInfo>Date</QnaInfo>
-          </CommonDate>
-        </Contents>
+         <ReviewData />
       </CommonContainer>
     </Container>
   );
@@ -236,7 +222,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 300px;
+  width: 180px;
   height: 150px;
 `;
 
@@ -252,6 +238,7 @@ const ButtonStyle = styled.button`
   &:hover{
     cursor:pointer;
     color:white;
+    background-color: #dcb3bf;
   }
   @media screen and (max-width: 767px) {
     font-size: 0.8rem;
@@ -294,89 +281,13 @@ const CommonContainer = styled.div`
   margin-top: 30px;
   background-color: #f9e8e8;
   border-radius: 15px;
+
   width: 80%;
   height: auto;
-`;
-const CommonTitle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 20px;
-  padding-right: 20px;
-  /* margin-bottom: 20px;
-  margin-top: 20px; */
-`;
-const QnaInfo = styled.div`
-  @media screen and (max-width: 767px) {
-    font-size: 0.7rem;
+  
+  .reviewTitle{
+    margin-top:30px;
+    margin-left:25px;
+    margin-bottom:25px;
   }
-`;
-const QnaQuestionbtn = styled.button`
-  width: 150px;
-  height: 60px;
-  border-radius: 10px;
-  border: none;
-  background-color: #fbb3b3;
-  font-size: 1.2rem;
-  margin-top: 20px;
-  margin-bottom: 40px;
-  &:hover {
-    background-color: #fcb3bf;
-    color: #ffffff;
-  }
-
-  @media screen and (max-width: 767px) {
-    width: 90px;
-    height: 35px;
-    font-size: 0.7rem;
-  }
-`;
-const Contents = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-`;
-const CommonNo = styled.div`
-  height: 1rem;
-  background-color: #fbd8d8;
-  width: 5%;
-  margin-right: 1rem;
-`;
-const CommonSubject = styled.div`
-  height: 1rem;
-  background-color: #ffc2c2;
-  width: 50%;
-  margin-right: 1rem;
-`;
-const CommonWriter = styled.div`
-  height: 1rem;
-  background-color: #a48686;
-  width: 10%;
-  margin-right: 1rem;
-`;
-const CommonDate = styled.div`
-  height: 1rem;
-  background-color: #dda9a9;
-  width: 10%;
-`;
-const CommonCategory = styled.div`
-  height: 1rem;
-  background-color: #cda9a9;
-  width: 10%;
-`;
-const Star = styled.div`
-  height: 1rem;
-  background-color: #dda9a9;
-  width: 7%;
-`;
-const Category = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 90px;
-  height: 70px;
-  font-size: 1.3rem;
-  font-weight: 500;
-  margin-bottom: 20px;
 `;
