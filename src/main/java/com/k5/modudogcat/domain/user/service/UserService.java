@@ -136,4 +136,10 @@ public class UserService {
             user.setCart(null);
         }
     }
+
+    public void verifiedAdminRole(User findUser) {
+        if(!findUser.getRoles().get(0).equals("ADMIN")) {
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_ADMIN);
+        }
+    }
 }

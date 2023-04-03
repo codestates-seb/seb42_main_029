@@ -75,7 +75,7 @@ public class ReviewService {
     public void removeReviewByAdmin(Long reviewId, Long userId){
         User findUser = userService.findVerifiedUserById(userId);
         // 관리자 검증
-        userService.verifiedAdmin(findUser);
+        userService.verifiedAdminRole(findUser);
         removeReview(reviewId);
     }
 
