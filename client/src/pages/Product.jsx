@@ -9,11 +9,7 @@ import Fade from "react-reveal/Fade";
 const Product = () => {
   const [data, setData] = useState([]);
   const url = `${process.env.REACT_APP_AWS_EC2}/products?page=1&size=12`;
-<<<<<<< HEAD
-  //const url = "http://ec2-13-125-150-3.ap-northeast-2.compute.amazonaws.com:8080/products?page=1&size=12";
-=======
 
->>>>>>> 1127178b7d11b533c2d110bc47284e8e6e782650
   useEffect(() => {
     axios
       .get(url)

@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import Swal from "sweetalert2";
+
 import { useSelector } from "react-redux";
 import ReviewData from "../components/review/ReviewData";
 
