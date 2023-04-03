@@ -111,7 +111,7 @@ export default function SellerSignUpForm() {
   };
 
   const onChangeAccountNumber = (e) => {
-    const accountNumberRegex = /^[0-9]{10,15}$/;
+    const accountNumberRegex = /^[0-9]{10,14}$/;
     if (!e.target.value || accountNumberRegex.test(e.target.value)) {
       setAccountNumberError(false);
       setAccountNumber(e.target.value);
