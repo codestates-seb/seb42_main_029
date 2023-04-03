@@ -76,7 +76,7 @@ public class OrderProductDto {
     @AllArgsConstructor
     public static class patch {
         @Nullable
-        @Pattern(regexp = "^[0-9]+$")
+        //@Pattern(regexp = "^[0-9]+$")
         private String parcelNumber;
         @JsonDeserialize(using = OrderProductStatusDeserializer.class)
         private OrderProduct.OrderProductStatus orderProductStatus;
