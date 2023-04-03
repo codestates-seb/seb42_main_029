@@ -7,6 +7,11 @@ import Rating from "../components/ReviewScore";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
+/**
+ * 관리자와 리뷰작성자만 해당 리뷰를 제거 가능하게 구현
+ * 리뷰 C R U D
+ */
+
 function ReviewForm(props) {
   const navigate = useNavigate();
   const [score, setScore] = useState();
@@ -39,32 +44,19 @@ function ReviewForm(props) {
         console.log("itemData GET error");
       });
   }
+
   //! 페이지 로딩됨과 동시에 user 정보를 가져오기 위한 useEffect
   useEffect(() => {
     getItemInfo(productId);
   }, []);
-
-  // const [data, setData] = useState([]);
-  // const url = `${process.env.REACT_APP_AWS_EC2}/products/${productId}`;
-  // useEffect(() => {
-  //   axios
-  //     .get(url)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setData(response.data.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
   //! 리뷰 등록요청
 
   function imageHandleChange(e) {
     setReviewPhoto(e.target.files[0]);
   }
 
-  //! 리뷰 등록 post                              XXXXXXXXXXXXXXX
+
+  // ! 리뷰 등록 post                              XXXXXXXXXXXXXXX
   function postReview(productId) {
     const patchdata = new FormData();
     const jsondata = {
@@ -73,8 +65,14 @@ function ReviewForm(props) {
       score: score,
       title: title,
     };
+
     patchdata.append("post", new Blob([JSON.stringify(jsondata)], { type: "application/json" }));
+
+    patchdata.append("image", reviewPhoto);
+
+
     patchdata.append("images", reviewPhoto);
+
     return axios
       .post(`${process.env.REACT_APP_AWS_EC2}/reviews`, patchdata, {
         headers: { Authorization: cookies.accessToken, "Content-Type": "multipart" },
