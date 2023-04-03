@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
@@ -58,8 +59,14 @@ const ProductInfo = () => {
     return await axios
       .post(`${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`, { productId }, options)
       .then((res) => {
-        console.log(res);
-        alert("장바구니 담기 성공!");
+        //console.log(res)
+            Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "장바구니에 추가완료!!",
+      showConfirmButton: false,
+      timer: 1200,
+    });
         navigate("/cart");
       })
       .catch((err) => {
@@ -233,13 +240,18 @@ const ButtonWrapper = styled.div`
 
 const ButtonStyle = styled.button`
   font-size: 1.6rem;
-  width: 150px;
+  width: 210px;
   height: 60px;
   margin: 1rem 2rem 0 0;
   border-radius: 10px;
   border: none;
   font-size: 1rem;
   background-color: #fcb3bf;
+  cursor: pointer;
+
+  :hover {
+    color : #ffffff;
+  }
 
   @media screen and (max-width: 767px) {
     font-size: 0.8rem;

@@ -17,14 +17,14 @@ export default function Pay() {
   //? 장바구니 물건 id와 카운트
   const [cartData, setCartData] = useState([]);
 
-  const orderProductDtos = cartData.map((el) => {
+  const cartProductDtoList = cartData.map((el) => {
     const productId = el.productResponse.productId;
-    const productsCount = el.productsCount;
+    const productCount = el.productCount;
 
-    return { productId, productsCount };
+    return { productId, productCount };
   });
   // console.log(cartData)
-  // console.log(orderProductDtos)
+  console.log(cartProductDtoList)
 
   //? 총 결제 금액
   const totalPrice = allCharge.state;
@@ -67,7 +67,7 @@ export default function Pay() {
     return await axios
       .get(`${process.env.REACT_APP_AWS_EC2}/carts?page=1&size=10`, options)
       .then((res) => {
-        // console.log(res.data)
+        console.log(res.data)
         setCartData(res.data.cartProductDtoList);
       })
       .catch((err) => {
@@ -97,7 +97,13 @@ export default function Pay() {
         setReceivingAddress={setReceivingAddress}
       />
       <PayInfo totalPrice={totalPrice} />
-      <BtnGrp receiver={receiver} phone={phone} receivingAddress={receivingAddress} totalPrice={totalPrice} orderProductDtos={orderProductDtos} />
+      <BtnGrp
+        receiver={receiver}
+        phone={phone}
+        receivingAddress={receivingAddress}
+        totalPrice={totalPrice}
+        orderProductDtos={cartProductDtoList}
+      />
     </Wrapper>
   );
 }
