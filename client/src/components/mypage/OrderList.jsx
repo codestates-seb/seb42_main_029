@@ -17,7 +17,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
       productResponse: [
         {
           productId: "1productId",
@@ -52,7 +52,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
       productResponse: [
         {
           productId: "1productId",
@@ -76,7 +76,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -123,7 +123,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
       productResponse: [
         {
           productId: "1productId",
@@ -158,7 +158,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -183,7 +183,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -219,7 +219,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -244,7 +244,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -269,7 +269,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -294,7 +294,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -330,7 +330,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -366,7 +366,7 @@ function OrderList() {
       payMethod: "무통장",
       createdAt: "2023-03-27T16:02:36.625268",
       modifiedAt: "2023-03-27T16:02:48.4291336",
-      pardelNumber: "123412341234",
+      parcelNumber: "123412341234",
 
       productResponse: [
         {
@@ -404,7 +404,7 @@ function OrderList() {
     //   receiver: "receiver",
     //   phone: "phone",
     //   address: "address",
-    //   pardelNumber: "pardelNumber",
+    //   parcelNumber: "parcelNumber",
     //   name: "name",
     //   price: 15000,
     // },
@@ -487,7 +487,7 @@ function OrderList() {
                   <div key={index} className="individuel-product">
                     <div className="important">상품 이름: {el.productResponse.name}</div>
                     <div className="important">
-                      <span>{`가격 :${el.productResponse.price} 원 ,`}</span> <span>{`수량 :${el.productsCount}`}</span>{" "}
+                      <span>{`가격 :${el.productResponse.price} 원 ,`}</span> <span>{`수량 :${el.productCount}`}</span>{" "}
                       <span>
                         <button className="button small-review">
                           <Link to={`/reviewform/${el.productResponse.productId}`} className="link" proptest="test">
@@ -529,12 +529,12 @@ function OrderList() {
               <br />
               <br />
 
-              <div>주문일:{el.createdAt.split(".")[0]}</div>
-              <div>상태변경일:{el.modifiedAt.split(".")[0]}</div>
+              <div>주문일:{el.createdAt.split("T")[0]}</div>
+              <div>상태변경일:{el.modifiedAt.split("T")[0]}</div>
               {/* <div className="important">
               합계 금액: {el.price * el.count} {" 원"}
             </div> */}
-              <div>운송장 번호 : {el.pardelNumber}</div>
+              <div>운송장 번호 : {el.parcelNumber}</div>
               <div>상태 : {el.orderStatus}</div>
 
               {/* <button className="button" style={{ float: "right" }}>

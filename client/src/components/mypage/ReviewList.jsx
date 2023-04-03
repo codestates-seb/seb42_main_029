@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Modal from "../modal";
+import Paging from "../pagination/pagination";
 
 function ReviewList() {
   const ReviewExData = [
@@ -152,6 +153,8 @@ function ReviewList() {
     },
   ];
 
+  const [page, setPage] = useState(1);
+
   //! 모달
   const [modalIndex, setModalIndex] = useState();
   const [modalOpen, setModalOpen] = useState(false);
@@ -182,11 +185,11 @@ function ReviewList() {
 
   function reviewDataAxios() {
     return axios
-      .get(`${process.env.REACT_APP_AWS_EC2}/reviews`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/reviews/userReviews?page=${page}&size=12`, noBodyOptions)
       .then((res) => {
         console.log(`리뷰 데이터 get 성공 res.data:`);
         console.log(res.data);
-        setReviewData(res.data.data);
+        setReviewData(res.data);
       })
       .catch((err) => {
         console.log("reviewData GET error");
@@ -202,10 +205,11 @@ function ReviewList() {
   const deleteReview = (reviewId) => {
     // e.preventDefault();
     return axios
-      .delete(`${process.env.REACT_APP_AWS_EC2}/reviews/${reviewId}`, noBodyOptions)
+      .delete(`${process.env.REACT_APP_AWS_EC2}/reviews/userReviews/${reviewId}`, noBodyOptions)
       .then((res) => {
         console.log(`리뷰 삭제 완료 res.data:`);
         console.log(res.data);
+        window.location.reload();
       })
       .catch((err) => {
         console.log("리뷰삭제 에러");
@@ -216,53 +220,52 @@ function ReviewList() {
   return (
     <ReviewBody>
       <div className="bold">후기 목록 </div>
-      {ReviewExData.map((el, index) => (
-        <div className="review" key={index}>
-          <div className="photo">
-            {" "}
-            <div>{el.image}</div>{" "}
-          </div>
-          <div className="review-left">
-            <div className="important">리뷰 번호: {el.reviewId}</div>
-            <div className="important">
-              상품 이름: {el.name} {el.productId}
+      {Array.isArray(reviewData) &&
+        reviewData.map((el, index) => (
+          <div className="review" key={index}>
+            <div className="photo">
+              <img className="photo" src={el.imagesUrls[0]} alt="리뷰사진"></img>
             </div>
-            <div>제목: {el.title}</div>
-            <div className="content">{el.content}</div>
-          </div>
-          <div className="review-right">
-            <div> 게시일:{el.createdAt}</div>
-            <br />
-            <div> 평점 : {stars(el.score)}</div>
-            <br />
-            <br />
-            {/* <button className="button" style={{ float: "right" }} onClick={() => deleteReview(el.reviewId)}>
+            <div className="review-left">
+              <div className="important">리뷰 번호: {el.reviewId}</div>
+              <div className="important">상품 이름: {el.name}</div>
+              <div className="important">상품 번호: {el.productId}</div>
+              <div>제목: {el.title}</div>
+              <div className="content">{el.content}</div>
+            </div>
+            <div className="review-right">
+              <div> 게시일:{el.createdAt.split("T")[0]}</div>
+              <br />
+              <div> 평점 : {stars(el.score)}</div>
+              <br />
+              <br />
+              {/* <button className="button" style={{ float: "right" }} onClick={() => deleteReview(el.reviewId)}>
               <Link className="link">삭제</Link>
             </button> */}
-            <button
-              className="button"
-              style={{ float: "right" }}
-              onClick={() => {
-                setModalIndex(index);
-                showModal();
-              }}
-            >
-              <Link className="link">삭제</Link>
-            </button>
-            {modalOpen && (
-              <Modal
-                setModalOpen={setModalOpen}
-                axiosfunction={deleteReview}
-                data={ReviewExData}
-                // index={ReviewExData[modalIndex]?.reviewId} //! 오류나서 개선함
-                index={ReviewExData.findIndex((element, index) => index === modalIndex)}
-                objectKey="reviewId"
-                keyword="후기삭제"
-              />
-            )}
+              <button
+                className="button"
+                style={{ float: "right" }}
+                onClick={() => {
+                  setModalIndex(index);
+                  showModal();
+                }}
+              >
+                <Link className="link">삭제</Link>
+              </button>
+              {modalOpen && (
+                <Modal
+                  setModalOpen={setModalOpen}
+                  axiosfunction={deleteReview}
+                  data={reviewData}
+                  // index={ReviewExData[modalIndex]?.reviewId} //! 오류나서 개선함
+                  index={reviewData.findIndex((element, index) => index === modalIndex)}
+                  objectKey="reviewId"
+                  keyword="후기삭제"
+                />
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </ReviewBody>
   );
 }
@@ -275,7 +278,7 @@ const ReviewBody = styled.div`
   .photo {
     height: 100px;
     width: 100px;
-    background-color: #f9a9a9;
+    background-color: #ffffff;
     margin-right: 5px;
     @media screen and (max-width: 768px) {
       height: 60px;
