@@ -18,11 +18,10 @@ function OrderBox(props) {
   const statusOption = [
     //배송상태 선택지
     { value: "ORDER_PAY_STANDBY", name: el.orderProductStatus },
-    { value: "ORDER_PAY_STANDBY", name: "결제대기" },
     { value: "ORDER_PAY_FINISH", name: "결제완료" },
     { value: "DELIVERY_PREPARE", name: "배송 준비 중" },
     { value: "DELIVERY_ING", name: "배송 중" },
-    { value: "DELIVERY_COMPLETE(", name: "배송 완료" },
+    { value: "DELIVERY_COMPLETE", name: "배송 완료" },
   ];
 
   const [status, setStatus] = useState(el.orderProductStatus);
@@ -54,7 +53,7 @@ function OrderBox(props) {
         console.log(`주문정보 변경 성공 res.data:`);
         console.log(res.data);
         setOrdersData(res.data.data);
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((err) => {
         console.log("주문정보 변경( 상태, 운송장번호) patch 에러");
@@ -90,6 +89,7 @@ function OrderBox(props) {
         <div style={{ marginBottom: "7px" }}>
           상태 :{" "}
           <span>
+            <div>{el.orderProductStatus}</div>
             <SelectBox setStatus={setStatus} options={statusOption} defaultValue={el.orderProductStatus}></SelectBox>
           </span>
         </div>

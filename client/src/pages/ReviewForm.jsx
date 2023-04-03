@@ -83,7 +83,6 @@ function ReviewForm(props) {
         console.log(`리뷰 등록 성공 res.data:`);
         console.log(res.data);
         Navigate("/mypage");
-        // window.location.reload();
       })
       .catch((err) => {
         console.log("리뷰 등록 에러");
