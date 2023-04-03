@@ -199,7 +199,7 @@ function ReviewList() {
   //! 페이지 로딩과 동시에 질문 데이터 get
   useEffect(() => {
     reviewDataAxios();
-  }, []);
+  }, [page]);
 
   //! question 삭제함수
   const deleteReview = (reviewId) => {
@@ -266,6 +266,7 @@ function ReviewList() {
             </div>
           </div>
         ))}
+      <Paging page={page} setPage={setPage} />
     </ReviewBody>
   );
 }
