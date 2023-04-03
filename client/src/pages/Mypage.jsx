@@ -172,22 +172,22 @@ function Mypage() {
           <div className="user-information">
             <div className="bold">회원정보 변경</div>
             <div>이름</div>
-            <div className="cant-change">{data.name}</div>
+            <div className="cant-change">{userData.name}</div>
             <div>
               아이디
               {/* <button className="submit-button" style={{ float: "right" }}>
               중복검사
             </button> */}
             </div>
-            <div className="cant-change">{data.loginId}</div>
+            <div className="cant-change">{userData.loginId}</div>
             <div>비밀번호</div>
-            <input onChange={(e) => setPassword(e.target.value)} defaultValue={data.password} type="password"></input>
+            <input onChange={(e) => setPassword(e.target.value)} defaultValue={userData.password} type="password"></input>
             <div>비밀번호 확인</div>
-            <input onChange={(e) => setPassword2(e.target.value)} defaultValue={data.password} type="password"></input>
+            <input onChange={(e) => setPassword2(e.target.value)} defaultValue={userData.password} type="password"></input>
             <div>이메일</div>
-            <input onChange={(e) => setEmail(e.target.value)} defaultValue={data.email}></input>
+            <input onChange={(e) => setEmail(e.target.value)} defaultValue={userData.email}></input>
             <div>주소</div>
-            <input onChange={(e) => setAddress(e.target.value)} defaultValue={data.address}></input>
+            <input onChange={(e) => setAddress(e.target.value)} defaultValue={userData.address}></input>
             <div>
               <button onClick={() => patchUserData(state.user.userId)} className="submit-button center">
                 저장
@@ -201,7 +201,7 @@ function Mypage() {
               <button onClick={showModal} className="submit-button quit" style={{ float: "right" }}>
                 회원탈퇴
               </button>
-              {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteUser} data={data.userId} keyword="회원탈퇴" />}
+              {modalOpen && <Modal setModalOpen={setModalOpen} axiosfunction={deleteUser} data={userData.userId} keyword="회원탈퇴" />}
             </div>
           </div>
         </Fade>

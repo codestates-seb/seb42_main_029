@@ -35,6 +35,8 @@ function App() {
   const Cart = React.lazy(() => import("./pages/Cart"));
   const NewItemRegistrationForm = React.lazy(() => import("./pages/NewItemRegistrationForm"));
 
+  const ProductInfoWithBtn = React.lazy(() => import("./pages/ProductInfo2"));
+
   return (
     <CookiesProvider>
       <BrowserRouter>
@@ -63,6 +65,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
 
               <Route path="/newItemForm" element={<NewItemRegistrationForm />} />
+              <Route path="/productinfo2/:productId" element={<ProductInfoWithBtn />} />
 
               <Route path="/*" element={<ErrorPage />} />
               {/*  */}
@@ -82,6 +85,6 @@ export default App;
 const Wrapper = styled.div`
   max-width: 1450px;
   min-height: 100%;
-  padding-bottom: 40%;
+  padding-bottom: 20%;
   margin: 0 auto;
 `;

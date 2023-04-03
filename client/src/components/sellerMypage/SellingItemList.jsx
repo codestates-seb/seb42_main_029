@@ -88,7 +88,7 @@ function SellingItemList() {
   const [itemData, setItemData] = useState();
   function ItemAxios() {
     return axios
-      .get(`${process.env.REACT_APP_AWS_EC2}/products?page=${page}&size=12`, noBodyOptions)
+      .get(`${process.env.REACT_APP_AWS_EC2}/sellers/selling?page=${page}&size=12`, noBodyOptions)
       .then((res) => {
         console.log(`판매아이템 get 성공 res.data:`);
         console.log(res.data);

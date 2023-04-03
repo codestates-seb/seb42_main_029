@@ -1,14 +1,11 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import Swal from "sweetalert2";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-
 import { useSelector } from "react-redux";
-import ReviewData from "../components/review/ReviewData";
 
-const ProductInfo = () => {
+const ProductInfoWithBtn = () => {
   const [data, setData] = useState([]);
 
   const navigate = useNavigate();
@@ -29,6 +26,7 @@ const ProductInfo = () => {
     axios
       .get(url)
       .then((response) => {
+        console.log(response.data.data);
         setData(response.data.data);
       })
       .catch((error) => {
@@ -37,17 +35,9 @@ const ProductInfo = () => {
   }, []);
 
   const { name, thumbnailLink, productDetailLinks, productDetail, price, stock, productStatus } = data;
-
   //장바구니에 추가하기
 
   const addCartProduct = async (id) => {
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "장바구니에 추가완료!!",
-      showConfirmButton: false,
-      timer: 1200,
-    });
     const options = {
       headers: {
         Authorization: cookies.accessToken,
@@ -65,22 +55,11 @@ const ProductInfo = () => {
       return navigate("/");
     }
 
-    if (sellerRole === undefined) {
-      alert("로그인 후 이용해주세요!");
-      return navigate("/")
-    }
-
     return await axios
       .post(`${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`, { productId }, options)
       .then((res) => {
-        //console.log(res)
-            Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "장바구니에 추가완료!!",
-      showConfirmButton: false,
-      timer: 1200,
-    });
+        console.log(res);
+        alert("장바구니 담기 성공!");
         navigate("/cart");
       })
       .catch((err) => {
@@ -115,14 +94,11 @@ const ProductInfo = () => {
     <Container>
       {/* 상단 상품이미지, 상품명, 가격, 배송비 */}
       <ContainerTop>
-
-        {/* 삼항연산자로 admin이거나 seller면 상품삭제버튼이 보임 */}
-      {state.user.role === "ADMIN" ? (
+        {state.user.role === "ADMIN" ? (
           <button onClick={() => deleteItem(productId)}>상품삭제</button>
         ) : state.user.role === "SELLER" ? (
           <button onClick={() => deleteItem(productId)}>상품삭제</button>
         ) : null}
-
         <ItemsImage src={thumbnailLink} loading="lazy" />
         <TextArea>
           <TextContainer>
@@ -153,16 +129,60 @@ const ProductInfo = () => {
         <img src={productDetailLinks} alt="상품설명img" loading="lazy" />
       </Information>
 
+      {/* QnA */}
+      <CommonContainer>
+        <CommonTitle>
+          <Category>QnA</Category>
+          <QnaQuestionbtn>QnA 작성하기</QnaQuestionbtn>
+        </CommonTitle>
+
+        <Contents>
+          <CommonNo>
+            <QnaInfo>No</QnaInfo>
+          </CommonNo>
+          <CommonSubject>
+            <QnaInfo>Subject</QnaInfo>
+          </CommonSubject>
+          <CommonWriter>
+            <QnaInfo>Writer</QnaInfo>
+          </CommonWriter>
+          <CommonDate>
+            <QnaInfo>Date</QnaInfo>
+          </CommonDate>
+        </Contents>
+      </CommonContainer>
+
       {/* 사용후기 */}
       <CommonContainer>
-         <div className="reviewTitle">사용후기</div>
+        <CommonTitle>
+          <Category>사용후기</Category>
+        </CommonTitle>
 
-         <ReviewData />
+        <Contents>
+          <CommonNo>
+            <QnaInfo>No</QnaInfo>
+          </CommonNo>
+          <Star>
+            <QnaInfo>Star</QnaInfo>
+          </Star>
+          <CommonCategory>
+            <QnaInfo>Category</QnaInfo>
+          </CommonCategory>
+          <CommonSubject>
+            <QnaInfo>Subject</QnaInfo>
+          </CommonSubject>
+          <CommonWriter>
+            <QnaInfo>Writer</QnaInfo>
+          </CommonWriter>
+          <CommonDate>
+            <QnaInfo>Date</QnaInfo>
+          </CommonDate>
+        </Contents>
       </CommonContainer>
     </Container>
   );
 };
-export default ProductInfo;
+export default ProductInfoWithBtn;
 
 const Container = styled.div`
   display: flex;
@@ -240,35 +260,14 @@ const ButtonWrapper = styled.div`
 
 const ButtonStyle = styled.button`
   font-size: 1.6rem;
-  width: 210px;
+  width: 150px;
   height: 60px;
   margin: 1rem 2rem 0 0;
   border-radius: 10px;
   border: none;
   font-size: 1rem;
   background-color: #fcb3bf;
-<<<<<<< HEAD
-  &:hover{
-<<<<<<< HEAD
-    cursor:pointer;
-    color:white;
-    background-color: #dcb3bf;
-  }
-=======
-    font-size: 18px;
-    cursor: pointer;
-  }
-  &:active{
-    background-color:silver;
-=======
-  cursor: pointer;
 
-  :hover {
-    color : #ffffff;
->>>>>>> 188ef2498587881cc61247c036ae08949387975d
-  }
-
->>>>>>> 1127178b7d11b533c2d110bc47284e8e6e782650
   @media screen and (max-width: 767px) {
     font-size: 0.8rem;
     width: 100px;
@@ -310,13 +309,89 @@ const CommonContainer = styled.div`
   margin-top: 30px;
   background-color: #f9e8e8;
   border-radius: 15px;
-
   width: 80%;
   height: auto;
-  
-  .reviewTitle{
-    margin-top:30px;
-    margin-left:25px;
-    margin-bottom:25px;
+`;
+const CommonTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* margin-bottom: 20px;
+  margin-top: 20px; */
+`;
+const QnaInfo = styled.div`
+  @media screen and (max-width: 767px) {
+    font-size: 0.7rem;
   }
+`;
+const QnaQuestionbtn = styled.button`
+  width: 150px;
+  height: 60px;
+  border-radius: 10px;
+  border: none;
+  background-color: #fbb3b3;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  &:hover {
+    background-color: #fcb3bf;
+    color: #ffffff;
+  }
+
+  @media screen and (max-width: 767px) {
+    width: 90px;
+    height: 35px;
+    font-size: 0.7rem;
+  }
+`;
+const Contents = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+const CommonNo = styled.div`
+  height: 1rem;
+  background-color: #fbd8d8;
+  width: 5%;
+  margin-right: 1rem;
+`;
+const CommonSubject = styled.div`
+  height: 1rem;
+  background-color: #ffc2c2;
+  width: 50%;
+  margin-right: 1rem;
+`;
+const CommonWriter = styled.div`
+  height: 1rem;
+  background-color: #a48686;
+  width: 10%;
+  margin-right: 1rem;
+`;
+const CommonDate = styled.div`
+  height: 1rem;
+  background-color: #dda9a9;
+  width: 10%;
+`;
+const CommonCategory = styled.div`
+  height: 1rem;
+  background-color: #cda9a9;
+  width: 10%;
+`;
+const Star = styled.div`
+  height: 1rem;
+  background-color: #dda9a9;
+  width: 7%;
+`;
+const Category = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 90px;
+  height: 70px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 20px;
 `;
