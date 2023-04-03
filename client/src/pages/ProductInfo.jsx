@@ -56,6 +56,11 @@ const ProductInfo = () => {
       return navigate("/");
     }
 
+    if (sellerRole === undefined) {
+      alert("로그인 후 이용해주세요!");
+      return navigate("/")
+    }
+
     return await axios
       .post(`${process.env.REACT_APP_AWS_EC2}/carts/products/${id}`, { productId }, options)
       .then((res) => {
