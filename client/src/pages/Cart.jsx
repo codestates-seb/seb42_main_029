@@ -178,7 +178,7 @@ const Container = styled.div`
   margin-top: 20px;
   align-items: center;
   font-family: "Dovemayo_gothic";
-  margin-bottom: 2rem;
+  margin-bottom: 10rem;
 `;
 
 const CartTitle = styled.div`
