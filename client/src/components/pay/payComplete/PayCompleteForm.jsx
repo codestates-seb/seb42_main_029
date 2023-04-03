@@ -11,7 +11,7 @@ export default function PayCompleteForm() {
     <Wrapper>
       <TopWrapper>
         <Title>주문이 완료되었습니다.</Title>
-        <p>아래 계좌로 입금해 주셔야지 결제가 완료됩니다. </p>
+        <p>아래 계좌로 입금하셔야 결제가 완료됩니다. </p>
         <p>입금완료된 시간에 따라 익일 발송 처리 될 수 있습니다.</p>
         <p>정확한 배송 일정은 문의주시기 바랍니다.</p>
       </TopWrapper>
@@ -20,7 +20,7 @@ export default function PayCompleteForm() {
         <LeftWrapper>
           <Title2>배송지 정보</Title2>
           <Title2>입금계좌안내</Title2>
-          <Title2>입금액</Title2>
+          <Title2>총 주문금액</Title2>
         </LeftWrapper>
 
         <RightWrapper>
