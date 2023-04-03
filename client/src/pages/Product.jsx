@@ -5,10 +5,13 @@ import dummy from "../assets/dummy/dummy.json";
 import ProductInfo from "./ProductInfo";
 import axios from "axios";
 import Fade from "react-reveal/Fade";
+import Paging from "../components/pagination/pagination";
 
 const Product = () => {
   const [data, setData] = useState([]);
-  const url = `${process.env.REACT_APP_AWS_EC2}/products?page=1&size=12`;
+  const [page, setPage] = useState(1);
+
+  const url = `${process.env.REACT_APP_AWS_EC2}/products?page=${page}&size=16`;
 
   useEffect(() => {
     axios
@@ -20,7 +23,7 @@ const Product = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [page]);
   return (
     <div style={{ margin: " 0 3rem ", color: "#363636" }}>
       <TextSelect>
@@ -48,6 +51,7 @@ const Product = () => {
             </ItemContents>
           ))}
       </ItemContainer>
+      <Paging page={page} setPage={setPage} />
     </div>
   );
 };
@@ -110,9 +114,9 @@ const TextSelect = styled.div`
   margin-top: 100px;
   margin-bottom: 30px;
 
-  font-family: 'Dovemayo_gothic';
+  font-family: "Dovemayo_gothic";
 
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     font-size: 1rem;
   }
 `;
