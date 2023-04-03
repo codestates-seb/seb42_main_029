@@ -240,19 +240,17 @@ const ButtonWrapper = styled.div`
 
 const ButtonStyle = styled.button`
   font-size: 1.6rem;
-  width: 150px;
+  width: 210px;
   height: 60px;
   margin: 1rem 2rem 0 0;
   border-radius: 10px;
   border: none;
   font-size: 1rem;
   background-color: #fcb3bf;
-  &:hover{
-    font-size: 18px;
-    cursor: pointer;
-  }
-  &:active{
-    background-color:silver;
+  cursor: pointer;
+
+  :hover {
+    color : #ffffff;
   }
 
   @media screen and (max-width: 767px) {
